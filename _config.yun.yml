@@ -77,15 +77,15 @@ post_meta:
   categories: true
   tags: true
 comment:
-  enable: false
+  enable: true
   candidates:
     - giscus
 giscus:
   enable: true
-  repo: elkeid-me/elkeid-me.github.io
-  repo-id: R_kgDOHc9gOA
-  category: General
-  category-id: DIC_kwDOHc9gOM4CPf4p
+  repo: Elkeid-me/elkeid-me.github.io
+  repo-id: R_kgDOHrxXdA
+  category: Announcements
+  category-id: DIC_kwDOHrxXdM4CQULH
   mapping: pathname
   reactions-enabled: 1
   emit-metadata: 0

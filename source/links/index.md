@@ -3,7 +3,7 @@ layout: links
 title: 友链
 date: 2022-02-24 13:06:06
 keywords: 链接
-comments: true
+comments: false
 links:
   - url: https://passedeiweiss.github.io/
     avatar: https://avatars.githubusercontent.com/u/100470667?v=4
