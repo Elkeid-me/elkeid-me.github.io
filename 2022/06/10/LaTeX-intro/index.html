@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="zh-CN"><head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end --><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="瑶光"><meta name="copyright" content="瑶光"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>LaTeX 入坑指南 | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/img/fav.svg"><link rel="mask-icon" href="/img/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"瑶光","version":"1.10.5","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn/?c=i","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="一份不太正经的 LaTeX 介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX 入坑指南">
+<meta property="og:url" content="https://elkeid-me.github.io/2022/06/10/LaTeX-intro/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="一份不太正经的 LaTeX 介绍">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://elkeid-me.github.io/img/tex-intro/math.png">
+<meta property="og:image" content="https://elkeid-me.github.io/img/tex-intro/heme.png">
+<meta property="og:image" content="https://elkeid-me.github.io/img/tex-intro/code-highlighting.png">
+<meta property="article:published_time" content="2022-06-10T14:00:00.000Z">
+<meta property="article:modified_time" content="2022-07-19T17:05:39.855Z">
+<meta property="article:author" content="瑶光">
+<meta property="article:tag" content="LaTeX">
+<meta property="article:tag" content="排版">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://elkeid-me.github.io/img/tex-intro/math.png"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="瑶光"><img width="96" loading="lazy" src="/img/Avatar.jpg" alt="瑶光"></a><div class="site-author-name"><a href="/about/">瑶光</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">15</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">3</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">17</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/frec" title="知乎" target="_blank" style="color:#0084FF"><span class="icon iconify" data-icon="ri:zhihu-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a><a class="links-item hty-icon-button" href="/homo/" title="数字论证" style="color:#114514"><span class="icon iconify" data-icon="ri:terminal-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFLaTeX"><span class="toc-number">1.</span> <span class="toc-text">什么是 LaTeX?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8LaTeX%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">为什么要用 LaTeX？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LaTeX%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">LaTeX 的缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AELaTeX%E7%8E%AF%E5%A2%83%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">如何配置 LaTeX 环境？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90"><span class="toc-number">5.</span> <span class="toc-text">其他资源</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2022/06/10/LaTeX-intro/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="瑶光"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">LaTeX 入坑指南</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2022-06-10 22:00:00" itemprop="dateCreated datePublished" datetime="2022-06-10T22:00:00+08:00">2022-06-10</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E6%9D%82%E9%A1%B9/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">杂项</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/LaTeX/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">LaTeX</span></a><a class="tag-item" href="/tags/%E6%8E%92%E7%89%88/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">排版</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="什么是LaTeX"><a href="#什么是LaTeX" class="headerlink" title="什么是LaTeX?"></a>什么是 LaTeX?</h2><p>先介绍 TeX。早期计算机排版技术十分粗糙，影响到了<del>知名艺术家</del>高德纳老爷子的巨著《计算机程序设计艺术》的印刷质量，于是他决定自行编写一个排版软件：TeX。</p>
+<p><del>这一写就是十年</del></p>
+<p>除了指 TeX 软件外，TeX 也用于代指编写 TeX 文档的语言（正如 Python 可以指 Python 语言，也可以指 Python 解释器）。一个简单的 plain-TeX 示例如下：</p>
+<pre class="language-latex" data-language="latex"><code class="language-latex">The quadratic formula is <span class="token equation string">$-b <span class="token equation-command regex">\pm</span> <span class="token equation-command regex">\sqrt</span>{b^2 - 4ac} <span class="token equation-command regex">\over</span> 2a$</span>
+<span class="token function selector">\bye</span></code></pre>
+
+<details>
+  <summary>（一些奇怪的东西）</summary>
+TeX 看似只是 Markdown 或 HTML 那样的标记语言，但它是图灵完备的。事实上，TeX 是一门宏语言。
+
+<p>你或许看过本站的<a href="/homo">数字论证器</a>，知道它是用 JavaScript 实现的。但还有一个 TeX 实现的版本：</p>
+<pre class="language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\def</span><span class="token function selector">\inputNum</span><span class="token punctuation">{</span>-20220520<span class="token punctuation">}</span>
+<span class="token function selector">\toks</span>0<span class="token punctuation">{</span>(11/(45-1) <span class="token function selector">\times</span> 4)<span class="token punctuation">}</span>
+<span class="token function selector">\toks</span>1<span class="token punctuation">{</span>(-11+4-5+14)<span class="token punctuation">}</span>
+<span class="token function selector">\toks</span>2<span class="token punctuation">{</span>(-11-4+5+14)<span class="token punctuation">}</span>
+<span class="token function selector">\toks</span>3<span class="token punctuation">{</span>(11-4-5+14)<span class="token punctuation">}</span>
+<span class="token function selector">\toks</span>4<span class="token punctuation">{</span>((114-51) <span class="token function selector">\times</span> 4+(-11-4+5+14))<span class="token punctuation">}</span>
+<span class="token function selector">\toks</span>5<span class="token punctuation">{</span>(114 <span class="token function selector">\times</span> 514+(11 <span class="token function selector">\times</span> 45 <span class="token function selector">\times</span> 14+(-11/4+51/4)))<span class="token punctuation">}</span>
+<span class="token function selector">\count</span>0=<span class="token function selector">\inputNum</span><span class="token function selector">\relax</span>
+<span class="token function selector">\def</span><span class="token function selector">\loop</span>#1#2#3<span class="token punctuation">{</span>
+    #3
+    <span class="token function selector">\ifnum</span> #1&lt;#2
+        <span class="token function selector">\advance</span>#1 by 1
+        <span class="token function selector">\loop</span><span class="token punctuation">{</span>#1<span class="token punctuation">}</span><span class="token punctuation">{</span>#2<span class="token punctuation">}</span><span class="token punctuation">{</span>#3<span class="token punctuation">}</span>
+    <span class="token function selector">\fi</span>
+<span class="token punctuation">}</span>
+<span class="token function selector">\def</span><span class="token function selector">\homoBinary</span>#1<span class="token punctuation">{</span>
+    <span class="token function selector">\ifnum</span> #1=0
+        <span class="token function selector">\the</span><span class="token function selector">\toks</span>0
+    <span class="token function selector">\else</span>
+        <span class="token function selector">\count</span>4=#1
+        <span class="token function selector">\count</span>5=1
+        <span class="token function selector">\count</span>6=0
+        <span class="token function selector">\loop</span><span class="token punctuation">{</span><span class="token function selector">\count</span>5<span class="token punctuation">}</span><span class="token punctuation">{</span>6<span class="token punctuation">}</span><span class="token punctuation">{</span>
+            <span class="token function selector">\ifodd</span><span class="token function selector">\count</span>4
+                <span class="token function selector">\ifnum</span><span class="token function selector">\count</span>6=1
+                    <span class="token function selector">\times</span>
+                <span class="token function selector">\fi</span>
+                <span class="token function selector">\count</span>6=1
+                <span class="token function selector">\the</span><span class="token function selector">\toks</span><span class="token function selector">\count</span>5
+            <span class="token function selector">\fi</span>
+            <span class="token function selector">\divide</span><span class="token function selector">\count</span>4 by 2
+        <span class="token punctuation">}</span>
+    <span class="token function selector">\fi</span>
+<span class="token punctuation">}</span>
+<span class="token function selector">\def</span><span class="token function selector">\homo</span>#1<span class="token punctuation">{</span>
+    <span class="token function selector">\ifnum</span> #1=0
+        (1-1) <span class="token function selector">\times</span> 4514
+    <span class="token function selector">\else</span>
+        <span class="token function selector">\ifnum</span> #1&gt;0
+            <span class="token function selector">\count</span>1=<span class="token function selector">\the</span>#1
+            <span class="token function selector">\count</span>2=0
+            <span class="token function selector">\count</span>3=0
+            <span class="token function selector">\loop</span><span class="token punctuation">{</span><span class="token function selector">\count</span>2<span class="token punctuation">}</span><span class="token punctuation">{</span>32<span class="token punctuation">}</span><span class="token punctuation">{</span>
+                <span class="token function selector">\ifodd</span><span class="token function selector">\count</span>1
+                    <span class="token function selector">\ifnum</span><span class="token function selector">\count</span>3=1
+                        +
+                    <span class="token function selector">\fi</span>
+                    <span class="token function selector">\count</span>3=1
+                    <span class="token function selector">\homoBinary</span><span class="token punctuation">{</span><span class="token function selector">\count</span>2<span class="token punctuation">}</span>
+                <span class="token function selector">\fi</span>
+                <span class="token function selector">\divide</span><span class="token function selector">\count</span>1 by 2
+            <span class="token punctuation">}</span>
+        <span class="token function selector">\else</span>
+            <span class="token function selector">\count</span>1=0
+            <span class="token function selector">\advance</span><span class="token function selector">\count</span>1 by -<span class="token function selector">\count</span>0
+            <span class="token function selector">\count</span>0=<span class="token function selector">\count</span>1
+            (11-4-5+1-4) <span class="token function selector">\times</span> (<span class="token function selector">\homo</span><span class="token punctuation">{</span>#1<span class="token punctuation">}</span>)
+        <span class="token function selector">\fi</span>
+    <span class="token function selector">\fi</span>
+<span class="token punctuation">}</span>
+Ok, You input <span class="token equation string">$<span class="token equation-command regex">\the</span><span class="token equation-command regex">\count</span>0$</span>.
+
+Obviously, <span class="token equation string">$<span class="token equation-command regex">\the</span><span class="token equation-command regex">\count</span>0 = <span class="token equation-command regex">\homo</span>{<span class="token equation-command regex">\count</span>0}$</span>
+
+<span class="token function selector">\bye</span>
+</code></pre>
+
+<p><del>没有什么用，除非你想在论文里唐突恶臭</del></p>
+</details>
+
+<p>那么 LaTeX 是什么呢？由于 TeX 本身的核心命令和 plain-TeX 的宏命令过少，用着不是很方便，莱斯利・兰伯特开发了 LaTeX，这是 TeX 的一套<strong>宏集</strong>。一个典型的 LaTeX2e 文档如下：</p>
+<pre class="language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\documentclass</span><span class="token punctuation">[</span>a4paper<span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token keyword">ctexart</span><span class="token punctuation">}</span>
+
+<span class="token comment">% 标题，作者与日期</span>
+<span class="token function selector">\title</span><span class="token punctuation">{</span>LaTeX<span class="token punctuation">}</span>
+<span class="token function selector">\author</span><span class="token punctuation">{</span>瑶光<span class="token punctuation">}</span>
+<span class="token function selector">\date</span><span class="token punctuation">{</span><span class="token function selector">\today</span><span class="token punctuation">}</span>
+
+<span class="token comment">% 正文开始</span>
+<span class="token function selector">\begin</span><span class="token punctuation">{</span><span class="token keyword">document</span><span class="token punctuation">}</span>
+    <span class="token comment">% 生成标题、作者、日期</span>
+    <span class="token function selector">\maketitle</span>
+    <span class="token comment">% % 摘要</span>
+    <span class="token function selector">\begin</span><span class="token punctuation">{</span><span class="token keyword">abstract</span><span class="token punctuation">}</span>
+        This is abstract.
+    <span class="token function selector">\end</span><span class="token punctuation">{</span><span class="token keyword">abstract</span><span class="token punctuation">}</span>
+<span class="token function selector">\end</span><span class="token punctuation">{</span><span class="token keyword">document</span><span class="token punctuation">}</span></code></pre>
+
+<p>可以看到，LaTeX 比 plain-TeX 更加的格式化，<del>所以 plain-TeX 让宏包开发者学就行了，我们没必要学</del></p>
+<h2 id="为什么要用LaTeX？"><a href="#为什么要用LaTeX？" class="headerlink" title="为什么要用LaTeX？"></a>为什么要用 LaTeX？</h2><p>如果你习惯了使用 Word，且用 Word 用的很 6（指排版正经论文没有问题的那种），且没有被强制使用 LaTeX，那你直接关掉页面就好了。</p>
+<p>否则，请认真看一下使用 LaTeX 的理由：</p>
+<ol>
+<li>美观的断行算法（Knuth &amp; Plass line-breaking），这是一种动态规划算法。<del>这一点是 Word 永远比不上的，Word 是贪心算法</del>。Wikipedia 给出了一个<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/TeX#%E6%96%AD%E5%AD%97%E4%B8%8E%E6%96%AD%E8%A1%8C">示例</a>：</li>
+</ol>
+<div class="tag-common tabs" id="line-breaking-sample"><ul class="nav-tabs"><li class="tab active"><a data-target="line-breaking-sample-1">贪心算法</a></li><li class="tab"><a data-target="line-breaking-sample-2">Knuth &amp; Plass line-breaking</a></li></ul><div class="tab-content"><div class="tab-pane active" id="line-breaking-sample-1"><pre class="language-none"><code class="language-none">  The quick brown fox jumps over
+the lazy dog. The words here are
+quite  short.  Aren't they?  But
+long     ones      such       as
+perhydrocyclopentanophenanthrene
+may appear.</code></pre></div><div class="tab-pane" id="line-breaking-sample-2"><pre class="language-none"><code class="language-none">  The  quick  brown  fox   jumps
+over  the  lazy  dog.  The words
+here  are  quite  short.  Aren't
+they?  But  long  ones  such  as
+perhydrocyclopentanophenanthrene
+may appear.</code></pre></div></div></div>
+
+<ol start="2">
+<li><p>强大的数学公式支持。<del>你要是习惯 Word+Mathtype 也不是不行</del></p>
+</li>
+<li><p>开源，Bug 少，且绝大多数发行版免费。</p>
+</li>
+<li><p>输出高质量的 PDF。<del>Word 输出的 pdf 是个啥啊，根本不能看</del></p>
+</li>
+<li><p>丰富的宏包。例如：</p>
+<ul>
+<li>使用 tikz 绘制数学图形：<div class="tag-common tabs" id="tikz-sample"><ul class="nav-tabs"><li class="tab active"><a data-target="tikz-sample-1">图片</a></li><li class="tab"><a data-target="tikz-sample-2">代码（高能预警）</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tikz-sample-1"><p><img src="/img/tex-intro/math.png" loading="lazy"></p></div><div class="tab-pane" id="tikz-sample-2"><pre class="language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\begin</span><span class="token punctuation">{</span><span class="token keyword">tikzpicture</span><span class="token punctuation">}</span>
+    <span class="token function selector">\pgfsetxvec</span><span class="token punctuation">{</span><span class="token function selector">\pgfpoint</span><span class="token punctuation">{</span>-0.70710cm<span class="token punctuation">}</span><span class="token punctuation">{</span>-0.70710cm<span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token function selector">\pgfsetyvec</span><span class="token punctuation">{</span><span class="token function selector">\pgfpoint</span><span class="token punctuation">{</span>2cm<span class="token punctuation">}</span><span class="token punctuation">{</span>0cm<span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token function selector">\pgfsetzvec</span><span class="token punctuation">{</span><span class="token function selector">\pgfpoint</span><span class="token punctuation">{</span>0cm<span class="token punctuation">}</span><span class="token punctuation">{</span>2cm<span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=270:<span class="token equation string">$A$</span><span class="token punctuation">]</span>(A)at(1,0,0);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=270:<span class="token equation string">$B$</span><span class="token punctuation">]</span>(B)at(1,1,0);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=270:<span class="token equation string">$C$</span><span class="token punctuation">]</span>(C)at(0,1,0);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=270:<span class="token equation string">$D$</span><span class="token punctuation">]</span>(D)at(0,0,0);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$A_1$</span><span class="token punctuation">]</span>(A1)at(1,0,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$B_1$</span><span class="token punctuation">]</span>(B1)at(1,1,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$C_1$</span><span class="token punctuation">]</span>(C1)at(0,1,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$D_1$</span><span class="token punctuation">]</span>(D1)at(0,0,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=225:<span class="token equation string">$P$</span><span class="token punctuation">]</span>(P)at(0.4,0.4,0.6);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=0:<span class="token equation string">$Q$</span><span class="token punctuation">]</span>(Q)at(1,1,0.7);
+    <span class="token function selector">\draw</span> (A)--(B)--(C);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>dashed<span class="token punctuation">]</span>(C)--(D)--(A) (D)--(D1);
+    <span class="token function selector">\draw</span> (A1)--(B1)--(C1)--(D1)--(A1);
+    <span class="token function selector">\draw</span> (A)--(A1) (B)--(B1) (C)--(C1);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>dashed<span class="token punctuation">]</span> (B)--(D1) (C1)--(P)--(Q);
+    <span class="token function selector">\draw</span> (C1)--(Q);
+<span class="token function selector">\end</span><span class="token punctuation">{</span><span class="token keyword">tikzpicture</span><span class="token punctuation">}</span>
+<span class="token function selector">\begin</span><span class="token punctuation">{</span><span class="token keyword">tikzpicture</span><span class="token punctuation">}</span>
+    <span class="token function selector">\pgfsetxvec</span><span class="token punctuation">{</span><span class="token function selector">\pgfpoint</span><span class="token punctuation">{</span>-0.70710cm<span class="token punctuation">}</span><span class="token punctuation">{</span>-0.70710cm<span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token function selector">\pgfsetyvec</span><span class="token punctuation">{</span><span class="token function selector">\pgfpoint</span><span class="token punctuation">{</span>2cm<span class="token punctuation">}</span><span class="token punctuation">{</span>0cm<span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token function selector">\pgfsetzvec</span><span class="token punctuation">{</span><span class="token function selector">\pgfpoint</span><span class="token punctuation">{</span>0cm<span class="token punctuation">}</span><span class="token punctuation">{</span>2cm<span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=270:<span class="token equation string">$A$</span><span class="token punctuation">]</span>(A)at(1,0,0);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=270:<span class="token equation string">$B$</span><span class="token punctuation">]</span>(B)at(1,1,0);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=270:<span class="token equation string">$C$</span><span class="token punctuation">]</span>(C)at(0,1,0);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=180:<span class="token equation string">$D(C_1')$</span><span class="token punctuation">]</span>(D)at(0,0,0);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$A_1$</span><span class="token punctuation">]</span>(A1)at(1,0,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$B_1$</span><span class="token punctuation">]</span>(B1)at(1,1,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$C_1$</span><span class="token punctuation">]</span>(C1)at(0,1,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$D_1$</span><span class="token punctuation">]</span>(D1)at(0,0,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=0:<span class="token equation string">$C_1''$</span><span class="token punctuation">]</span>(C1'')at(<span class="token punctuation">{</span>sqrt(2)/2+1<span class="token punctuation">}</span>,<span class="token punctuation">{</span>sqrt(2)/2+1<span class="token punctuation">}</span>,1);
+    <span class="token function selector">\draw</span> (A)--(B)--(C);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>dashed<span class="token punctuation">]</span>(C)--(D)--(A) (D)--(D1);
+    <span class="token function selector">\draw</span> (A1)--(B1)--(C1)--(D1)--(A1);
+    <span class="token function selector">\draw</span> (A)--(A1) (C)--(C1);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>dashed<span class="token punctuation">]</span> (B)--(D);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>dashed,name path=BD1<span class="token punctuation">]</span> (B)--(D1);
+    <span class="token function selector">\draw</span> (C1'')--(D1) (C1'')--(B);
+    <span class="token function selector">\fill</span><span class="token punctuation">[</span>gray,fill opacity=0.5<span class="token punctuation">]</span>(D)--(D1)--(C1'')--(B);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>name path=BB1<span class="token punctuation">]</span>(B)--(B1);
+    <span class="token function selector">\path</span><span class="token punctuation">[</span>name path=DC1''<span class="token punctuation">]</span>(D)--(C1'');
+    <span class="token function selector">\path</span><span class="token punctuation">[</span>name intersections=<span class="token punctuation">{</span>of=BD1 and DC1''<span class="token punctuation">}</span><span class="token punctuation">]</span> (intersection-1) coordinate <span class="token punctuation">[</span>label=180:<span class="token equation string">$P$</span><span class="token punctuation">]</span>(P);
+    <span class="token function selector">\path</span><span class="token punctuation">[</span>name intersections=<span class="token punctuation">{</span>of=BB1 and DC1''<span class="token punctuation">}</span><span class="token punctuation">]</span> (intersection-1) coordinate <span class="token punctuation">[</span>label=120:<span class="token equation string">$Q$</span><span class="token punctuation">]</span>(Q);
+    <span class="token function selector">\draw</span> (C1'')--(Q) (C1)--(Q);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>dashed<span class="token punctuation">]</span> (D)--(Q) (C1)--(P);
+<span class="token function selector">\end</span><span class="token punctuation">{</span><span class="token keyword">tikzpicture</span><span class="token punctuation">}</span>
+<span class="token function selector">\begin</span><span class="token punctuation">{</span><span class="token keyword">tikzpicture</span><span class="token punctuation">}</span>
+    <span class="token function selector">\pgfsetxvec</span><span class="token punctuation">{</span><span class="token function selector">\pgfpoint</span><span class="token punctuation">{</span>2cm<span class="token punctuation">}</span><span class="token punctuation">{</span>0cm<span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token function selector">\pgfsetyvec</span><span class="token punctuation">{</span><span class="token function selector">\pgfpoint</span><span class="token punctuation">{</span>0cm<span class="token punctuation">}</span><span class="token punctuation">{</span>2cm<span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$D_1$</span><span class="token punctuation">]</span>(D1)at(0,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$B_1$</span><span class="token punctuation">]</span>(B1)at(<span class="token punctuation">{</span>sqrt(2)<span class="token punctuation">}</span>,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=270:<span class="token equation string">$D(C_1')$</span><span class="token punctuation">]</span>(D)at(0,0);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=90:<span class="token equation string">$C_1''$</span><span class="token punctuation">]</span>(C1'')at(<span class="token punctuation">{</span>sqrt(2)+1<span class="token punctuation">}</span>,1);
+    <span class="token function selector">\coordinate</span><span class="token punctuation">[</span>label=270:<span class="token equation string">$B$</span><span class="token punctuation">]</span>(B)at(<span class="token punctuation">{</span>sqrt(2)<span class="token punctuation">}</span>,0);
+    <span class="token function selector">\draw</span> (D)--(D1)--(C1'')--(B)--(D);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>name path=BB1<span class="token punctuation">]</span>(B)--(B1);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>name path=BD1<span class="token punctuation">]</span>(B)--(D1);
+    <span class="token function selector">\draw</span><span class="token punctuation">[</span>name path=DC1''<span class="token punctuation">]</span>(D)--(C1'');
+    <span class="token function selector">\path</span><span class="token punctuation">[</span>name intersections=<span class="token punctuation">{</span>of=BD1 and DC1''<span class="token punctuation">}</span><span class="token punctuation">]</span> (intersection-1) coordinate <span class="token punctuation">[</span>label=270:<span class="token equation string">$P$</span><span class="token punctuation">]</span>(P);
+    <span class="token function selector">\path</span><span class="token punctuation">[</span>name intersections=<span class="token punctuation">{</span>of=BB1 and DC1''<span class="token punctuation">}</span><span class="token punctuation">]</span> (intersection-1) coordinate <span class="token punctuation">[</span>label=-30:<span class="token equation string">$Q$</span><span class="token punctuation">]</span>(Q);
+<span class="token function selector">\end</span><span class="token punctuation">{</span><span class="token keyword">tikzpicture</span><span class="token punctuation">}</span></code></pre></div></div></div></li>
+<li>使用 chemfig 绘制血红素：<div class="tag-common tabs" id="chemfig-sample"><ul class="nav-tabs"><li class="tab active"><a data-target="chemfig-sample-1">图片</a></li><li class="tab"><a data-target="chemfig-sample-2">代码（高能预警）</a></li></ul><div class="tab-content"><div class="tab-pane active" id="chemfig-sample-1"><p><img src="/img/tex-intro/heme.png" loading="lazy"></p></div><div class="tab-pane" id="chemfig-sample-2"><pre class="language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\chemfig</span><span class="token punctuation">[</span>atom sep=2em<span class="token punctuation">]</span><span class="token punctuation">{</span>Fe(-<span class="token punctuation">[</span>2,,,,dash pattern=on 1pt off 1pt<span class="token punctuation">]</span>N*5(=?<span class="token punctuation">[</span>2<span class="token punctuation">]</span>-(-=<span class="token punctuation">[</span>::60<span class="token punctuation">]</span>)=(-)-(=<span class="token punctuation">[</span>::-81<span class="token punctuation">]</span>?<span class="token punctuation">[</span>3<span class="token punctuation">]</span>)-))(-<span class="token punctuation">[</span>4<span class="token punctuation">]</span>N*5(-?<span class="token punctuation">[</span>3<span class="token punctuation">]</span>=(-=<span class="token punctuation">[</span>::60<span class="token punctuation">]</span>)-(-)=?<span class="token punctuation">[</span>4<span class="token punctuation">]</span>-))(-<span class="token punctuation">[</span>6,,,,dash pattern=on 1pt off 1pt<span class="token punctuation">]</span>N*5(-(=<span class="token punctuation">[</span>::-27<span class="token punctuation">]</span>?<span class="token punctuation">[</span>4<span class="token punctuation">]</span>)-(-)=(--<span class="token punctuation">[</span>::-60<span class="token punctuation">]</span>-<span class="token punctuation">[</span>::60<span class="token punctuation">]</span>(=<span class="token punctuation">[</span>::60<span class="token punctuation">]</span>O)-<span class="token punctuation">[</span>::-60<span class="token punctuation">]</span>HO)-?<span class="token punctuation">[</span>1<span class="token punctuation">]</span>=))-N*5(-(=<span class="token punctuation">[</span>::-27<span class="token punctuation">]</span>?<span class="token punctuation">[</span>1<span class="token punctuation">]</span>)-(--<span class="token punctuation">[</span>::60<span class="token punctuation">]</span>-<span class="token punctuation">[</span>::-60<span class="token punctuation">]</span>(=<span class="token punctuation">[</span>::-60<span class="token punctuation">]</span>O)-<span class="token punctuation">[</span>::60<span class="token punctuation">]</span>OH)=(-)-(=<span class="token punctuation">[</span>::-81<span class="token punctuation">]</span>?<span class="token punctuation">[</span>2<span class="token punctuation">]</span>)-)<span class="token punctuation">}</span></code></pre></div></div></div></li>
+<li>使用 listings 书写代码：<div class="tag-common tabs" id="listing-sample"><ul class="nav-tabs"><li class="tab active"><a data-target="listing-sample-1">图片</a></li><li class="tab"><a data-target="listing-sample-2">代码</a></li></ul><div class="tab-content"><div class="tab-pane active" id="listing-sample-1"><p><img src="/img/tex-intro/code-highlighting.png" loading="lazy"></p></div><div class="tab-pane" id="listing-sample-2"><pre class="language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\begin</span><span class="token punctuation">{</span><span class="token keyword">lstlisting</span><span class="token punctuation">}</span>
+#define disableBit(source, position) <span class="token function selector">\
+</span>    asm volatile("btr <span class="token comment">%1,%0;"        \</span>
+                 : "+r"(source)      <span class="token function selector">\
+</span>                 : "r"(position))
+
+#define countTrailingZero(source, result) <span class="token function selector">\
+</span>    asm volatile("tzcnt <span class="token comment">%1, %0;"          \</span>
+                 : "=r"(result)           <span class="token function selector">\
+</span>                 : "r"(source))
+<span class="token function selector">\end</span><span class="token punctuation">{</span><span class="token keyword">lstlisting</span><span class="token punctuation">}</span></code></pre></div></div></div></li>
+</ul>
+</li>
+<li><p>配合 bibtex 实现强大的参考文献管理，以及论文参考文献列表的自动生成。</p>
+</li>
+<li><p><del>不如来看看一个实例：<a target="_blank" rel="noopener" href="https://github.com/Elkeid-me/Modern-C-Tutorial">Modern C Tutorial</a>。虽然写得挺烂的</del> 现在这个仓库改为 private 了。</p>
+</li>
+</ol>
+<h2 id="LaTeX的缺点"><a href="#LaTeX的缺点" class="headerlink" title="LaTeX的缺点"></a>LaTeX 的缺点</h2><ol>
+<li>不是所见即所得的。当然，也有 LyX 这样所见即所得的。。。</li>
+<li>表格的支持不及 Word。<del>但或许有大佬拿 tikz 硬画</del></li>
+<li>会出现奇怪的编译错误。</li>
+<li>欢迎在评论区补充。</li>
+</ol>
+<h2 id="如何配置LaTeX环境？"><a href="#如何配置LaTeX环境？" class="headerlink" title="如何配置LaTeX环境？"></a>如何配置 LaTeX 环境？</h2><div class="info">
+
+<blockquote>
+<p>咕，咕咕咕</p>
+</blockquote>
+</div>
+
+<h2 id="其他资源"><a href="#其他资源" class="headerlink" title="其他资源"></a>其他资源</h2><div class="info">
+
+<blockquote>
+<p>咕，咕咕咕</p>
+</blockquote>
+</div>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2022/07/20/Sticky/" rel="prev" title="一篇置顶"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">一篇置顶</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2022/06/08/Test-Template-Meta-Programming/" rel="next" title="模板元的尝试"><span class="post-nav-text">模板元的尝试</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOHrxXdA" data-category="Announcements" data-category-id="DIC_kwDOHrxXdM4CQULH" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="light" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 瑶光</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.2.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.5</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div><!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body></html>

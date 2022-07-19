@@ -1,0 +1,860 @@
+<!DOCTYPE html><html lang="zh-CN"><head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end --><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="瑶光"><meta name="copyright" content="瑶光"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>GCC 内联汇编文档翻译 | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/img/fav.svg"><link rel="mask-icon" href="/img/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"瑶光","version":"1.10.5","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn/?c=i","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="GCC 基础汇编与扩展汇编文档。机翻+人工校对。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GCC 内联汇编文档翻译">
+<meta property="og:url" content="https://elkeid-me.github.io/2022/01/18/GCC-Inline-Asm/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="GCC 基础汇编与扩展汇编文档。机翻+人工校对。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-18T12:34:33.000Z">
+<meta property="article:modified_time" content="2022-07-19T17:05:39.855Z">
+<meta property="article:author" content="瑶光">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="汇编">
+<meta property="article:tag" content="gcc">
+<meta name="twitter:card" content="summary"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="瑶光"><img width="96" loading="lazy" src="/img/Avatar.jpg" alt="瑶光"></a><div class="site-author-name"><a href="/about/">瑶光</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">15</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">3</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">17</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/frec" title="知乎" target="_blank" style="color:#0084FF"><span class="icon iconify" data-icon="ri:zhihu-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a><a class="links-item hty-icon-button" href="/homo/" title="数字论证" style="color:#114514"><span class="icon iconify" data-icon="ri:terminal-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%B1%87%E7%BC%96%E2%80%94%E2%80%94%E4%B8%8D%E5%B8%A6%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E6%B1%87%E7%BC%96%E7%A8%8B%E5%BA%8F%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">基础汇编 —— 不带操作数的汇编程序指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">1.1.</span> <span class="toc-text">修饰符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E6%B3%A8"><span class="toc-number">1.3.</span> <span class="toc-text">备注</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E6%B1%87%E7%BC%96%E2%80%94%E2%80%94%E5%B8%A6%E6%9C%89C%E8%AF%AD%E8%A8%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">扩展汇编 —— 带有 C 语言表达式操作数的汇编指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E9%A5%B0%E7%AC%A6-1"><span class="toc-number">2.1.</span> <span class="toc-text">修饰符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0-1"><span class="toc-number">2.2.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E6%B3%A8-1"><span class="toc-number">2.3.</span> <span class="toc-text">备注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Volatile"><span class="toc-number">2.4.</span> <span class="toc-text">Volatile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%87%E7%BC%96%E6%A8%A1%E6%9D%BF"><span class="toc-number">2.5.</span> <span class="toc-text">汇编模板</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E6%A0%BC%E5%BC%8F%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">2.5.1.</span> <span class="toc-text">特殊格式字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%87%E7%BC%96%E6%A8%A1%E6%9D%BF%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%B1%87%E7%BC%96%E6%96%B9%E8%A8%80"><span class="toc-number">2.5.2.</span> <span class="toc-text">汇编模板中的多种汇编方言</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="toc-number">2.6.</span> <span class="toc-text">输出操作数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#asm%E7%AC%A6%E5%8F%B7%E5%90%8D%E7%A7%B0"><span class="toc-number">2.6.1.</span> <span class="toc-text">asm 符号名称</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F"><span class="toc-number">2.6.2.</span> <span class="toc-text">约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C%E5%8F%98%E9%87%8F%E5%90%8D"><span class="toc-number">2.6.3.</span> <span class="toc-text">C 变量名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">2.6.4.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%BF%97%E8%BE%93%E5%87%BA%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="toc-number">2.7.</span> <span class="toc-text">标志输出操作数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ARM-AArch64"><span class="toc-number">2.7.1.</span> <span class="toc-text">ARM AArch64</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="toc-number">2.8.</span> <span class="toc-text">输入操作数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#asm%E7%AC%A6%E5%8F%B7%E5%90%8D%E7%A7%B0-1"><span class="toc-number">2.8.1.</span> <span class="toc-text">asm 符号名称</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F-1"><span class="toc-number">2.8.2.</span> <span class="toc-text">约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">2.8.3.</span> <span class="toc-text">C 表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#-1"><span class="toc-number">2.8.4.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Clobbers%E5%92%8C%E4%B8%B4%E6%97%B6%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">2.9.</span> <span class="toc-text">Clobbers 和临时寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Goto%E6%A0%87%E7%AD%BE"><span class="toc-number">2.10.</span> <span class="toc-text">Goto 标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#x86%E6%93%8D%E4%BD%9C%E6%95%B0%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">2.11.</span> <span class="toc-text">x86 操作数修饰符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#x86%E6%B5%AE%E7%82%B9asm%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="toc-number">2.12.</span> <span class="toc-text">x86 浮点 asm 操作数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MSP430%E6%93%8D%E4%BD%9C%E6%95%B0%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">2.13.</span> <span class="toc-text">MSP430 操作数修饰符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9asm%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.</span> <span class="toc-text">对 asm 操作数的约束</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.1.</span> <span class="toc-text">简单约束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E9%87%8D%E9%99%90%E5%88%B6"><span class="toc-number">3.2.</span> <span class="toc-text">多重限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">3.3.</span> <span class="toc-text">操作数修饰符</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2022/01/18/GCC-Inline-Asm/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="瑶光"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">GCC 内联汇编文档翻译</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2022-01-18 20:34:33" itemprop="dateCreated datePublished" datetime="2022-01-18T20:34:33+08:00">2022-01-18</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%BC%96%E7%A8%8B/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">编程</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/C-C/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">C/C++</span></a><a class="tag-item" href="/tags/%E6%B1%87%E7%BC%96/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">汇编</span></a><a class="tag-item" href="/tags/gcc/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">gcc</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p><code>asm</code> 关键字允许在 C 代码中嵌入汇编程序指令。GCC 提供两种形式的内联 <code>asm</code> 语句。基础 <code>asm</code> 语句是一个没有操作数的语句（见<a href="#%E5%9F%BA%E7%A1%80%E6%B1%87%E7%BC%96%E2%80%94%E2%80%94%E4%B8%8D%E5%B8%A6%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E6%B1%87%E7%BC%96%E7%A8%8B%E5%BA%8F%E6%8C%87%E4%BB%A4">基础汇编</a>），而扩展 <code>asm</code> 语句（见<a href="#%E6%89%A9%E5%B1%95%E6%B1%87%E7%BC%96%E2%80%94%E2%80%94%E5%B8%A6%E6%9C%89C%E8%AF%AD%E8%A8%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4">扩展汇编</a>）包括一个或多个操作数。在一个函数中混合使用 C 语言和汇编语言时，扩展形式是首选，但要在顶层 [^1] 包含汇编语言，就必须使用基础 <code>asm</code>。</p>
+<p>也可以使用 <code>asm</code> 关键字来覆盖一个 C 语言符号的汇编器名称，或者将一个 C 语言变量放在一个特定的寄存器中。</p>
+<h2 id="基础汇编——不带操作数的汇编程序指令"><a href="#基础汇编——不带操作数的汇编程序指令" class="headerlink" title="基础汇编——不带操作数的汇编程序指令"></a>基础汇编 —— 不带操作数的汇编程序指令</h2><p>基础 asm 语句具有以下语法：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">[</span><span class="token keyword">asm</span>修饰符<span class="token punctuation">]</span> <span class="token punctuation">(</span>汇编指令<span class="token punctuation">)</span></code></pre>
+
+<p>对于 <code>C</code> 语言，asm 关键字是一个 GNU 扩展。当使用 <code>-ansi</code> 和 <code>-std</code> 编译选项来编写没有 GNU 扩展的 C 方言时，使用<code>__asm__</code>而不是 <code>asm</code>（参见<a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Alternate-Keywords.html">替代关键字</a>）。对于 C++ 语言，<code>asm</code> 是标准关键字，但<code>__asm__</code>可以用于使用 <code>-fno-asm</code> 选项编译的代码。</p>
+<h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><ul>
+<li><code>volatile</code><br>可选的 <code>volatile</code> 修饰符没有作用。所有基础 <code>asm</code> 块都隐含 <code>volatile</code>。</li>
+<li><code>inline</code><br>如果使用 <code>inline</code> 修饰符，那么为了内联的目的，<code>asm</code> 语句的大小被认为是尽可能小的大小（参见 <a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Size-of-an-asm.html">asm 的大小</a>）。</li>
+</ul>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li><p>汇编指令<br>这是一个指定汇编器代码的字面字符串。这个字符串可以包含任何被汇编器识别的指令，包括指令。GCC 并不解析汇编器指令本身，也不知道它们是什么意思，甚至不知道它们是否是有效的汇编器输入。</p>
+<p>可以把多条汇编指令放在一起，放在一个 <code>asm</code> 字符串中，用系统的汇编代码中通常使用的字符分开。一个在大多数地方都有效的组合是用换行符来断行，加上一个制表符（写成 <code>\n\t</code>）。一些汇编程序允许用分号作为行的分隔符。然而，请注意，有些汇编器方言使用分号来开始注释。</p>
+</li>
+</ul>
+<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><p>使用扩展 <code>asm</code>（见<a href="#%E6%89%A9%E5%B1%95%E6%B1%87%E7%BC%96%E2%80%94%E2%80%94%E5%B8%A6%E6%9C%89C%E8%AF%AD%E8%A8%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4">扩展汇编</a>）通常会产生更小、更安全、更有效的代码，在大多数情况下，它是比基础 <code>asm</code> 更好的解决方案。然而，有两种情况下只能使用基础 <code>asm</code>：</p>
+<ul>
+<li><p>扩展 <code>asm</code> 语句必须在 C 函数内。所以在文件范围内（“顶层”），即在 C 函数之外写内联汇编语言，必须使用基础 <code>asm</code>。可以使用这种技术来发出汇编指令，定义可以在文件其他地方调用的汇编语言宏，或者用汇编语言写整个函数。函数之外的基础 <code>asm</code> 语句不能使用任何修饰符。</p>
+</li>
+<li><p>用 <code>naked</code> 属性声明的函数也需要基础 <code>asm</code>（参见<a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html">函数属性</a>）。</p>
+</li>
+</ul>
+<p>安全地访问 C 数据和从基础 <code>asm</code> 中调用函数比它看起来要复杂得多。要访问 C 数据，最好使用扩展 <code>asm</code>。</p>
+<p>不要期望一连串的 <code>asm</code> 语句在编译后能保持完全连续。如果某些指令需要在输出中保持连续，可以把它们放在一个单一的多指令 <code>asm</code> 语句中。请注意，GCC 的优化器可以将 <code>asm</code> 语句相对于其他代码进行移动，包括跨越跳转。</p>
+<p><code>asm</code> 语句可能不会执行跳转到其他 <code>asm</code> 语句中。GCC 不知道这些跳转，因此在决定如何优化时不能考虑到它们。从 <code>asm</code> 到 C 标签的跳转只在扩展 <code>asm</code> 中支持。</p>
+<p>某些情况下，GCC 在优化时可能会重复（或删除重复的）汇编代码。如果你的汇编代码定义了符号或标签，这可能导致在编译过程中出现意想不到的重复符号错误。</p>
+<p><strong>警告：</strong>C 语言标准没有指定 <code>asm</code> 的语义，使其成为编译器之间不兼容的潜在来源。这些不兼容的情况可能不会产生编译器警告 / 错误。</p>
+<p>GCC 不解析基础 <code>asm</code> 的汇编指令，这意味着没有办法向编译器传达里面发生了什么。GCC 对 <code>asm</code> 中的符号不了解，可能会把它们当作未引用的符号丢弃。它也不知道汇编程序代码的副作用，例如对内存或寄存器的修改。与某些编译器不同的是，GCC 假定不会对通<br>用寄存器进行修改。这个假设在未来的版本中可能会改变。</p>
+<p>为了避免未来语义的变化和编译器之间的兼容性问题带来的复杂情况，可以考虑用扩展 <code>asm</code> 代替基础 <code>asm</code>。有关如何进行这种转换的信息，请参见<a target="_blank" rel="noopener" href="https://gcc.gnu.org/wiki/ConvertBasicAsmToExtended">如何从基础 asm 转换到扩展 asm</a>。</p>
+<p>编译器将基础 <code>asm</code> 中的汇编指令逐字复制到汇编语言输出文件中，不处理方言或任何扩展 <code>asm</code> 中的 <code>%</code> 运算符。这导致了基础 <code>asm</code> 字符串和扩展 <code>asm</code> 模板之间的微小差异。例如，为了引用寄存器，你可以在基础 <code>asm</code> 中使用 <code>%eax</code>，而在扩展 <code>asm</code> 中使用 <code>%%eax</code>。</p>
+<p>在像 x86 这样支持多种汇编方言的目标架构上，所有基础 <code>asm</code> 块都使用由 <code>-masm</code> 命令行选项指定的汇编方言（参见 <a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html">x86 选项</a>）。基础 <code>asm</code> 没有为不同的方言提供不同汇编器字符串<br>的机制。</p>
+<p>对于带有非空汇编字符串的基础 <code>asm</code>，GCC 假定汇编块不改变任何通用寄存器，但它<br>可能会读或写任何全局可访问的变量。</p>
+<p>下面是一个 i386 的基础 <code>asm</code> 的例子：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">/* 注意，此代码在使用-masm=intel命令行选项时无法编译 */</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">DebugBreak</span><span class="token expression"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">asm</span><span class="token punctuation">(</span></span><span class="token string">"int $3"</span><span class="token expression"><span class="token punctuation">)</span></span></span></code></pre>
+<h2 id="扩展汇编——带有C语言表达式操作数的汇编指令"><a href="#扩展汇编——带有C语言表达式操作数的汇编指令" class="headerlink" title="扩展汇编——带有C语言表达式操作数的汇编指令"></a>扩展汇编 —— 带有 C 语言表达式操作数的汇编指令</h2><p>使用扩展 <code>asm</code>，你可以从汇编器中读写 C 变量，并执行从汇编器代码到 C 标签的跳转。扩展 <code>asm</code> 语法使用冒号<code>:</code> 来限定汇编器模板后的操作数参数。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token keyword">asm</span>修饰符 <span class="token punctuation">(</span> 汇编模板
+              <span class="token operator">:</span> 输出操作数
+            <span class="token punctuation">[</span> <span class="token operator">:</span> 输入操作数
+            <span class="token punctuation">[</span> <span class="token operator">:</span> Clobbers <span class="token punctuation">]</span> <span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
+
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token keyword">asm</span>修饰符 <span class="token punctuation">(</span> 汇编模板
+              <span class="token operator">:</span> 输出操作数
+              <span class="token operator">:</span> 输入操作数
+              <span class="token operator">:</span> Clobbers
+              <span class="token operator">:</span> Goto标签 <span class="token punctuation">)</span></code></pre>
+
+<p>其中，在最后一种形式中，<code>asm</code> 修饰符包含 <code>goto</code>（而在第一种形式中，不包含）。<code>asm</code> 关键字是一个 GNU 扩展。当编写使用 <code>-ansi</code> 和各种 <code>-std</code> 选项编译的代码时，使用<code>__asm__</code>而不是 <code>asm</code>（参见<a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Alternate-Keywords.html">替代关键字</a>）。</p>
+<h3 id="修饰符-1"><a href="#修饰符-1" class="headerlink" title="修饰符"></a>修饰符</h3><ul>
+<li><code>volatile</code><br>扩展 <code>asm</code> 语句的典型用途是操作输入值以产生输出值。然而，<code>asm</code> 语句也可能产生副作用。如果样，可能需要使用 <code>volatile</code> 修饰符来禁用某些优化。见 <a href="##Volatile">Volatile</a>。</li>
+<li><code>inline</code><br>如果使用 <code>inline</code> 修饰符，那么为了内联的目的，<code>asm</code> 语句的大小被认为是尽可能小的大小（参见 <a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Size-of-an-asm.html">asm 的大小</a>）。</li>
+<li><code>goto</code><br>这个限定符告知编译器，<code>asm</code> 语句可以执行跳转到 <code>Goto标签</code>中列出的一个标签。参见 2.10。</li>
+</ul>
+<h3 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h3><ul>
+<li><p><code>汇编模板</code><br>这是一个字面字符串，是汇编程序代码的模板。它是一个固定的文本和指代输入、输出和 <code>goto</code> 参数的标记的组合。参见<a href="##%E6%B1%87%E7%BC%96%E6%A8%A1%E6%9D%BF">汇编模板</a>。</p>
+</li>
+<li><p><code>输出操作数</code><br>一个以逗号分隔的列表，列出被汇编模板中的指令修改的 C 变量。允许有一个空列表。参见<a href="##%E8%BE%93%E5%87%BA%E6%93%8D%E4%BD%9C%E6%95%B0">输出操作数</a>。</p>
+</li>
+<li><p><code>输入操作数</code><br>一个以逗号分隔的列表，列出被汇编模板中的指令读取的 C 变量。允许有一个空列表。参见<a href="##%E8%BE%93%E5%85%A5%E6%93%8D%E4%BD%9C%E6%95%B0">输入操作数</a>。</p>
+</li>
+<li><p><code>Clobbers</code><br>一个以逗号分隔的列表，列出被汇编模板中的指令修改的寄存器或其他变量，除了被列为输出值的变量之外。允许有一个空列表。参见 2.9。</p>
+</li>
+<li><p><code>Goto标签</code><br>当你使用 <code>asm</code> 的 <code>goto</code> 形式时，这部分包含汇编模板中代码可能跳转的所有 C 标签的列表。参见 2.10。</p>
+<p><code>asm</code> 语句不能跳转到其他 <code>asm</code> 语句，只能跳转到列出的 <code>Goto</code> 标签。GCC 的优化器不知道其他的跳转；因此在决定如何优化时不能考虑到它们。</p>
+</li>
+</ul>
+<p>输入、输出和 <code>goto</code> 操作数的总数被限制在 30 个。</p>
+<h3 id="备注-1"><a href="#备注-1" class="headerlink" title="备注"></a>备注</h3><p><code>asm</code> 语句允许在 C 代码中直接包含汇编指令。这可以帮助你在时间敏感的代码中最大限度地提高性能，或者访问 C 程序不容易获得的汇编指令。</p>
+<p>请注意，扩展 <code>asm</code> 语句必须在一个函数内。只有基础 <code>asm</code> 可以在函数之外（见<a href="#%E5%9F%BA%E7%A1%80%E6%B1%87%E7%BC%96%E2%80%94%E2%80%94%E4%B8%8D%E5%B8%A6%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E6%B1%87%E7%BC%96%E7%A8%8B%E5%BA%8F%E6%8C%87%E4%BB%A4">基础汇编</a>）。用 <code>naked</code> 属性声明的函数也需要基础 <code>asm</code>（参见<a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html">函数属性</a>）。</p>
+<p>虽然 <code>asm</code> 的用途是多种多样的，但把 <code>asm</code> 语句看作是一系列将输入参数转换为输出参数的低级指令可能会有帮助。因此，一个简单的（如果不是特别有用）使用 <code>asm</code> 的 i386 的例子可能是这样的：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> src <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> dst<span class="token punctuation">;</span>
+
+<span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"mov %1, %0\n\t"</span>
+     <span class="token string">"add $1, %0"</span>
+     <span class="token operator">:</span> <span class="token string">"=r"</span> <span class="token punctuation">(</span>dst<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>src<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> dst<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>这段代码将 <code>src</code> 复制到 <code>dst</code>，并对 <code>dst</code> 加 1。</p>
+<h3 id="Volatile"><a href="#Volatile" class="headerlink" title="Volatile"></a>Volatile</h3><p>GCC 的优化器有时会丢弃 <code>asm</code> 语句，如果认为不需要输出变量的话。此外，如果优化器认为代码将始终返回相同的结果（即在调用之间没有输入值变化），他们可能会将代码移出循环。使用 <code>volatile</code> 修饰符可以禁用这些优化。没有输出操作数的 <code>asm</code> 语句和 <code>asm goto</code> 语句隐含 <code>volatile</code>。</p>
+<p>下面这段 i386 代码演示了一个不使用（或不需要）<code>volatile</code> 限定符的情况。如果它正在执行断言检查，这段代码使用 <code>asm</code> 来执行验证。否则，<code>dwRes</code> 就不会被任何代码引用。因此，优化器可以丢弃 <code>asm</code> 语句，这反过来又消除了对整个 <code>DoCheck</code> 例程的需要。通过在不需要时省略 <code>volatile</code> 修饰符，可以让优化器产生尽可能高效的代码。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">DoCheck</span><span class="token punctuation">(</span><span class="token keyword">uint32_t</span> dwSomeValue<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">uint32_t</span> dwRes<span class="token punctuation">;</span>
+
+    <span class="token comment">// Assumes dwSomeValue is not zero.</span>
+    <span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"bsfl %1,%0"</span>
+         <span class="token operator">:</span> <span class="token string">"=r"</span> <span class="token punctuation">(</span>dwRes<span class="token punctuation">)</span>
+         <span class="token operator">:</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>dwSomeValue<span class="token punctuation">)</span>
+         <span class="token operator">:</span> <span class="token string">"cc"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">assert</span><span class="token punctuation">(</span>dwRes <span class="token operator">&gt;</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>下一个例子展示了这样一种情况：优化器可以识别出输入（<code>dwSomeValue</code>）在函数执行过程中从未改变，因此可以将 <code>asm</code> 移到循环之外，以产生更有效的代码。同样，使用 <code>volatile</code> 修饰符可以禁止这种类型的优化。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">do_print</span><span class="token punctuation">(</span><span class="token keyword">uint32_t</span> dwSomeValue<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">uint32_t</span> dwRes<span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">uint32_t</span> x<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> x <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> x<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// Assumes dwSomeValue is not zero.</span>
+        <span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"bsfl %1,%0"</span>
+             <span class="token operator">:</span> <span class="token string">"=r"</span> <span class="token punctuation">(</span>dwRes<span class="token punctuation">)</span>
+             <span class="token operator">:</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>dwSomeValue<span class="token punctuation">)</span>
+             <span class="token operator">:</span> <span class="token string">"cc"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%u: %u %u\n"</span><span class="token punctuation">,</span> x<span class="token punctuation">,</span> dwSomeValue<span class="token punctuation">,</span> dwRes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>下面的例子演示了一个需要使用 <code>volatile</code> 修饰符的情况。它使用 x86 的 <code>rdtsc</code> 指令，该指令读取计算机的时间戳计数器。如果没有 <code>volatile</code> 修饰符，优化器可能会认为 <code>asm</code> 块会一直返回相同的值，因此优化掉第二个调用。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">uint64_t</span> msr<span class="token punctuation">;</span>
+
+<span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token punctuation">(</span><span class="token string">"rdtsc\n\t"</span>          <span class="token comment">// Returns the time in EDX:EAX</span>
+              <span class="token string">"shl $32, %%rdx\n\t"</span> <span class="token comment">// Shift the upper bits left</span>
+              <span class="token string">"or %%rdx, %0"</span>       <span class="token comment">// 'Or' in the lower bits</span>
+              <span class="token operator">:</span> <span class="token string">"=a"</span> <span class="token punctuation">(</span>msr<span class="token punctuation">)</span>
+              <span class="token operator">:</span>
+              <span class="token operator">:</span> <span class="token string">"rdx"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"msr: %llx\n"</span><span class="token punctuation">,</span> msr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do other work...</span>
+
+<span class="token comment">// Reprint the timestamp</span>
+<span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token punctuation">(</span><span class="token string">"rdtsc\n\t"</span>          <span class="token comment">// Returns the time in EDX:EAX</span>
+              <span class="token string">"shl $32, %%rdx\n\t"</span> <span class="token comment">// Shift the upper bits left</span>
+              <span class="token string">"or %%rdx, %0"</span>       <span class="token comment">// 'Or' in the lower bits</span>
+              <span class="token operator">:</span> <span class="token string">"=a"</span> <span class="token punctuation">(</span>msr<span class="token punctuation">)</span>
+              <span class="token operator">:</span>
+              <span class="token operator">:</span> <span class="token string">"rdx"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"msr: %llx\n"</span><span class="token punctuation">,</span> msr<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>GCC 的优化器并不像前面例子中的非 <code>volatile</code> 代码那样对待这段代码。优化器不会把它移出循环，也不会在假设先前调用的结果仍然有效的情况下省略它。</p>
+<p>请注意，编译器甚至可以将 <code>volatile asm</code> 指令相对于其他代码进行移动，包括跨跳转指令。例如，在许多目标架构上，有一个系统寄存器控制浮点运算的舍入模式。用 <code>volatile asm</code> 语句设置它，并不能可靠地工作，就像下面的 PowerPC 例子一样：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token punctuation">(</span><span class="token string">"mtfsf 255, %0"</span>
+              <span class="token operator">:</span>
+              <span class="token operator">:</span> <span class="token string">"f"</span> <span class="token punctuation">(</span>fpenv<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+sum <span class="token operator">=</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span></code></pre>
+
+<p>编译器可能会将增加的内容移到 <code>volatile asm</code> 语句之前。为了使它像预期的那样工作，请在在随后的代码中引用一个变量，给 <code>asm</code> 添加一个人为的依赖关系，例如：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token punctuation">(</span><span class="token string">"mtfsf 255, %1"</span>
+              <span class="token operator">:</span> <span class="token string">"=X"</span> <span class="token punctuation">(</span>sum<span class="token punctuation">)</span>
+              <span class="token operator">:</span> <span class="token string">"f"</span> <span class="token punctuation">(</span>fpenv<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+sum <span class="token operator">=</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span></code></pre>
+
+<p>在某些情况下，GCC 在优化时可能会重复（或删除重复的）你的汇编代码。如果你的 <code>asm</code> 代码定义了符号或标签，这可能导致在编译过程中出现意想不到的重复符号错误。使用 <code>%=</code>（见<a href="##%E6%B1%87%E7%BC%96%E6%A8%A1%E6%9D%BF">汇编模板</a>）可能有助于解决这个问题。</p>
+<h3 id="汇编模板"><a href="#汇编模板" class="headerlink" title="汇编模板"></a>汇编模板</h3><p>汇编模板是一个包含汇编指令的字面字符串。编译器替换模板中指代输入、输出和 <code>goto</code> 标签的标记，然后将结果字符串输出给汇编器。这个字符串可以包含任何被汇编器识别的指令（instructions），包括汇编器指令（directives）。GCC 并不解析汇编指令本身，也不知道它们是什么意思，甚至不知道它们是否是有效的汇编器输入。然而，它确实计算了这些语句（参见 <a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Size-of-an-asm.html">asm 的大小</a>）。</p>
+<p>可以将多条汇编指令放在一个 <code>asm</code> 字符串中，用系统的汇编代码中通常使用的字符隔开。一个在大多数地方都有效的组合是用换行符来分隔行，再加上一个制表符来移动到指令域（写成 <code>\n\t</code>）。一些汇编器允许用分号作为行的分隔符。然而，请注意，有些汇编方言使用分号来开始注释。</p>
+<p>即使使用了 <code>volatile</code> 限定符，也不要期望一连串的 <code>asm</code> 语句在编译后能保持完全连续。如果某些指令需要在输出中保持连续，可以把它们放在一个一条多指令 <code>asm</code> 语句中。</p>
+<p>在不使用输入 / 输出操作数的情况下从 C 程序中访问数据（比如直接从汇编器模板中使用全局符号），可能无法达到预期效果。同样，直接从汇编器模板中调用函数需要对目标汇编器和 ABI 有详细的了解。</p>
+<p>由于 GCC 没有解析汇编模板，所以它对引用的任何符号都不可见。这可能会导致 GCC 将这些符号作为未引用的符号丢弃，除非它们也被列为输入、输出或 <code>goto</code> 操作数。</p>
+<h4 id="特殊格式字符串"><a href="#特殊格式字符串" class="headerlink" title="特殊格式字符串"></a>特殊格式字符串</h4><p>除了输入、输出和 <code>goto</code> 操作数所描述的标记外，这些标记在汇编模板中具有特殊的含义：</p>
+<ul>
+<li><code>%%</code><br>在汇编代码中输出一个单一的 <code>%</code>。</li>
+<li><code>%=</code><br>输出一个数字，这个数字对整个编译中 <code>asm</code> 语句的每个实例都是唯一的。这个选项在创建本地标签并在生成多个汇编指令的单一模板中多次引用它们时很有用。</li>
+<li><code>%{</code></li>
+<li><code>%|</code></li>
+<li><code>%}</code><br>将 <code>{</code>、<code>|</code> 和<code>}</code> 字符分别输出到汇编程序代码中。当未转义时，这些字符具有特殊的意义，表示多种汇编器方言，如下所述。</li>
+</ul>
+<h4 id="汇编模板中的多种汇编方言"><a href="#汇编模板中的多种汇编方言" class="headerlink" title="汇编模板中的多种汇编方言"></a>汇编模板中的多种汇编方言</h4><p>在一些平台，例如 x86 上，GCC 支持多种汇编方言。<code>-masm</code> 选项控制 GCC 对于内联汇编使用哪种方言。关于 <code>-masm</code> 选项的目标架构特定的文档 [^2] 包含了支持的方言列表，以及在没有指定该选项时的默认方言。了解这些信息很重要，因为在使用某种方言编译时能正常工作的汇编代码，在使用另一种方言编译时可能会失败。参见 <a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html">x86 选项</a>。</p>
+<p>如果你的代码需要支持多种汇编方言（例如，如果你编写的公共头文件需要支持多种编译选项），请使用这种形式的结构：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token punctuation">{</span> 方言<span class="token number">0</span> <span class="token operator">|</span> 方言<span class="token number">1</span> <span class="token operator">|</span> 方言<span class="token number">2.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">}</span></code></pre>
+
+<p>当使用方言 #0 编译代码时，该结构输出<code>方言0</code>，方言 #1 则输出<code>方言1</code>，等等。如果大括号中的备选方案少于编译器所支持的方言数量，那么该结构将不输出任何信息。</p>
+<p>例如，如果一个 x86 编译器支持两种方言（<code>att</code>，<code>intel</code>），那么一个像这样的汇编模板：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token string">"bt{l %[Offset],%[Base] | %[Base],%[Offset]}; jc %l2"</span></code></pre>
+<p>相当于两者之一：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token string">"btl %[Offset],%[Base] ; jc %l2"</span> <span class="token comment">/* att 方言   */</span>
+<span class="token string">"bt %[Base],%[Offset]; jc %l2"</span>   <span class="token comment">/* intel 方言 */</span></code></pre>
+
+<p>使用同样的编译器，下面的代码：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token string">"xchg{l}\t{%%}ebx, %1"</span></code></pre>
+
+<p>相当于两者之一：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token string">"xchgl\t%%ebx, %1"</span> <span class="token comment">/* att 方言   */</span>
+<span class="token string">"xchg\tebx, %1"</span>    <span class="token comment">/* intel 方言 */</span></code></pre>
+
+<p>编译器不支持方言替换的嵌套。</p>
+<h3 id="输出操作数"><a href="#输出操作数" class="headerlink" title="输出操作数"></a>输出操作数</h3><p><code>asm</code> 语句有零个或多个输出操作数，表示被汇编程序代码修改的 C 变量的名称。</p>
+<p>在这个 i386 的例子中，<code>old</code>（在模板字符串中作为 <code>%0</code>）和 <code>*Base</code>（作为 <code>%1</code>）是输出，<code>Offset</code>（<code>%2</code>）是输入。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">bool</span> old<span class="token punctuation">;</span>
+
+<span class="token function">__asm__</span> <span class="token punctuation">(</span><span class="token string">"btsl %2, %1\n\t"</span> <span class="token comment">// Turn on zero-based bit #Offset in Base.</span>
+         <span class="token string">"sbb %0, %0"</span>      <span class="token comment">// Use the CF to calculate old.</span>
+         <span class="token operator">:</span> <span class="token string">"=r"</span> <span class="token punctuation">(</span>old<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"+rm"</span> <span class="token punctuation">(</span><span class="token operator">*</span>Base<span class="token punctuation">)</span>
+         <span class="token operator">:</span> <span class="token string">"Ir"</span> <span class="token punctuation">(</span>Offset<span class="token punctuation">)</span>
+         <span class="token operator">:</span> <span class="token string">"cc"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">return</span> old<span class="token punctuation">;</span></code></pre>
+
+<p>操作数由逗号分隔。每个操作数都有如下的格式：</p>
+<pre class="language-none"><code class="language-none">[asm符号名称] 约束 (C变量名称)</code></pre>
+
+<h4 id="asm符号名称"><a href="#asm符号名称" class="headerlink" title="asm符号名称"></a>asm 符号名称</h4><p>为操作数指定一个符号名称。在汇编模板中引用这个名字时，要把它放在方括号里（即 <code>%[Value]</code>）。该名称的范围是包含该定义的 <code>asm</code> 语句。任何有效的 C 变量名称都是可以接受的，包括周围代码中已经定义的名称。在同一个 <code>asm</code> 语句中，没有两个操作数可以使用相同的符号名。</p>
+<p>当不使用 <code>asm符号名称</code>时，使用操作数在汇编模板的操作数列表中的位置（从零开始）。例如，如果有三个输出操作数，在模板中使用 <code>%0</code> 来指代第一个，<code>%1</code> 指代第二个，而 <code>%2</code> 指代第三个。</p>
+<h4 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h4><p>一个字符串常量，指定对操作数位置的约束；详见<a href="#%E5%AF%B9asm%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E7%BA%A6%E6%9D%9F">对 asm 操作数的约束</a>。</p>
+<p>输出约束必须以 <code>=</code>（变量覆盖现有值）或 <code>+</code>（读和写）开始。当使用 = 时，不要假设该位置包含进入 <code>asm</code> 的现有值，除非操作数与输入绑定；参见<a href="##%E8%BE%93%E5%85%A5%E6%93%8D%E4%BD%9C%E6%95%B0">输入操作数</a>。</p>
+<p>在前缀之后，必须有一个或多个额外的约束条件（参见<a href="#%E5%AF%B9asm%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E7%BA%A6%E6%9D%9F">对 asm 操作数的约束</a>）来描述值的位置。常见的约束包括代表寄存器的 <code>r</code> 和代表内存的 <code>m</code>。当你列出多个可能的位置时（例如，<code>=rm</code>），编译器会根据当前的环境选择最有效的一个。如果你在 <code>asm</code> 语句允许的范围内列出尽可能多的备用位置，你就允许优化器产生尽可能好的代码。如果你必须使用一个特定的寄存器，但是你的机器约束并没有提供足够的控制来选择你想要的特定寄存器，那么局部寄存器变量可以提<br>供一个解决方案（参见局部寄存器变量）。</p>
+<h4 id="C变量名"><a href="#C变量名" class="headerlink" title="C变量名"></a>C 变量名</h4><p>指定一个 C 语言左值表达式来保存输出，通常是一个变量名。括号是语法的一个必要<br>部分。</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p>当编译器选择用来表示输出操作数的寄存器时，它不会使用任何一个 clobbered 寄存器（见<a href="Clobbers%E5%92%8C%E4%B8%B4%E6%97%B6%E5%AF%84%E5%AD%98%E5%99%A8">##Clobbers 和临时寄存器</a>）。</p>
+<p>输出操作数表达式必须是左值。编译器不会检查操作数的数据类型对正在执行的指令是否合理。对于不能直接寻址的输出表达式（例如一个位域），约束条件必须允许一个寄存器。在这种情况下，GCC 使用寄存器作为 <code>asm</code> 的输出，然后将该寄存器存储到输出中。使用 <code>+</code> 约束修饰符的操作数算作两个操作数（即既是输入又是输出），每个 <code>asm</code> 语句最多有 30 个操作数。</p>
+<p>在所有不得与输入重叠的输出操作数上使用 <code>&amp;</code> 约束修饰符 [^3]（参见修饰符）。否则，GCC 可能会将输出操作数分配到与不相关的输入操作数相同的寄存器中，其假设是汇编程序代码在产生输出之前消耗其输入。如果汇编程序代码实际上由一条以上的指令组成，这个假设可能是错误的。</p>
+<p>如果一个输出参数（<code>a</code>）允许有寄存器约束，而另一个输出参数（<code>b</code>）允许有内存约束，也会出现同样的问题。GCC 生成的访问 <code>b</code> 中内存地址的代码可能包含可能被 <code>a</code> 共享的寄存器，而 GCC 认为这些寄存器是 <code>asm</code> 的输入。如上所述，GCC 假定这种输入寄存器在任何输出被写入之前就被消耗了。如果 <code>asm</code> 语句在使用 <code>b</code> 之前写入 <code>a</code>，这个假设可能会导致不正确的行为。将 <code>&amp;</code> 修饰符和 <code>a</code> 的寄存器约束结合起来，可以确保修改 <code>a</code> 不会影响 <code>b</code> 引用的地址。</p>
+<p><code>asm</code> 支持操作数的修饰符（例如 <code>%k2</code> 而不是简单的 <code>%2</code>）。通常，这些修饰符与硬件有关。x86 支持的修饰符的列表见 [x86 操作数修饰符][##x86 操作数修饰符]。</p>
+<p>如果 <code>asm</code> 后面的 C 代码没有使用任何输出操作数，那么对 <code>asm</code> 语句使用 <code>volatile</code>，以防止优化器将 <code>asm</code> 语句作为非必要的东西抛弃（见 <a href="##Volatile">Volatile</a>）。</p>
+<p>这段代码没有使用可选的 <code>asm符号名称</code>。因此，它引用第一个输出操作数为 <code>%0</code>（如果有第二个，它将是 <code>%1</code>，等等）。第一个输入操作数比最后一个输出操作数的数字大一个。在这个 i386 的例子中，这使得 <code>Mask</code> 被引用为 <code>%1</code>。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">uint32_t</span> Mask <span class="token operator">=</span> <span class="token number">1234</span><span class="token punctuation">;</span>
+<span class="token keyword">uint32_t</span> Index<span class="token punctuation">;</span>
+
+<span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"bsfl %1, %0"</span>
+     <span class="token operator">:</span> <span class="token string">"=r"</span> <span class="token punctuation">(</span>Index<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>Mask<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token string">"cc"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>这段代码覆盖了变量 <code>Index</code>（<code>=</code>），将数值放在了一个寄存器（<code>r</code>）中。使用通用的 <code>r</code> 约束而不是特定寄存器的约束，允许编译器选择要使用的寄存器，这可能会导致更有效的代码。如果一条汇编指令需要一个特定的寄存器，这或许是不可能的。</p>
+<p>下面的 i386 例子使用 <code>asm符号名称</code>语法。它产生的结果与上面的代码相同，但有些人可能认为它更易读或更易维护，因为在添加或删除操作数时不需要对索引号进行重新排序。在这个例子中，<code>aIndex</code> 和 <code>aMask</code> 这两个名字只是为了强调哪个名字在哪里被使用。重复使用 <code>Index</code> 和 <code>Mask</code> 这两个名字是可以接受的。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">uint32_t</span> Mask <span class="token operator">=</span> <span class="token number">1234</span><span class="token punctuation">;</span>
+<span class="token keyword">uint32_t</span> Index<span class="token punctuation">;</span>
+
+<span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"bsfl %[aMask], %[aIndex]"</span>
+     <span class="token operator">:</span> <span class="token punctuation">[</span>aIndex<span class="token punctuation">]</span> <span class="token string">"=r"</span> <span class="token punctuation">(</span>Index<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token punctuation">[</span>aMask<span class="token punctuation">]</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>Mask<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token string">"cc"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>下面是一些关于输出操作数的例子。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">uint32_t</span> c <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">uint32_t</span> d<span class="token punctuation">;</span>
+<span class="token keyword">uint32_t</span> <span class="token operator">*</span>e <span class="token operator">=</span> <span class="token operator">&amp;</span>c<span class="token punctuation">;</span>
+
+<span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"mov %[e], %[d]"</span>
+     <span class="token operator">:</span> <span class="token punctuation">[</span>d<span class="token punctuation">]</span> <span class="token string">"=rm"</span> <span class="token punctuation">(</span>d<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token punctuation">[</span>e<span class="token punctuation">]</span> <span class="token string">"rm"</span> <span class="token punctuation">(</span><span class="token operator">*</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>这里，<code>d</code> 可以在一个寄存器中，也可以在内存中。由于编译器可能已经有了寄存器中 <code>e</code> 所指向的 <code>uint32_t</code> 位置的当前值，你可以通过指定这两个约束来使它为 <code>d</code> 选择最佳位置。</p>
+<h3 id="标志输出操作数"><a href="#标志输出操作数" class="headerlink" title="标志输出操作数"></a>标志输出操作数</h3><p>一些目标架构有一个特殊的寄存器，用于保存操作或比较结果的 “标志”。通常情况下，该寄存器的内容要么不被 <code>asm</code> 修改，要么 <code>asm</code> 语句被认为是对其内容的破坏。</p>
+<h4 id="ARM-AArch64"><a href="#ARM-AArch64" class="headerlink" title="ARM AArch64"></a>ARM AArch64</h4><p>ARM 系列的标志输出约束的形式是 <code>=@cccond</code>，其中 <code>cond</code> 是 ARM 中定义的标准条件之一，用于 <code>ConditionHolds</code>。</p>
+<p>（TODO: 待翻译）</p>
+<h3 id="输入操作数"><a href="#输入操作数" class="headerlink" title="输入操作数"></a>输入操作数</h3><p>输入操作数使 C 语言变量和表达式的值可用于汇编代码。</p>
+<p>操作数由逗号分隔。每个操作数都有这样的格式：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token punctuation">[</span><span class="token keyword">asm</span>符号名称<span class="token punctuation">]</span> 约束 <span class="token punctuation">(</span>C表达式<span class="token punctuation">)</span></code></pre>
+
+<h4 id="asm符号名称-1"><a href="#asm符号名称-1" class="headerlink" title="asm符号名称"></a>asm 符号名称</h4><p>为操作数指定一个符号名称。在汇编模板中引用这个名字时，要把它放在方括号里（即 <code>%[Value]</code>）。该名称的范围是包含该定义的 <code>asm</code> 语句。任何有效的 C 变量名称都是可以接受的，包括周围代码中已经定义的名称。在同一个 <code>asm</code> 语句中，没有两个操作数可以使用相同的符号名。</p>
+<p>当不使用 <code>asm符号名称</code>时，使用操作数在汇编模板的操作数列表中的位置（从零开始）。例如，如果有两个输出操作数和三个输入操作数，在模板中使用 <code>%2</code> 来指代第一个输入操作数，<code>%3</code> 指代第二个，而 <code>%4</code> 指代第三个。</p>
+<h4 id="约束-1"><a href="#约束-1" class="headerlink" title="约束"></a>约束</h4><p>一个字符串常数，指定对操作数位置的约束；详见<a href="#%E5%AF%B9asm%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84%E7%BA%A6%E6%9D%9F">对 asm 操作数的约束</a>。输入约束字符串不能以 <code>=</code> 或 <code>+</code> 开头。当你列出多个可能的位置时（例如，<code>"irm"</code>），编译器会根据当前环境选择最有效的位置。如果你必须使用一个特定的寄存器，但是你的机器约束没有提供足够的控制来选择你想要的特定寄存器，那么局部寄存器变量可以提供一个解决方案（参见<a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Local-Register-Variables.html">局部寄存器变量</a>）。</p>
+<p>输入约束也可以是数字（例如，<code>"0"</code>）。这表明指定的输入必须与输出约束在输出约束列表中的索引处（从零开始）处于同一位置。当对输出操作数使用 <code>asm符号名称</code>语法时，你可以使用这些名称（用括号 <code>[]</code> 括起来），而不是数字。</p>
+<h4 id="C表达式"><a href="#C表达式" class="headerlink" title="C表达式"></a>C 表达式</h4><p>这是作为输入传递给 <code>asm</code> 语句的 C 变量或表达式。括号是语法的一个必要部分。</p>
+<h4 id="-1"><a href="#-1" class="headerlink" title=""></a></h4><p>当编译器选择用来表示输入操作数的寄存器时，它不会使用任何一个 clobbered 寄存器（参见 <a href="##Clobbers%E5%92%8C%E4%B8%B4%E6%97%B6%E5%AF%84%E5%AD%98%E5%99%A8">Clobbers 和临时寄存器</a>）。</p>
+<p>如果没有输出操作数，但有输入操作数，则在输出操作数的位置连续放置两个冒号 [^4]：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token function">__asm__</span> <span class="token punctuation">(</span><span class="token string">"some instructions"</span>
+         <span class="token operator">:</span> <span class="token comment">/* No outputs. */</span>
+         <span class="token operator">:</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>Offset <span class="token operator">/</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p><strong>警告：</strong> 不要修改只输入的操作数的内容（与输出绑定的输入除外）。编译器假定在退出 <code>asm</code> 语句时，这些操作数包含与执行语句前相同的值。不可能使用 clobbers 来通知编译器这些输入的值在变化。一个常见的解决方法是将变化的输入变量与一个永远不会被使用的输出变量联系起来。但是请注意，如果 <code>asm</code> 语句后面的代码没有使用任何输出操作数，GCC 优化器可能会将 <code>asm</code> 语句作为不需要的东西丢弃（参见 <a href="##Volatile">Volatile</a>）。</p>
+<p><code>asm</code> 支持操作数的修饰符（例如 <code>%k2</code> 而不是简单的 <code>%2</code>）。通常，这些修饰符与硬件有关。x86 支持的修饰符的列表见 [x86 操作数修饰符][##x86 操作数修饰符]。</p>
+<p>在这个使用虚构的 <code>combine</code> 指令的例子中，输入操作数 1 的约束 <code>"0"</code> 表示它必须与输出操作数 0 占据相同的位置。只有输入操作数可以在约束中使用数字，而且它们必须各自指向一个输出操作数。只有约束中的数字（或符号化的汇编器名称）才能保证一个操作数与另一个操作数在同一位置。仅仅是 <code>foo</code> 是两个操作数的值，并不足以保证它们在生成的汇编代码中处于相同的位置。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"combine %2, %0"</span>
+     <span class="token operator">:</span> <span class="token string">"=r"</span> <span class="token punctuation">(</span>foo<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token string">"0"</span> <span class="token punctuation">(</span>foo<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"g"</span> <span class="token punctuation">(</span>bar<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>下面是一个使用符号名称的例子。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"cmoveq %1, %2, %[result]"</span>
+     <span class="token operator">:</span> <span class="token punctuation">[</span>result<span class="token punctuation">]</span> <span class="token string">"=r"</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>test<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"r"</span> <span class="token punctuation">(</span><span class="token keyword">new</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"[result]"</span> <span class="token punctuation">(</span>old<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<h3 id="Clobbers和临时寄存器"><a href="#Clobbers和临时寄存器" class="headerlink" title="Clobbers和临时寄存器"></a>Clobbers 和临时寄存器</h3><p>虽然编译器知道输出操作数中列出的条目的变化，但内联 <code>asm</code> 代码可能修改的不仅仅是输出。例如，计算可能需要额外的寄存器，或者处理器可能会覆盖一个寄存器作为一个特定汇编指令的副作用。为了通知编译器这些变化，将它们列在 clobber 列表中。clobber 列表项要么是寄存器名称，要么是特殊的 clobbers（下面列出）。每个 clobber 列表项是一个字符串常数，用双引号括起来，用逗号隔开。</p>
+<p>Clobber 描述不得以任何方式与输入或输出操作数重合。例如，当在 clobber 列表中列出一个寄存器类时，不能有一个操作数来描述该寄存器的一个成员。被声明为处于特定寄存器中的变量（参见显式寄存器变量）和作为 <code>asm</code> 输入或输出操作数使用的变量必须在 clobber 描述中没有提到任何部分。特别是，如果不把输入操作数指定为输出操作数，就没有办法指定输入操作数被修改。</p>
+<p>当编译器选择使用哪些寄存器来表示输入和输出操作数时，它不会使用任何 clobbered 的寄存器。因此，clobbered 寄存器可以在汇编代码中用于任何用途。</p>
+<p>另一个限制是，clobber 列表不应该包含栈指针寄存器。这是因为编译器要求栈指针的值在 <code>asm</code> 语句之后与进入该语句时相同。然而，以前的 GCC 版本没有执行这一规则，允许栈指针出现在列表中，但语义不明确。这种行为已被废弃，在未来的 GCC 版本中，列出栈指针可能成为一个错误。</p>
+<p>下面是一个展示了 clobbered 寄存器使用的 VAX 实例：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token punctuation">(</span><span class="token string">"movc3 %0, %1, %2"</span>
+              <span class="token operator">:</span> <span class="token comment">/* No outputs. */</span>
+              <span class="token operator">:</span> <span class="token string">"g"</span> <span class="token punctuation">(</span>from<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"g"</span> <span class="token punctuation">(</span>to<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"g"</span> <span class="token punctuation">(</span>count<span class="token punctuation">)</span>
+              <span class="token operator">:</span> <span class="token string">"r0"</span><span class="token punctuation">,</span> <span class="token string">"r1"</span><span class="token punctuation">,</span> <span class="token string">"r2"</span><span class="token punctuation">,</span> <span class="token string">"r3"</span><span class="token punctuation">,</span> <span class="token string">"r4"</span><span class="token punctuation">,</span> <span class="token string">"r5"</span><span class="token punctuation">,</span> <span class="token string">"memory"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>此外，还有两个特殊的 clobber 参数：</p>
+<ul>
+<li><p><code>"cc"</code><br><code>"cc"</code> clobber 表示汇编程序代码修改了标志寄存器。在一些机器上，GCC 将条件代码表示为一个特定的硬件寄存器；<code>"cc"</code> 用于命名这个寄存器。在其他机器上，条件代码的处理是不同的，指定 <code>"cc"</code> 没有影响。但是，无论目标架构是什么，它都是有效的。</p>
+</li>
+<li><p><code>"memory"</code><br><code>"memory"</code> clobber 告知编译器，汇编代码对输入和输出操作数中所列项目以外的项目进行内存读取或写入（例如，访问输入参数之一所指向的内存）。为了确保内存包含正确的值，GCC 可能需要在执行 <code>asm</code> 之前将特定的寄存器值刷入内存。此外，编译器并不假定在 <code>asm</code> 之前从内存中读出的任何数值在该 <code>asm</code> 之后保持不变；它会根据需要重新加载它们。使用 <code>"memory"</code> clobber 以有效地形成编译器的内存读 / 写屏障。</p>
+<p>请注意，这个 clobber 并不能阻止处理器在 <code>asm</code> 语句之后进行预测性读取 [^5]，为了防止这一点，需要使用处理器特定的 [^6] 存储器屏蔽指令 [^7]。</p>
+</li>
+</ul>
+<p>将寄存器刷入内存会影响性能，对于时间敏感的代码来说可能是个问题。你可以向 GCC 提供更好的信息来避免这种情况，如下面的例子所示。至少，别名规则 [^8] 允许 GCC 知道哪些内存不需要被刷新。</p>
+<p>下面是一条虚构的平方和指令，它接收两个指向内存中浮点值的指针并产生一个浮点寄存器输出。注意 <code>x</code> 和 <code>y</code> 在 <code>asm</code> 参数中都出现了两次，一次是指定访问的内存，一次是指定 <code>asm</code> 使用的基础寄存器。你这样做通常不会浪费一个寄存器，因为 GCC 可以将同一个寄存器用于两种用途。然而，在这个 <code>asm</code> 中同时使用 <code>%1</code> 和 <code>%3</code> 来表示 <code>x</code>，并期望它们是一样的，这是愚蠢的行为。事实上，<code>%3</code> 很可能不是一个寄存器。它可能是对 <code>x</code> 所指向的对象的一个符号化的内存引用。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"sumsq %0, %1, %2"</span>
+     <span class="token operator">:</span> <span class="token string">"+f"</span> <span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"m"</span> <span class="token punctuation">(</span><span class="token operator">*</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"m"</span> <span class="token punctuation">(</span><span class="token operator">*</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>下面是一条虚构的 <code>*z++ = *x++ * *y++</code> 指令。注意，<code>x</code>、<code>y</code> 和 <code>z</code> 指针寄存器必须被指定为输入 / 输出，因为 <code>asm</code> 会修改它们。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"vecmul %0, %1, %2"</span>
+     <span class="token operator">:</span> <span class="token string">"+r"</span> <span class="token punctuation">(</span>z<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"+r"</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"+r"</span> <span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"=m"</span> <span class="token punctuation">(</span><span class="token operator">*</span>z<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token string">"m"</span> <span class="token punctuation">(</span><span class="token operator">*</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"m"</span> <span class="token punctuation">(</span><span class="token operator">*</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>一个 x86 的例子，字符串内存参数的长度未知：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"repne scasb"</span>
+     <span class="token operator">:</span> <span class="token string">"=c"</span> <span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"+D"</span> <span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+     <span class="token operator">:</span> <span class="token string">"m"</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> p<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"0"</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"a"</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>如果已知上面只读一个十字节的数组，那么可以改用一个内存输入，例如：<code>"m"(*(const char (*)[10])p)</code>。</p>
+<p>下面是一个用汇编实现的 PowerPC 矢量表的例子，其中包括矢量和条件代码 clobbers，以及一些初始化的偏移寄存器，这些都没有被 <code>asm</code> 改变。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">dscal</span> <span class="token punctuation">(</span>size_t n<span class="token punctuation">,</span> <span class="token keyword">double</span> <span class="token operator">*</span>x<span class="token punctuation">,</span> <span class="token keyword">double</span> alpha<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"/* lots of asm here */"</span>
+         <span class="token operator">:</span> <span class="token string">"+m"</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">double</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span> x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"+&amp;r"</span> <span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"+b"</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+         <span class="token operator">:</span> <span class="token string">"d"</span> <span class="token punctuation">(</span>alpha<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"b"</span> <span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"b"</span> <span class="token punctuation">(</span><span class="token number">48</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"b"</span> <span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+           <span class="token string">"b"</span> <span class="token punctuation">(</span><span class="token number">80</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"b"</span> <span class="token punctuation">(</span><span class="token number">96</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"b"</span> <span class="token punctuation">(</span><span class="token number">112</span><span class="token punctuation">)</span>
+         <span class="token operator">:</span> <span class="token string">"cr0"</span><span class="token punctuation">,</span>
+           <span class="token string">"vs32"</span><span class="token punctuation">,</span> <span class="token string">"vs33"</span><span class="token punctuation">,</span> <span class="token string">"vs34"</span><span class="token punctuation">,</span> <span class="token string">"vs35"</span><span class="token punctuation">,</span>
+           <span class="token string">"vs36"</span><span class="token punctuation">,</span> <span class="token string">"vs37"</span><span class="token punctuation">,</span> <span class="token string">"vs38"</span><span class="token punctuation">,</span> <span class="token string">"vs39"</span><span class="token punctuation">,</span>
+           <span class="token string">"vs40"</span><span class="token punctuation">,</span> <span class="token string">"vs41"</span><span class="token punctuation">,</span> <span class="token string">"vs42"</span><span class="token punctuation">,</span> <span class="token string">"vs43"</span><span class="token punctuation">,</span>
+           <span class="token string">"vs44"</span><span class="token punctuation">,</span> <span class="token string">"vs45"</span><span class="token punctuation">,</span> <span class="token string">"vs46"</span><span class="token punctuation">,</span> <span class="token string">"vs47"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>与其通过 clobbers 分配固定寄存器来为 <code>asm</code> 语句提供临时寄存器，不如定义一个变量并使其成为 early-clobber 输出，就像下面例子中的 <code>a2</code> 和 <code>a3</code> 一样。这给了编译器寄存器分配器更多的自由。你也可以定义一个变量，让它成为一个与输入绑定的输出，如 <code>a0</code> 和 <code>a1</code>，分别与 <code>ap</code> 和 <code>lda</code> 绑定。当然，对于绑定的输出，你的 <code>asm</code> 在修改了输出寄存器后不能使用输入值，因为它们是同一个寄存器。更重要的是，如果你省略了输出上的 early-clobber，如果 GCC 能够证明它们在进入 <code>asm</code> 时具有相同的值，那么 GCC 就有可能将相同的寄存器分配给另一个输入。这就是为什么 <code>a1</code> 有一个 early-clobber。可以想象，它的并列输入 <code>lda</code> 的值是 16，如果没有 early-clobber，就会和 <code>%11</code> 共享同一个寄存器。另一方面，<code>ap</code> 不可能与其他任何输入相同，所以 <code>a0</code> 上不需要一个 early-clobber。在这种情况下，它也是不可取的。在 <code>a0</code> 上的一个 early-clobber 会导致 GCC 为 <code>"m"(*(const double (*)[])ap)</code> 输入分配一个单独的寄存器。请注意，将一个输入与一个输出捆绑在一起是建立一个被 <code>asm</code> 语句修改的初始化临时寄存器的方法。没有与输出绑定的输入被 GCC 认为是没有变化的，例如下面的 <code>"b"</code>（16）将 <code>%11</code> 设置为 16，如果刚好需要 16 这个值，GCC 可能会在后面的代码中使用这个寄存器。你甚至可以用一个正常的 <code>asm</code> 输出来做一个 scratch，如果所有可能共享同一个寄存器的输入在使用 scratch 之前就被消耗掉了。除了 GCC 对 <code>asm</code> 参数数量的限制外，被 <code>asm</code> 语句 clobber 的 VSX 寄存器可以使用这种技术。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">dgemv_kernel_4x4</span> <span class="token punctuation">(</span><span class="token keyword">long</span> n<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">double</span> <span class="token operator">*</span>ap<span class="token punctuation">,</span> <span class="token keyword">long</span> lda<span class="token punctuation">,</span>
+                              <span class="token keyword">const</span> <span class="token keyword">double</span> <span class="token operator">*</span>x<span class="token punctuation">,</span> <span class="token keyword">double</span> <span class="token operator">*</span>y<span class="token punctuation">,</span>
+                              <span class="token keyword">double</span> alpha<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">double</span> <span class="token operator">*</span>a0<span class="token punctuation">;</span>
+    <span class="token keyword">double</span> <span class="token operator">*</span>a1<span class="token punctuation">;</span>
+    <span class="token keyword">double</span> <span class="token operator">*</span>a2<span class="token punctuation">;</span>
+    <span class="token keyword">double</span> <span class="token operator">*</span>a3<span class="token punctuation">;</span>
+
+    <span class="token function">__asm__</span> <span class="token punctuation">(</span><span class="token comment">/* lots of asm here */</span>
+             <span class="token string">"#n=%1 ap=%8=%12 lda=%13 x=%7=%10 y=%0=%2 alpha=%9 o16=%11\n"</span>
+             <span class="token string">"#a0=%3 a1=%4 a2=%5 a3=%6"</span>
+             <span class="token operator">:</span> <span class="token string">"+m"</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">double</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span> y<span class="token punctuation">)</span><span class="token punctuation">,</span>
+               <span class="token string">"+&amp;r"</span> <span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span> <span class="token comment">// 1</span>
+               <span class="token string">"+b"</span> <span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span> <span class="token comment">// 2</span>
+               <span class="token string">"=b"</span> <span class="token punctuation">(</span>a0<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span> <span class="token comment">// 3</span>
+               <span class="token string">"=&amp;b"</span> <span class="token punctuation">(</span>a1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span> <span class="token comment">// 4</span>
+               <span class="token string">"=&amp;b"</span> <span class="token punctuation">(</span>a2<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span> <span class="token comment">// 5</span>
+               <span class="token string">"=&amp;b"</span> <span class="token punctuation">(</span>a3<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token comment">// 6</span>
+             <span class="token operator">:</span> <span class="token string">"m"</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">double</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span> x<span class="token punctuation">)</span><span class="token punctuation">,</span>
+               <span class="token string">"m"</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">double</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> ap<span class="token punctuation">)</span><span class="token punctuation">,</span>
+               <span class="token string">"d"</span> <span class="token punctuation">(</span>alpha<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span> <span class="token comment">// 9</span>
+               <span class="token string">"r"</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>  <span class="token operator">&amp;</span> <span class="token comment">// 10</span>
+               <span class="token string">"b"</span> <span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span> <span class="token comment">// 11</span>
+               <span class="token string">"3"</span> <span class="token punctuation">(</span>ap<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span> <span class="token comment">// 12</span>
+               <span class="token string">"4"</span> <span class="token punctuation">(</span>lda<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token comment">// 13</span>
+             <span class="token operator">:</span> <span class="token string">"cr0"</span><span class="token punctuation">,</span>
+               <span class="token string">"vs32"</span><span class="token punctuation">,</span> <span class="token string">"vs33"</span><span class="token punctuation">,</span> <span class="token string">"vs34"</span><span class="token punctuation">,</span> <span class="token string">"vs35"</span><span class="token punctuation">,</span> <span class="token string">"vs36"</span><span class="token punctuation">,</span>
+               <span class="token string">"vs37"</span><span class="token punctuation">,</span> <span class="token string">"vs40"</span><span class="token punctuation">,</span> <span class="token string">"vs41"</span><span class="token punctuation">,</span> <span class="token string">"vs42"</span><span class="token punctuation">,</span> <span class="token string">"vs43"</span><span class="token punctuation">,</span>
+               <span class="token string">"vs44"</span><span class="token punctuation">,</span> <span class="token string">"vs45"</span><span class="token punctuation">,</span> <span class="token string">"vs46"</span><span class="token punctuation">,</span> <span class="token string">"vs47"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<h3 id="Goto标签"><a href="#Goto标签" class="headerlink" title="Goto标签"></a>Goto 标签</h3><p><code>asm goto</code> 允许汇编代码跳到一个或多个 C 标签。<code>asm goto</code> 语句中的 <code>Goto标签</code>部分包含一个以逗号分隔的所有 C 标签的列表，汇编代码可以跳到这些标签。GCC 假定 <code>asm</code> 的执行会跳到下一条语句（如果不是这样，可以考虑在 <code>asm</code> 语句后使用<code>__builtin_unreachable</code> 本征）。<code>asm goto</code> 的优化可以通过使用 <code>hot</code> 标签和 <code>cold</code> 标签属性来改善（参见<a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Label-Attributes.html">标签属性</a>）。</p>
+<p>如果汇编程序代码确实修改了一些东西，使用 <code>"memory"</code> clobber 来强制优化器将所有的寄存器值刷入内存中，并在 <code>asm</code> 语句之后必要时重新加载它们。</p>
+<p>要在汇编器模板中引用一个标签，请在它前面加上 <code>%l</code>（小写 L），再加上它在 <code>Goto标签</code>中的位置（从零开始）和输入和输出操作数。带有约束修饰符 <code>+</code> 的输出操作数被算作两个操作数，因为它被认为是一个输出和一个输入操作数。例如，如果 <code>asm</code> 有三个输入，一个带有约束修饰符 <code>+</code> 的输出操作数和一个带有约束修饰符 <code>=</code> 的输出操作数，并且引用了两个标签，将第一个标签称为 <code>%l6</code>，第二个称为 <code>%l7</code>。</p>
+<p>另外，你也可以使用括号内的实际 C 标签名称来引用标签。例如，要引用一个名为 <code>carry</code> 的标签，你可以使用 <code>%l[carry]</code>。使用这种方法时，该标签仍然必须被列在 <code>Goto标签</code>部分。最好使用标签的命名引用，因为在这种情况下，你可以避免计算输入和输出操作数，以及用约束修饰符 <code>+</code> 对输出操作数进行特殊处理。</p>
+<p>下面是 i386 中关于 <code>asm goto</code> 的一个例子：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token keyword">goto</span> <span class="token punctuation">(</span><span class="token string">"btl %1, %0\n\t"</span>
+          <span class="token string">"jc %l2"</span>
+          <span class="token operator">:</span> <span class="token comment">/* No outputs. */</span>
+          <span class="token operator">:</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>p1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>p2<span class="token punctuation">)</span>
+          <span class="token operator">:</span> <span class="token string">"cc"</span>
+          <span class="token operator">:</span> carry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+carry<span class="token operator">:</span>
+<span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
+
+<p>下面的例子展示了了一个使用存储器 clobber 的 <code>asm goto</code>。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">frob</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> y<span class="token punctuation">;</span>
+    <span class="token keyword">asm</span> <span class="token keyword">goto</span> <span class="token punctuation">(</span><span class="token string">"frob %%r5, %1; jc %l[error]; mov (%2), %%r5"</span>
+              <span class="token operator">:</span> <span class="token comment">/* No outputs. */</span>
+              <span class="token operator">:</span> <span class="token string">"r"</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>y<span class="token punctuation">)</span>
+              <span class="token operator">:</span> <span class="token string">"r5"</span><span class="token punctuation">,</span> <span class="token string">"memory"</span>
+              <span class="token operator">:</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> y<span class="token punctuation">;</span>
+error<span class="token operator">:</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>下面的例子展示了一个使用输出的 <code>asm goto</code>。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token keyword">int</span> count<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">asm</span> <span class="token keyword">goto</span> <span class="token punctuation">(</span><span class="token string">"dec %0; jb %l[stop]"</span>
+              <span class="token operator">:</span> <span class="token string">"+r"</span> <span class="token punctuation">(</span>count<span class="token punctuation">)</span>
+              <span class="token operator">:</span>
+              <span class="token operator">:</span>
+              <span class="token operator">:</span> stop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> count<span class="token punctuation">;</span>
+stop<span class="token operator">:</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>下面的例子展示了一个 <code>asm goto</code>，它只在 <code>asm goto</code> 内部的一条路径上设置了一个输出。使用约束修饰符 <code>=</code> 而不是 <code>+</code> 将是错误的，因为 <code>factor</code> 被用于 <code>asm goto</code> 的所有路径。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token keyword">int</span> inp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> factor <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">asm</span> <span class="token keyword">goto</span> <span class="token punctuation">(</span><span class="token string">"cmp %1, 10; jb %l[lab]; mov 2, %0"</span>
+              <span class="token operator">:</span> <span class="token string">"+r"</span> <span class="token punctuation">(</span>factor<span class="token punctuation">)</span>
+              <span class="token operator">:</span> <span class="token string">"r"</span> <span class="token punctuation">(</span>inp<span class="token punctuation">)</span>
+              <span class="token operator">:</span>
+              <span class="token operator">:</span> lab<span class="token punctuation">)</span><span class="token punctuation">;</span>
+lab<span class="token operator">:</span>
+    <span class="token keyword">return</span> inp <span class="token operator">*</span> factor<span class="token punctuation">;</span> <span class="token comment">/* return 2 * inp or 0 if inp &lt; 10 */</span>
+<span class="token punctuation">}</span></code></pre>
+
+<h3 id="x86操作数修饰符"><a href="#x86操作数修饰符" class="headerlink" title="x86操作数修饰符"></a>x86 操作数修饰符</h3><p>在扩展 <code>asm</code> 语句的汇编模板中，对输入、输出和 <code>goto</code> 操作数的引用，可以使用修饰符来影响操作数在输出到汇编器的代码中的格式。例如，下面的代码对 x86 使用了 <code>h</code> 和 <code>b</code> 修饰符：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">uint16_t</span> num<span class="token punctuation">;</span>
+<span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token punctuation">(</span><span class="token string">"xchg %h0, %b0"</span> <span class="token operator">:</span> <span class="token string">"+a"</span> <span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>这些修饰符生成了如下的汇编代码：</p>
+<pre class="language-assembly" data-language="assembly"><code class="language-assembly">xchg %ah, %al</code></pre>
+
+<p>本讨论的其余部分使用以下代码来说明问题。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> iInt <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+top<span class="token operator">:</span>
+
+    <span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token keyword">goto</span> <span class="token punctuation">(</span><span class="token string">"some assembler instructions here"</span>
+                       <span class="token operator">:</span> <span class="token comment">/* No outputs. */</span>
+                       <span class="token operator">:</span> <span class="token string">"q"</span> <span class="token punctuation">(</span>iInt<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"X"</span> <span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"i"</span> <span class="token punctuation">(</span><span class="token number">42</span><span class="token punctuation">)</span>
+                       <span class="token operator">:</span> <span class="token comment">/* No clobbers. */</span>
+                       <span class="token operator">:</span> top<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>在没有修饰符的情况下，操作数在汇编器的 att 和 intel 方言中的输出如下：</p>
+<table>
+<thead>
+<tr>
+<th>操作数</th>
+<th><code>att</code></th>
+<th><code>intel</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>%0</code></td>
+<td><code>%eax</code></td>
+<td><code>eax</code></td>
+</tr>
+<tr>
+<td><code>%1</code></td>
+<td><code>$2</code></td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>%3</code></td>
+<td><code>%.L3</code></td>
+<td><code>OFFSET FLAT:.L3</code></td>
+</tr>
+<tr>
+<td><code>%4</code></td>
+<td><code>$8</code></td>
+<td><code>8</code></td>
+</tr>
+<tr>
+<td><code>%5</code></td>
+<td><code>%xmm0</code></td>
+<td><code>xmm0</code></td>
+</tr>
+<tr>
+<td><code>%7</code></td>
+<td><code>$0</code></td>
+<td><code>0</code></td>
+</tr>
+</tbody></table>
+<p>下表显示了支持的修饰符的列表及其效果。</p>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>描述</th>
+<th>操作数</th>
+<th><code>att</code></th>
+<th><code>intel</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>A</code></td>
+<td>打印 [^9] 一个绝对的内存引用。</td>
+<td><code>%A0</code></td>
+<td><code>*%rax</code></td>
+<td><code>rax</code></td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td>打印该寄存器的四分之一整数模式（QImode）名称。</td>
+<td><code>%b0</code></td>
+<td><code>%al</code></td>
+<td><code>al</code></td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>打印操作码后缀 <code>b</code>。</td>
+<td><code>%B0</code></td>
+<td><code>b</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>c</code></td>
+<td>要求一个常数操作数，并打印没有标点符号的常数表达式。</td>
+<td><code>%c1</code></td>
+<td><code>2</code></td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>为 AVX 指令打印重复的寄存器操作数。</td>
+<td><code>%d5</code></td>
+<td><code>%xmm0, %xmm0</code></td>
+<td><code>xmm0, xmm0</code></td>
+</tr>
+<tr>
+<td><code>E</code></td>
+<td>当目标是 64 位时，以双整数（DImode）模式（8 字节）打印地址。否则模式是未指定的（VOIDmode）。</td>
+<td><code>%E1</code></td>
+<td><code>%(rax)</code></td>
+<td><code>[rax]</code></td>
+</tr>
+<tr>
+<td><code>g</code></td>
+<td>打印该寄存器的 V16SFmode 名称。</td>
+<td><code>%g0</code></td>
+<td><code>%zmm0</code></td>
+<td><code>zmm0</code></td>
+</tr>
+<tr>
+<td><code>h</code></td>
+<td>打印 “高位” 寄存器的 QImode 名称。</td>
+<td><code>%h0</code></td>
+<td><code>%ah</code></td>
+<td><code>ah</code></td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td>将 8 个字节添加到一个偏移表的内存引用中。在访问 SSE 值的高 8 字节时很有用。对于 (<code>%rax</code>) 中的 <code>memref</code>，它产生了</td>
+<td><code>%H0</code></td>
+<td><code>8(%rax)</code></td>
+<td><code>8[rax]</code></td>
+</tr>
+<tr>
+<td><code>k</code></td>
+<td>打印该寄存器的单整数模式（SImode）名称。</td>
+<td><code>%k0</code></td>
+<td><code>%eax</code></td>
+<td><code>eax</code></td>
+</tr>
+<tr>
+<td><code>l</code></td>
+<td>打印不含标点符号的标签名称。</td>
+<td><code>%l3</code></td>
+<td><code>.L3</code></td>
+<td><code>.L3</code></td>
+</tr>
+<tr>
+<td><code>L</code></td>
+<td>打印操作码后缀 <code>l</code>。</td>
+<td><code>%L0</code></td>
+<td><code>l</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>N</code></td>
+<td>打印 maskz。</td>
+<td><code>%N7</code></td>
+<td><code>{z}</code></td>
+<td><code>{z}</code></td>
+</tr>
+<tr>
+<td><code>p</code></td>
+<td>打印原始符号名称（没有特定语法的前缀）。</td>
+<td><code>%p2</code></td>
+<td>|42|</td>
+<td>|42|</td>
+</tr>
+<tr>
+<td><code>P</code></td>
+<td>如果用于一个函数，则打印 PLT 后缀并生成 PIC 代码。例如，对于函数 <code>foo()</code>，发出 <code>foo@PLT</code>，而不是 <code>foo</code>。如果用于常量，则去掉所有特定语法的前缀，并发出裸常量。见上面的 <code>p</code>。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td>打印该寄存器的双整数模式（DImode）名称。</td>
+<td><code>%q0</code></td>
+<td><code>%rax</code></td>
+<td><code>rax</code></td>
+</tr>
+<tr>
+<td><code>Q</code></td>
+<td>打印操作码后缀 <code>q</code>。</td>
+<td><code>%Q0</code></td>
+<td><code>q</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>R</code></td>
+<td>打印嵌入式舍入与 sae。</td>
+<td><code>%R4 {rn-sae},</code></td>
+<td><code>, {rn-sae}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>r</code></td>
+<td>仅打印 sae。</td>
+<td><code>%r4 {sae},</code></td>
+<td><code>, {sae}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td>打印一个移位双数 [^10]，后附有汇编器的参数分隔符。</td>
+<td><code>%s1</code></td>
+<td><code>$2,</code></td>
+<td><code>2,</code></td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>打印操作码后缀 <code>s</code>。</td>
+<td><code>%S0</code></td>
+<td><code>s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>t</code></td>
+<td>打印该寄存器的 V8SFmode 名称。</td>
+<td><code>%t5</code></td>
+<td><code>%ymm0</code></td>
+<td><code>ymm0</code></td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td>打印操作码后缀 <code>t</code>。</td>
+<td><code>%T0</code></td>
+<td><code>t</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>V</code> 打印裸露的整数寄存器名称，不含 <code>%</code>。</td>
+<td><code>%V0</code></td>
+<td><code>eax</code></td>
+<td><code>eax</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>w</code></td>
+<td>打印该寄存器的半整数模式（HImode）名称。</td>
+<td><code>%w0</code></td>
+<td><code>%ax</code></td>
+<td><code>ax</code></td>
+</tr>
+<tr>
+<td><code>W</code></td>
+<td>打印操作码后缀 <code>w</code>。</td>
+<td><code>%W0</code></td>
+<td><code>w</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td>打印该寄存器的 V4SFmode 名称。</td>
+<td><code>%x5</code></td>
+<td><code>%xmm0</code></td>
+<td><code>xmm0</code></td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td>打印 <code>st(0)</code>，而不是 <code>st</code> 作为一个寄存器。</td>
+<td><code>%y6</code></td>
+<td><code>%st(0)</code></td>
+<td><code>st(0)</code></td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td>打印当前整数操作数大小的操作码后缀（<code>b</code>、<code>w</code>、<code>l</code>、<code>q</code> 之一）。</td>
+<td><code>%z0</code></td>
+<td><code>l</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td>类似于 <code>z</code>，有特殊的后缀，用于 x87 指令。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="x86浮点asm操作数"><a href="#x86浮点asm操作数" class="headerlink" title="x86浮点asm操作数"></a>x86 浮点 asm 操作数</h3><p>在 x86 目标架构上，在 <code>asm</code> 的操作数中有几个关于类栈寄存器的使用规则。这些规则只适用于作为类栈寄存器的操作数。</p>
+<ol>
+<li>给出一组在 <code>asm</code> 中停止运作的输入寄存器，有必要知道哪些是被 <code>asm</code> 隐式弹出的，哪些必须被 GCC 显式弹出。</li>
+</ol>
+<p>  被 <code>asm</code> 隐式弹出的输入寄存器必须被显式弹出，除非它被限制为与输出操作数匹配。<br>2. 对于任何被 <code>asm</code> 隐式弹出的输入寄存器，有必要知道如何调整栈以补偿弹出的情况。如果任何非弹出的输入比隐式弹出的寄存器更接近 reg-stack 的顶部，那么就不可能知道栈的样子–不清楚栈的其他部分是如何 “滑上去” 的。所有隐式弹出的输入寄存器必须比任何没有隐式弹出的输入更接近 reg-stack 的顶部。</p>
+<p>  如果一个输入在 <code>asm</code> 中停止运作，编译器有可能使用该输入寄存器进行输出重载。考虑一下这个例子：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"foo"</span> <span class="token operator">:</span> <span class="token string">"=t"</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token string">"f"</span> <span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>  这段代码说，输入 b 没有被 <code>asm</code> 弹出，而 <code>asm</code> 把一个结果推到了 reg-stack 上，也就是说，<code>asm</code> 之后的栈比之前的栈要深一个。但是，reload 有可能认为它可以将同一个寄存器用于输入和输出。</p>
+<p>  为了防止这种情况发生，如果任何输入操作数使用 <code>f</code> 约束，所有的输出寄存器约束必须使用 early-clobber 修饰符。</p>
+<p>  上面的例子被正确地写成了：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"foo"</span> <span class="token operator">:</span> <span class="token string">"=&amp;t"</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token string">"f"</span> <span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<ol start="3">
+<li><p>有些操作数需要在栈中的特定位置。所有的输出操作数都属于这一类，除非你在约束中指出，否则 GCC 没有办法知道输出出现在哪个寄存器中。输出操作数必须在 <code>asm</code> 后明确指出输出出现在哪个寄存器中。<code>=f</code> 是不允许的：操作数约束必须选择一个具有单个寄存器的类。</p>
+</li>
+<li><p>输出操作数不能 “插入” 现有的栈寄存器之间。因为没有 387 操作码使用读 / 写操作数，所有的输出操作数在 <code>asm</code> 之前都是死的，并由 <code>asm</code> 推送。除了在 reg-stack 的顶部推送，在其他地方推送是没有意义的。</p>
+</li>
+<li><p>一些 asm 语句可能需要额外的栈空间用于内部计算。这可以通过删减与输入和输出无关的栈寄存器来保证。</p>
+</li>
+</ol>
+<p>这个 <code>asm</code> 需要一个输入，这个输入是内部弹出的，并产生两个输出：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"fsincos"</span> <span class="token operator">:</span> <span class="token string">"=t"</span> <span class="token punctuation">(</span>cos<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"=u"</span> <span class="token punctuation">(</span>sin<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token string">"0"</span> <span class="token punctuation">(</span>inp<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>这个 <code>asm</code> 需要两个输入，由 <code>fyl2xp1</code> 操作码弹出，并以一个输出代替它们。<code>st(1)</code> 代码<br>对于编译器知道 <code>fyl2xp1</code> 弹出两个输入是必要的。</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">asm</span> <span class="token punctuation">(</span><span class="token string">"fyl2xp1"</span> <span class="token operator">:</span> <span class="token string">"=t"</span> <span class="token punctuation">(</span>result<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token string">"0"</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"u"</span> <span class="token punctuation">(</span>y<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token string">"st(1)"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<h3 id="MSP430操作数修饰符"><a href="#MSP430操作数修饰符" class="headerlink" title="MSP430操作数修饰符"></a>MSP430 操作数修饰符</h3><p>TODO: 待翻译</p>
+<h2 id="对asm操作数的约束"><a href="#对asm操作数的约束" class="headerlink" title="对asm操作数的约束"></a>对 asm 操作数的约束</h2><p>下面是关于可以对 asm 操作数使用哪些约束字母的具体细节。约束可以说一个操作数是否可以在一个寄存器中，以及哪些类型的寄存器；操作数是否可以是一个内存引用，以及哪些类型的地址；操作数是否可以是一个立即数，以及它可能有哪些值。约束也可以要求两个操作数相匹配。在内联 <code>asm</code> 的操作数中不允许有副作用，除非使用 <code>&gt;</code> 或 <code>&lt;</code> 约束，因为不能保证副作用在一条可以更新寻址寄存器的指令中正好发生一次。</p>
+<h3 id="简单约束"><a href="#简单约束" class="headerlink" title="简单约束"></a>简单约束</h3><p>最简单的约束是一个充满字母的字符串，每个字母描述一种允许的操作数。下面是允许的字母：</p>
+<ul>
+<li><p>空白字符<br>空白字符被忽略，可以在任何位置插入，除了第一个位置。这使得不同操作数的每个备选方案在机器描述中都能在视觉上保持一致，即使它们有不同数量的约束和修饰符。</p>
+</li>
+<li><p><code>m</code><br>一个具有机器一般支持的任何种类的地址的内存操作数。注意，用于一般内存约束的字母可以由后端使用  <code>TARGET_MEM_CONSTRAINT</code> 宏重新定义。</p>
+</li>
+<li><p><code>o</code><br>一个具有可偏移 [^11] 地址的内存操作数。这意味着可以在地址上添加一个小的整数（实际上是操作数的字节宽度，由其机器模式决定），其结果也是一个有效的内存地址。例如，一个常数的地址是可偏移的；一个寄存器和常数之和的地址也是可偏移的（只要一个稍大的常数也在机器支持的地址偏移范围内）；但一个自动递增或自动递减的地址是不可偏移的。更复杂的间接 / 索引地址可能是可偏移的，也可能不是，取决于机器支持的其他寻址模式。</p>
+<p>注意，在一个可以被另一个操作数匹配的输出操作数中，约束字母 <code>o</code> 只有在伴随着 <code>&lt;</code>（如果目标机有预增寻址）和 <code>&gt;</code>（如果目标机有预增寻址）时才有效。</p>
+</li>
+<li><p><code>V</code><br>一个不可偏移的内存操作数。换句话说，任何符合 <code>m</code> 约束但不符合 <code>o</code> 约束的操作数。</p>
+</li>
+<li><p><code>&lt;</code><br>一个具有自动递减寻址的内存操作数（无论是前递减还是后递减）。在内联 <code>asm</code> 中，只有当操作数在一条可以处理副作用的指令中正好使用一次时，才允许这种约束条件。在内联 <code>asm</code> 模式中完全不使用约束字符串中的 <code>|&lt;|</code> 的操作数或在多条指令中使用它是无效的，因为副作用不会被执行或会被执行一次以上。此外，在某些目标上，约束字符串中带有 <code>&lt;</code> 的操作数必须伴有特殊的指令后缀，如 PowerPC 上的 <code>%U0</code> 指令后缀或 IA-64 上的 <code>%P0</code>。</p>
+</li>
+<li><p><code>&gt;</code><br>一个具有自动递增寻址的内存操作数（无论是前递增还是后递增）。在内联 <code>asm</code> 中，适用与 <code>&lt;</code> 相同的限制。</p>
+</li>
+<li><p><code>r</code><br>一个寄存器操作数，只要它是在一个通用寄存器中。</p>
+</li>
+<li><p><code>i</code><br>一个立即整数操作数（有常量值的）。这包括符号常数，其值只有在汇编期或以后才会知道。</p>
+</li>
+<li><p><code>n</code><br>一个已知数值的立即整数操作数。许多系统不能支持小于一个字宽的操作数的汇编期常量。这些操作数的约束应该使用 <code>n</code> 而不是 <code>i</code>。</p>
+</li>
+<li><p><code>I</code>、<code>J</code>、<code>K</code>……<code>P</code><br>从 <code>I</code> 到 <code>P</code> 内的字母视机器的情况而定义，以允许在指定范围内有明确的整数值的立即整数操作数。例如，在 68000 [^12] 上，<code>I</code> 被定义为代表 1 到 8 的数值范围。在移位指令中作为允许的移位数的范围。</p>
+</li>
+<li><p><code>E</code><br>一个立即浮点操作数（表达式代码 <code>const_double</code>），但只有在目标浮点格式与主机（编译器运行在其上）的浮点格式相同时才允许使用。</p>
+</li>
+<li><p><code>F</code><br>一个立即浮点操作数（表达式代码 <code>const_double</code> 或 <code>const_vector</code>）。</p>
+</li>
+<li><p><code>G</code>、<code>H</code><br><code>G</code> 和 <code>H</code> 可以以一种依赖于机器的方式定义，以允许在特定数值范围内的立即浮点操作数。</p>
+</li>
+<li><p><code>s</code><br>允许一个立即整数操作数，其值不是一个明确的整数。</p>
+<p>这可能看起来很奇怪：如果一个指令允许一个在编译时不知道值的常数操作数，那么它当然必须允许任何已知值。那么，为什么使用 <code>s</code> 而不是 <code>i</code> 呢？有时它能使代码生成得更好。</p>
+<p>例如，在 68000 的全字指令中，可以使用一个立即操作数；但是如果立即值在−128 和 127 之间，将该值加载到寄存器中并使用该寄存器可以得到更好的代码。这是因为加载到寄存器的过程可以用 <code>moveq</code> 指令完成。我们通过定义字母 K 表示 “−128 到 127 范围外的任何整数”，然后在操作数约束中指定 <code>Ks</code> 来安排这种情况的发生。</p>
+</li>
+<li><p><code>g</code><br>任何寄存器、内存或立即整数操作数都是允许的，非通用寄存器除外。</p>
+</li>
+<li><p><code>X</code><br>任何操作数都是允许的。</p>
+</li>
+<li><p><code>0</code>、<code>1</code>、<code>2</code>……<code>9</code><br>允许与指定的操作数相匹配的操作数。如果一个数字与字母一起使用在同一个备选方案中，数字应该放在最后。</p>
+<p>这个数字允许多于一个数字。如果连续遇到多个数字，它们会被解释为一个十进制的整数。很少会发生歧义，因为迄今为止，<code>10</code> 被解释为与操作数 1 或操作数 0 相匹配是不可取的。</p>
+<p>此即所谓的匹配约束，其真正含义是，汇编器只有一个操作数，它填补了 <code>asm</code> 所区分的两个角色。例如，一条加法指令使用两个输入操作数和一个输出操作数，但在大多数 CISC 机器上，加法指令实际上只有两个操作数，其中一个是输入 - 输出操作数：</p>
+</li>
+</ul>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp">addl #<span class="token number">35</span><span class="token punctuation">,</span>r12</code></pre>
+
+<p>  在这些情况下使用匹配约束。更确切地说，匹配的两个操作数必须包括一个只输入的操作数和一个只输出的操作数。此外，该数字必须比约束中使用它的操作数的数字小。</p>
+<ul>
+<li><p><code>p</code><br>允许操作数是一个有效的内存地址。这适用于 “load address” 和 “push address” 指令。</p>
+<p>在约束中的 <code>p</code> 必须伴随着 <code>address_operand</code> 作为 <code>match_operand</code> 的谓词。这个谓词将 <code>match_operand</code> 中指定的模式解释为地址有效的内存引用的模式。</p>
+</li>
+<li><p>其他字母<br>其他字母可以根据机器的情况来定义，以代表特定类别的寄存器或其他任意的操作数类型。<code>d</code>、<code>a</code> 和 <code>f</code> 在 68000/68020 上被定义为代表数据、地址和浮点寄存器。</p>
+</li>
+</ul>
+<h3 id="多重限制"><a href="#多重限制" class="headerlink" title="多重限制"></a>多重限制</h3><p>有时一条指令有多组可能的操作数。例如，在 68000 指令中，逻辑或指令可以将寄存器或即期值合并到内存中，也可以将任何类型的操作数合并到寄存器中；但不能将一个内存位置合并到另一个内存位置。</p>
+<p>这些约束被表示为多种选择。一个替代方案可以用每个操作数的一系列字母来描述。一个操作数的总约束是由第一个字母和一个逗号，第二个字母和一个逗号组成，依次类推，直到最后一个操作数。一条指令的所有操作数都必须有相同数量的选项。</p>
+<p>所以 68000 的逻辑或的第一个选项可以写成 <code>"+m"(output): "ir"(input)</code>。第二条可以写成 <code>"+r"(output): "irm"(input)</code>。然而，两个内存位置不能在一条指令中使用的事实使我们不能简单地使用 <code>"+rm"(output): "irm"（input）</code>。使用多重替代指令，可以写成 <code>"+m,r"(output): "ir,irm"(input)</code>。这就向编译器描述了所有可用的替代方案，允许它在当前条件下选择最有效的方案。</p>
+<p>模板中无法确定选择了哪种方案。然而，可以用 builtins（如<code>__builtin_constant_p</code>）来包装 <code>asm</code> 语句，以达到预期的效果。</p>
+<h3 id="操作数修饰符"><a href="#操作数修饰符" class="headerlink" title="操作数修饰符"></a>操作数修饰符</h3><p>以下是操作数修饰符：</p>
+<ul>
+<li><p><code>=</code><br>表明该操作数被指令写入：此前的值被丢弃，被新的数据取代。</p>
+</li>
+<li><p><code>+</code><br>表明该操作数既被指令读取也被指令写入。</p>
+<p>当编译器妥善安置操作数以满足约束条件时，它需要知道哪些操作数是指令读取的，哪些是写入的。<code>=</code> 标识一个只被写入的操作数；<code>+</code> 标识一个既被读又被写的操作数；所有其他操作数被假定为只被读。</p>
+<p>如果你在约束中指定 <code>=</code> 或 <code>+</code>，你就把它放在约束字符串的第一个字符中。</p>
+</li>
+<li><p><code>&amp;</code><br>表明（在一个特定的备选方案中）该操作数是一个 early-clobber 操作数，在指令使用完输入操作数之前被写入。因此，这个操作数不能位于指令读取的寄存器中，也不能作为任何内存地址的一部分。</p>
+<p><code>&amp;</code> 只适用于它被写入的选项。在有多个选项的约束中，有时一个选项需要 <code>&amp;</code>，而其他选项不需要。例如，参见 68000 的 <code>movdf</code> 指令。</p>
+<p>如果一个被指令读取的操作数在 early-clobber 被写入之前只作为输入使用，那么该操作数就可以被绑定到一个 <code>early-clobber</code> 操作数上。添加这种形式的替代物通常可以使 GCC 在只有一些读操作数可以被早期循环器影响时产生更好的代码。例如，参见 ARM 的 <code>mulsi3</code> 指令。</p>
+<p>此外，如果 early-clobber 操作数也是一个读 / 写操作数，那么该操作数只有在被使用后才被写入。</p>
+<p><code>&amp;</code> 并不能避免写 <code>=</code> 或 <code>+</code> 的需要。由于 early-clobber 操作数总是被写入的，一个只读的 early-clobber 操作数是不符合格式的，会被编译器拒绝。</p>
+</li>
+<li><p><code>%</code><br>声明该指令对这个操作数和后面的操作数是互换的。这意味着编译器可以交换这两个操作数，如果这是使所有操作数符合约束条件的最便宜的方法。<code>%</code> 适用于所有的替代方案，并且必须作为约束条件中的第一个字符出现。只有只读的操作数可以使用 <code>%</code>。</p>
+<p>GCC 在一个 <code>asm</code> 中只能处理一个交换对；如果使用更多，编译器可能会失败。需要注意的是，如果两个选项严格意义上是相同的，就不需要使用修饰符；这只会在重载过程中浪费时间。</p>
+</li>
+</ul>
+<p>[^1]: top level<br>[^2]: target-specific documentation<br>[^3]: 前文中的 “修饰符” 指 qualifier，而此处指 modifier。<br>[^4]: 原文表述不甚清晰，个人理解是输出操作数行留空。<br>[^5]: speculative reads<br>[^6]: processor-specific<br>[^7]: fence instructions<br>[^8]: aliasing rules<br>[^9]: print<br>[^10]: shift double count<br>[^11]: offsettable<br>[^12]: 摩托罗拉于 1979 年推出的一款微处理器。</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2022/02/25/2022-2-25-Diary/" rel="prev" title="2022.2.25 Diary"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">2022.2.25 Diary</span></a></div><div class="post-nav-item"></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOHrxXdA" data-category="Announcements" data-category-id="DIC_kwDOHrxXdM4CQULH" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="light" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 瑶光</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.2.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.5</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div><!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body></html>

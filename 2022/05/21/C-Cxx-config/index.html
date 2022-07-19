@@ -1,0 +1,309 @@
+<!DOCTYPE html><html lang="zh-CN"><head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end --><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="瑶光"><meta name="copyright" content="瑶光"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>C/C++ 环境配置 | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/img/fav.svg"><link rel="mask-icon" href="/img/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"瑶光","version":"1.10.5","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn/?c=i","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="C&#x2F;C++ 环境配置，基于 Visual Studio Code 和 MinGW-w64">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C&#x2F;C++ 环境配置">
+<meta property="og:url" content="https://elkeid-me.github.io/2022/05/21/C-Cxx-config/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="C&#x2F;C++ 环境配置，基于 Visual Studio Code 和 MinGW-w64">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://elkeid-me.github.io/img/vsc_config.png">
+<meta property="og:image" content="https://elkeid-me.github.io/img/vsc_default_light.png">
+<meta property="og:image" content="https://elkeid-me.github.io/img/vsc_default_light_edited.png">
+<meta property="article:published_time" content="2022-05-21T11:27:00.000Z">
+<meta property="article:modified_time" content="2022-07-19T17:05:39.855Z">
+<meta property="article:author" content="瑶光">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="VS Code">
+<meta property="article:tag" content="clangd">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://elkeid-me.github.io/img/vsc_config.png"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="瑶光"><img width="96" loading="lazy" src="/img/Avatar.jpg" alt="瑶光"></a><div class="site-author-name"><a href="/about/">瑶光</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">15</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">3</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">17</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/frec" title="知乎" target="_blank" style="color:#0084FF"><span class="icon iconify" data-icon="ri:zhihu-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a><a class="links-item hty-icon-button" href="/homo/" title="数字论证" style="color:#114514"><span class="icon iconify" data-icon="ri:terminal-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA%E6%97%B6%E9%97%B4"><span class="toc-number">2.</span> <span class="toc-text">理论时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VS-Code-%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">VS Code 安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MinGW-%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">MinGW 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VS-Code-%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">VS Code 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-number">5.1.</span> <span class="toc-text">插件安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E7%BC%96%E5%86%99"><span class="toc-number">5.2.</span> <span class="toc-text">配置文件的编写</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#tasks-json"><span class="toc-number">5.2.1.</span> <span class="toc-text">tasks.json</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#launch-json"><span class="toc-number">5.2.2.</span> <span class="toc-text">launch.json</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-cpp-properties-json"><span class="toc-number">5.2.3.</span> <span class="toc-text">c_cpp_properties.json</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E7%9A%84%E6%A3%80%E6%9F%A5"><span class="toc-number">5.3.</span> <span class="toc-text">环境配置的检查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clangd%E9%85%8D%E7%BD%AE%EF%BC%88%E9%80%89%E8%AF%BB%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">clangd 配置（选读）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-clangd%EF%BC%9F"><span class="toc-number">6.1.</span> <span class="toc-text">什么是 clangd？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-clangd"><span class="toc-number">6.2.</span> <span class="toc-text">安装 clangd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-clangd-%E6%8F%92%E4%BB%B6"><span class="toc-number">6.3.</span> <span class="toc-text">安装 clangd 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">6.4.</span> <span class="toc-text">插件配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%81%E8%B4%A7%EF%BC%88%E9%80%89%E8%AF%BB%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">私货（选读）</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2022/05/21/C-Cxx-config/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="瑶光"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">C/C++ 环境配置</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2022-05-21 19:27:00" itemprop="dateCreated datePublished" datetime="2022-05-21T19:27:00+08:00">2022-05-21</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%BC%96%E7%A8%8B/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">编程</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/C-C/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">C/C++</span></a><a class="tag-item" href="/tags/VS-Code/" style="--text-color:#0066B8"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">VS Code</span></a><a class="tag-item" href="/tags/clangd/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">clangd</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>原文写于 2022 年 2 月 23 日，于 2022 年 5 月 21 日更新内容。</p>
+<p>本文将介绍以下环境的配置：</p>
+<ul>
+<li>编辑器：Visual Studio Code（简称 VS Code）</li>
+<li>工具链（编译器、调试器等）MinGW_w64</li>
+<li>IntelliSense（<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++</a> 插件）</li>
+<li>IntelliSense（<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd">clangd</a> 插件）（选读）</li>
+</ul>
+<p>本文仅针对 Windows 用户，仅针对 C/C++ 初学者。</p>
+<h2 id="理论时间"><a href="#理论时间" class="headerlink" title="理论时间"></a>理论时间</h2><p>不同于 Python 一般只使用 CPython 解释器，C/C++ 的编译器种类繁多，对于标准语法的支持、扩展语法的实现、标准库的实现也各不相同。常用的有以下：</p>
+<ul>
+<li><p>MSVC<br>即 Microsoft Visual C++，是微软的 C++ 编译器，自 VS 2019 起支持 C11 和 C17 标准。</p>
+</li>
+<li><p>GCC<br>广义上指 GNU Complier Collection（GNU 编译器集，包含 C/C++、Objective-C、Ada、Fortran、D 等多种语言的编译器），狭义上指 GNU C Complier（GNU C 语言编译器），而一般的 GCC 指两者之间：即 C 语言编译器和 C++ 编译器。</p>
+<p>为使 GCC 在 Windows 平台上能利用 Win32 API 编译程序，诞生了 MinGW 项目，以及同时支持 32 位和 64 位的 MinGW-w64 项目。</p>
+</li>
+<li><p>Clang/LLVM<br>严格说来，Clang 是 C/C++、Objective-C/C++ 的编译器前端，其后端为 LLVM。而在 Windows 平台上，LLVM 需要依赖 MinGW 或 MSVC 的库。</p>
+</li>
+</ul>
+<h2 id="VS-Code-安装"><a href="#VS-Code-安装" class="headerlink" title="VS Code 安装"></a>VS Code 安装</h2><p>前去 <a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VS Code 官网</a>下载并安装。</p>
+<h2 id="MinGW-配置"><a href="#MinGW-配置" class="headerlink" title="MinGW 配置"></a>MinGW 配置</h2><p>前去 <a target="_blank" rel="noopener" href="https://github.com/niXman/mingw-builds-binaries/releases">MinGW 的 GitHub 页面</a>下载文件名中包含 “x86_64”、“posix” 和 “seh” 的版本。截至本文发布，你应该下载 <code>x86_64-11.2.0-release-posix-seh-rt_v9-rev1.7z</code>。</p>
+<p>此后将文件解压缩到一个<strong>合适</strong>的地方，不推荐解压到桌面或 “下载” 文件夹。要求路径中<strong>不包含中文与空格</strong>。如果没有解压缩软件，可以使用 7-Zip，具体配置可以搜索。</p>
+<p>打开这个文件夹，在其中找到 <code>bin</code> 子文件夹，例如我选择了 <code>D:\mingw64\bin</code>。记住这个路径，并将其添加到 PATH 中。</p>
+<p>打开终端。输入 <code>gcc -v</code>，回车。如果看到<strong>类似的</strong>提示：</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>省略了一些输出
+Thread model: posix
+Supported LTO compression algorithms: zlib
+gcc version <span class="token number">11.2</span>.0 <span class="token punctuation">(</span>x86_64-posix-seh-rev1, Built by Guyutongxue<span class="token punctuation">)</span></code></pre>
+
+<p>说明环境变量配置成功。而如果出现：</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token string">'gcc'</span> 不是内部或外部命令，也不是可运行的程序
+或批处理文件。</code></pre>
+
+<p>则请检查环境变量配置。</p>
+<h2 id="VS-Code-配置"><a href="#VS-Code-配置" class="headerlink" title="VS Code 配置"></a>VS Code 配置</h2><h3 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h3><ul>
+<li><p>中文语言包：<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-zh-hans">Chinese (Simplified)</a><br>该插件为 VS Code 提供中文界面</p>
+</li>
+<li><p>C/C++ 插件：<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++</a><br>该插件为 VS Code 提供 C/C++ 的调试，代码格式化、自动补全与静态代码分析（称之为 IntelliSense）</p>
+</li>
+<li><p>（可选）clangd：<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd">clangd</a><br>为 VS Code 提供 C/C++ 的 IntelliSense。个人认为比 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++</a> 的 IntelliSense 更强大，但配置也更加复杂。</p>
+</li>
+<li><p>（可选）vscode-icons：<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons">vscode-icons</a><br>一个图标包。个人认为比 VS Code 默认的文件图标更加美观。</p>
+</li>
+</ul>
+<h3 id="配置文件的编写"><a href="#配置文件的编写" class="headerlink" title="配置文件的编写"></a>配置文件的编写</h3><p>在合适的地方新建一个文件夹，同样要求路径中<strong>不包含中文与空格</strong>。这个文件夹将是你未来写代码的地方，请认真选择，例如我选择 <code>D:\Codes\C++</code>。</p>
+<p>打开刚刚建立的文件夹，再新建一个名为<code>.vscode</code> 的文件夹。在<code>.vscode</code> 中新建几个文件：</p>
+<h4 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a><code>tasks.json</code></h4><p>在 <code>tasks.json</code> 中写入：</p>
+<pre class="language-json" data-language="json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"tasks"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"process"</span><span class="token punctuation">,</span>
+            <span class="token property">"label"</span><span class="token operator">:</span> <span class="token string">"Compile-gcc11"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"gcc"</span><span class="token punctuation">,</span> <span class="token comment">// 编译器命令，若是写C++语言则改为g++</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>                   <span class="token comment">// 编译器参数</span>
+                <span class="token string">"-std=c17"</span><span class="token punctuation">,</span>             <span class="token comment">// 设置编译的C语言标准，这里使用C17。C++可使用C++17或C++20</span>
+                <span class="token string">"-g"</span><span class="token punctuation">,</span>                   <span class="token comment">// 开启调试信息</span>
+                <span class="token string">"-fexec-charset=UTF-8"</span><span class="token punctuation">,</span> <span class="token comment">// 设置编码（主要防止程序中文乱码，如果出现乱码可以把UTF-8换成GBK）</span>
+                <span class="token string">"-m64"</span><span class="token punctuation">,</span>            <span class="token comment">// 强制编译64位程序</span>
+                <span class="token string">"-static-libgcc"</span><span class="token punctuation">,</span>  <span class="token comment">// 静态链接libgcc，一般都会加上</span>
+                <span class="token string">"-Wall"</span><span class="token punctuation">,</span>           <span class="token comment">// 开启额外警告</span>
+                <span class="token string">"-pedantic-errors"</span><span class="token punctuation">,</span> <span class="token comment">// 视警告为错误，可以理解为严格模式</span>
+                <span class="token string">"-o"</span><span class="token punctuation">,</span>                   <span class="token comment">// 允许自定义输出文件名</span>
+                <span class="token string">"${fileDirname}\\${fileBasenameNoExtension}.exe"</span><span class="token punctuation">,</span> <span class="token comment">// 目标文件名，此参数将由VS Code解析</span>
+                <span class="token string">"${file}"</span>              <span class="token comment">// 源文件名，此参数将由VS Code解析</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"options"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"cwd"</span><span class="token operator">:</span> <span class="token string">"${fileDirname}"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"problemMatcher"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"$gcc"</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"group"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"kind"</span><span class="token operator">:</span> <span class="token string">"build"</span><span class="token punctuation">,</span>
+                <span class="token property">"isDefault"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"presentation"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"echo"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+                <span class="token property">"reveal"</span><span class="token operator">:</span> <span class="token string">"always"</span><span class="token punctuation">,</span> <span class="token comment">// 执行任务时是否跳转到终端面板，可以为always，silent，never。具体参见VSC的文档，即使设为never，手动点进去还是可以看到</span>
+                <span class="token property">"focus"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>     <span class="token comment">// 设为true后可以使执行task时焦点聚集在终端，但对编译C/C++来说，设为true没有意义</span>
+                <span class="token property">"panel"</span><span class="token operator">:</span> <span class="token string">"shared"</span>   <span class="token comment">// 不同的文件的编译信息共享一个终端面板</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"detail"</span><span class="token operator">:</span> <span class="token string">"gcc11"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"2.0.0"</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>并注意<strong>保存</strong>。</p>
+<h4 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a><code>launch.json</code></h4><p>在 <code>launch.json</code> 中写入：</p>
+<pre class="language-json" data-language="json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"0.2.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"configurations"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"gcc11 With gdb10"</span><span class="token punctuation">,</span>
+            <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"cppdbg"</span><span class="token punctuation">,</span>
+            <span class="token property">"request"</span><span class="token operator">:</span> <span class="token string">"launch"</span><span class="token punctuation">,</span>
+            <span class="token property">"program"</span><span class="token operator">:</span> <span class="token string">"${fileDirname}\\${fileBasenameNoExtension}.exe"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"stopAtEntry"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token property">"cwd"</span><span class="token operator">:</span> <span class="token string">"${fileDirname}"</span><span class="token punctuation">,</span>
+            <span class="token property">"environment"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"externalConsole"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token property">"MIMode"</span><span class="token operator">:</span> <span class="token string">"gdb"</span><span class="token punctuation">,</span>
+            <span class="token property">"internalConsoleOptions"</span><span class="token operator">:</span> <span class="token string">"neverOpen"</span><span class="token punctuation">,</span>
+            <span class="token property">"miDebuggerPath"</span><span class="token operator">:</span> <span class="token string">"gdb"</span><span class="token punctuation">,</span> <span class="token comment">// 调试器命令</span>
+            <span class="token property">"setupCommands"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"Enable pretty-printing for gdb"</span><span class="token punctuation">,</span>
+                    <span class="token property">"text"</span><span class="token operator">:</span> <span class="token string">"-enable-pretty-printing"</span><span class="token punctuation">,</span>
+                    <span class="token property">"ignoreFailures"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"preLaunchTask"</span><span class="token operator">:</span> <span class="token string">"Compile-gcc11"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>并注意<strong>保存</strong>。</p>
+<h4 id="c-cpp-properties-json"><a href="#c-cpp-properties-json" class="headerlink" title="c_cpp_properties.json"></a><code>c_cpp_properties.json</code></h4><p><strong>注意：</strong>这个文件是为 C/C++ 插件的 IntelliSense 提供更详细的配置，如果你选择使用 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd">clangd</a> 提供 IntelliSense，可以忽略这部分内容，并阅读后续的 <a href="#clangd%E9%85%8D%E7%BD%AE%EF%BC%88%E9%80%89%E8%AF%BB%EF%BC%89">clangd 配置</a>。</p>
+<p>在 <code>c_cpp_properties.json</code> 中写入：</p>
+<pre class="language-json" data-language="json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"configurations"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"compilerPath"</span><span class="token operator">:</span> <span class="token string">"D:\\mingw64\\bin\\gcc.exe"</span><span class="token punctuation">,</span> <span class="token comment">// 这里改为你自己电脑上编译器的路径，如是C++则把gcc.exe改为g++.exe</span>
+            <span class="token property">"cStandard"</span><span class="token operator">:</span> <span class="token string">"c17"</span><span class="token punctuation">,</span>
+            <span class="token property">"cppStandard"</span><span class="token operator">:</span> <span class="token string">"c++20"</span><span class="token punctuation">,</span>
+            <span class="token property">"intelliSenseMode"</span><span class="token operator">:</span> <span class="token string">"windows-gcc-x64"</span><span class="token punctuation">,</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Win32"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"version"</span><span class="token operator">:</span> <span class="token number">4</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>并注意<strong>保存</strong>。</p>
+<h3 id="环境配置的检查"><a href="#环境配置的检查" class="headerlink" title="环境配置的检查"></a>环境配置的检查</h3><p>启动 VS Code，选择<code>文件&gt;打开文件夹</code>，打开你刚刚创建的文件夹（即<code>.vscode</code> 的<strong>父目录</strong>）。如果操作正确的话，会类似这样：</p>
+<p><img src="/img/vsc_config.png" loading="lazy"></p>
+<p>这时在文件夹中新建一个以<code>.c</code> 为扩展名的文件，例如 <code>hello.c</code>。输入以下内容：</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Hello, world!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>对于 C++ 语言，可以新建 <code>hello.cxx</code>，输入如下内容：</p>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!\n"</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>菜单栏选择<code>运行 &gt; 启动调试</code>，等待片刻。若在下方的终端上显示出</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">Hello, world<span class="token operator">!</span></code></pre>
+
+<p>则配置成功。如不然，可尝试关闭 VS Code 再重启。</p>
+<h2 id="clangd配置（选读）"><a href="#clangd配置（选读）" class="headerlink" title="clangd配置（选读）"></a>clangd 配置（选读）</h2><p><strong>注意：</strong>以下内容需要你对一些专业术语有相当的了解。如果你不想配置 clangd，可以回到上面配置 C/C++ 插件。</p>
+<p><strong>注意：</strong>笔者本人仍然没有彻底研究明白 clangd 的配置，此处相当于个人笔记而非教程。</p>
+<p><strong>注意：</strong>如果你不明白以下内容的意思，请不要胡乱配置！</p>
+<p>下文中 “clangd” 均指 clangd 语言服务器，VS Code 中的 clangd 插件将被称为 “clangd 插件”。</p>
+<p>clangd 官网：<a target="_blank" rel="noopener" href="https://clangd.llvm.org/">What is clangd?</a></p>
+<h3 id="什么是-clangd？"><a href="#什么是-clangd？" class="headerlink" title="什么是 clangd？"></a>什么是 clangd？</h3><p>是 LLVM 项目下的 C/C++ 语言服务器，通过相应插件可以支持不同的编辑器。</p>
+<blockquote>
+<p>clangd understands your C++ code and adds smart features to your editor: code completion, compile errors, go-to-definition and more.</p>
+</blockquote>
+<h3 id="安装-clangd"><a href="#安装-clangd" class="headerlink" title="安装 clangd"></a>安装 clangd</h3><p><strong>注意：</strong>这里的内容不是 clangd 插件的安装。</p>
+<p>两种方法选其一：</p>
+<ol>
+<li><p>前去 LLVM 的 release 页下载完整的 LLVM：<a target="_blank" rel="noopener" href="https://github.com/llvm/llvm-project/releases/">Releases · LLVM</a><br>  （然后你会发现不如一步到位把 MSVC 也装上）</p>
+</li>
+<li><p>下载单独的 clangd 二进制文件：<a target="_blank" rel="noopener" href="https://github.com/clangd/clangd/releases/">Releases · clangd</a></p>
+</li>
+</ol>
+<h3 id="安装-clangd-插件"><a href="#安装-clangd-插件" class="headerlink" title="安装 clangd 插件"></a>安装 clangd 插件</h3><p><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd">clangd</a></p>
+<h3 id="插件配置"><a href="#插件配置" class="headerlink" title="插件配置"></a>插件配置</h3><ol>
+<li>关闭 C/C++ 插件的 IntelliSense，以免与 clangd 插件冲突：<br>  在 VS Code 的 <code>setting.json</code> 中加入：</li>
+</ol>
+  <pre class="language-json" data-language="json"><code class="language-json"><span class="token property">"C_Cpp.intelliSenseEngine"</span><span class="token operator">:</span> <span class="token string">"Disabled"</span><span class="token punctuation">,</span></code></pre>
+
+<ol start="2">
+<li>配置 clangd 的路径，如果你已经添加到 PATH，则这步可以省略：<br>  在 <code>setting.json</code> 中加入：</li>
+</ol>
+  <pre class="language-json" data-language="json"><code class="language-json"><span class="token property">"clangd.path"</span><span class="token operator">:</span> <span class="token string">"D:\\Softwares\\Tools\\clangd_15.0.0\\bin\\clangd"</span><span class="token punctuation">,</span></code></pre>
+
+<ol start="3">
+<li>clangd 的参数配置<br>  在 <code>setting.json</code> 中加入：</li>
+</ol>
+  <pre class="language-json" data-language="json"><code class="language-json"><span class="token property">"clangd.arguments"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"--clang-tidy"</span><span class="token punctuation">,</span>
+    <span class="token string">"--header-insertion-decorators"</span><span class="token punctuation">,</span>
+    <span class="token string">"--header-insertion=iwyu"</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">,</span></code></pre>
+
+<p>  在代码文件夹中新建<code>.clang</code> 文件，加入：</p>
+  <pre class="language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">If</span><span class="token punctuation">:</span>
+  <span class="token key atrule">PathMatch</span><span class="token punctuation">:</span> .<span class="token important">*\.cpp</span>
+  <span class="token key atrule">CompileFlags</span><span class="token punctuation">:</span>
+  <span class="token key atrule">Compiler</span><span class="token punctuation">:</span> g++
+  <span class="token key atrule">Add</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">-</span>std=c++20<span class="token punctuation">,</span> <span class="token punctuation">-</span>g<span class="token punctuation">,</span> <span class="token punctuation">-</span>fexec<span class="token punctuation">-</span>charset=UTF<span class="token punctuation">-</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token punctuation">-</span>m64<span class="token punctuation">,</span> <span class="token punctuation">-</span>Wall<span class="token punctuation">,</span> <span class="token punctuation">-</span>pedantic<span class="token punctuation">-</span>errors<span class="token punctuation">,</span> <span class="token punctuation">-</span>static<span class="token punctuation">-</span>libgcc<span class="token punctuation">,</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>target=x86_64<span class="token punctuation">-</span>w64<span class="token punctuation">-</span>windows<span class="token punctuation">-</span>gnu<span class="token punctuation">]</span>
+<span class="token punctuation">---</span>
+<span class="token key atrule">If</span><span class="token punctuation">:</span>
+  <span class="token key atrule">PathMatch</span><span class="token punctuation">:</span> .<span class="token important">*\.c</span>
+<span class="token key atrule">CompileFlags</span><span class="token punctuation">:</span>
+  <span class="token key atrule">Compiler</span><span class="token punctuation">:</span> gcc
+  <span class="token key atrule">Add</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">-</span>std=c17<span class="token punctuation">,</span> <span class="token punctuation">-</span>g<span class="token punctuation">,</span> <span class="token punctuation">-</span>fexec<span class="token punctuation">-</span>charset=UTF<span class="token punctuation">-</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token punctuation">-</span>m64<span class="token punctuation">,</span> <span class="token punctuation">-</span>Wall<span class="token punctuation">,</span> <span class="token punctuation">-</span>pedantic<span class="token punctuation">-</span>errors<span class="token punctuation">,</span> <span class="token punctuation">-</span>static<span class="token punctuation">-</span>libgcc<span class="token punctuation">,</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>target=x86_64<span class="token punctuation">-</span>w64<span class="token punctuation">-</span>windows<span class="token punctuation">-</span>gnu<span class="token punctuation">]</span></code></pre>
+
+<p>  在代码文件夹中新建<code>.clangformat</code>，加入：</p>
+  <pre class="language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">BasedOnStyle</span><span class="token punctuation">:</span> LLVM
+<span class="token key atrule">UseTab</span><span class="token punctuation">:</span> Never
+<span class="token key atrule">IndentWidth</span><span class="token punctuation">:</span> <span class="token number">4</span>
+<span class="token key atrule">TabWidth</span><span class="token punctuation">:</span> <span class="token number">4</span>
+<span class="token key atrule">BreakBeforeBraces</span><span class="token punctuation">:</span> Allman
+<span class="token key atrule">AllowShortIfStatementsOnASingleLine</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+<span class="token key atrule">IndentCaseLabels</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+<span class="token key atrule">ColumnLimit</span><span class="token punctuation">:</span> <span class="token number">0</span>
+<span class="token key atrule">AccessModifierOffset</span><span class="token punctuation">:</span> <span class="token number">-4</span>
+<span class="token key atrule">NamespaceIndentation</span><span class="token punctuation">:</span> All
+<span class="token key atrule">FixNamespaceComments</span><span class="token punctuation">:</span> <span class="token boolean important">false</span></code></pre>
+
+<ol start="4">
+<li>配置 inlay hints 的格式</li>
+</ol>
+<p>  在 VS Code 的 <code>setting.json</code> 中加入：</p>
+  <pre class="language-json" data-language="json"><code class="language-json"><span class="token property">"editor.inlayHints.fontSize"</span><span class="token operator">:</span> <span class="token number">12</span><span class="token punctuation">,</span>
+<span class="token property">"editor.inlayHints.padding"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span></code></pre>
+
+<h2 id="私货（选读）"><a href="#私货（选读）" class="headerlink" title="私货（选读）"></a>私货（选读）</h2><p>我们知道啊，VS Code 的 Default Light + 主题的侧栏是突兀的黑色：</p>
+<p><img src="/img/vsc_default_light.png" loading="lazy"></p>
+<p>在 VS Code 的 <code>setting.json</code> 中加入：</p>
+<pre class="language-json" data-language="json"><code class="language-json"><span class="token property">"workbench.colorCustomizations"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"[Default Light+]"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"activityBar.background"</span><span class="token operator">:</span> <span class="token string">"#f3f3f3"</span><span class="token punctuation">,</span>
+        <span class="token property">"activityBar.foreground"</span><span class="token operator">:</span> <span class="token string">"#008ad3"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+
+<p>并<strong>保存</strong>，你就能得到浅色侧栏：</p>
+<p><img src="/img/vsc_default_light_edited.png" loading="lazy"></p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2022/05/29/Build-Blog-with-Hexo-and-GitHub-Pages/" rel="prev" title="Hexo 与 GitHub Pages 搭建个人博客"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">Hexo 与 GitHub Pages 搭建个人博客</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2022/03/20/Meet-with-Rust/" rel="next" title="初见 Rust"><span class="post-nav-text">初见 Rust</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOHrxXdA" data-category="Announcements" data-category-id="DIC_kwDOHrxXdM4CQULH" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="light" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 瑶光</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.2.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.5</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div><!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body></html>
