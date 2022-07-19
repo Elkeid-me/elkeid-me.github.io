@@ -1,0 +1,92 @@
+avatar:
+  url: /img/Avatar.jpg
+  status:
+    enable: false
+codeblock:
+  copy_btn: true
+favicon: /img/fav.svg
+footer:
+  since: 2022
+  icon:
+    name: ri:emotion-happy-line
+    animated: false
+  powered:
+    enable: true
+    version: false
+creative_commons:
+  post: false
+  clipboard: false
+reward:
+  enable: false
+engine_search:
+  enable: false
+local_search:
+  enable: true
+search:
+  path: search.xml
+  field: post
+  content: true
+  template: ./search.xml
+archive:
+  last_word: 没有更多了_(:з」∠)_
+katex:
+  copy_tex: true
+  global: false
+  options: {}
+social:
+  - name: E-Mail
+    link: mailto:elkeid.me@gmail.com
+    icon: ri:mail-line
+    color: '#8E71C1'
+  - name: 知乎
+    link: https://www.zhihu.com/people/frec
+    icon: ri:zhihu-line
+    color: '#0084FF'
+pages:
+  - name: 友链
+    url: /links/
+    icon: ri:link-m
+    color: dodgerblue
+  - name: 数字论证
+    url: /homo/
+    icon: ri:terminal-line
+    color: '#114514'
+banner:
+  enable: true
+  title: 瑶光
+  border: true
+  cloud:
+    enable: false
+
+menu:
+  custom:
+    title: GitHub
+    path: https://github.com/Elkeid-me
+    icon: ri:github-line
+
+mode: auto
+say:
+  hitokoto:
+    enable: true
+    api: https://v1.hitokoto.cn/?c=i
+
+post_meta:
+  item_text: false
+  created_at: true
+  updated_at: false
+  categories: true
+  tags: true
+comment:
+  enable: false
+  candidates:
+    - giscus
+giscus:
+  enable: true
+  repo: elkeid-me/elkeid-me.github.io
+  repo-id: R_kgDOHc9gOA
+  category: General
+  category-id: DIC_kwDOHc9gOM4CPf4p
+  mapping: pathname
+  reactions-enabled: 1
+  emit-metadata: 0
+  theme: light
