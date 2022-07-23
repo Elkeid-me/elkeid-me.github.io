@@ -37,4 +37,4 @@ Email: [elkeid.me@gmail.com](mailto:elkeid.me@gmail.com)
 
 GitHub: [Elkeid](https://github.com/Elkeid-me "目前没什么东西")
 
-知乎: [瑶光](https://www.zhihu.com/people/frec "活跃与不活跃的叠加态")
+知乎: [瑶光](https://www.zhihu.com/people/elkeid "活跃与不活跃的叠加态")
