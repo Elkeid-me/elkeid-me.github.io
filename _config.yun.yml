@@ -1,7 +1,9 @@
 avatar:
   url: /img/Avatar.jpg
   status:
-    enable: false
+      enable: true
+      emoji: 🍬
+      message: 撒糖啦！
 codeblock:
   copy_btn: true
 favicon: /img/fav.svg

@@ -46,7 +46,7 @@ TUNA，请：[CTAN/MiKTeX | 清华大学开源软件镜像站](https://mirrors.t
 
 安装完成后的MiKTeX必须进行更新。同时，建议定期检查更新。
 
-这时候的MiKTeX还没有安装CTeX等中文排版必备宏包，那么这些宏包怎么安装呢？[]()
+这时候的MiKTeX还没有安装CTeX等中文排版必备宏包，那么这些宏包怎么安装呢？[请](#我的LaTeX模板)
 
 ## VS Code配置
 
