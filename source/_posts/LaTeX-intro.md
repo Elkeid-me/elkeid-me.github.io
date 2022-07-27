@@ -3,7 +3,7 @@ title: LaTeX 入坑指南
 date: 2022-06-10 22:00:00
 excerpt: 一份不太正经的 LaTeX 介绍
 categories:
-  - 杂项
+  - LaTeX
 tags:
   - LaTeX
   - 排版
@@ -272,22 +272,21 @@ may appear.
 <!-- endtab -->
 {% endtabs %}
 
-6. 配合bibtex实现强大的参考文献管理，以及论文参考文献列表的自动生成。
-
-7. ~~不如来看看一个实例：[Modern C Tutorial](https://github.com/Elkeid-me/Modern-C-Tutorial)。虽然写得挺烂的~~ 现在这个仓库改为 private 了。
+6. 配合BiBTeX/biblatex实现强大的参考文献管理，以及论文参考文献列表的自动生成。
 
 ## LaTeX的缺点
 
-1. 不是所见即所得的。当然，也有LyX这样所见即所得的。。。
+1. 不是所见即所得的。当然，也有LyX和TeXmacs这样所见即所得的。。。
 2. 表格的支持不及Word。~~但或许有大佬拿tikz硬画~~
 3. 会出现奇怪的编译错误。
-4. 欢迎在评论区补充。
+4. 常用的XeLaTeX引擎对直排的支持极不友好。
+5. 欢迎在评论区补充。
 
 ## 如何配置LaTeX环境？
 
 <div class="info">
 
-> 咕，咕咕咕
+> {% post_link LaTeX-Config %}
 
 </div>
 

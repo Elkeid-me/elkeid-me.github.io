@@ -12,6 +12,8 @@ categories:
 
 GitHub Pages已成为越来越多人建立个人博客的选择。本文介绍了基于Hexo搭建个人博客的方法。本文发布于2022年2月29日，并于2022年5月29日更新。
 
+如果你不想使用Hexo，也可以查找Hugo、Jekyll等的教程。
+
 ## 前置环境
 
 首先安装[Node.js](https://nodejs.org/en/)与[Git](https://git-scm.com/)。
