@@ -1534,6 +1534,7 @@ body::before {
   color: var(--hty-text-color);
   font-weight: 400;
   font-family: 'PingFang SC', 'Microsoft YaHei', Roboto, Arial, sans-serif;
+  padding: 1rem 0;
 }
 .markdown-body code,
 .markdown-body pre {
@@ -1553,6 +1554,7 @@ body::before {
 }
 .markdown-body iframe {
   border: none;
+  width: 100%;
 }
 .post-nav {
   display: flex;
@@ -2178,6 +2180,11 @@ body::before {
 #say #say-from {
   display: block;
 }
+iframe.bilibili-video {
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16/9;
+}
 .heimu {
   background-color: var(--hty-text-color);
   transition: 0.2s;
@@ -2200,6 +2207,17 @@ body::before {
 }
 .flex-col {
   flex-direction: column;
+}
+.justfiy-center {
+  justify-content: center;
+}
+.items-center {
+  align-items: center;
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .w-full {
   width: 100%;
