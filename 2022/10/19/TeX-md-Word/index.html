@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="zh-CN"><head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end --><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="瑶光"><meta name="copyright" content="瑶光"><meta name="generator" content="Hexo 6.3.0"><meta name="theme" content="hexo-theme-yun"><title>TeX, Word &amp; Markdown | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/img/fav.svg"><link rel="mask-icon" href="/img/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"瑶光","version":"1.10.9","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn/?c=i","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="...其实也没啥？乱写的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TeX, Word &amp; Markdown">
+<meta property="og:url" content="https://elkeid-me.github.io/2022/10/19/TeX-md-Word/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="...其实也没啥？乱写的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://elkeid-me.github.io/img/tex-word-md/word-%E6%A0%B7%E5%BC%8F.png">
+<meta property="article:published_time" content="2022-10-19T15:02:18.000Z">
+<meta property="article:modified_time" content="2022-10-19T16:46:26.541Z">
+<meta property="article:author" content="瑶光">
+<meta property="article:tag" content="LaTeX">
+<meta property="article:tag" content="排版">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://elkeid-me.github.io/img/tex-word-md/word-%E6%A0%B7%E5%BC%8F.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="瑶光"><img width="96" loading="lazy" src="/img/Avatar.jpg" alt="瑶光"><span class="site-author-status" title="撒糖啦！">🍬</span></a><div class="site-author-name"><a href="/about/">瑶光</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">4</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">17</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/elkeid" title="知乎" target="_blank" style="color:#0084FF"><span class="icon iconify" data-icon="ri:zhihu-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a><a class="links-item hty-icon-button" href="/homo/" title="数字论证" style="color:#114514"><span class="icon iconify" data-icon="ri:terminal-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E4%B8%8E%E6%A0%B7%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">内容与样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E6%89%8B%E9%9A%BE%E5%BA%A6%E4%B8%8E%E8%BE%93%E5%87%BA%E8%B4%A8%E9%87%8F"><span class="toc-number">2.</span> <span class="toc-text">上手难度与输出质量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E4%BD%93"><span class="toc-number">3.</span> <span class="toc-text">字体</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2022/10/19/TeX-md-Word/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="瑶光"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">TeX, Word &amp; Markdown</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2022-10-19 23:02:18" itemprop="dateCreated datePublished" datetime="2022-10-19T23:02:18+08:00">2022-10-19</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/LaTeX/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">LaTeX</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/LaTeX/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">LaTeX</span></a><a class="tag-item" href="/tags/%E6%8E%92%E7%89%88/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">排版</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>TeX、Word 和 Markdown，本质上没法并列到一起去。TeX 是排版软件，Word 是字处理软件，Markdown 充其量是 HTML 里 <code>&lt;h1&gt;</code> <code>&lt;h2&gt;</code> 这类标签的抽象。但总之它们三个都能写文档，甚至有的期刊同时接受 (La) TeX、Word 和 Markdown 投稿，并列到一起也不无道理。</p>
+<p>这里的 Word 指 Microsoft Word 及其同类产品（如 LibreOffice Write），但不包括国产败类 WPS Office（WPS 你 妈 什么时候死啊）。</p>
+<h2 id="内容与样式"><a href="#内容与样式" class="headerlink" title="内容与样式"></a>内容与样式</h2><p>TeX 最为称道的一点是内容与样式分离，然而这通常是 LaTeX 或者 ConTeXt 的事。在 plain TeX 上，你还是得操心字号、字重、编号什么的。要去操心寄存器分配 —— 这一点不比汇编的难度小。但总之今天也没有人，特别是中国人，用 plain TeX 写正经文档了（不加载 xeCJK 还想要标点禁则？pTeX 佬除外）。</p>
+<p>LaTeX 的内容与样式分离已经相当好了。你可以设置一个章节标题格式，然后每次 <code>\chapter{}</code> 让它自动增加计数器、画出章节标题、开始新的一章就好。也可以自行设定页眉页脚，甚至奇偶页不同。当然，大佬们也可以用一些底层的 TeX 命令干预排版，或者 Lua (Meta) TeX 那种用 Lua 回调控制排版。总之 (La) TeX 是自由的。</p>
+<p>Markdown 是完全的内容与样式分离，内容上只是 Markdown 语法到标准 HTML 标签的转换，样式完全由 CSS 定义。你正在读的这篇文章，用 Hexo 的 yun 主题渲染，和用 Typora 的嘉然主题渲染，完全是两个观感。</p>
+<p>Word 也可以做到内容与样式分离，看看下面这张图：</p>
+<p><img src="/img/tex-word-md/word-%E6%A0%B7%E5%BC%8F.png" alt="Word 的样式控制" loading="lazy"></p>
+<p>但是 LaTeX 和 md 的内容与样式分离是强制的，是自动化的，能 <code>\chapter{概论}</code> 打出<strong>第一章 概论</strong>的地方不会 <code>{\bffamily \big 第一章 概论}\par \bigskip</code>，能<code># 概论</code>的地方也不会 <code>**概论**</code> 之后改 CSS。</p>
+<p>但在 Word 里想要打出标题，能选中文本然后选择 “标题 1” 的时候，也可以选中文本 -&gt; 粗体 -&gt; 调字号 -&gt; 居中，不会设置居中的甚至可以用空格挤到居中。。。然后再碰上秉承 “能看就行” 的用户，就得到了一份令人血压升高的文档。</p>
+<p>这就说到下面的问题：上手难度与输出质量。</p>
+<h2 id="上手难度与输出质量"><a href="#上手难度与输出质量" class="headerlink" title="上手难度与输出质量"></a>上手难度与输出质量</h2><p>Word 是没有上手难度的。打开 Word，只要会打字，总能做出来点什么来。不会配置样式，就手动调字号调字体。想要某个功能但不知道在哪里，胡乱遍历一遍菜单总能找到。不会设置居中？用空格挤过去。不会断页？用一堆回车挤过去。</p>
+<p>Markdown 的上手难度也不过是语法，但就那么一丁点玩意。。。背不下来语法说不过去吧？如果配合上萌新友好的编辑器（如 Typora，尽管对钱包不友好），甚至不会任何 md 语法都能写出 md 文档。</p>
+<p>当然，不会 md 语法，把 md 编辑器当纯文本编辑器，也总能输出点什么。</p>
+<p>即便不会大部分语法，plain TeX 也总能输出点什么，但文档末尾要有 <code>\bye</code>——plain TeX 只为有礼貌的人工作。</p>
+<p>LaTeX 是不一样的。一群猴子敲打字机或许能弄出来 <code>\documentclass{article} \begin{document} Monkey! \end{document}</code>，但一个刚接触 LaTeX 的萌新肯定不会。</p>
+<p>所以，对于纯新手，我们有不等式：Word &gt; md &gt; LaTeX.</p>
+<hr>
+<p>但是，一旦学会了 md 语法，结合预设的漂亮的 CSS，就能写出漂亮的文档。一旦学会了 <code>\title{}</code>、<code>\section{}</code> 一类的命令，结合优雅的标准文档类，就能输出漂亮的文档：用上 <code>ctexart</code>，再用上 <code>gb7714-2015</code>，保证你的文章有正经论文的味。但 Word 特有的易上手以及过于自由的样式控制，使得新手很容易胡乱去调字体。对于有一定基础的人，我们有不等式：LaTeX &gt; md &gt; Word。</p>
+<p>对于真正的大佬，在 LaTeX 里能用核心命令和引擎原语干预排版，在 md 里能手搓 HTML 标签，在 Word 里熟练运用 VBA 和域代码，那用什么也就无所谓了。</p>
+<hr>
+<p>但这样的大佬很少。大多数人都不过是有一定基础，可能在三者中的某一个精进。于是：</p>
+<ul>
+<li>给 md 写主题，需要熟知 CSS ，与 HTML，偶尔甚至研究 JS。这远超大多数人的能力。</li>
+<li>给 (La) TeX 写宏包写文档类，要熟知 (La) TeX 编程，熟知引擎原语，熟知 PDF，OpenType 等的特性，这远超大多数人的能力。</li>
+<li>给 Word 弄模板。。。只需要有一点基础。</li>
+</ul>
+<hr>
+<p>然后就是萌新制作 Word 模板的群魔乱舞时间（某世界一流大学 AI 引论课程的模板）：字体群魔乱舞，正文的英文部分全是等宽宋体，标题编号用 Calibri，参考文献用 Times New Roman，标题又用上了微软雅黑。</p>
+<p>正文字号也是五号、小四、小三、15.5 pt 群魔乱舞，一不小心就跳到另一个字号。还有极为精妙的左侧 0.19 cm，右侧 0.44 cm，首行 0.74 cm 缩进配段前 14.75 pt 间距，它的下一个段又是左侧 0.38 cm，右侧 0.31 cm，首行 0.56 cm 缩进，段前 0.3 pt 间距，再下一段又变成左侧 0.19 cm，右侧 0.31 cm，首行 0.56 cm 缩进… 这个模板还通过玄学关掉了<strong>标点压缩</strong>和<strong>字距调整</strong>，实在优雅！实在精妙！我只觉自己太差太差，看不透这高深的模板。</p>
+<p>所以，<strong>用一定的上手难度挡住傻逼</strong>还是有必要的。起码 LaTeX 不会有人做出这样的睿智模板还发给大家用，TeX 引擎会先吐槽说 badness 10000。</p>
+<h2 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h2><p>Markdown 里还想调字体？你大概只能调粗体、斜体或者粗斜体，</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2022/07/27/LaTeX-Config/" rel="next" title="LaTeX 环境配置"><span class="post-nav-text">LaTeX 环境配置</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOHrxXdA" data-category="Announcements" data-category-id="DIC_kwDOHrxXdM4CQULH" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="preferred_color_scheme" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 瑶光</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.9</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div><!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body></html>

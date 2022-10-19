@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>TeX, Word &amp; Markdown</title>
+      <link href="/2022/10/19/TeX-md-Word/"/>
+      <url>/2022/10/19/TeX-md-Word/</url>
+      
+        <content type="html"><![CDATA[<p>TeX、Word 和 Markdown，本质上没法并列到一起去。TeX 是排版软件，Word 是字处理软件，Markdown 充其量是 HTML 里 <code>&lt;h1&gt;</code> <code>&lt;h2&gt;</code> 这类标签的抽象。但总之它们三个都能写文档，甚至有的期刊同时接受 (La) TeX、Word 和 Markdown 投稿，并列到一起也不无道理。</p><p>这里的 Word 指 Microsoft Word 及其同类产品（如 LibreOffice Write），但不包括国产败类 WPS Office（WPS 你 妈 什么时候死啊）。</p><h2 id="内容与样式"><a href="#内容与样式" class="headerlink" title="内容与样式"></a>内容与样式</h2><p>TeX 最为称道的一点是内容与样式分离，然而这通常是 LaTeX 或者 ConTeXt 的事。在 plain TeX 上，你还是得操心字号、字重、编号什么的。要去操心寄存器分配 —— 这一点不比汇编的难度小。但总之今天也没有人，特别是中国人，用 plain TeX 写正经文档了（不加载 xeCJK 还想要标点禁则？pTeX 佬除外）。</p><p>LaTeX 的内容与样式分离已经相当好了。你可以设置一个章节标题格式，然后每次 <code>\chapter{}</code> 让它自动增加计数器、画出章节标题、开始新的一章就好。也可以自行设定页眉页脚，甚至奇偶页不同。当然，大佬们也可以用一些底层的 TeX 命令干预排版，或者 Lua (Meta) TeX 那种用 Lua 回调控制排版。总之 (La) TeX 是自由的。</p><p>Markdown 是完全的内容与样式分离，内容上只是 Markdown 语法到标准 HTML 标签的转换，样式完全由 CSS 定义。你正在读的这篇文章，用 Hexo 的 yun 主题渲染，和用 Typora 的嘉然主题渲染，完全是两个观感。</p><p>Word 也可以做到内容与样式分离，看看下面这张图：</p><p><img src="/img/tex-word-md/word-%E6%A0%B7%E5%BC%8F.png" alt="Word 的样式控制" loading="lazy"></p><p>但是 LaTeX 和 md 的内容与样式分离是强制的，是自动化的，能 <code>\chapter{概论}</code> 打出<strong>第一章 概论</strong>的地方不会 <code>{\bffamily \big 第一章 概论}\par \bigskip</code>，能<code># 概论</code>的地方也不会 <code>**概论**</code> 之后改 CSS。</p><p>但在 Word 里想要打出标题，能选中文本然后选择 “标题 1” 的时候，也可以选中文本 -&gt; 粗体 -&gt; 调字号 -&gt; 居中，不会设置居中的甚至可以用空格挤到居中。。。然后再碰上秉承 “能看就行” 的用户，就得到了一份令人血压升高的文档。</p><p>这就说到下面的问题：上手难度与输出质量。</p><h2 id="上手难度与输出质量"><a href="#上手难度与输出质量" class="headerlink" title="上手难度与输出质量"></a>上手难度与输出质量</h2><p>Word 是没有上手难度的。打开 Word，只要会打字，总能做出来点什么来。不会配置样式，就手动调字号调字体。想要某个功能但不知道在哪里，胡乱遍历一遍菜单总能找到。不会设置居中？用空格挤过去。不会断页？用一堆回车挤过去。</p><p>Markdown 的上手难度也不过是语法，但就那么一丁点玩意。。。背不下来语法说不过去吧？如果配合上萌新友好的编辑器（如 Typora，尽管对钱包不友好），甚至不会任何 md 语法都能写出 md 文档。</p><p>当然，不会 md 语法，把 md 编辑器当纯文本编辑器，也总能输出点什么。</p><p>即便不会大部分语法，plain TeX 也总能输出点什么，但文档末尾要有 <code>\bye</code>——plain TeX 只为有礼貌的人工作。</p><p>LaTeX 是不一样的。一群猴子敲打字机或许能弄出来 <code>\documentclass{article} \begin{document} Monkey! \end{document}</code>，但一个刚接触 LaTeX 的萌新肯定不会。</p><p>所以，对于纯新手，我们有不等式：Word &gt; md &gt; LaTeX.</p><hr><p>但是，一旦学会了 md 语法，结合预设的漂亮的 CSS，就能写出漂亮的文档。一旦学会了 <code>\title{}</code>、<code>\section{}</code> 一类的命令，结合优雅的标准文档类，就能输出漂亮的文档：用上 <code>ctexart</code>，再用上 <code>gb7714-2015</code>，保证你的文章有正经论文的味。但 Word 特有的易上手以及过于自由的样式控制，使得新手很容易胡乱去调字体。对于有一定基础的人，我们有不等式：LaTeX &gt; md &gt; Word。</p><p>对于真正的大佬，在 LaTeX 里能用核心命令和引擎原语干预排版，在 md 里能手搓 HTML 标签，在 Word 里熟练运用 VBA 和域代码，那用什么也就无所谓了。</p><hr><p>但这样的大佬很少。大多数人都不过是有一定基础，可能在三者中的某一个精进。于是：</p><ul><li>给 md 写主题，需要熟知 CSS ，与 HTML，偶尔甚至研究 JS。这远超大多数人的能力。</li><li>给 (La) TeX 写宏包写文档类，要熟知 (La) TeX 编程，熟知引擎原语，熟知 PDF，OpenType 等的特性，这远超大多数人的能力。</li><li>给 Word 弄模板。。。只需要有一点基础。</li></ul><hr><p>然后就是萌新制作 Word 模板的群魔乱舞时间（某世界一流大学 AI 引论课程的模板）：字体群魔乱舞，正文的英文部分全是等宽宋体，标题编号用 Calibri，参考文献用 Times New Roman，标题又用上了微软雅黑。</p><p>正文字号也是五号、小四、小三、15.5 pt 群魔乱舞，一不小心就跳到另一个字号。还有极为精妙的左侧 0.19 cm，右侧 0.44 cm，首行 0.74 cm 缩进配段前 14.75 pt 间距，它的下一个段又是左侧 0.38 cm，右侧 0.31 cm，首行 0.56 cm 缩进，段前 0.3 pt 间距，再下一段又变成左侧 0.19 cm，右侧 0.31 cm，首行 0.56 cm 缩进… 这个模板还通过玄学关掉了<strong>标点压缩</strong>和<strong>字距调整</strong>，实在优雅！实在精妙！我只觉自己太差太差，看不透这高深的模板。</p><p>所以，<strong>用一定的上手难度挡住傻逼</strong>还是有必要的。起码 LaTeX 不会有人做出这样的睿智模板还发给大家用，TeX 引擎会先吐槽说 badness 10000。</p><h2 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h2><p>Markdown 里还想调字体？你大概只能调粗体、斜体或者粗斜体，</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> LaTeX </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> LaTeX </tag>
+            
+            <tag> 排版 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>LaTeX 环境配置</title>
       <link href="/2022/07/27/LaTeX-Config/"/>
       <url>/2022/07/27/LaTeX-Config/</url>
