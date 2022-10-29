@@ -276,7 +276,7 @@ clangd官网：[What is clangd?](https://clangd.llvm.org/)
   在`setting.json`中加入：
 
   ```json
-  "clangd.path": "D:\\Softwares\\Tools\\clangd_15.0.0\\bin\\clangd",
+  "clangd.path": "D:\\Softwares\\Tools\\clangd_15.0.0\\bin\\clangd.exe",
   ```
 
 3. clangd的参数配置
@@ -290,7 +290,7 @@ clangd官网：[What is clangd?](https://clangd.llvm.org/)
   ],
   ```
 
-  在代码文件夹中新建`.clang`文件，加入：
+  在代码文件夹中新建`.clangd`文件，加入：
 
   ```yaml
   ---
@@ -307,7 +307,7 @@ clangd官网：[What is clangd?](https://clangd.llvm.org/)
     Add: [-std=c17, -g, -fexec-charset=UTF-8, -m64, -Wall, -pedantic-errors, -static-libgcc, --target=x86_64-w64-windows-gnu]
   ```
 
-  在代码文件夹中新建`.clangformat`，加入：
+  在代码文件夹中新建`.clang-format`，加入：
 
   ```yaml
   BasedOnStyle: LLVM
