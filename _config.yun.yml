@@ -1,5 +1,5 @@
 avatar:
-  url: /img/Avatar.jpg
+  url: /img/core_imgs/Avatar.jpg
   status:
       enable: true
       emoji: 🍬
@@ -93,3 +93,16 @@ giscus:
   emit-metadata: 0
   theme: preferred_color_scheme
   lang: zh-CN
+
+
+sidebar:
+  bg_image: /img/core_imgs/light_side_bar_bkg.jpg
+  dark_bg_image: /img/core_imgs/dark_side_bar_bkg.webp
+  bg_position: bottom 3rem center
+
+bg_image:
+  enable: true
+  url: /img/core_imgs/light_main_bkg.jpg
+  dark: /img/core_imgs/dark_main_bkg.jpg
+  # blur: 30px
+  opacity: 1
