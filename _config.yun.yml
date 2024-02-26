@@ -1,0 +1,90 @@
+avatar:
+  url: /img/core_imgs/Avatar.jpg
+  status:
+      enable: true
+      emoji: 🍬
+      message: 撒糖啦！
+codeblock:
+  copy_btn: true
+favicon: /img/core_imgs/fav.svg
+footer:
+  since: 2022
+  icon:
+    name: ri:emotion-happy-line
+    animated: false
+  powered:
+    enable: true
+    version: false
+creative_commons:
+  post: false
+  clipboard: false
+reward:
+  enable: false
+engine_search:
+  enable: false
+local_search:
+  enable: true
+search:
+  path: search.xml
+  field: post
+  content: true
+  template: ./search.xml
+archive:
+  last_word: 没有更多了_(:з」∠)_
+katex:
+  copy_tex: true
+  global: false
+  options: {}
+social:
+  - name: E-Mail
+    link: mailto:elkeid.me@gmail.com
+    icon: ri:mail-line
+    color: '#8E71C1'
+pages:
+  - name: 友链
+    url: /links/
+    icon: ri:link-m
+    color: dodgerblue
+banner:
+  enable: true
+  title: 喵呜喵呜
+  border: true
+  cloud:
+    enable: false
+
+menu:
+  custom:
+    title: GitHub
+    path: https://github.com/Elkeid-me
+    icon: ri:github-line
+
+mode: auto
+say:
+  enable: true
+  api: 我们小猫只要能吃能睡就是好的
+  # hitokoto:
+  #   enable: false
+  #   api: https://v1.hitokoto.cn
+
+post_meta:
+  item_text: false
+  created_at: true
+  updated_at: false
+  categories: true
+  tags: true
+# comment:
+#   enable: true
+#   candidates:
+#     - giscus
+
+# giscus:
+#   enable: true
+#   repo: Elkeid-me/elkeid-me.github.io
+#   repo-id: R_kgDOIq2www
+#   category: Announcements
+#   category-id: DIC_kwDOIq2ww84CTPkM
+#   mapping: pathname
+#   reactions-enabled: 1
+#   emit-metadata: 0
+#   theme: preferred_color_scheme
+#   lang: zh-CN
