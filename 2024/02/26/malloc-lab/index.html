@@ -1,0 +1,429 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="喵喵喵？"><meta name="copyright" content="喵喵喵？"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>malloc lab 全过程纪实 | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script defer src="https://fastly.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script><link rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.css"><script defer src="https://fastly.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script><script type="module">import { renderKatex } from '/js/utils.js'
+document.addEventListener("DOMContentLoaded", () => {
+  renderKatex({
+    ...{},
+    ...undefined?.options,
+  });
+});</script><link rel="icon" type="image/svg+xml" href="/img/core_imgs/fav.svg"><link rel="mask-icon" href="/img/core_imgs/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"喵呜喵呜","version":"1.10.11","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"我们小猫只要能吃能睡就是好的"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="ICS 是北大第一好课！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="malloc lab 全过程纪实">
+<meta property="og:url" content="https://elkeid-me.github.io/2024/02/26/malloc-lab/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="ICS 是北大第一好课！">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-02-26T13:05:00.000Z">
+<meta property="article:modified_time" content="2024-02-26T15:08:49.635Z">
+<meta property="article:author" content="喵喵喵？">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="CS: APP">
+<meta property="article:tag" content="ICS">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="喵喵喵？"><img width="96" loading="lazy" src="/img/core_imgs/Avatar.jpg" alt="喵喵喵？"><span class="site-author-status" title="撒糖啦！">🍬</span></a><div class="site-author-name"><a href="/about/">喵喵喵？</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">16</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-malloc-lab%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什么是 malloc lab？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E6%9C%88-26-%E6%97%A5%E4%B9%8B%E5%89%8D"><span class="toc-number">3.</span> <span class="toc-text">11 月 26 日之前</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E6%9C%88-26-%E6%97%A5-11-%E6%9C%88-30-%E6%97%A5"><span class="toc-number">4.</span> <span class="toc-text">11 月 26 日 ~ 11 月 30 日</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%9C%88-1-%E6%97%A5"><span class="toc-number">5.</span> <span class="toc-text">12 月 1 日</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%9C%88-4-%E6%97%A5"><span class="toc-number">6.</span> <span class="toc-text">12 月 4 日</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%9C%88-5-%E6%97%A5"><span class="toc-number">7.</span> <span class="toc-text">12 月 5 日</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%9C%88-9-%E6%97%A5"><span class="toc-number">8.</span> <span class="toc-text">12 月 9 日</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%9C%88-10-%E6%97%A5"><span class="toc-number">9.</span> <span class="toc-text">12 月 10 日</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%9C%88-24-%E6%97%A5"><span class="toc-number">10.</span> <span class="toc-text">12 月 24 日</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2023-%E5%B9%B4-1-%E6%9C%88-2-%E6%97%A5"><span class="toc-number">11.</span> <span class="toc-text">2023 年 1 月 2 日</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2024/02/26/malloc-lab/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="喵喵喵？"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">malloc lab 全过程纪实</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2024-02-26 21:05:00" itemprop="dateCreated datePublished" datetime="2024-02-26T21:05:00+08:00">2024-02-26</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%BC%96%E7%A8%8B/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">编程</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/C-C/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">C/C++</span></a><a class="tag-item" href="/tags/CS-APP/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">CS: APP</span></a><a class="tag-item" href="/tags/ICS/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">ICS</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>完整代码见 <a target="_blank" rel="noopener" href="https://github.com/Elkeid-me/csapp-3e-malloc-lab">Elkeid-me/csapp-3e-malloc-lab</a></p>
+<h2 id="前言">前言</h2>
+<p>众所周知：</p>
+<ol>
+<li>ICS 是 P 大信科最充实的一门课，5 学分的课程中蕴含着 10 学分的知识；</li>
+<li>传言称 malloc lab 是最难的 lab；</li>
+<li>在 2022 年的秋季学期，P 大又特意增加了难度，某位助教去年满分的代码在今年只能拿到 94 分（悲）。</li>
+</ol>
+<p>我想，开一篇博客记录 malloc lab 的全过程，是极有必要的。</p>
+<h2 id="什么是-malloc-lab？">什么是 malloc lab？</h2>
+<p>你需要在一个虚拟堆上构建动态内存分配器。虚拟堆从 <code>0x8'0000'0000</code> 起始。最大大小为 4GB。你分配的指针必须是 8 字节对齐的。</p>
+<h2 id="11-月-26-日之前">11 月 26 日之前</h2>
+<p>这段时间主要看教材 <em>CS: APP</em> 第九章，以及网上的教程。尝试从 Github 复制了几份代码，包括然而跑不起来（悲）。</p>
+<h2 id="11-月-26-日-11-月-30-日">11 月 26 日 ~ 11 月 30 日</h2>
+<p>本来 27 号要去参加 Linux 社的 TeXmacs 沙龙（然后批判一番 TeXmacs），然而被史纲的短剧耽误了。这几天主要做全局的设计，间或写点测试的代码。主要讨论以下的问题：</p>
+<ol>
+<li>使用什么方案？显式空闲链表+分离适配。（原计划是写完链表版本之后搞个红黑树版本，但是鸽了）。</li>
+<li>块的布局是什么样的？
+<ul>
+<li>首先是 4 字节的块大小，即块的头部. 即便 malloc lab 运行在 x86-64 处理器上，但是根据 Write up，总的堆大小和每次申请的块大小不会超过 4 GB，显然 32 位整数足矣。</li>
+<li>鉴于块大小都是 8 字节对齐的，块的头部可以空出 3 位，用于标记。标记位有三：
+<ol>
+<li><code>flag 1</code>：标志这个块是否空闲</li>
+<li><code>flag 2</code>：标志上一个块是否空闲</li>
+<li><code>flag 3</code>：备用</li>
+</ol>
+</li>
+<li><code>block_ptr</code> 指向上述头部之后。也就是说，如果要将某个空闲块分配出去，那么 <code>return block_ptr</code> 即可。</li>
+<li><code>prev offset</code> 和 <code>next offset</code>。实际上就是链表中的前驱和后继指针。那为什么叫 <code>offset</code> 呢？
+<ul>
+<li>原本的计划是，这两个 <code>offset</code> 存储前驱和后继节点的 <code>block_ptr</code> 相对自己 <code>block_ptr</code> 的偏移。例如，块 A 的地址是 <code>0x8'0000'0008</code>，块 B 的地址是 <code>0x8'0000'0018</code>，且 B 是 A 的后继。那么，A 的 <code>next offset</code> 就是 <code>0x8'0000'0018 - 0x8'0000'0008 = 0x10</code>。</li>
+<li>但是这样比较难实现，因为偏移量不一定是正数。这意味着我要在 4 字节空间里存储 $-2^{32}$ ~ $2^{32}$ 的整数。当然，这个整数是对齐到 8 的。不是不能做，但是难做。</li>
+<li><code>offset</code> 直接存储相对堆的基址针的偏移。对于上述的 A 和 B，A 的 <code>next offset</code> 直接存储 <code>0x8'0000'0018</code>。</li>
+</ul>
+</li>
+<li>块的尾部。只存储 <code>size</code>。剩余 3 个标记位备用。</li>
+<li>可以看到，块的大小一定是 8 字节的倍数，且块最小为 16 字节。<pre class="line-numbers language-none"><code class="language-none">     +----------------------+
+     | 31 30 29 ... 3 2 1 0 |
+---- +---------------+------+
+ ^   |     size      | flag |
+ |   +---------------+------+  &lt;-- A block_ptr, aligned to 8 bytes.
+ |   |     prev offset      |      It&#39;s the return value of malloc.
+ |   +----------------------+
+size |     next offset      |
+ |   +----------------------+
+ |   |       ......         |
+ |   +---------------+------+
+ v   |     size      | flag |
+---- +---------------+------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
+</li>
+<li>链表如何分类？按大小分类<s>废话</s>。但是具体的分类方式是什么？
+<ul>
+<li>曾有大佬以统计学方法分析测试样例后，给出了一个非常复杂的分类方法：  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token class-name">size_t</span> <span class="token function">get_index</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> size<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>size <span class="token operator">&lt;</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>size <span class="token operator">&lt;</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token keyword">else</span>
+        <span class="token keyword">return</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>我使用直接按 2 的次幂分类。即 16 ~ 31 分一类，32 ~ 63 分一类……我只分 16 类，那么最后一类是 $2^{19}$ ~ $2^{32} - 1$。</li>
+<li>上述分类是倒着的，即链表 15 对应块大小 16 ~ 31，链表 14 对应块大小 32 ~ 63……链表 0 对应 $2^{19}$ ~ $2^{32} - 1$</li>
+<li>如何根据块的大小 $S$ 找到对应的链表？这其实是一个从整数 $\{16, 17, \dots, 2^{32} - 1\}$ 到链表 $\{0, 1, \dots, 15\}$ 的映射问题。我使用了两阶段的查找方法。
+<ol>
+<li>第一阶段，计算 $i(S) = 31 - \lfloor \log_2 S \rfloor$。这个映射的值域为 $\{0, 1, \dots, 27\}$。这个式子看似复杂，实际上就是 $S$ 的 32 位二进制表示的前导零个数，可以直接通过一条 <code>lzcnt</code> 指令计算，速度非常快。</li>
+<li>第二阶段，根据 $i(S)$ 查表 <code>void *list_ptrs[28]</code>。其中：</li>
+</ol>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c">list_ptrs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> 指向链表 <span class="token number">0</span> 的指针<span class="token punctuation">;</span>
+list_ptrs<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> 指向链表 <span class="token number">0</span> 的指针<span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+list_ptrs<span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">]</span> <span class="token operator">=</span> 指向链表 <span class="token number">0</span> 的指针<span class="token punctuation">;</span>
+
+list_ptrs<span class="token punctuation">[</span><span class="token number">13</span><span class="token punctuation">]</span> <span class="token operator">=</span> 指向链表 <span class="token number">1</span> 的指针<span class="token punctuation">;</span>
+list_ptrs<span class="token punctuation">[</span><span class="token number">14</span><span class="token punctuation">]</span> <span class="token operator">=</span> 指向链表 <span class="token number">2</span> 的指针<span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+list_ptrs<span class="token punctuation">[</span><span class="token number">25</span><span class="token punctuation">]</span> <span class="token operator">=</span> 指向链表 <span class="token number">13</span> 的指针<span class="token punctuation">;</span>
+list_ptrs<span class="token punctuation">[</span><span class="token number">26</span><span class="token punctuation">]</span> <span class="token operator">=</span> 指向链表 <span class="token number">14</span> 的指针<span class="token punctuation">;</span>
+list_ptrs<span class="token punctuation">[</span><span class="token number">27</span><span class="token punctuation">]</span> <span class="token operator">=</span> 指向链表 <span class="token number">15</span> 的指针<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>例如，对于 $S = 114$，我们计算出 $i(114) = 25$，然后查表得到 114 对应的链表为链表 13。</li>
+<li>记上述查找方法为 $\mathrm{getlist}(S)$</li>
+</ul>
+</li>
+<li><code>malloc</code> 和 <code>free</code> 的时候做什么？
+<ul>
+<li>$\mathrm{malloc}(S)$
+<ol>
+<li>因为块包含了 4 字节的头部，块的大小一定是 8 字节的倍数。所以，需要对 $S$ 加 4，并向上对齐到 8 的倍数，即 $f(s) = \mathrm{bitnot}(8) \&amp; (s + 4 + 7)$。又因为块最小为 16 字节，最终得出 <code>align(s) = f(s) &gt; 16? f(s), 16</code>。</li>
+<li>从链表 $\mathrm{getlist}(\mathrm{align}(S))$ 开始查找，寻找第一个比 <code>align(s)</code> 大的块。如果这个链表找不到，那么去寻找含有更大块的链表。如果所有链表里都没有，那么在堆尾申请一块空闲块。申请空闲块的大小是一个特殊参数，记为 <code>CHUNK_SIZE</code>。</li>
+<li>记 2. 中找到的空闲块，或者堆尾申请的空闲块大小为 $Z$。在 $Z$ 中切分出 $\mathrm{align}(S)$ 大小的空闲块 <code>block</code>，修改 <code>block</code> 的 <code>flag 1</code>，返回其 <code>block_ptr</code>。而剩余 $Z - \mathrm{align}(S)$ 空间插入到恰当的空闲链表。</li>
+</ol>
+</li>
+<li>$\mathrm{free}(p)$
+<ol>
+<li>对于指针 $p$，查找其对应头部中的大小 $s$。</li>
+<li>根据 $p + s$ 找到位置上相邻的下一个块。通过下一个块的 <code>flag 1</code> 判断其是否空闲。</li>
+<li>根据 <code>flag 2</code> 判断位置上相邻的上一个块是否空闲。如果上一个块空闲，那么 <code>*(unsigned int *)((char *)p - 8)</code> 对应着上一个块的大小。</li>
+<li>将上述所有空闲块合成一个大的空闲块，插入到恰当的链表中。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><code>malloc</code> 和 <code>free</code> 都提到了插入链表的过程。那怎么插入呢？
+<ul>
+<li>一开始我希望按大小排序，但是性能堪忧。</li>
+<li>后来直接 FIFO 摆烂了。</li>
+</ul>
+</li>
+</ol>
+<h2 id="12-月-1-日">12 月 1 日</h2>
+<p>写了第一个版本，然后炸掉了。</p>
+<h2 id="12-月-4-日">12 月 4 日</h2>
+<p>重构后的版本。</p>
+<p>下面我会列出每一次提交。注意所有的 util 和 kops 是取整的，这就导致有些时候 util 看起来完全相同，但分数不同。</p>
+<ol>
+<li>单个显式链表，插入的时候按大小拍序，util 90%, kops 452</li>
+<li>单个显式链表，插入时 FIFO，89%，10262。</li>
+<li>显式分离链表，90%，kops 13494.</li>
+<li>相比上一次提交去掉了运行时断言，把所有的 <code>char *</code> 改为 <code>void *</code> 规避编译器警告，写完了 <code>checkheap</code>（对，之前的版本都没有 <code>checkheap</code>……）90%，13448.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">util</th>
+<th style="text-align:right">kops</th>
+<th style="text-align:right">score for util</th>
+<th style="text-align:right">score for kops</th>
+<th style="text-align:right">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">90%</td>
+<td style="text-align:right">452</td>
+<td style="text-align:right">59</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">59</td>
+</tr>
+<tr>
+<td style="text-align:right">89%</td>
+<td style="text-align:right">10262</td>
+<td style="text-align:right">55</td>
+<td style="text-align:right">28</td>
+<td style="text-align:right">83</td>
+</tr>
+<tr>
+<td style="text-align:right">90%</td>
+<td style="text-align:right">13494</td>
+<td style="text-align:right">58</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">97</td>
+</tr>
+<tr>
+<td style="text-align:right">90%</td>
+<td style="text-align:right">13448</td>
+<td style="text-align:right">58</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">97</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-月-5-日">12 月 5 日</h2>
+<ol>
+<li>相比上一次提交把 <code>CHUNK_SIZE</code> 从 512 减小为 256 以尝试提高 util，但是失败。90%，10954。</li>
+<li>代码与上一次提交完全相同。90%，10953。</li>
+<li>这次又把 <code>CHUNK_SIZE</code> 从 256 改回 512。90%，13433。</li>
+<li>把 <code>CHUNK_SIZE</code> 从 512 改为 960，意外发现 和都有提高。90%，15594。这证明 <code>CHUNK_SIZE</code> 是一个玄学参数。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">util</th>
+<th style="text-align:right">kops</th>
+<th style="text-align:right">score for util</th>
+<th style="text-align:right">score for kops</th>
+<th style="text-align:right">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">90%</td>
+<td style="text-align:right">10954</td>
+<td style="text-align:right">58</td>
+<td style="text-align:right">31</td>
+<td style="text-align:right">89</td>
+</tr>
+<tr>
+<td style="text-align:right">90%</td>
+<td style="text-align:right">10953</td>
+<td style="text-align:right">58</td>
+<td style="text-align:right">31</td>
+<td style="text-align:right">89</td>
+</tr>
+<tr>
+<td style="text-align:right">90%</td>
+<td style="text-align:right">13433</td>
+<td style="text-align:right">58</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">97</td>
+</tr>
+<tr>
+<td style="text-align:right">90%</td>
+<td style="text-align:right">15594</td>
+<td style="text-align:right">59</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">98</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-月-9-日">12 月 9 日</h2>
+<ol>
+<li><code>CHUNK_SIZE</code> 从 960 改为 528。<code>malloc</code> 时，从大空闲块切分出小空闲块的算法有更改。原本是在大空闲块头部划分小空闲块；现在是第一次在头部，第二次在尾部，以此类推……这是尝试对某个测试样例做特化。91%,12749。</li>
+<li>基本一样的版本。受到评测机性能波动影响，91%,12565。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">util</th>
+<th style="text-align:right">kops</th>
+<th style="text-align:right">score for util</th>
+<th style="text-align:right">score for kops</th>
+<th style="text-align:right">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">91%</td>
+<td style="text-align:right">12749</td>
+<td style="text-align:right">61</td>
+<td style="text-align:right">38</td>
+<td style="text-align:right">99</td>
+</tr>
+<tr>
+<td style="text-align:right">91%</td>
+<td style="text-align:right">12568</td>
+<td style="text-align:right">61</td>
+<td style="text-align:right">37</td>
+<td style="text-align:right">98</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-月-10-日">12 月 10 日</h2>
+<ol>
+<li><code>CHUNK_SIZE</code> 从 528 改为 1056，直接崩掉。</li>
+<li><code>CHUNK_SIZE</code> 从 1056 改为 3704，直接崩掉。</li>
+<li>回到 12 月 5 日第 4 次提交的代码。90%，15602。</li>
+<li><code>CHUNK_SIZE</code> 从 960 改为 4096，<code>align(size)</code> 增加特化（传入 448 直接返回 520）。91%，18376。</li>
+<li>精简代码。91%，18548。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">util</th>
+<th style="text-align:right">kops</th>
+<th style="text-align:right">score for util</th>
+<th style="text-align:right">score for kops</th>
+<th style="text-align:right">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td style="text-align:right">90%</td>
+<td style="text-align:right">15602</td>
+<td style="text-align:right">59</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">98</td>
+</tr>
+<tr>
+<td style="text-align:right">91%</td>
+<td style="text-align:right">18376</td>
+<td style="text-align:right">61</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">100</td>
+</tr>
+<tr>
+<td style="text-align:right">91%</td>
+<td style="text-align:right">18548</td>
+<td style="text-align:right">61</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">100</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-月-24-日">12 月 24 日</h2>
+<p>修复了 bug。91%，18731</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">util</th>
+<th style="text-align:right">kops</th>
+<th style="text-align:right">score for util</th>
+<th style="text-align:right">score for kops</th>
+<th style="text-align:right">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">91%</td>
+<td style="text-align:right">18731</td>
+<td style="text-align:right">61</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">100</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2023-年-1-月-2-日">2023 年 1 月 2 日</h2>
+<ol>
+<li>交错文件了，0 昏</li>
+<li>移动了一行代码。91%，18788</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">util</th>
+<th style="text-align:right">kops</th>
+<th style="text-align:right">score for util</th>
+<th style="text-align:right">score for kops</th>
+<th style="text-align:right">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td style="text-align:right">91%</td>
+<td style="text-align:right">18788</td>
+<td style="text-align:right">61</td>
+<td style="text-align:right">39</td>
+<td style="text-align:right">100</td>
+</tr>
+</tbody>
+</table>
+</div></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/02/26/todo/" rel="next" title="Todo List"><span class="post-nav-text">Todo List</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOLYNLZA" data-category="Announcements" data-category-id="DIC_kwDOLYNLZM4Cdh6j" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="preferred_color_scheme" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 喵喵喵？</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v7.1.1</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.11</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>

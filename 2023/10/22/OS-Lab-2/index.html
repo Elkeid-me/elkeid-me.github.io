@@ -1,0 +1,473 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="喵喵喵？"><meta name="copyright" content="喵喵喵？"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>操作系统实验 2 | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script defer src="https://fastly.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script><link rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.css"><script defer src="https://fastly.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script><script type="module">import { renderKatex } from '/js/utils.js'
+document.addEventListener("DOMContentLoaded", () => {
+  renderKatex({
+    ...{},
+    ...undefined?.options,
+  });
+});</script><link rel="icon" type="image/svg+xml" href="/img/core_imgs/fav.svg"><link rel="mask-icon" href="/img/core_imgs/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"喵呜喵呜","version":"1.10.11","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"我们小猫只要能吃能睡就是好的"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="MIT 6.828 JOS Lab 2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统实验 2">
+<meta property="og:url" content="https://elkeid-me.github.io/2023/10/22/OS-Lab-2/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="MIT 6.828 JOS Lab 2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-22T15:50:00.000Z">
+<meta property="article:modified_time" content="2024-02-26T15:08:49.627Z">
+<meta property="article:author" content="喵喵喵？">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="喵喵喵？"><img width="96" loading="lazy" src="/img/core_imgs/Avatar.jpg" alt="喵喵喵？"><span class="site-author-status" title="撒糖啦！">🍬</span></a><div class="site-author-name"><a href="/about/">喵喵喵？</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">16</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-1"><span class="toc-number">1.</span> <span class="toc-text">Exercise 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-3"><span class="toc-number">2.</span> <span class="toc-text">Exercise 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-1"><span class="toc-number">2.1.</span> <span class="toc-text">Question 1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-4"><span class="toc-number">3.</span> <span class="toc-text">Exercise 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-5"><span class="toc-number">4.</span> <span class="toc-text">Exercise 5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Question"><span class="toc-number">4.1.</span> <span class="toc-text">Question</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Challenge-1"><span class="toc-number">5.</span> <span class="toc-text">Challenge 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Challenge-2"><span class="toc-number">6.</span> <span class="toc-text">Challenge 2</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2023/10/22/OS-Lab-2/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="喵喵喵？"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">操作系统实验 2</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2023-10-22 23:50:00" itemprop="dateCreated datePublished" datetime="2023-10-22T23:50:00+08:00">2023-10-22</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%BC%96%E7%A8%8B/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">编程</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/C-C/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">C/C++</span></a><a class="tag-item" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">操作系统</span></a><a class="tag-item" href="/tags/%E6%B1%87%E7%BC%96/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">汇编</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>选择了 Challenge 1 和 2。</p>
+<p>报告中省略了实际代码的 <code>assert()</code>。</p>
+<h2 id="Exercise-1">Exercise 1</h2>
+<p><code>boot_alloc()</code> 的代码如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">boot_alloc</span><span class="token punctuation">(</span><span class="token class-name">uint32_t</span> n<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">static</span> <span class="token keyword">char</span> <span class="token operator">*</span>nextfree<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>result<span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>nextfree<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">extern</span> <span class="token keyword">char</span> end<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        nextfree <span class="token operator">=</span> <span class="token function">ROUNDUP</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">)</span>end<span class="token punctuation">,</span> PGSIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// LAB 2: Your code here.</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> nextfree<span class="token punctuation">;</span>
+
+    result <span class="token operator">=</span> nextfree<span class="token punctuation">;</span>
+    <span class="token class-name">uint32_t</span> expand_size <span class="token operator">=</span> <span class="token function">ROUNDUP</span><span class="token punctuation">(</span>n<span class="token punctuation">,</span> PGSIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">uint32_t</span><span class="token punctuation">)</span>nextfree <span class="token operator">></span> <span class="token punctuation">(</span>KERNBASE <span class="token operator">+</span> PTSIZE<span class="token punctuation">)</span> <span class="token operator">-</span> expand_size<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">panic</span><span class="token punctuation">(</span><span class="token string">"boot_alloc: out of memory\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    nextfree <span class="token operator">+=</span> expand_size<span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中，第 10 行用于判断是否有足够的内存空间。由于 <code>entrypgdir.c</code> 中的页表仅映射了 <code>PTSIZE</code> 字节（即 4 MB），因此，这里认为可用的空间最高只到 <code>KERNBASE</code> + 4 MB。</p>
+<p>对于 <code>mem_init()</code>，暂且先补充两行：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// Your code goes here:</span>
+pages <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">PageInfo</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">boot_alloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">PageInfo</span><span class="token punctuation">)</span> <span class="token operator">*</span> npages<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">memset</span><span class="token punctuation">(</span>pages<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">PageInfo</span><span class="token punctuation">)</span> <span class="token operator">*</span> npages<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><code>page_init()</code> 的代码如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">page_init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    pages<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>pp_ref <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> npages_basemem<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>pp_ref <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>pp_link <span class="token operator">=</span> page_free_list<span class="token punctuation">;</span>
+        page_free_list <span class="token operator">=</span> <span class="token operator">&amp;</span>pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token class-name">size_t</span> next_free_page_index <span class="token operator">=</span> <span class="token function">PGNUM</span><span class="token punctuation">(</span><span class="token function">PADDR</span><span class="token punctuation">(</span><span class="token function">boot_alloc</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> npages_basemem<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> next_free_page_index<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>pp_ref <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>pp_link <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> next_free_page_index<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> npages<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>pp_ref <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>pp_link <span class="token operator">=</span> page_free_list<span class="token punctuation">;</span>
+        page_free_list <span class="token operator">=</span> <span class="token operator">&amp;</span>pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在执行完 <code>page_init()</code> 之后，<code>page_free_list</code> 指向最后一个物理页的 <code>PageInfo</code>，似乎 <code>page_alloc()</code> 会最先分配这一页，然而没有任何虚拟地址被映射到它——可能映射到它的虚拟地址是 <code>KERNBASE + 32767 * PGSIZE = 0xf7fff000</code> 和 <code>32767 * PGSIZE = 0x7fff000</code>，但当前的页表仅映射了 4 MB 字节，虚拟地址最高到 <code>0xf0400000</code> 和 <code>0x400000</code>。</p>
+<p>但这不会发生，因为紧接着 <code>check_page_free_list(1)</code> 会重排链表，将 <code>PDX</code> 为 0 的页放在链表头。</p>
+<p><code>page_alloc()</code> 的代码如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">PageInfo</span> <span class="token operator">*</span><span class="token function">page_alloc</span><span class="token punctuation">(</span><span class="token keyword">int</span> alloc_flags<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>page_free_list <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">struct</span> <span class="token class-name">PageInfo</span> <span class="token operator">*</span>result <span class="token operator">=</span> page_free_list<span class="token punctuation">;</span>
+
+        page_free_list <span class="token operator">=</span> page_free_list<span class="token operator">-></span>pp_link<span class="token punctuation">;</span>
+        result<span class="token operator">-></span>pp_link <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>alloc_flags <span class="token operator">&amp;</span> ALLOC_ZERO<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">void</span> <span class="token operator">*</span>page_v_pointer <span class="token operator">=</span> <span class="token function">page2kva</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">memset</span><span class="token punctuation">(</span>page_v_pointer<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> PGSIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>page_free()</code> 的代码如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">page_free</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">PageInfo</span> <span class="token operator">*</span>pp<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">// Fill this function in</span>
+    <span class="token comment">// Hint: You may want to panic if pp->pp_ref is nonzero or</span>
+    <span class="token comment">// pp->pp_link is not NULL.</span>
+    pp<span class="token operator">-></span>pp_link <span class="token operator">=</span> page_free_list<span class="token punctuation">;</span>
+    page_free_list <span class="token operator">=</span> pp<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Exercise-3">Exercise 3</h2>
+<h3 id="Question-1">Question 1</h3>
+<p><code>x</code> 的类型是 <code>uintptr_t</code>。</p>
+<p>注意到题目中给出的是 C 代码，而 JOS 在调用 C 代码（<code>i386_init()</code>）之前，已经在 <code>entry.S</code> 的汇编代码中加载了页表，并启用分页。因此 <code>char *value</code> 一定是虚拟地址；接下来又将 <code>value</code> 赋值给 <code>x</code>，那么 <code>x</code> 是虚拟地址。</p>
+<h2 id="Exercise-4">Exercise 4</h2>
+<p><code>pgdir_walk()</code> 的代码如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token class-name">pte_t</span> <span class="token operator">*</span><span class="token function">pgdir_walk</span><span class="token punctuation">(</span><span class="token class-name">pde_t</span> <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>va<span class="token punctuation">,</span> <span class="token keyword">int</span> create<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">// Fill this function in</span>
+    <span class="token class-name">uint32_t</span> pde_index <span class="token operator">=</span> <span class="token function">PDX</span><span class="token punctuation">(</span>va<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">uint32_t</span> pde <span class="token operator">=</span> pgdir<span class="token punctuation">[</span>pde_index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pde <span class="token operator">&amp;</span> PTE_P<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token class-name">pte_t</span> <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">pte_t</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">KADDR</span><span class="token punctuation">(</span><span class="token function">PTE_ADDR</span><span class="token punctuation">(</span>pde<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">PTX</span><span class="token punctuation">(</span>va<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token class-name">pte_t</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>create<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">struct</span> <span class="token class-name">PageInfo</span> <span class="token operator">*</span>page_pgtb <span class="token operator">=</span> <span class="token function">page_alloc</span><span class="token punctuation">(</span>ALLOC_ZERO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>page_pgtb <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+
+        page_pgtb<span class="token operator">-></span>pp_ref<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token class-name">physaddr_t</span> new_page <span class="token operator">=</span> <span class="token function">page2pa</span><span class="token punctuation">(</span>page_pgtb<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pgdir<span class="token punctuation">[</span>pde_index<span class="token punctuation">]</span> <span class="token operator">=</span> new_page <span class="token operator">|</span> PTE_U <span class="token operator">|</span> PTE_W <span class="token operator">|</span> PTE_P<span class="token punctuation">;</span>
+
+        <span class="token class-name">pte_t</span> <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">pte_t</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">KADDR</span><span class="token punctuation">(</span>new_page <span class="token operator">+</span> <span class="token function">PTX</span><span class="token punctuation">(</span>va<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token class-name">pte_t</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>需要注意第 9 和第 25 行：<code>PTX(va)</code> 需要乘 <code>sizeof(pte_t)</code>。</p>
+<p><code>boot_map_region()</code> 的代码如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">boot_map_region</span><span class="token punctuation">(</span><span class="token class-name">pde_t</span> <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> <span class="token class-name">uintptr_t</span> va<span class="token punctuation">,</span> <span class="token class-name">size_t</span> size<span class="token punctuation">,</span>
+                            <span class="token class-name">physaddr_t</span> pa<span class="token punctuation">,</span> <span class="token keyword">int</span> perm<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">// Fill this function in</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> i <span class="token operator">+=</span> PGSIZE<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token class-name">pte_t</span> <span class="token operator">*</span>va_i_pte_va <span class="token operator">=</span> <span class="token function">pgdir_walk</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">)</span>va <span class="token operator">+</span> i<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">*</span>va_i_pte_va <span class="token operator">=</span> <span class="token function">PTE_ADDR</span><span class="token punctuation">(</span>pa <span class="token operator">+</span> i<span class="token punctuation">)</span> <span class="token operator">|</span> perm <span class="token operator">|</span> PTE_P<span class="token punctuation">;</span>
+        <span class="token function">tlb_invalidate</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span>va<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>需要注意第 10 行，在改变页表后需要使对应的 TLB 项失效。</p>
+<p><code>page_insert()</code> 的代码如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">page_insert</span><span class="token punctuation">(</span><span class="token class-name">pde_t</span> <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> <span class="token keyword">struct</span> <span class="token class-name">PageInfo</span> <span class="token operator">*</span>pp<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>va<span class="token punctuation">,</span> <span class="token keyword">int</span> perm<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">// Fill this function in</span>
+    <span class="token class-name">pte_t</span> <span class="token operator">*</span>va_pte_va <span class="token operator">=</span> <span class="token function">pgdir_walk</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> va<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>va_pte_va <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span>E_NO_MEM<span class="token punctuation">;</span>
+
+    pp<span class="token operator">-></span>pp_ref<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token function">page_remove</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> va<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token operator">*</span>va_pte_va <span class="token operator">=</span> <span class="token function">page2pa</span><span class="token punctuation">(</span>pp<span class="token punctuation">)</span> <span class="token operator">|</span> perm <span class="token operator">|</span> PTE_P<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这个函数需要注意代码顺序。<code>pp-&gt;pp_ref++</code> 不能晚于 <code>page_remove(pgdir, va)</code>，否则出现特例（“same <code>pp</code> is re-inserted at the same virtual address in the same <code>pgdir</code>”）时很难处理。但又不能早于 <code>if (va_pte_va == NULL)</code>，只有在 <code>va_pte_va != NULL</code> 时才能断定这次插入是成功的，然后才可以增加对应页的引用计数——开香槟不能太早。</p>
+<p><code>page_lookup()</code> 的代码如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">PageInfo</span> <span class="token operator">*</span><span class="token function">page_lookup</span><span class="token punctuation">(</span><span class="token class-name">pde_t</span> <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>va<span class="token punctuation">,</span> <span class="token class-name">pte_t</span> <span class="token operator">*</span><span class="token operator">*</span>pte_store<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">// Fill this function in</span>
+    <span class="token class-name">pte_t</span> <span class="token operator">*</span>va_pte_va <span class="token operator">=</span> <span class="token function">pgdir_walk</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> va<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>va_pte_va <span class="token operator">!=</span> <span class="token constant">NULL</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>va_pte_va<span class="token punctuation">)</span> <span class="token operator">&amp;</span> PTE_P<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token class-name">physaddr_t</span> original_page_pa <span class="token operator">=</span> <span class="token function">PTE_ADDR</span><span class="token punctuation">(</span><span class="token operator">*</span>va_pte_va<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">struct</span> <span class="token class-name">PageInfo</span> <span class="token operator">*</span>original_page <span class="token operator">=</span> <span class="token function">pa2page</span><span class="token punctuation">(</span>original_page_pa<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>pte_store <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+            <span class="token operator">*</span>pte_store <span class="token operator">=</span> va_pte_va<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> original_page<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>page_remove()</code> 的代码如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">page_remove</span><span class="token punctuation">(</span><span class="token class-name">pde_t</span> <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>va<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">// Fill this function in</span>
+    <span class="token class-name">pte_t</span> <span class="token operator">*</span>pte_ptr<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">PageInfo</span> <span class="token operator">*</span>original_page <span class="token operator">=</span> <span class="token function">page_lookup</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> va<span class="token punctuation">,</span> <span class="token operator">&amp;</span>pte_ptr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>original_page <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">page_decref</span><span class="token punctuation">(</span>original_page<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">*</span>pte_ptr <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token function">tlb_invalidate</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> va<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Exercise-5">Exercise 5</h2>
+<p>最终，补全 <code>mem_init()</code></p>
+<p>对于 <code>pages</code> 自身的映射将在后续映射 <code>KERNBASE</code> 时进行。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//////////////////////////////////////////////////////////////////////</span>
+<span class="token comment">// Map 'pages' read-only by the user at linear address UPAGES</span>
+<span class="token comment">// Permissions:</span>
+<span class="token comment">//    - the new image at UPAGES -- kernel R, user R</span>
+<span class="token comment">//      (ie. perm = PTE_U | PTE_P)</span>
+<span class="token comment">//    - pages itself -- kernel RW, user NONE</span>
+<span class="token comment">// Your code goes here:</span>
+<span class="token function">boot_map_region</span><span class="token punctuation">(</span>kern_pgdir<span class="token punctuation">,</span> UPAGES<span class="token punctuation">,</span> PTSIZE<span class="token punctuation">,</span> <span class="token function">PADDR</span><span class="token punctuation">(</span>pages<span class="token punctuation">)</span><span class="token punctuation">,</span> PTE_U<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//////////////////////////////////////////////////////////////////////</span>
+<span class="token comment">// Use the physical memory that 'bootstack' refers to as the kernel</span>
+<span class="token comment">// stack.  The kernel stack grows down from virtual address KSTACKTOP.</span>
+<span class="token comment">// We consider the entire range from [KSTACKTOP-PTSIZE, KSTACKTOP)</span>
+<span class="token comment">// to be the kernel stack, but break this into two pieces:</span>
+<span class="token comment">//     * [KSTACKTOP-KSTKSIZE, KSTACKTOP) -- backed by physical memory</span>
+<span class="token comment">//     * [KSTACKTOP-PTSIZE, KSTACKTOP-KSTKSIZE) -- not backed; so if</span>
+<span class="token comment">//       the kernel overflows its stack, it will fault rather than</span>
+<span class="token comment">//       overwrite memory.  Known as a "guard page".</span>
+<span class="token comment">//     Permissions: kernel RW, user NONE</span>
+<span class="token comment">// Your code goes here:</span>
+<span class="token function">boot_map_region</span><span class="token punctuation">(</span>kern_pgdir<span class="token punctuation">,</span> KSTACKTOP <span class="token operator">-</span> KSTKSIZE<span class="token punctuation">,</span> KSTKSIZE<span class="token punctuation">,</span>
+                <span class="token function">PADDR</span><span class="token punctuation">(</span>bootstacktop<span class="token punctuation">)</span> <span class="token operator">-</span> KSTKSIZE<span class="token punctuation">,</span> PTE_W<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//////////////////////////////////////////////////////////////////////</span>
+<span class="token comment">// Map all of physical memory at KERNBASE.</span>
+<span class="token comment">// Ie.  the VA range [KERNBASE, 2^32) should map to</span>
+<span class="token comment">//      the PA range [0, 2^32 - KERNBASE)</span>
+<span class="token comment">// We might not have 2^32 - KERNBASE bytes of physical memory, but</span>
+<span class="token comment">// we just set up the mapping anyway.</span>
+<span class="token comment">// Permissions: kernel RW, user NONE</span>
+<span class="token comment">// Your code goes here:</span>
+<span class="token function">boot_map_region</span><span class="token punctuation">(</span>kern_pgdir<span class="token punctuation">,</span> KERNBASE<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1ull</span> <span class="token operator">&lt;&lt;</span> <span class="token number">32</span><span class="token punctuation">)</span> <span class="token operator">-</span> KERNBASE<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                PTE_W<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Question">Question</h3>
+<ol start="2">
+<li></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Entry</th>
+<th style="text-align:left">Base Virtual Address</th>
+<th style="text-align:left">Points to (logically):</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">1023</td>
+<td style="text-align:left">0xffc00000</td>
+<td style="text-align:left">Page table for [252 MB, 256 MB) of phys memory</td>
+</tr>
+<tr>
+<td style="text-align:right">1022</td>
+<td style="text-align:left">0xff800000</td>
+<td style="text-align:left">Page table for [248 MB, 252 MB) of phys memory</td>
+</tr>
+<tr>
+<td style="text-align:right">…</td>
+<td style="text-align:left">…</td>
+<td style="text-align:left">…</td>
+</tr>
+<tr>
+<td style="text-align:right">960</td>
+<td style="text-align:left">0xf0000000 (<code>KERNBASE</code>)</td>
+<td style="text-align:left">Page table for [0 MB, 4 MB) of phys memory</td>
+</tr>
+<tr>
+<td style="text-align:right">959</td>
+<td style="text-align:left">0xefc00000</td>
+<td style="text-align:left">Page table for [<code>PADDR(bootstacktop)</code> - 4 MB, <code>PADDR(bootstacktop)</code>) of phys memory <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></td>
+</tr>
+<tr>
+<td style="text-align:right">958</td>
+<td style="text-align:left">0xef800000</td>
+<td style="text-align:left">none</td>
+</tr>
+<tr>
+<td style="text-align:right">957</td>
+<td style="text-align:left">0xef400000</td>
+<td style="text-align:left">Page table for [<code>PADDR(kern_pgdir)</code>, <code>PADDR(kern_pgdir)</code> + 4 MB) of phys memory</td>
+</tr>
+<tr>
+<td style="text-align:right">956</td>
+<td style="text-align:left">0xef000000 (<code>UPAGES</code>)</td>
+<td style="text-align:left">Page table for [<code>PADDR(pages)</code>, <code>PADDR(pages)</code> + 4 MB) of phys memory</td>
+</tr>
+<tr>
+<td style="text-align:right">955</td>
+<td style="text-align:left">0xeec00000</td>
+<td style="text-align:left">none</td>
+</tr>
+<tr>
+<td style="text-align:right">…</td>
+<td style="text-align:left">…</td>
+<td style="text-align:left">…</td>
+</tr>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:left">0x00000000</td>
+<td style="text-align:left">none</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li>
+<p>页表可以设置权限位，如果没有设置 <code>PTE_U</code> 则用户无权访问。</p>
+</li>
+<li>
+<p>128 MB。这是硬件（qemu）限制的。抛开硬件限制，注意到以下的事实：</p>
+<ol>
+<li>所有的物理页的信息 <code>PageInfo</code> 存储于 <code>pages</code> 数组；</li>
+<li><code>pages</code> 通过 <code>boot_alloc()</code> 申请；</li>
+<li><code>boot_alloc()</code> 最多分配 <code>KERNBASE + PTSIZE - ROUNDUP((char *)end)</code> 的空间；</li>
+<li>上述空间中，有一个页用作第一级页表。</li>
+</ol>
+</li>
+</ol>
+<p>因此，留给 <code>pages</code> 的空间至多为：</p>
+<p>$$S = \texttt{KERNBASE} + \texttt{PTSIZE} - \texttt{ROUNDUP((char *)end)} - \texttt{PGSIZE}$$</p>
+<p>最多支持物理内存：</p>
+<p>$$\frac{S}{\texttt{sizeof(PageInfo)}} \times \texttt{PGSIZE} &lt; \text{2 GB}$$</p>
+<p>应当指出，如果把内存空间 $S$ 全部分配给 <code>pages</code>，在 <code>mem_init()</code> 中将无法正常创建二级页表。</p>
+<ol start="5">
+<li>开销至多为 1 个一级页表、1023 个二级页表（考虑到页表自映射）、$\frac{S}{\texttt{sizeof(PageInfo)}}$ 项 <code>PageInfo</code>，以及指针（<code>page_free_list</code>、<code>pages</code>、<code>kern_pgdir</code>），总计要小于 8196.012 kB。应当指出，多数情况下只有很少一部分二级页表存在于内存中。为了减小开销，可以使用大页。</li>
+<li>如下：
+<ul>
+<li>通过如下的代码跳转到 <code>relocated()</code> 函数。而 <code>relocated()</code> 函数的链接地址高于 <code>KERNBASE</code>，从而使 <code>%eip</code> 高于 <code>KERNBASE</code>。</li>
+<li>此时的页表将物理地址 0 ~ 4 MB 同时映射到虚拟地址 0 ~ 4 MB 和 <code>KERNBASE</code> ~ <code>KERNBASE</code> + 4 MB。低位的 <code>%eip</code> 会恒等映射到相应的物理地址。</li>
+<li>因为在 <code>mem_init()</code> 之后，虚拟地址 0 ~ 4 MB 将不对应任何物理地址，因此内核必须转移到高的虚拟地址运行。</li>
+</ul>
+</li>
+</ol>
+<pre class="line-numbers language-asm" data-language="asm"><code class="language-asm">mov $relocated, %eax
+jmp *%eax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Challenge-1">Challenge 1</h2>
+<p>Intel IA-32 手册第 3A 卷的 <em>3.7.3 Mixing 4-KByte and 4-MByte Pages</em> 指出：</p>
+<blockquote>
+<p><em>When the PSE flag in CR4 is set, both 4-MByte pages and page tables for 4-KByte pages can be accessed from the same page directory. If the PSE flag is clear, only page tables for 4-KByte pages can be accessed (regardless of the setting of the PS flag in a page-directory entry).</em></p>
+</blockquote>
+<p>对于 PS flag，<em>3.7.6 Page-Directory and Page-Table Entries</em> 指出：</p>
+<blockquote>
+<p><strong>Page size (PS) flag, bit 7 page-directory entries for 4-KByte pages</strong></p>
+<p><em>Determines the page size. When this flag is clear, the page size is 4 KBytes and the page-directory entry points to a page table. When the flag is set, the page size is 4 MBytes for normal 32-bit addressing (and 2 MBytes if extended physical addressing is enabled) and the page-directory entry points to a page. If the page-directory entry points to a page table, all the pages associated with that page table will be 4-KByte pages.</em></p>
+</blockquote>
+<p>在什么情况下可以使用大页呢？<em>17.29.1 Large Pages</em> 指出：</p>
+<blockquote>
+<p><em>The availability of large pages on any IA-32 processor can be determined via feature bit 3 (PSE) of register EDX after the CPUID instruction has been execution with an argument of 1.</em></p>
+</blockquote>
+<p>据此可以修改代码。首先加入一个全局变量，用于判断是否启用大页：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// These variables are set in mem_init()</span>
+<span class="token comment">// ...</span>
+<span class="token keyword">static</span> <span class="token keyword">int</span> is_large_page_enabled<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>然后新增函数 <code>boot_map_region_large_page()</code>，这是 <code>boot_map_region()</code> 的大页版本：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">boot_map_region_large_page</span><span class="token punctuation">(</span><span class="token class-name">pde_t</span> <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> <span class="token class-name">uintptr_t</span> va<span class="token punctuation">,</span> <span class="token class-name">size_t</span> size<span class="token punctuation">,</span>
+                                       <span class="token class-name">physaddr_t</span> pa<span class="token punctuation">,</span> <span class="token keyword">int</span> perm<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>is_large_page_enabled<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> i <span class="token operator">+=</span> PTSIZE<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            pgdir<span class="token punctuation">[</span><span class="token function">PDX</span><span class="token punctuation">(</span>va <span class="token operator">+</span> i<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>pa <span class="token operator">+</span> i<span class="token punctuation">)</span> <span class="token operator">|</span> perm <span class="token operator">|</span> PTE_PS <span class="token operator">|</span> PTE_P<span class="token punctuation">;</span>
+            <span class="token function">tlb_invalidate</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span>va<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">panic</span><span class="token punctuation">(</span><span class="token string">"Call `boot_map_region_large_page' when large page is not "</span>
+              <span class="token string">"enabled.\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>最终，可以修改 <code>mem_init()</code> 如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token class-name">uint32_t</span> edx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token function">cpuid</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>edx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> is_large_page_supported <span class="token operator">=</span> <span class="token punctuation">(</span>edx <span class="token operator">>></span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>is_large_page_supported<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">uint32_t</span> cr4 <span class="token operator">=</span> <span class="token function">rcr4</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cr4 <span class="token operator">|=</span> CR4_PSE<span class="token punctuation">;</span>
+    <span class="token function">lcr4</span><span class="token punctuation">(</span>cr4<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    is_large_page_enabled <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token function">boot_map_region_large_page</span><span class="token punctuation">(</span>kern_pgdir<span class="token punctuation">,</span> KERNBASE<span class="token punctuation">,</span>
+                               <span class="token punctuation">(</span><span class="token class-name">size_t</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1ull</span> <span class="token operator">&lt;&lt;</span> <span class="token number">32</span><span class="token punctuation">)</span> <span class="token operator">-</span> KERNBASE<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> PTE_W<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">else</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">boot_map_region</span><span class="token punctuation">(</span>kern_pgdir<span class="token punctuation">,</span> KERNBASE<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1ull</span> <span class="token operator">&lt;&lt;</span> <span class="token number">32</span><span class="token punctuation">)</span> <span class="token operator">-</span> KERNBASE<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token number">0</span><span class="token punctuation">,</span> PTE_W<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>还需要对 <code>check_va2pa()</code> 进行修改，以支持大页：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span>is_large_page_enabled <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token operator">*</span>pgdir <span class="token operator">&amp;</span> PTE_PS<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token function">PTE_ADDR</span><span class="token punctuation">(</span><span class="token operator">*</span>pgdir<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>va <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token number">0x3ff</span> <span class="token operator">&lt;&lt;</span> PTXSHIFT<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>为了后续调试方便，对 <code>pgdir_walk()</code> 进行修改，在发现是大页时直接 panic。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>pde <span class="token operator">&amp;</span> PTE_P<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>pde <span class="token operator">&amp;</span> PTE_PS<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token function">panic</span><span class="token punctuation">(</span><span class="token string">"Its a large page.\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Challenge-2">Challenge 2</h2>
+<p>增加两个命令：<code>showmap</code> 和 <code>setperm</code>。两者的实现详见代码。</p>
+<p><code>showmap</code> 的示例输出：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">K> showmap 0xeffff000 0xf0000000
+
+ V address -> P address   Permission  K | R
+0xeffff000 -> 0x00116000, Permission: RW|--
+0xf0000000 -> 0x00000000, Permission: RW|-- It's a large page<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>setperm</code> 的示例输出：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">K> setperm 0xf0000000 U
+PTE_U on virtual address 0xf0000000 is enabled. It's a large page
+K> setperm 0xf0000000 K
+PTE_U on virtual address 0xf0000000 is disabled. It's a large page<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>只有 [<code>PADDR(bootstacktop)</code> - <code>KSTKSIZE</code>, <code>PADDR(bootstacktop)</code>) 的页表项有效。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2023/11/05/OS-Lab-3/" rel="prev" title="操作系统实验 3"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">操作系统实验 3</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2023/10/08/OS-Lab-1/" rel="next" title="操作系统实验 1"><span class="post-nav-text">操作系统实验 1</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOLYNLZA" data-category="Announcements" data-category-id="DIC_kwDOLYNLZM4Cdh6j" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="preferred_color_scheme" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 喵喵喵？</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v7.1.1</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.11</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>

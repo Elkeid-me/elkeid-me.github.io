@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="喵喵喵？"><meta name="copyright" content="喵喵喵？"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>雷语言 | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/img/core_imgs/fav.svg"><link rel="mask-icon" href="/img/core_imgs/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"喵呜喵呜","version":"1.10.11","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"我们小猫只要能吃能睡就是好的"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="雷语言的设计草稿">
+<meta property="og:type" content="article">
+<meta property="og:title" content="雷语言">
+<meta property="og:url" content="https://elkeid-me.github.io/2024/01/31/lei-lang/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="雷语言的设计草稿">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-31T12:44:22.000Z">
+<meta property="article:modified_time" content="2024-02-26T15:08:49.635Z">
+<meta property="article:author" content="喵喵喵？">
+<meta property="article:tag" content="编程语言">
+<meta property="article:tag" content="雷语言">
+<meta property="article:tag" content="雷氏力学">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="喵喵喵？"><img width="96" loading="lazy" src="/img/core_imgs/Avatar.jpg" alt="喵喵喵？"><span class="site-author-status" title="撒糖啦！">🍬</span></a><div class="site-author-name"><a href="/about/">喵喵喵？</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">16</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B7-132"><span class="toc-number">1.</span> <span class="toc-text">雷 132</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%B7%E8%AF%AD%E8%A8%80%E7%9A%84%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">雷语言的表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#let-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">let 表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%98%E9%87%8F-let-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">变量 let 表达式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%BD%E6%95%B0-let-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">函数 let 表达式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%83%E7%BB%84-let-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">元组 let 表达式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%8B%E5%80%BC%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">赋值表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.3.</span> <span class="toc-text">; 表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.4.</span> <span class="toc-text">函数调用表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.5.</span> <span class="toc-text">管道表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.6.</span> <span class="toc-text">Lambda 表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#empty-%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.2.7.</span> <span class="toc-text">empty 对象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.3.</span> <span class="toc-text">示例</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2024/01/31/lei-lang/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="喵喵喵？"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">雷语言</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2024-01-31 20:44:22" itemprop="dateCreated datePublished" datetime="2024-01-31T20:44:22+08:00">2024-01-31</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%BC%96%E7%A8%8B/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">编程</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">编程语言</span></a><a class="tag-item" href="/tags/%E9%9B%B7%E8%AF%AD%E8%A8%80/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">雷语言</span></a><a class="tag-item" href="/tags/%E9%9B%B7%E6%B0%8F%E5%8A%9B%E5%AD%A6/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">雷氏力学</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>雷语言跟 F# 还挺像的，所以代码高亮就直接用 F# 了（</p>
+<h2 id="雷-132">雷 132</h2>
+<h3 id="简介">简介</h3>
+<p>雷语言是一种函数式编程语言：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">f x y :&#x3D; x + y;
+print &quot;%d\n&quot; (f 114 514); &#x2F;&#x2F; &#x3D;&gt; 628
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><code>if</code>、<code>which</code>、<code>while</code> 是特殊的内置函数。 <code>if</code> 是条件分支：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">x :&#x3D; 1;
+if x &#x3D; 1
+(print &quot;%d\n&quot; 114)
+(print &quot;%d\n&quot; 514); &#x2F;&#x2F; &#x3D;&gt; 114
+
+if x &#x3D; 2
+(print &quot;%d\n&quot; 114) (
+    if x &#x3D; 1
+    (print &quot;%d\n&quot; 514)
+    empty
+); &#x2F;&#x2F; &#x3D;&gt; 514
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>鉴于 <code>if</code> 是函数，用在表达式是自然的：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">z :&#x3D; 1;
+x :&#x3D; if z &#x3D; 1 3 2;
+print &quot;%d&quot; x; &#x2F;&#x2F; &#x3D;&gt; 3
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>which</code> 是多路条件选择：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">x :&#x3D; input;
+print_dec :&#x3D; print &quot;%d\n&quot;;
+
+if x &#x3D; 1
+(print_dec 1) (
+    if x &#x3D; 2
+    (print_dec 2) (
+        if x &#x3D; 3
+        (print_dec 3)
+        (print_dec 4)
+    )
+);
+&#x2F;&#x2F; 上述嵌套 if 等同于 which:
+which
+(x &#x3D; 1, print_dec 1)
+(x &#x3D; 2, print_dec 2)
+(x &#x3D; 3, print_dec 3)
+(true, print_dec 4);
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>while</code> 是循环，接受两个可调用对象为参数：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">x :&#x3D;~ 1;
+
+while
+(\ -&gt; x &lt; 5) (
+    \ -&gt;
+    print &quot;%d &quot; x;
+    x &lt;- if x &#x3D; 1 x + 2 x + 1;
+    empty
+);
+&#x2F;&#x2F; &#x3D;&gt;
+&#x2F;&#x2F; 1 3 4
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>雷语言使用及早求值，但 <code>if</code> 和 <code>which</code> 使用惰性求值：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">f x :&#x3D; (
+    t :&#x3D; x + 1;
+    print &quot;%d\n&quot; t;
+    t
+);
+
+print &quot;%d, %d\n&quot; (f 114) (f 514);
+&#x2F;&#x2F; &#x3D;&gt;
+&#x2F;&#x2F; 115
+&#x2F;&#x2F; 515
+&#x2F;&#x2F; 115, 515
+
+if true
+(f 114)
+(f 514); &#x2F;&#x2F; &#x3D;&gt; 115
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>雷语言支持柯里化：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">print_hex :&#x3D; print &quot;0x%x\n&quot;;
+print_hex 1131796; &#x2F;&#x2F; &#x3D;&gt; 0x114514
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>雷语言规定：任何函数必须有参数。如果要实现无参数的函数，可以用关键字 <code>_</code>，例如：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">p _ :&#x3D; print &quot;114514\n&quot;;
+p _; &#x2F;&#x2F; &#x3D;&gt; 114514
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="雷语言的表达式">雷语言的表达式</h3>
+<h4 id="let-表达式">let 表达式</h4>
+<p>let 表达式这个名字是历史原因，let 表达式里实际上没有 let。</p>
+<h5 id="变量-let-表达式">变量 let 表达式</h5>
+<ul>
+<li><code>x := 1</code> 表示定义一个名为 <code>x</code> 的<strong>不可变</strong>变量，值为 <code>1</code>；</li>
+<li><code>x :=~ 1</code> 表示定义一个名为 <code>x</code> 的<strong>可变</strong>变量，初值为 <code>1</code>；</li>
+</ul>
+<p>变量 let 表达式的值为变量值本身。</p>
+<h5 id="函数-let-表达式">函数 let 表达式</h5>
+<ul>
+<li><code>f x y := x + y</code> 表示定义一个名为 <code>f</code>，接受参数 <code>x</code> 和 <code>y</code> 的函数。</li>
+</ul>
+<p>函数 let 表达式的值为定义的函数本身。</p>
+<h5 id="元组-let-表达式">元组 let 表达式</h5>
+<p>例如，<code>(x, y, z) := (1, 2, 3)</code> 表示对三元组 <code>(1, 2, 3)</code> 解包，<code>x</code>、<code>y</code>、<code>z</code> 的值分别为 <code>1</code>、<code>2</code>、<code>3</code>。</p>
+<p>元组 let 表达式可以省略外层的括号，如上述代码也可写成 <code>x, y, z := (1, 2, 3)</code>。注意，雷语言中没有零元组和一元组。</p>
+<p>元组 let 表达式可以用 <code>_</code> 表示在解包的过程中忽略某个值，例如 <code>x, _, z := (1, 2, 3)</code> 表示对三元组 <code>(1, 2, 3)</code> 解包，<code>x</code>、<code>z</code> 的值分别为 1、3，而 2 则被忽略。</p>
+<p>对于元组 let 表达式的值，以例子给出：</p>
+<ul>
+<li><code>x, y, z := (1, 2, 3)</code>，值是三元组 <code>(1, 2, 3)</code></li>
+<li><code>x, _, z := (1, 2, 3)</code>，值是二元组 <code>(1, 3)</code></li>
+<li><code>x, _, _ := (1, 2, 3)</code>，值是整型 <code>1</code></li>
+<li><code>_, _, _ := (1, 2, 3)</code>，尽管没有人会这么写，但雷语言还是为这个 let 表达式赋予了值：<code>empty</code></li>
+</ul>
+<h4 id="赋值表达式">赋值表达式</h4>
+<p><code>x &lt;- expr</code>，表示求值 <code>expr</code>，然后令可变变量 <code>x</code> 的值为 <code>expr</code> 的值。</p>
+<h4 id="表达式"><code>;</code> 表达式</h4>
+<p><code>;</code> 是一种二元运算符，定义如下：</p>
+<ul>
+<li><code>expr_1 ; expr_2</code> 表示按顺序求值 <code>expr_1</code> 和 <code>expr_2</code>，而整个 <code>;</code> 表达式的值为 <code>expr_2</code></li>
+<li><code>;</code> 是右结合的，即 <code>expr_1 ; expr_2 ; expr_3</code> 解释为 <code>expr_1 ; (expr_2 ; expr_3)</code>。可以看到它按顺序求值 <code>expr_1</code>、<code>expr_2</code> 和 <code>expr_3</code>，整个表达式的值为 <code>expr_3</code></li>
+</ul>
+<p>例如：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">f _ :&#x3D; (print &quot;114 &quot;; 114);
+g x :&#x3D; 514 + x;
+print (&quot;%x&quot;; &quot;%d&quot;) (f _; g (f _)); &#x2F;&#x2F; 114 114 628
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="函数调用表达式">函数调用表达式</h4>
+<p><code>expr_1 expr_2 expr_3 ...</code> 表示先求值 <code>expr_1</code>、<code>expr_2</code>、<code>expr_3</code>、<code>...</code>（对于 <code>if</code> 和 <code>which</code>，则采用惰性求值），然后以 <code>expr_2</code>、<code>expr_3</code>、<code>...</code> 为参数调用 <code>expr_1</code>。</p>
+<h4 id="管道表达式">管道表达式</h4>
+<p><code>|&gt;</code> 是管道运算符，是一种二元运算符。</p>
+<ul>
+<li><code>expr_1 |&gt; expr_2</code> 表示求值 <code>expr_1</code> 和 <code>expr_2</code>，然后 <code>expr_2</code> 以 <code>expr_1</code> 为参数调用。注意，由于柯里化的存在，<code>expr_2</code> 不一定为只接受一个参数的函数。</li>
+<li><code>|&gt;</code> 是左结合的，即 <code>expr_1 |&gt; expr_2 |&gt; expr_3</code> 解释为 <code>(expr_1 |&gt; expr_2) |&gt; expr_3</code>。</li>
+</ul>
+<h4 id="Lambda-表达式">Lambda 表达式</h4>
+<p>Lambda 表达式用于定义匿名的、一次性的函数。格式为 <code>\ &lt;参数列表&gt; -&gt; 函数体</code>。</p>
+<h4 id="empty-对象"><code>empty</code> 对象</h4>
+<p>这是一种特殊的对象。类似 Rust 中的零元组。</p>
+<h3 id="示例">示例</h3>
+<p>来看一个综合例子（<code>print</code>、<code>range</code>、<code>map</code>、<code>filter</code>、<code>for_each</code> 和 <code>collect</code> 是内置函数）：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">f x :&#x3D; if x &gt; 0 x + 1 x - 1;
+p _ :&#x3D; print &quot;114514 &quot;;
+range -10 10 |&gt; map f |&gt; filter (\ x -&gt; p _; x &lt; -5 \&#x2F; x &gt; 0) |&gt; for_each (print &quot;%d\n&quot;);
+&#x2F;&#x2F; &#x3D;&gt;
+&#x2F;&#x2F; 114514 -11
+&#x2F;&#x2F; 114514 -10
+&#x2F;&#x2F; 114514 -9
+&#x2F;&#x2F; 114514 -8
+&#x2F;&#x2F; 114514 -7
+&#x2F;&#x2F; 114514 -6
+&#x2F;&#x2F; 114514 114514 114514 114514 114514 114514 114514 1
+&#x2F;&#x2F; 114514 2
+&#x2F;&#x2F; 114514 3
+&#x2F;&#x2F; 114514 4
+&#x2F;&#x2F; 114514 5
+&#x2F;&#x2F; 114514 6
+&#x2F;&#x2F; 114514 7
+&#x2F;&#x2F; 114514 8
+&#x2F;&#x2F; 114514 9
+&#x2F;&#x2F; 114514 10
+
+&#x2F;&#x2F; 等同于：
+for_each (print &quot;%d\n&quot;) (filter (\ x -&gt; p _; x &lt; -5 \&#x2F; x &gt; 0) (map f (range -10 10)));
+
+&#x2F;&#x2F; 等同于：
+10 |&gt; (-10 |&gt; range) |&gt; (f |&gt; map) |&gt; ((\ x -&gt; _ |&gt; p; x &lt; -5 \&#x2F; x &gt; 0) |&gt; filter) |&gt; (&quot;%d\n&quot; |&gt; print |&gt; for_each);
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>快速排序：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">&#x2F;&#x2F; ~ 是列表连接运算符
+q_sort a :&#x3D;
+    if (length a) &#x3D; 0 []
+    (a |&gt; filter (\ x -&gt; x &lt; a[0]) |&gt; collect |&gt; q_sort)
+     ~ (a |&gt; filter (\ x -&gt; x &#x3D; a[0]) |&gt; collect |&gt; q_sort)
+     ~ (a |&gt; filter (\ x -&gt; x &gt; a[0]) |&gt; collect |&gt; q_sort);
+
+[11, 4, 51, 4, 19, 191, 810] |&gt; q_sort |&gt; for_each (print &quot;%d\n&quot;);
+&#x2F;&#x2F; &#x3D;&gt;
+&#x2F;&#x2F; 4
+&#x2F;&#x2F; 4
+&#x2F;&#x2F; 11
+&#x2F;&#x2F; 19
+&#x2F;&#x2F; 51
+&#x2F;&#x2F; 191
+&#x2F;&#x2F; 810
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>斐波那契数列：</p>
+<pre class="line-numbers language-F#" data-language="F#"><code class="language-F#">fib x :&#x3D; (
+    fib_helper x_0 x_1 n :&#x3D; (
+        if n &#x3D; 1
+        (x_0, x_1, 0)
+        (fib_helper x_1 x_0 + x_1 n - 1)
+    );
+    _, v, _ :&#x3D; fib_helper 0 1 x;
+);
+
+range 1 4 |&gt; for_each (\ x -&gt; print &quot;%d &quot; (fib x)); &#x2F;&#x2F; &#x3D;&gt; 1 1 2
+
+0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>整个雷语言程序实际上就是一个值类型为整型的 <code>;</code> 表达式。</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/02/08/risk/" rel="prev" title="每个人承担自己的风险！"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">每个人承担自己的风险！</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2023/12/17/OS-Lab-5/" rel="next" title="操作系统实验 5"><span class="post-nav-text">操作系统实验 5</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOLYNLZA" data-category="Announcements" data-category-id="DIC_kwDOLYNLZM4Cdh6j" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="preferred_color_scheme" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 喵喵喵？</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v7.1.1</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.11</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="喵喵喵？"><meta name="copyright" content="喵喵喵？"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>操作系统实验 1 | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/img/core_imgs/fav.svg"><link rel="mask-icon" href="/img/core_imgs/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"喵呜喵呜","version":"1.10.11","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"我们小猫只要能吃能睡就是好的"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="MIT 6.828 JOS Lab 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统实验 1">
+<meta property="og:url" content="https://elkeid-me.github.io/2023/10/08/OS-Lab-1/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="MIT 6.828 JOS Lab 1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://elkeid-me.github.io/OS-Lab-1/1.png">
+<meta property="article:published_time" content="2023-10-08T15:50:00.000Z">
+<meta property="article:modified_time" content="2024-02-26T15:08:49.627Z">
+<meta property="article:author" content="喵喵喵？">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://elkeid-me.github.io/OS-Lab-1/1.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="喵喵喵？"><img width="96" loading="lazy" src="/img/core_imgs/Avatar.jpg" alt="喵喵喵？"><span class="site-author-status" title="撒糖啦！">🍬</span></a><div class="site-author-name"><a href="/about/">喵喵喵？</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">16</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-2"><span class="toc-number">1.</span> <span class="toc-text">Exercise 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-3"><span class="toc-number">2.</span> <span class="toc-text">Exercise 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-1"><span class="toc-number">2.1.</span> <span class="toc-text">Question 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-2"><span class="toc-number">2.2.</span> <span class="toc-text">Question 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-3"><span class="toc-number">2.3.</span> <span class="toc-text">Question 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-4"><span class="toc-number">2.4.</span> <span class="toc-text">Question 4</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-5"><span class="toc-number">3.</span> <span class="toc-text">Exercise 5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-6"><span class="toc-number">4.</span> <span class="toc-text">Exercise 6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-7"><span class="toc-number">5.</span> <span class="toc-text">Exercise 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-8"><span class="toc-number">6.</span> <span class="toc-text">Exercise 8</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-1-2"><span class="toc-number">6.1.</span> <span class="toc-text">Question 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-2-2"><span class="toc-number">6.2.</span> <span class="toc-text">Question 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-3-2"><span class="toc-number">6.3.</span> <span class="toc-text">Question 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-4-2"><span class="toc-number">6.4.</span> <span class="toc-text">Question 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-5"><span class="toc-number">6.5.</span> <span class="toc-text">Question 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Question-6"><span class="toc-number">6.6.</span> <span class="toc-text">Question 6</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-9"><span class="toc-number">7.</span> <span class="toc-text">Exercise 9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-10"><span class="toc-number">8.</span> <span class="toc-text">Exercise 10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exercise-11-and-12"><span class="toc-number">9.</span> <span class="toc-text">Exercise 11 and 12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Challenge"><span class="toc-number">10.</span> <span class="toc-text">Challenge</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2023/10/08/OS-Lab-1/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="喵喵喵？"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">操作系统实验 1</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2023-10-08 23:50:00" itemprop="dateCreated datePublished" datetime="2023-10-08T23:50:00+08:00">2023-10-08</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%BC%96%E7%A8%8B/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">编程</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/C-C/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">C/C++</span></a><a class="tag-item" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">操作系统</span></a><a class="tag-item" href="/tags/%E6%B1%87%E7%BC%96/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">汇编</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>选择了唯一的 Challenge。</p>
+<h2 id="Exercise-2">Exercise 2</h2>
+<p>BIOS 在初始化 <code>%ss</code> 与 <code>%esp</code> 寄存器，并通过一系列 <code>in</code>/<code>out</code> 指令设置输入输出。</p>
+<h2 id="Exercise-3">Exercise 3</h2>
+<h3 id="Question-1">Question 1</h3>
+<p>执行 <code>ljmp $PROT_MODE_CSEG, $protcseg</code> 后进入 32 位代码。</p>
+<p>这是通过 <code>seta20.1</code> 和 <code>seta20.2</code> 打开 A20，并切换到保护模式实现的。</p>
+<h3 id="Question-2">Question 2</h3>
+<p>bootloader 的最后一条指令是 <code>call *0x10018</code>，对应着 <code>bootmain()</code> 函数的 <code>((void (*)(void))(ELFHDR-&gt;e_entry))()</code> 语句。</p>
+<p>内核的第一条指令是 <code>movw $0x1234,0x472</code>。</p>
+<h3 id="Question-3">Question 3</h3>
+<p>内核的第一条指令位于 <code>0x10000c</code>。</p>
+<h3 id="Question-4">Question 4</h3>
+<p>在 <code>bootmain</code> 函数中，读取 elf 文件头。然后，根据 elf 文件头的信息，去读取各个程序段头。最终，通过程序段头的 <code>memsz</code> 信息，获知每个程序段的大小，并以此在 <code>readseg()</code> 函数算出扇区数。</p>
+<h2 id="Exercise-5">Exercise 5</h2>
+<p>第一条执行错误的指令是 <code>lgdt gdtdesc</code>。</p>
+<p>第一条“break”的指令是 <code>ljmp $PROT_MODE_CSEG,$protcseg</code>，也即 <code>ljmp $0x8,$0x7c36</code>。</p>
+<p>因为这一行指令不是位置无关代码，而 <code>protecseg</code> 链接到了错误的位置。</p>
+<h2 id="Exercise-6">Exercise 6</h2>
+<p>bootloader 的 <code>bootmain()</code> 函数的 <code>for</code> 循环的第一次运行，会读取内核 <code>.text</code> 段的前 29058 字节到 <code>0x100000</code>。这 8 个字即是内核 <code>.text</code> 段的前 8 个字。</p>
+<h2 id="Exercise-7">Exercise 7</h2>
+<p>指令 <code>jmp *%eax</code> 会发生异常。</p>
+<h2 id="Exercise-8">Exercise 8</h2>
+<p>在 <code>lib/printfmt.c</code> 文件中有一 <code>vprintfmt()</code> 函数，其中 <code>switch</code> 的 <code>case 'o'</code> 修改如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">case</span> <span class="token char">'o'</span><span class="token operator">:</span>
+    num <span class="token operator">=</span> <span class="token function">getuint</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ap<span class="token punctuation">,</span> lflag<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    base <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>
+    <span class="token keyword">goto</span> number<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Question-1-2">Question 1</h3>
+<p>在 <code>kern/printf.c</code> 和 <code>kern/console.c</code> 之间的接口是 <code>cputchar()</code> 函数。具体来说，是这样的：</p>
+<ol>
+<li><code>kern/console.c</code> 中的 <code>cputchar()</code> 函数实质上是 <code>cons_putc()</code> 的套壳。后者在控制台中输出一个字符。</li>
+<li><code>kern/printf.c</code> 中有 <code>putch()</code> 函数，实质上是 <code>cputchar()</code> 的套壳。</li>
+<li>putch()<code>的函数指针作为</code>vprintfmt()<code>的第一个参数。后者又被</code>vcprintf()` 调用。</li>
+<li><code>vcprintf()</code> 又被 <code>cprintf()</code> 调用。</li>
+</ol>
+<h3 id="Question-2-2">Question 2</h3>
+<p>在已输出的字符数大于 <code>CRT_SIZE</code> 时，将屏幕滚动一行。</p>
+<h3 id="Question-3-2">Question 3</h3>
+<ol>
+<li>参数 <code>fmt</code> 指向格式化字符串 <code>&quot;x %d, y %x, z %d\n&quot;</code>；<code>ap</code> 指向变参结构体。</li>
+<li></li>
+</ol>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">cprintf()
+    vcprintf()
+        cons_putc('x')
+        cons_putc(' ')
+        va_arg(), ap 由指向 x 变为指向 y
+        cons_putc('1')
+        cons_putc(',')
+        cons_putc(' ')
+        cons_putc('y')
+        cons_putc(' ')
+        va_arg(), ap 由指向 y 变为指向 z
+        cons_putc('3')
+        cons_putc(',')
+        cons_putc(' ')
+        cons_putc('z')
+        cons_putc(' ')
+        va_arg(), ap 由指向 z 变为指向我们不知道的东西
+        cons_putc('4')
+        cons_putc('\n')<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Question-4-2">Question 4</h3>
+<p>输出 <code>He110 World</code>。具体过程如下：</p>
+<ol>
+<li>输出 <code>H</code>。</li>
+<li>输出 <code>57616</code> 的十六进制 <code>e110</code>。</li>
+<li>输出 <code>Wo</code>。</li>
+<li><code>i</code> 在小端序机器上，地址从低到高为 4 个字节：<code>0x72 0x6c 0x64 0x00</code>，（在 ASCII 码）恰好可以视为长度为 3 的空终止字符串 <code>rld</code>。又考虑到格式化字符串中的转换说明 <code>%s</code>，这一步输出 <code>rld</code>。如果是大端序，那么 <code>i</code> 应当设为 <code>0x726c6400</code>。<code>57616</code> 不必改变。</li>
+</ol>
+<h3 id="Question-5">Question 5</h3>
+<p>将会输出我们不知道的值。具体来说，如果参数 <code>3</code> 的地址为 <code>byte *ptr</code>，则会输出 <code>ptr + 4</code> 指向的，类型为 <code>int</code> 的值。</p>
+<p>解释：在当前 ABI 中，函数参数全部使用栈传参，且从右向左压栈。因此，在输出 <code>x=</code> 后，<code>va_arg</code> 会获取值 <code>3</code>，并将变参列表指针 <code>ap</code> 向上移动 4 字节。在输出 <code>y=</code> 后，<code>va_arg</code> 会获取 <code>ptr + 4</code> 指向的值。</p>
+<h3 id="Question-6">Question 6</h3>
+<p><code>cprintf(..., const char *fmt)</code>，其中可变参数需要倒着输入。例如，为了输出 <code>x</code> 和 <code>y</code> 的值，需要：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">cprintf</span><span class="token punctuation">(</span>y<span class="token punctuation">,</span> x<span class="token punctuation">,</span> <span class="token string">"x=%d, y=%d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="Exercise-9">Exercise 9</h2>
+<p>在 <code>kern/entry.S</code> 的 <code>relocated</code> 函数中，有一行指令：</p>
+<pre class="line-numbers language-none"><code class="language-none">movl   $(bootstacktop),%esp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在此初始化内核栈。</p>
+<p>在 <code>.data</code> 段中，静态地保留了 <code>KSTKSIZE</code> 大小的空间作为内核栈。</p>
+<p>栈指针初始化时，指向上述空间的最高处。</p>
+<h2 id="Exercise-10">Exercise 10</h2>
+<p>分别是参数 <code>x - 1</code>，返回地址、<code>%ebp</code> 和 <code>%esi</code>。共计 4 个 32位字。</p>
+<h2 id="Exercise-11-and-12">Exercise 11 and 12</h2>
+<p>对于 <code>mon_backtrace</code> 编写如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">mon_backtrace</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">,</span> <span class="token keyword">struct</span> <span class="token class-name">Trapframe</span> <span class="token operator">*</span>tf<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">Eipdebuginfo</span> debug_info<span class="token punctuation">;</span>
+    <span class="token function">cprintf</span><span class="token punctuation">(</span><span class="token string">"Stack backtrace:\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">uint32_t</span> <span class="token operator">*</span>ebp <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">uint32_t</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">read_ebp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">uint32_t</span><span class="token punctuation">)</span>ebp <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token class-name">uint32_t</span> eip <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_1 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_2 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    arg_3 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_4 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_5 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">cprintf</span><span class="token punctuation">(</span><span class="token string">"  ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n"</span><span class="token punctuation">,</span> ebp<span class="token punctuation">,</span>
+                eip<span class="token punctuation">,</span> arg_1<span class="token punctuation">,</span> arg_2<span class="token punctuation">,</span> arg_3<span class="token punctuation">,</span> arg_4<span class="token punctuation">,</span> arg_5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">debuginfo_eip</span><span class="token punctuation">(</span>eip<span class="token punctuation">,</span> <span class="token operator">&amp;</span>debug_info<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">cprintf</span><span class="token punctuation">(</span><span class="token string">"         %s:%d: %.*s+%d\n"</span><span class="token punctuation">,</span> debug_info<span class="token punctuation">.</span>eip_file<span class="token punctuation">,</span>
+                debug_info<span class="token punctuation">.</span>eip_line<span class="token punctuation">,</span> debug_info<span class="token punctuation">.</span>eip_fn_namelen<span class="token punctuation">,</span>
+                debug_info<span class="token punctuation">.</span>eip_fn_name<span class="token punctuation">,</span> eip <span class="token operator">-</span> debug_info<span class="token punctuation">.</span>eip_fn_addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ebp <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">uint32_t</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token operator">*</span>ebp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>第 6 行用于获取当前的 <code>%ebp</code>。</p>
+<p><code>while</code> 循环的终止条件是 <code>%ebp == 0</code>，因为 <code>relocated</code> 的 <code>%ebp</code> 为 0。</p>
+<p>第 9 ~ 12 行是获取和打印 <code>%eip</code> 以及 5 个参数的过程。</p>
+<p>第 14 ~ 18 行是获取和打印 <code>%eip</code> 以及 5 个参数的过程。</p>
+<p>第 19 行用于获取上一层函数的 <code>%ebp</code>，因为这一层函数的第一个语句即是 <code>push %ebp</code>。</p>
+<p>再在 <code>debuginfo_eip</code> 补充如下的代码，用于获取对应的行号：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">stab_binsearch</span><span class="token punctuation">(</span>stabs<span class="token punctuation">,</span> <span class="token operator">&amp;</span>lline<span class="token punctuation">,</span> <span class="token operator">&amp;</span>rline<span class="token punctuation">,</span> N_SLINE<span class="token punctuation">,</span> addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>lline <span class="token operator">&lt;=</span> rline<span class="token punctuation">)</span>
+    info<span class="token operator">-></span>eip_line <span class="token operator">=</span> lline<span class="token punctuation">;</span>
+<span class="token keyword">else</span>
+    info<span class="token operator">-></span>eip_line <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Challenge">Challenge</h2>
+<p>为了在 VGA 字符模式向屏幕打印字符，我们必须将它写入硬件提供的 VGA 字符缓冲区。VGA 字符缓冲区中的每一个字符单元为 2 字节，有如下的格式：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">位</th>
+<th style="text-align:center">值含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0 ~ 7</td>
+<td style="text-align:center">字符 ASCII 码</td>
+</tr>
+<tr>
+<td style="text-align:center">8 ~ 11</td>
+<td style="text-align:center">前景色</td>
+</tr>
+<tr>
+<td style="text-align:center">12 ~ 14</td>
+<td style="text-align:center">背景色</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center">闪烁</td>
+</tr>
+</tbody>
+</table>
+<p>可以在 <code>kern/console.c</code> 中的 <code>cga_putc()</code> 函数看到如下语句：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>c <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    c <span class="token operator">|=</span> <span class="token number">0x700</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>此即硬编码的黑底白字。为了更改输出颜色，我添加了一个 <code>color</code> 命令，类似 Windows 的 <code>COLOR</code> 命令，支持以下三种输入：</p>
+<ol>
+<li><code>color</code> 恢复默认的黑底白字。</li>
+<li><code>color &lt;fg color&gt;</code> 改变前景色。<code>&lt;fg color&gt;</code> 的值可以为 0 ~ f。</li>
+<li><code>color &lt;fg color&gt; &lt;bg color&gt;</code> 改变前景色和背景色。<code>&lt;fg color&gt;</code> 的值可以为 0 ~ f，<code>&lt;bg color&gt;</code> 的值可以为 0 ~ 7。</li>
+</ol>
+<p><code>color</code> 命令会检查参数是否合法，并保证前景色与背景色不同。</p>
+<p><code>color</code> 命令的详细实现见代码。这里只说思路：</p>
+<ol>
+<li>加入全局变量 <code>fg_color</code>, <code>bg_color</code>，并将硬编码的黑底白字修改为：</li>
+</ol>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>c <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    c <span class="token operator">|=</span> <span class="token punctuation">(</span>fg_color <span class="token operator">&lt;&lt;</span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>bg_color <span class="token operator">&lt;&lt;</span> <span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ol start="2">
+<li>使用 <code>color</code> 命令修改全局变量 <code>fg_color</code>, <code>bg_color</code>。</li>
+</ol>
+<p>效果如图：</p>
+<p><img src="/OS-Lab-1/1.png" alt="`color` 命令" loading="lazy"></p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2023/10/22/OS-Lab-2/" rel="prev" title="操作系统实验 2"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">操作系统实验 2</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2023/09/10/OS-Env-Setup/" rel="next" title="操作系统实验 环境配置"><span class="post-nav-text">操作系统实验 环境配置</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOLYNLZA" data-category="Announcements" data-category-id="DIC_kwDOLYNLZM4Cdh6j" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="preferred_color_scheme" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 喵喵喵？</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v7.1.1</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.11</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>

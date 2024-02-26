@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="喵喵喵？"><meta name="copyright" content="喵喵喵？"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>架设自己的 Minecraft 服务器 | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/img/core_imgs/fav.svg"><link rel="mask-icon" href="/img/core_imgs/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"喵呜喵呜","version":"1.10.11","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"我们小猫只要能吃能睡就是好的"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="基于 Paper 服务端的 Minecraft 服务器架设。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="架设自己的 Minecraft 服务器">
+<meta property="og:url" content="https://elkeid-me.github.io/2023/02/05/Open-an-MC-Server/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="基于 Paper 服务端的 Minecraft 服务器架设。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://elkeid-me.github.io/2023/02/05/Open-an-MC-Server/folder_1.jpg">
+<meta property="og:image" content="https://elkeid-me.github.io/2023/02/05/Open-an-MC-Server/output.jpg">
+<meta property="og:image" content="https://elkeid-me.github.io/2023/02/05/Open-an-MC-Server/folder_2.jpg">
+<meta property="og:image" content="https://elkeid-me.github.io/2023/02/05/Open-an-MC-Server/succ.jpg">
+<meta property="og:image" content="https://elkeid-me.github.io/2023/02/05/Open-an-MC-Server/stop.jpg">
+<meta property="article:published_time" content="2023-02-05T11:37:34.000Z">
+<meta property="article:modified_time" content="2024-02-26T15:08:49.631Z">
+<meta property="article:author" content="喵喵喵？">
+<meta property="article:tag" content="Minecraft">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://elkeid-me.github.io/2023/02/05/Open-an-MC-Server/folder_1.jpg"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="喵喵喵？"><img width="96" loading="lazy" src="/img/core_imgs/Avatar.jpg" alt="喵喵喵？"><span class="site-author-status" title="撒糖啦！">🍬</span></a><div class="site-author-name"><a href="/about/">喵喵喵？</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">16</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Paper-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">Paper 服务端介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-Paper"><span class="toc-number">3.</span> <span class="toc-text">下载 Paper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E8%AE%BE%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">架设服务器</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2023/02/05/Open-an-MC-Server/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="喵喵喵？"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">架设自己的 Minecraft 服务器</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2023-02-05 19:37:34" itemprop="dateCreated datePublished" datetime="2023-02-05T19:37:34+08:00">2023-02-05</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Minecraft/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Minecraft</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Minecraft/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Minecraft</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>这篇文章呢，是受同学委托所写。本来打算一次性写完 Forge 服务器、Fabric 服务器和原版服务器的架设方法，但是考虑到我咕咕咕的能力（雾）和篇幅限制，还是先只写原版服务器的架设方法罢。</p>
+<p>在继续阅读之前，建议先阅读 <a target="_blank" rel="noopener" href="https://www.minecraft.net/zh-hans/eula">Minecraft 最终用户许可协议（EULA）</a>。</p>
+<h2 id="Paper-服务端介绍">Paper 服务端介绍</h2>
+<p>众所周知，即便是 MC 原版服务器，也有很多不同的服务端。那为什么选择 Paper 呢？相比官方服务端，Paper 的性能更好（我没有实测过），且可以兼容 Spigot 和 Bukkit 插件；相比 Spigot，Paper 的性能更好（这个我实测过），且 Paper 提供预编译的 <code>.jar</code> 文件（Spigot 不提供…）。</p>
+<p>但是也应当指出：Paper 对 MC 原版的一些机制进行了激进的优化（如 TNT 复制等特性默认就无了，不过可以修改配置文件）。对于依赖这些特性的用户，我的建议是改配置文件，或者去用 Spigot。</p>
+<p>对于我这种建筑党，Paper 自然是首选。毕竟 WorldEdit 官方声称 &quot;WorldEdit runs best on Paper&quot; 以及 &quot;Paper is recommended over Spigot because it has improvements WorldEdit can use&quot;。</p>
+<p>Paper 只支持 MC 1.8 或更高版本。不过，原版玩家也不玩远古版本罢。</p>
+<h2 id="环境准备">环境准备</h2>
+<p>你需要安装与你的 MC 版本匹配的 Java 运行时（JRE）。如下表：</p>
+<table>
+<thead>
+<tr>
+<th>Paper 版本</th>
+<th>建议的 Java 版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.8 ~ 1.11</td>
+<td>Java 8</td>
+</tr>
+<tr>
+<td>1.12 ~ 1.16.4</td>
+<td>Java 11</td>
+</tr>
+<tr>
+<td>1.16.5</td>
+<td>Java 16</td>
+</tr>
+<tr>
+<td>1.17.1 或更高</td>
+<td>Java 17</td>
+</tr>
+</tbody>
+</table>
+<p>如果你使用官方启动器启动 MC，那么应当是自带 JRE 的，可以自己寻找。如果你想自己安装 JRE，可以：</p>
+<ul>
+<li>对于 Java 8，从 <a target="_blank" rel="noopener" href="https://www.java.com/zh-CN/download/">Download Java</a> 下载。</li>
+<li>对于更高版本的 Java，你可以选择 <a target="_blank" rel="noopener" href="https://openjdk.org">OpenJDK</a>，<a target="_blank" rel="noopener" href="https://adoptium.net">Adoptium</a>，<a target="_blank" rel="noopener" href="https://www.microsoft.com/openjdk">Microsoft OpenJDK</a> 等。可以下载 JRE，也可以直接下载 JDK。以上的 Java 是基于 HotSpot 虚拟机的。你也可以尝试基于 OpenJ9 虚拟机的 <a target="_blank" rel="noopener" href="https://developer.ibm.com/languages/java/semeru-runtimes/">IBM Semeru Runtime</a>。<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></li>
+</ul>
+<h2 id="下载-Paper">下载 Paper</h2>
+<p>最新版本下载（截至本文发稿，是 1.19.3）：<a target="_blank" rel="noopener" href="https://papermc.io/downloads/paper">Paper Downloads | PaperMC</a></p>
+<p>旧版本：<a target="_blank" rel="noopener" href="https://papermc.io/downloads/all">Build explorer | PaperMC</a>。</p>
+<p>你将会下载到一个 <code>.jar</code> 文件，例如 <code>paper-1.19.3-386.jar</code>。</p>
+<h2 id="架设服务器">架设服务器</h2>
+<p>将下载的 <code>.jar</code> 文件移动到一个空文件夹，在同一个文件夹下新建 <code>run.bat</code> 文件。此时文件夹里应该是这样：</p>
+<p><img src="/2023/02/05/Open-an-MC-Server/folder_1.jpg" alt="" loading="lazy"></p>
+<p>右键编辑 <code>run.bat</code>，写入以下内容：</p>
+<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
+java -Xms2G -Xmx2G -jar &lt;paper 服务端的文件名&gt; --nogui
+pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>如果你没有把 Java 运行时添加到 PATH，那么第二行的 <code>java</code> 可以替换为 Java 运行时的完整路径，例如：</p>
+<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
+&quot;C:\Program Files\jdk-17.0.2\bin\java.exe&quot; -Xms2G -Xmx2G -jar paper-1.19.3-386.jar --nogui
+pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<div class="info">
+> 路径带空格的话，要加引号。
+> `-Xms2G -Xmx2G` 意味着将服务器的内存限制在 2 GB。你也可以使用形如 `-Xms4G -Xmx4G`、`-Xms3500M -Xmx3500M` 等参数。
+</div>
+<p>而后运行 <code>run.bat</code>。以下的输出是我使用 Paper 1.18.2 和 IBM Semeru Runtime 17 得到的。你得到的输出应当与我大同小异：</p>
+<p><img src="/2023/02/05/Open-an-MC-Server/output.jpg" alt="" loading="lazy"></p>
+<p>此时文件夹里应当是这样的：</p>
+<p><img src="/2023/02/05/Open-an-MC-Server/folder_2.jpg" alt="" loading="lazy"></p>
+<p>打开 <code>eula.txt</code>，将最后一行的 <code>eula=false</code> 改为 <code>eula=true</code></p>
+<div class="warning">
+<blockquote>
+<p>根据 <code>eula.txt</code> 的内容，将最后一行的 <code>eula=false</code> 改为 <code>eula=true</code>，意味着你同意 <a target="_blank" rel="noopener" href="https://www.minecraft.net/zh-hans/eula">Minecraft 最终用户许可协议（EULA）</a>；同时，你认同墨西哥夹饼（Taco）是世界上最好的食物。</p>
+</blockquote>
+<blockquote>
+<p>在 Paper 1.20 版本的 <code>eula.txt</code> 中，已经删去了有关墨西哥夹饼的叙述。</p>
+</blockquote>
+</div>
+<p>接下来，你可以修改 <code>server.properties</code> 的内容，各项配置的含义可以阅读 <a target="_blank" rel="noopener" href="https://minecraft.fandom.com/zh/wiki/Server.properties">server.properties | Minecraft Wiki</a>。我认为较重要的配置项如下：</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>含义</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enable-command-block</code></td>
+<td>是否启用命令方块</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>gamemode</code></td>
+<td>默认游戏模式</td>
+<td><code>survival</code></td>
+</tr>
+<tr>
+<td><code>max-players</code></td>
+<td>服务器容纳的最多玩家数</td>
+<td>20</td>
+</tr>
+<tr>
+<td><code>online-mode</code></td>
+<td>是否启用正版验证</td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
+<p>最后，再一次运行 <code>run.bat</code> 即可。以下的输出是我使用 Paper 1.18.2 和 IBM Semeru Runtime 17 得到的。你得到的输出应当与我大同小异：</p>
+<p><img src="/2023/02/05/Open-an-MC-Server/succ.jpg" alt="" loading="lazy"></p>
+<p>现在，在 MC 中添加服务器，地址输入 127.0.0.1 即可（</p>
+<p>当需要关闭服务器时，在控制台输入 <code>stop</code> 并回车即可。</p>
+<p><img src="/2023/02/05/Open-an-MC-Server/stop.jpg" alt="" loading="lazy"></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>OpenJ9 比 HotSpot 更省内存. 但是注意：Forge 不兼容 OpenJ9. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2023/07/03/Open-a-Forge-Server/" rel="prev" title="架设自己的 Forge 服务器"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">架设自己的 Forge 服务器</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2022/12/24/build-static-blog/" rel="next" title="搭建静态博客"><span class="post-nav-text">搭建静态博客</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOLYNLZA" data-category="Announcements" data-category-id="DIC_kwDOLYNLZM4Cdh6j" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="preferred_color_scheme" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 喵喵喵？</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v7.1.1</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.11</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>
