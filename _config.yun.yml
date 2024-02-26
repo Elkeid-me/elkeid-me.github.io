@@ -72,19 +72,19 @@ post_meta:
   updated_at: false
   categories: true
   tags: true
-# comment:
-#   enable: true
-#   candidates:
-#     - giscus
+comment:
+  enable: true
+  candidates:
+    - giscus
 
-# giscus:
-#   enable: true
-#   repo: Elkeid-me/elkeid-me.github.io
-#   repo-id: R_kgDOIq2www
-#   category: Announcements
-#   category-id: DIC_kwDOIq2ww84CTPkM
-#   mapping: pathname
-#   reactions-enabled: 1
-#   emit-metadata: 0
-#   theme: preferred_color_scheme
-#   lang: zh-CN
+giscus:
+  enable: true
+  repo: Elkeid-me/elkeid-me.github.io
+  repo-id: R_kgDOLYNLZA
+  category: Announcements
+  category-id: DIC_kwDOLYNLZM4Cdh6j
+  mapping: pathname
+  reactions-enabled: 1
+  emit-metadata: 0
+  theme: preferred_color_scheme
+  lang: zh-CN
