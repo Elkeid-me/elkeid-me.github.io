@@ -85,7 +85,7 @@ struct cache_block
 
 所以我们希望：只要仍存在对 o 的引用，那就不要释放 o。如果不存在对 o 的引用，那就一定要释放 o。
 
-这不就是垃圾回收吗？但是 C++ 又有什么垃圾回收呢？~~`std::declare_reachable（无端）~~答案是 `std::shared_ptr`，引用计数 GC。
+这不就是垃圾回收吗？但是 C++ 又有什么垃圾回收呢？~~std::declare_reachable（无端）~~答案是 `std::shared_ptr`，引用计数 GC。
 
 令 `cache_block` 中的 `ptr` 为 `std::shared_ptr<char[]>` 类型，再来看看上面的情况：
 
