@@ -8,7 +8,7 @@ tags: Todo
 
 - [ ] C++：左值引用
 - [ ] C++：右值引用、引用折叠、转发引用、移动语义
-- [ ] C++：从零实现 `tuple`
+- [ ] C++：从零实现 `tuple` {% post_link cpp-tuple %}（施工中）
 - [ ] C++：协程
 
 ***
@@ -20,4 +20,4 @@ tags: Todo
 - [ ] CSAPP Cache Lab
 - [ ] CSAPP Shell Lab
 - [x] CSAPP Malloc Lab： {% post_link malloc-lab %}
-- [ ] CSAPP Proxy Lab
+- [x] CSAPP Proxy Lab：{% post_link proxy-lab %}
