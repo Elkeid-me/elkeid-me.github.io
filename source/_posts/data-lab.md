@@ -84,11 +84,11 @@ $$ x \leqslant y \Leftrightarrow x < y + 1, \qquad x, y \in \mathbb{Z} $$
     {
         int not_same_sign = x ^ y;
         int dis = x + ~y;
-        return ((not_same_sign & x) | (~not_same_sign & dis) >> 31) & 1;
+        return (((not_same_sign & x) | (~not_same_sign & dis)) >> 31) & 1;
     }
     ```
     9 ops.
-    注意到上式中 `((not_same_sign & x) | (~not_same_sign & dis) >> 31) & 1;` 正是 `bitConditional`，又可以化为：
+    注意到上式中 `(not_same_sign & x) | (~not_same_sign & dis);` 正是 `bitConditional(not_same_sign, x, dis)`，又可以化为：
     ```c
     int isLessOrEqual(int x, int y)
     {
@@ -102,7 +102,7 @@ $$ x \leqslant y \Leftrightarrow x < y + 1, \qquad x, y \in \mathbb{Z} $$
     注意到 $x + y = (x \oplus y) + 2(x \\& y)$（半加器的原理），从而
     $$ \frac{x + y}{2} = \frac{x \oplus y}{2} + (x \\& y) $$
     也即：
-    $$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \\& y) = \left( \frac{x \oplus y}{2} >> 1 \right) + (x \\& y) $$
+    $$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \\& y) = ((x \oplus y) >> 1) + (x \\& y) $$
     所以：
     ```c
     int isLessOrEqual(int x, int y)
