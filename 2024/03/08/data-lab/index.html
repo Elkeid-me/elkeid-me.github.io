@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <meta property="og:description" content="位运算黑魔法">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-08T15:12:57.000Z">
-<meta property="article:modified_time" content="2024-03-09T08:12:42.825Z">
+<meta property="article:modified_time" content="2024-03-15T13:06:34.962Z">
 <meta property="article:author" content="喵喵喵？">
 <meta property="article:tag" content="C&#x2F;C++">
 <meta property="article:tag" content="CS: APP">
@@ -99,10 +99,10 @@ Out<span class="token punctuation">[</span><span class="token number">1</span><s
 <span class="token punctuation">&#123;</span>
     <span class="token keyword">int</span> not_same_sign <span class="token operator">=</span> x <span class="token operator">^</span> y<span class="token punctuation">;</span>
     <span class="token keyword">int</span> dis <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>not_same_sign <span class="token operator">&amp;</span> x<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token operator">~</span>not_same_sign <span class="token operator">&amp;</span> dis<span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">31</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>not_same_sign <span class="token operator">&amp;</span> x<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token operator">~</span>not_same_sign <span class="token operator">&amp;</span> dis<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">31</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 9 ops.<br>
-注意到上式中 <code>((not_same_sign &amp; x) | (~not_same_sign &amp; dis) &gt;&gt; 31) &amp; 1;</code> 正是 <code>bitConditional</code>，又可以化为： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
+注意到上式中 <code>(not_same_sign &amp; x) | (~not_same_sign &amp; dis);</code> 正是 <code>bitConditional(not_same_sign, x, dis)</code>，又可以化为： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
     <span class="token keyword">int</span> not_same_sign <span class="token operator">=</span> x <span class="token operator">^</span> y<span class="token punctuation">;</span>
     <span class="token keyword">int</span> dis <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
@@ -113,7 +113,7 @@ Out<span class="token punctuation">[</span><span class="token number">1</span><s
 注意到 $x + y = (x \oplus y) + 2(x \&amp; y)$（半加器的原理），从而<br>
 $$ \frac{x + y}{2} = \frac{x \oplus y}{2} + (x \&amp; y) $$<br>
 也即：<br>
-$$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \&amp; y) = \left( \frac{x \oplus y}{2} &gt;&gt; 1 \right) + (x \&amp; y) $$<br>
+$$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \&amp; y) = ((x \oplus y) &gt;&gt; 1) + (x \&amp; y) $$<br>
 所以： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
     <span class="token keyword">int</span> not_y <span class="token operator">=</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
