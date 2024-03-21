@@ -305,362 +305,10 @@ gcc version <span class="token number">11.2</span>.0 <span class="token punctuat
         <category>乐</category>
       </categories>
       <tags>
-        <tag>排版</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LaTeX 安装指南，或不安装指南</title>
-    <url>/2023/08/16/LaTeX-Install-or-Not-Install/</url>
-    <content><![CDATA[<div class="info">
-<blockquote>
-<p>计科人认为计算机技术的那个源头，它是什么？它是 Technique，对吧。所以这个词叫 TeX。我经常说 TeX 这个词有秘密。TeX，Technique 了吗？TeX 嘛。它真 Technique 吗？TeX。到底 Technique 没 Technique？TeX。我问 TeX，它真 Technique 了吗？TeX。你看看，Technique 没 Technique？TeX。它很厉害，它不是一个有形的。</p>
-</blockquote>
-<blockquote>
-<p>所以你读 The TeXbook，The TeXbook 里面讲什么，it’s supposed to be a panacea that satisfies everybody, at the risk of satisfying nobody. The category code for any character can be changed at any time, but it is usually wise to stick to a particular scheme. 所以，优雅的计算机排版生于 TeX，TeX 生于无。是这样说的吧，它不是个实体。</p>
-</blockquote>
-<blockquote>
-<p>我有一次去下北泽讲课，遇到一个人，他的老师，当时有七十多岁了。那个七十多岁的老人家，就问那个小伙子他，说真有中文编程吗？这个世界真有中文编程吗？一下子把小伙子问傻了。有。他说真有吗？一下就问傻了。你想想那是个软件，软件是无相的。所以 The LaTeX3 Interfaces 的一句话，叫 the colon and underscore are treated as &quot;letters&quot;. 见字母非字母，那是个软件，你不能迷信。</p>
-</blockquote>
-</div>
-<h2 id="你真的需要-LaTeX-吗？">你真的需要 LaTeX 吗？</h2>
-<p>LaTeX 就是个排版工具。如果你用 Word 之类的足够熟练，那其实没有必要学 LaTeX。最近 Typst 信徒和 TeXmacs（以及国产 Fork 墨干编辑器）信徒传教很疯狂，对于后者我要多说点。<a href="#%E7%A7%81%E8%B4%A7%EF%BC%9A%E9%94%90%E8%AF%84%E5%A2%A8%E5%B9%B2%E7%BC%96%E8%BE%91%E5%99%A8">私货：锐评墨干编辑器</a></p>
-<p>从美观角度考虑，我是推荐大家学 LaTeX 的。此外，我也建议高中老师学习 LaTeX。毕竟，数学排版有 amsmath 等包；化学式、结构式与化学方程式有 mhchem 和 chenfig 等包：美观的试题排版对提升学习积极性是十分必要的……而除了理科试题，其他学科的试卷和讲义在自动化排版方面都可以使用 LaTeX，这比 Word 手动调要好多了。</p>
-<h2 id="不安装指南">不安装指南</h2>
-<p>首先，你可以看自己的学校是否在校园网部署了在线 LaTeX。例如：</p>
-<ul>
-<li><a href="https://latex.pku.edu.cn/">北京大学 LaTeX</a></li>
-<li><a href="https://overleaf.tsinghua.edu.cn">清华大学 LaTeX</a></li>
-<li><a href="https://tex.nju.edu.cn/">南京大学 LaTeX</a></li>
-</ul>
-<p>如果校园网没有，可以考虑：</p>
-<ul>
-<li><a href="https://www.overleaf.com/">Overleaf</a></li>
-<li><a href="https://texpage.com/">TeXPages</a></li>
-</ul>
-<p>甚至使用 Github Actions 也可以编译。</p>
-<p>但是，本地编译仍然有不可替代的优势，万一在线服务崩了呢？</p>
-<h2 id="TeX-发行版介绍">TeX 发行版介绍</h2>
-<p><a href="https://miktex.org/">MiKTeX</a> 是一个滚动更新的发行版，支持 Windows、Linux 和 macOS。其控制台和包管理器带有友好的图形界面，且对于宏包支持即用即装（“Install on fly”）。目前我电脑上的 MiKTeX 仅占用 0.98 GB 空间，这远小于 TeX Live 的 5 GB。</p>
-<p>多年未更的 <a href="https://ctex.org/">CTeX</a> 套装也在今年更新了 3.0 正式版，目前基于 MiKTeX 20230420 二次打包，同时加入 CCT，TY 等上古时期的中文排版系统（因为还有中文期刊要用它们）。可以一试。</p>
-<p><a href="https://tug.org/texlive/">TeX Live</a> 由 TeX 用户组推出，每年更新，如今是 TeX Live 2023。支持 Windows、Linux 和 Unix，在 macOS 上有 MacTeX。其问题是包管理器的图形界面实在是太不友好了（悲），而且每年封装完镜像之后，新发布的包只能等待第二年再封装。例如：2022 年发布的 <a href="https://ctan.org/pkg/fixdif">fixdif</a> 包只能等 2023 年的 TeX Live 镜像，或者使用命令 <code>tlmgr install fixdif</code><br>
-手动安装。但如果使用 MiKTeX，你只需在文档中使用 <code>\usepackage&#123;fixdif&#125;</code>， 在编译时，会自动安装缺少的包。</p>
-<p>鉴于 TeX Live 的体积过大、控制台不友好、以及调用系统字体时出现的奇奇怪怪的问题，我更推荐 MiKTeX。但是，如果存在（但不限于）以下情况，请使用 TeX Live。</p>
-<ol>
-<li>由于网络原因，你无法连接到 MiKTeX 的服务器（因而无法更换检索源，无法安装宏包）。</li>
-<li>你需要使用 pTeX-ng 等仅包含于 TeX Live 的引擎。</li>
-</ol>
-<h2 id="MiKTeX-安装（Windows）">MiKTeX 安装（Windows）</h2>
-<p>可以前去 <a href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/win32/miktex/setup/windows-x64/">CTAN/MiKTeX | 清华大学开源软件镜像站</a>下载。选择 <code>basic-miktex-xx.x-x64.exe</code>，截至本文发布，你应当选择 <code>basic-miktex-23.4-x64.exe</code>。</p>
-<p>我想安装程序大家应该都会，在此不过多赘述。只指出一点：<strong>不要选择</strong>为所有用户安装。</p>
-<h2 id="配置-MiKTeX-源与更新宏包">配置 MiKTeX 源与更新宏包</h2>
-<p>在开始菜单中找到 MiKTeX Console，在左侧选择“更新”</p>
-<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/miktex-console.png" alt="MiKTeX Console" loading="lazy"></p>
-<p>此时，“检索源”是 <code>&lt;互联网上的随机存储库&gt;</code>。强烈建议点击右侧的“更改”，切换到一个国内的源，例如清华源或者科大源。然后，点击“检查更新”：</p>
-<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/update.png" alt="MiKTeX Update" loading="lazy"></p>
-<p>点击“立即更新”。</p>
-<p>首次安装的 MiKTeX 必须进行更新。同时，建议一段时间更新一次宏包。</p>
-<p>更新时，可能提示：</p>
-<pre class="line-numbers language-none"><code class="language-none">The remote package repository is outdated. You have to choose another repository.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>此时换一个镜像源即可。</p>
-<h2 id="使用什么编辑器？">使用什么编辑器？</h2>
-<p>MiKTeX 自带 TeXworks。TeXstudio 和 VS Code 是很多人的选择。Vim 与 Emacs 亦可。</p>
-<p>对于 VS Code，你可以安装 <a href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop">LaTeX Workshop</a> 或者 <a href="https://marketplace.visualstudio.com/items?itemName=efoerster.texlab">TexLab</a>。以下给出我个人的 LaTeX Workshop 配置。</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
-    <span class="token property">"latex-workshop.latex.autoBuild.run"</span><span class="token operator">:</span> <span class="token string">"never"</span><span class="token punctuation">,</span>
-    <span class="token property">"latex-workshop.message.error.show"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-    <span class="token property">"latex-workshop.message.warning.show"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-    <span class="token property">"latex-workshop.latex.tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"-synctex=1"</span><span class="token punctuation">,</span>
-                <span class="token string">"-interaction=nonstopmode"</span><span class="token punctuation">,</span>
-                <span class="token string">"-file-line-error"</span><span class="token punctuation">,</span>
-                <span class="token string">"%DOCFILE%"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
-            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
-            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"%DOCFILE%"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"biber"</span><span class="token punctuation">,</span>
-            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"biber"</span><span class="token punctuation">,</span>
-            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"%DOCFILE%"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">]</span><span class="token punctuation">,</span>
-    <span class="token property">"latex-workshop.latex.recipes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"XeLaTeX"</span><span class="token punctuation">,</span>
-            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"xelatex"</span>
-            <span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xe->biber->xe->xe"</span><span class="token punctuation">,</span>
-            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-                <span class="token string">"biber"</span><span class="token punctuation">,</span>
-                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-                <span class="token string">"xelatex"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xe->bib->xe->xe"</span><span class="token punctuation">,</span>
-            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-                <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
-                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-                <span class="token string">"xelatex"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">]</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="私货：锐评墨干编辑器">私货：锐评墨干编辑器</h2>
-<p>首先，请读到这里的各位先读一读墨干编辑器开发者的言论<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。平心而论，TeXmacs 是好软件，而墨干也做了很多性能优化和本土化的尝试。<strong>但是现在说“TeXmacs 功能上早已取代 LaTeX”为时尚早</strong>。我在昨天（2023/8/15）尝试了最新版的墨干，我就想问，<strong>一个连 OpenType 特性都不支持，动不动就闪退崩溃，文档语言设定为中文时英文 Ligature 莫名失效的软件，是怎么好意思说“功能上早已取代 LaTeX”的</strong>？现如今，Word 都支持基本的 OpenType 特性，TeX 这边呢，LuaHBTeX 引入了 Harfbuzz，搞出这种活是轻而易举的：</p>
-<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/luatex-loads-vf.png" alt="Source Serif 4 Variable 字体，LuaHBLaTeX 编译" loading="lazy"></p>
-<p>而墨干连 Ligature 都会莫名失效；官方给的解决方案真的很 ad-hoc。可以看<a href="https://gitee.com/XmacsLabs/mogan/issues/I7TGZS">我在 gitee 提的 issue</a>。</p>
-<p>至于 OpenType 特性，昨天<a href="https://gitee.com/XmacsLabs/mogan/issues/I7TH3U">我也提了 issue</a>，官方说一年之内解决。拭目以待。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p><a href="https://www.zhihu.com/question/487769817/answer/2792055709">如何看待 TeXmacs？未来能完全取代 LaTeX 吗？ - 沈浪熊猫儿的回答 - 知乎</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-]]></content>
-      <categories>
-        <category>LaTeX</category>
-      </categories>
-      <tags>
-        <tag>VS Code</tag>
+        <tag>排印学</tag>
+        <tag>TeXmacs</tag>
+        <tag>TeX</tag>
         <tag>LaTeX</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>操作系统实验 环境配置</title>
-    <url>/2023/09/10/OS-Env-Setup/</url>
-    <content><![CDATA[<p>本文章描述了在 Ubuntu 22.04 上配置 JOS Lab 环境的过程。</p>
-<ol>
-<li>安装必要的工具软件与库：</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> build-essential gdb gcc-multilib libgmp-dev libmpfr-dev <span class="token function">install</span> libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<ol start="2">
-<li>获取 MIT 修改的 <code>qemu</code>：</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/mit-pdos/6.828-qemu.git qemu<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<ol start="3">
-<li>
-<p>把所有的 <code>#include &lt;sys/types.h&gt;</code> 改为 <code>#include &lt;sys/sysmacros.h&gt;</code></p>
-</li>
-<li>
-<p>创建文件夹：</p>
-</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/etc/qemu
-<span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/share/qemu<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<ol start="5">
-<li>编译配置：</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">cd qemu
-.&#x2F;configure --disable-kvm --disable-werror --python&#x3D;python2.7 --target-list&#x3D;&quot;i386-softmmu x86_64-softmmu&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<ol start="6">
-<li>编译与安装：</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">make &amp;&amp; sudo make install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>操作系统</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>操作系统实验 1</title>
-    <url>/2023/10/08/OS-Lab-1/</url>
-    <content><![CDATA[<p>选择了唯一的 Challenge。</p>
-<h2 id="Exercise-2">Exercise 2</h2>
-<p>BIOS 在初始化 <code>%ss</code> 与 <code>%esp</code> 寄存器，并通过一系列 <code>in</code>/<code>out</code> 指令设置输入输出。</p>
-<h2 id="Exercise-3">Exercise 3</h2>
-<h3 id="Question-1">Question 1</h3>
-<p>执行 <code>ljmp $PROT_MODE_CSEG, $protcseg</code> 后进入 32 位代码。</p>
-<p>这是通过 <code>seta20.1</code> 和 <code>seta20.2</code> 打开 A20，并切换到保护模式实现的。</p>
-<h3 id="Question-2">Question 2</h3>
-<p>bootloader 的最后一条指令是 <code>call *0x10018</code>，对应着 <code>bootmain()</code> 函数的 <code>((void (*)(void))(ELFHDR-&gt;e_entry))()</code> 语句。</p>
-<p>内核的第一条指令是 <code>movw $0x1234,0x472</code>。</p>
-<h3 id="Question-3">Question 3</h3>
-<p>内核的第一条指令位于 <code>0x10000c</code>。</p>
-<h3 id="Question-4">Question 4</h3>
-<p>在 <code>bootmain</code> 函数中，读取 elf 文件头。然后，根据 elf 文件头的信息，去读取各个程序段头。最终，通过程序段头的 <code>memsz</code> 信息，获知每个程序段的大小，并以此在 <code>readseg()</code> 函数算出扇区数。</p>
-<h2 id="Exercise-5">Exercise 5</h2>
-<p>第一条执行错误的指令是 <code>lgdt gdtdesc</code>。</p>
-<p>第一条“break”的指令是 <code>ljmp $PROT_MODE_CSEG,$protcseg</code>，也即 <code>ljmp $0x8,$0x7c36</code>。</p>
-<p>因为这一行指令不是位置无关代码，而 <code>protecseg</code> 链接到了错误的位置。</p>
-<h2 id="Exercise-6">Exercise 6</h2>
-<p>bootloader 的 <code>bootmain()</code> 函数的 <code>for</code> 循环的第一次运行，会读取内核 <code>.text</code> 段的前 29058 字节到 <code>0x100000</code>。这 8 个字即是内核 <code>.text</code> 段的前 8 个字。</p>
-<h2 id="Exercise-7">Exercise 7</h2>
-<p>指令 <code>jmp *%eax</code> 会发生异常。</p>
-<h2 id="Exercise-8">Exercise 8</h2>
-<p>在 <code>lib/printfmt.c</code> 文件中有一 <code>vprintfmt()</code> 函数，其中 <code>switch</code> 的 <code>case 'o'</code> 修改如下：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">case</span> <span class="token char">'o'</span><span class="token operator">:</span>
-    num <span class="token operator">=</span> <span class="token function">getuint</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ap<span class="token punctuation">,</span> lflag<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    base <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>
-    <span class="token keyword">goto</span> number<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="Question-1-2">Question 1</h3>
-<p>在 <code>kern/printf.c</code> 和 <code>kern/console.c</code> 之间的接口是 <code>cputchar()</code> 函数。具体来说，是这样的：</p>
-<ol>
-<li><code>kern/console.c</code> 中的 <code>cputchar()</code> 函数实质上是 <code>cons_putc()</code> 的套壳。后者在控制台中输出一个字符。</li>
-<li><code>kern/printf.c</code> 中有 <code>putch()</code> 函数，实质上是 <code>cputchar()</code> 的套壳。</li>
-<li>putch()<code>的函数指针作为</code>vprintfmt()<code>的第一个参数。后者又被</code>vcprintf()` 调用。</li>
-<li><code>vcprintf()</code> 又被 <code>cprintf()</code> 调用。</li>
-</ol>
-<h3 id="Question-2-2">Question 2</h3>
-<p>在已输出的字符数大于 <code>CRT_SIZE</code> 时，将屏幕滚动一行。</p>
-<h3 id="Question-3-2">Question 3</h3>
-<ol>
-<li>参数 <code>fmt</code> 指向格式化字符串 <code>&quot;x %d, y %x, z %d\n&quot;</code>；<code>ap</code> 指向变参结构体。</li>
-<li></li>
-</ol>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">cprintf()
-    vcprintf()
-        cons_putc('x')
-        cons_putc(' ')
-        va_arg(), ap 由指向 x 变为指向 y
-        cons_putc('1')
-        cons_putc(',')
-        cons_putc(' ')
-        cons_putc('y')
-        cons_putc(' ')
-        va_arg(), ap 由指向 y 变为指向 z
-        cons_putc('3')
-        cons_putc(',')
-        cons_putc(' ')
-        cons_putc('z')
-        cons_putc(' ')
-        va_arg(), ap 由指向 z 变为指向我们不知道的东西
-        cons_putc('4')
-        cons_putc('\n')<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="Question-4-2">Question 4</h3>
-<p>输出 <code>He110 World</code>。具体过程如下：</p>
-<ol>
-<li>输出 <code>H</code>。</li>
-<li>输出 <code>57616</code> 的十六进制 <code>e110</code>。</li>
-<li>输出 <code>Wo</code>。</li>
-<li><code>i</code> 在小端序机器上，地址从低到高为 4 个字节：<code>0x72 0x6c 0x64 0x00</code>，（在 ASCII 码）恰好可以视为长度为 3 的空终止字符串 <code>rld</code>。又考虑到格式化字符串中的转换说明 <code>%s</code>，这一步输出 <code>rld</code>。如果是大端序，那么 <code>i</code> 应当设为 <code>0x726c6400</code>。<code>57616</code> 不必改变。</li>
-</ol>
-<h3 id="Question-5">Question 5</h3>
-<p>将会输出我们不知道的值。具体来说，如果参数 <code>3</code> 的地址为 <code>byte *ptr</code>，则会输出 <code>ptr + 4</code> 指向的，类型为 <code>int</code> 的值。</p>
-<p>解释：在当前 ABI 中，函数参数全部使用栈传参，且从右向左压栈。因此，在输出 <code>x=</code> 后，<code>va_arg</code> 会获取值 <code>3</code>，并将变参列表指针 <code>ap</code> 向上移动 4 字节。在输出 <code>y=</code> 后，<code>va_arg</code> 会获取 <code>ptr + 4</code> 指向的值。</p>
-<h3 id="Question-6">Question 6</h3>
-<p><code>cprintf(..., const char *fmt)</code>，其中可变参数需要倒着输入。例如，为了输出 <code>x</code> 和 <code>y</code> 的值，需要：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">cprintf</span><span class="token punctuation">(</span>y<span class="token punctuation">,</span> x<span class="token punctuation">,</span> <span class="token string">"x=%d, y=%d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h2 id="Exercise-9">Exercise 9</h2>
-<p>在 <code>kern/entry.S</code> 的 <code>relocated</code> 函数中，有一行指令：</p>
-<pre class="line-numbers language-none"><code class="language-none">movl   $(bootstacktop),%esp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>在此初始化内核栈。</p>
-<p>在 <code>.data</code> 段中，静态地保留了 <code>KSTKSIZE</code> 大小的空间作为内核栈。</p>
-<p>栈指针初始化时，指向上述空间的最高处。</p>
-<h2 id="Exercise-10">Exercise 10</h2>
-<p>分别是参数 <code>x - 1</code>，返回地址、<code>%ebp</code> 和 <code>%esi</code>。共计 4 个 32位字。</p>
-<h2 id="Exercise-11-and-12">Exercise 11 and 12</h2>
-<p>对于 <code>mon_backtrace</code> 编写如下：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">mon_backtrace</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">,</span> <span class="token keyword">struct</span> <span class="token class-name">Trapframe</span> <span class="token operator">*</span>tf<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">struct</span> <span class="token class-name">Eipdebuginfo</span> debug_info<span class="token punctuation">;</span>
-    <span class="token function">cprintf</span><span class="token punctuation">(</span><span class="token string">"Stack backtrace:\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token class-name">uint32_t</span> <span class="token operator">*</span>ebp <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">uint32_t</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">read_ebp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">uint32_t</span><span class="token punctuation">)</span>ebp <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token class-name">uint32_t</span> eip <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_1 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_2 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-                    arg_3 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_4 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_5 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">cprintf</span><span class="token punctuation">(</span><span class="token string">"  ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n"</span><span class="token punctuation">,</span> ebp<span class="token punctuation">,</span>
-                eip<span class="token punctuation">,</span> arg_1<span class="token punctuation">,</span> arg_2<span class="token punctuation">,</span> arg_3<span class="token punctuation">,</span> arg_4<span class="token punctuation">,</span> arg_5<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token function">debuginfo_eip</span><span class="token punctuation">(</span>eip<span class="token punctuation">,</span> <span class="token operator">&amp;</span>debug_info<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token function">cprintf</span><span class="token punctuation">(</span><span class="token string">"         %s:%d: %.*s+%d\n"</span><span class="token punctuation">,</span> debug_info<span class="token punctuation">.</span>eip_file<span class="token punctuation">,</span>
-                debug_info<span class="token punctuation">.</span>eip_line<span class="token punctuation">,</span> debug_info<span class="token punctuation">.</span>eip_fn_namelen<span class="token punctuation">,</span>
-                debug_info<span class="token punctuation">.</span>eip_fn_name<span class="token punctuation">,</span> eip <span class="token operator">-</span> debug_info<span class="token punctuation">.</span>eip_fn_addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        ebp <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">uint32_t</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token operator">*</span>ebp<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>第 6 行用于获取当前的 <code>%ebp</code>。</p>
-<p><code>while</code> 循环的终止条件是 <code>%ebp == 0</code>，因为 <code>relocated</code> 的 <code>%ebp</code> 为 0。</p>
-<p>第 9 ~ 12 行是获取和打印 <code>%eip</code> 以及 5 个参数的过程。</p>
-<p>第 14 ~ 18 行是获取和打印 <code>%eip</code> 以及 5 个参数的过程。</p>
-<p>第 19 行用于获取上一层函数的 <code>%ebp</code>，因为这一层函数的第一个语句即是 <code>push %ebp</code>。</p>
-<p>再在 <code>debuginfo_eip</code> 补充如下的代码，用于获取对应的行号：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">stab_binsearch</span><span class="token punctuation">(</span>stabs<span class="token punctuation">,</span> <span class="token operator">&amp;</span>lline<span class="token punctuation">,</span> <span class="token operator">&amp;</span>rline<span class="token punctuation">,</span> N_SLINE<span class="token punctuation">,</span> addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">if</span> <span class="token punctuation">(</span>lline <span class="token operator">&lt;=</span> rline<span class="token punctuation">)</span>
-    info<span class="token operator">-></span>eip_line <span class="token operator">=</span> lline<span class="token punctuation">;</span>
-<span class="token keyword">else</span>
-    info<span class="token operator">-></span>eip_line <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="Challenge">Challenge</h2>
-<p>为了在 VGA 字符模式向屏幕打印字符，我们必须将它写入硬件提供的 VGA 字符缓冲区。VGA 字符缓冲区中的每一个字符单元为 2 字节，有如下的格式：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">位</th>
-<th style="text-align:center">值含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">0 ~ 7</td>
-<td style="text-align:center">字符 ASCII 码</td>
-</tr>
-<tr>
-<td style="text-align:center">8 ~ 11</td>
-<td style="text-align:center">前景色</td>
-</tr>
-<tr>
-<td style="text-align:center">12 ~ 14</td>
-<td style="text-align:center">背景色</td>
-</tr>
-<tr>
-<td style="text-align:center">15</td>
-<td style="text-align:center">闪烁</td>
-</tr>
-</tbody>
-</table>
-<p>可以在 <code>kern/console.c</code> 中的 <code>cga_putc()</code> 函数看到如下语句：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>c <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    c <span class="token operator">|=</span> <span class="token number">0x700</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>此即硬编码的黑底白字。为了更改输出颜色，我添加了一个 <code>color</code> 命令，类似 Windows 的 <code>COLOR</code> 命令，支持以下三种输入：</p>
-<ol>
-<li><code>color</code> 恢复默认的黑底白字。</li>
-<li><code>color &lt;fg color&gt;</code> 改变前景色。<code>&lt;fg color&gt;</code> 的值可以为 0 ~ f。</li>
-<li><code>color &lt;fg color&gt; &lt;bg color&gt;</code> 改变前景色和背景色。<code>&lt;fg color&gt;</code> 的值可以为 0 ~ f，<code>&lt;bg color&gt;</code> 的值可以为 0 ~ 7。</li>
-</ol>
-<p><code>color</code> 命令会检查参数是否合法，并保证前景色与背景色不同。</p>
-<p><code>color</code> 命令的详细实现见代码。这里只说思路：</p>
-<ol>
-<li>加入全局变量 <code>fg_color</code>, <code>bg_color</code>，并将硬编码的黑底白字修改为：</li>
-</ol>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>c <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    c <span class="token operator">|=</span> <span class="token punctuation">(</span>fg_color <span class="token operator">&lt;&lt;</span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>bg_color <span class="token operator">&lt;&lt;</span> <span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<ol start="2">
-<li>使用 <code>color</code> 命令修改全局变量 <code>fg_color</code>, <code>bg_color</code>。</li>
-</ol>
-<p>效果如图：</p>
-<p><img src="/OS-Lab-1/1.png" alt="`color` 命令" loading="lazy"></p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-        <tag>操作系统</tag>
-        <tag>汇编</tag>
       </tags>
   </entry>
   <entry>
@@ -1573,6 +1221,362 @@ top<span class="token operator">:</span>
       </tags>
   </entry>
   <entry>
+    <title>操作系统实验 1</title>
+    <url>/2023/10/08/OS-Lab-1/</url>
+    <content><![CDATA[<p>选择了唯一的 Challenge。</p>
+<h2 id="Exercise-2">Exercise 2</h2>
+<p>BIOS 在初始化 <code>%ss</code> 与 <code>%esp</code> 寄存器，并通过一系列 <code>in</code>/<code>out</code> 指令设置输入输出。</p>
+<h2 id="Exercise-3">Exercise 3</h2>
+<h3 id="Question-1">Question 1</h3>
+<p>执行 <code>ljmp $PROT_MODE_CSEG, $protcseg</code> 后进入 32 位代码。</p>
+<p>这是通过 <code>seta20.1</code> 和 <code>seta20.2</code> 打开 A20，并切换到保护模式实现的。</p>
+<h3 id="Question-2">Question 2</h3>
+<p>bootloader 的最后一条指令是 <code>call *0x10018</code>，对应着 <code>bootmain()</code> 函数的 <code>((void (*)(void))(ELFHDR-&gt;e_entry))()</code> 语句。</p>
+<p>内核的第一条指令是 <code>movw $0x1234,0x472</code>。</p>
+<h3 id="Question-3">Question 3</h3>
+<p>内核的第一条指令位于 <code>0x10000c</code>。</p>
+<h3 id="Question-4">Question 4</h3>
+<p>在 <code>bootmain</code> 函数中，读取 elf 文件头。然后，根据 elf 文件头的信息，去读取各个程序段头。最终，通过程序段头的 <code>memsz</code> 信息，获知每个程序段的大小，并以此在 <code>readseg()</code> 函数算出扇区数。</p>
+<h2 id="Exercise-5">Exercise 5</h2>
+<p>第一条执行错误的指令是 <code>lgdt gdtdesc</code>。</p>
+<p>第一条“break”的指令是 <code>ljmp $PROT_MODE_CSEG,$protcseg</code>，也即 <code>ljmp $0x8,$0x7c36</code>。</p>
+<p>因为这一行指令不是位置无关代码，而 <code>protecseg</code> 链接到了错误的位置。</p>
+<h2 id="Exercise-6">Exercise 6</h2>
+<p>bootloader 的 <code>bootmain()</code> 函数的 <code>for</code> 循环的第一次运行，会读取内核 <code>.text</code> 段的前 29058 字节到 <code>0x100000</code>。这 8 个字即是内核 <code>.text</code> 段的前 8 个字。</p>
+<h2 id="Exercise-7">Exercise 7</h2>
+<p>指令 <code>jmp *%eax</code> 会发生异常。</p>
+<h2 id="Exercise-8">Exercise 8</h2>
+<p>在 <code>lib/printfmt.c</code> 文件中有一 <code>vprintfmt()</code> 函数，其中 <code>switch</code> 的 <code>case 'o'</code> 修改如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">case</span> <span class="token char">'o'</span><span class="token operator">:</span>
+    num <span class="token operator">=</span> <span class="token function">getuint</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ap<span class="token punctuation">,</span> lflag<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    base <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>
+    <span class="token keyword">goto</span> number<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Question-1-2">Question 1</h3>
+<p>在 <code>kern/printf.c</code> 和 <code>kern/console.c</code> 之间的接口是 <code>cputchar()</code> 函数。具体来说，是这样的：</p>
+<ol>
+<li><code>kern/console.c</code> 中的 <code>cputchar()</code> 函数实质上是 <code>cons_putc()</code> 的套壳。后者在控制台中输出一个字符。</li>
+<li><code>kern/printf.c</code> 中有 <code>putch()</code> 函数，实质上是 <code>cputchar()</code> 的套壳。</li>
+<li>putch()<code>的函数指针作为</code>vprintfmt()<code>的第一个参数。后者又被</code>vcprintf()` 调用。</li>
+<li><code>vcprintf()</code> 又被 <code>cprintf()</code> 调用。</li>
+</ol>
+<h3 id="Question-2-2">Question 2</h3>
+<p>在已输出的字符数大于 <code>CRT_SIZE</code> 时，将屏幕滚动一行。</p>
+<h3 id="Question-3-2">Question 3</h3>
+<ol>
+<li>参数 <code>fmt</code> 指向格式化字符串 <code>&quot;x %d, y %x, z %d\n&quot;</code>；<code>ap</code> 指向变参结构体。</li>
+<li></li>
+</ol>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">cprintf()
+    vcprintf()
+        cons_putc('x')
+        cons_putc(' ')
+        va_arg(), ap 由指向 x 变为指向 y
+        cons_putc('1')
+        cons_putc(',')
+        cons_putc(' ')
+        cons_putc('y')
+        cons_putc(' ')
+        va_arg(), ap 由指向 y 变为指向 z
+        cons_putc('3')
+        cons_putc(',')
+        cons_putc(' ')
+        cons_putc('z')
+        cons_putc(' ')
+        va_arg(), ap 由指向 z 变为指向我们不知道的东西
+        cons_putc('4')
+        cons_putc('\n')<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Question-4-2">Question 4</h3>
+<p>输出 <code>He110 World</code>。具体过程如下：</p>
+<ol>
+<li>输出 <code>H</code>。</li>
+<li>输出 <code>57616</code> 的十六进制 <code>e110</code>。</li>
+<li>输出 <code>Wo</code>。</li>
+<li><code>i</code> 在小端序机器上，地址从低到高为 4 个字节：<code>0x72 0x6c 0x64 0x00</code>，（在 ASCII 码）恰好可以视为长度为 3 的空终止字符串 <code>rld</code>。又考虑到格式化字符串中的转换说明 <code>%s</code>，这一步输出 <code>rld</code>。如果是大端序，那么 <code>i</code> 应当设为 <code>0x726c6400</code>。<code>57616</code> 不必改变。</li>
+</ol>
+<h3 id="Question-5">Question 5</h3>
+<p>将会输出我们不知道的值。具体来说，如果参数 <code>3</code> 的地址为 <code>byte *ptr</code>，则会输出 <code>ptr + 4</code> 指向的，类型为 <code>int</code> 的值。</p>
+<p>解释：在当前 ABI 中，函数参数全部使用栈传参，且从右向左压栈。因此，在输出 <code>x=</code> 后，<code>va_arg</code> 会获取值 <code>3</code>，并将变参列表指针 <code>ap</code> 向上移动 4 字节。在输出 <code>y=</code> 后，<code>va_arg</code> 会获取 <code>ptr + 4</code> 指向的值。</p>
+<h3 id="Question-6">Question 6</h3>
+<p><code>cprintf(..., const char *fmt)</code>，其中可变参数需要倒着输入。例如，为了输出 <code>x</code> 和 <code>y</code> 的值，需要：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">cprintf</span><span class="token punctuation">(</span>y<span class="token punctuation">,</span> x<span class="token punctuation">,</span> <span class="token string">"x=%d, y=%d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="Exercise-9">Exercise 9</h2>
+<p>在 <code>kern/entry.S</code> 的 <code>relocated</code> 函数中，有一行指令：</p>
+<pre class="line-numbers language-none"><code class="language-none">movl   $(bootstacktop),%esp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在此初始化内核栈。</p>
+<p>在 <code>.data</code> 段中，静态地保留了 <code>KSTKSIZE</code> 大小的空间作为内核栈。</p>
+<p>栈指针初始化时，指向上述空间的最高处。</p>
+<h2 id="Exercise-10">Exercise 10</h2>
+<p>分别是参数 <code>x - 1</code>，返回地址、<code>%ebp</code> 和 <code>%esi</code>。共计 4 个 32位字。</p>
+<h2 id="Exercise-11-and-12">Exercise 11 and 12</h2>
+<p>对于 <code>mon_backtrace</code> 编写如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">mon_backtrace</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">,</span> <span class="token keyword">struct</span> <span class="token class-name">Trapframe</span> <span class="token operator">*</span>tf<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">Eipdebuginfo</span> debug_info<span class="token punctuation">;</span>
+    <span class="token function">cprintf</span><span class="token punctuation">(</span><span class="token string">"Stack backtrace:\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">uint32_t</span> <span class="token operator">*</span>ebp <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">uint32_t</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">read_ebp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">uint32_t</span><span class="token punctuation">)</span>ebp <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token class-name">uint32_t</span> eip <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_1 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_2 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    arg_3 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_4 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> arg_5 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>ebp <span class="token operator">+</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">cprintf</span><span class="token punctuation">(</span><span class="token string">"  ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n"</span><span class="token punctuation">,</span> ebp<span class="token punctuation">,</span>
+                eip<span class="token punctuation">,</span> arg_1<span class="token punctuation">,</span> arg_2<span class="token punctuation">,</span> arg_3<span class="token punctuation">,</span> arg_4<span class="token punctuation">,</span> arg_5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">debuginfo_eip</span><span class="token punctuation">(</span>eip<span class="token punctuation">,</span> <span class="token operator">&amp;</span>debug_info<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">cprintf</span><span class="token punctuation">(</span><span class="token string">"         %s:%d: %.*s+%d\n"</span><span class="token punctuation">,</span> debug_info<span class="token punctuation">.</span>eip_file<span class="token punctuation">,</span>
+                debug_info<span class="token punctuation">.</span>eip_line<span class="token punctuation">,</span> debug_info<span class="token punctuation">.</span>eip_fn_namelen<span class="token punctuation">,</span>
+                debug_info<span class="token punctuation">.</span>eip_fn_name<span class="token punctuation">,</span> eip <span class="token operator">-</span> debug_info<span class="token punctuation">.</span>eip_fn_addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ebp <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">uint32_t</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token operator">*</span>ebp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>第 6 行用于获取当前的 <code>%ebp</code>。</p>
+<p><code>while</code> 循环的终止条件是 <code>%ebp == 0</code>，因为 <code>relocated</code> 的 <code>%ebp</code> 为 0。</p>
+<p>第 9 ~ 12 行是获取和打印 <code>%eip</code> 以及 5 个参数的过程。</p>
+<p>第 14 ~ 18 行是获取和打印 <code>%eip</code> 以及 5 个参数的过程。</p>
+<p>第 19 行用于获取上一层函数的 <code>%ebp</code>，因为这一层函数的第一个语句即是 <code>push %ebp</code>。</p>
+<p>再在 <code>debuginfo_eip</code> 补充如下的代码，用于获取对应的行号：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">stab_binsearch</span><span class="token punctuation">(</span>stabs<span class="token punctuation">,</span> <span class="token operator">&amp;</span>lline<span class="token punctuation">,</span> <span class="token operator">&amp;</span>rline<span class="token punctuation">,</span> N_SLINE<span class="token punctuation">,</span> addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>lline <span class="token operator">&lt;=</span> rline<span class="token punctuation">)</span>
+    info<span class="token operator">-></span>eip_line <span class="token operator">=</span> lline<span class="token punctuation">;</span>
+<span class="token keyword">else</span>
+    info<span class="token operator">-></span>eip_line <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Challenge">Challenge</h2>
+<p>为了在 VGA 字符模式向屏幕打印字符，我们必须将它写入硬件提供的 VGA 字符缓冲区。VGA 字符缓冲区中的每一个字符单元为 2 字节，有如下的格式：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">位</th>
+<th style="text-align:center">值含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0 ~ 7</td>
+<td style="text-align:center">字符 ASCII 码</td>
+</tr>
+<tr>
+<td style="text-align:center">8 ~ 11</td>
+<td style="text-align:center">前景色</td>
+</tr>
+<tr>
+<td style="text-align:center">12 ~ 14</td>
+<td style="text-align:center">背景色</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center">闪烁</td>
+</tr>
+</tbody>
+</table>
+<p>可以在 <code>kern/console.c</code> 中的 <code>cga_putc()</code> 函数看到如下语句：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>c <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    c <span class="token operator">|=</span> <span class="token number">0x700</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>此即硬编码的黑底白字。为了更改输出颜色，我添加了一个 <code>color</code> 命令，类似 Windows 的 <code>COLOR</code> 命令，支持以下三种输入：</p>
+<ol>
+<li><code>color</code> 恢复默认的黑底白字。</li>
+<li><code>color &lt;fg color&gt;</code> 改变前景色。<code>&lt;fg color&gt;</code> 的值可以为 0 ~ f。</li>
+<li><code>color &lt;fg color&gt; &lt;bg color&gt;</code> 改变前景色和背景色。<code>&lt;fg color&gt;</code> 的值可以为 0 ~ f，<code>&lt;bg color&gt;</code> 的值可以为 0 ~ 7。</li>
+</ol>
+<p><code>color</code> 命令会检查参数是否合法，并保证前景色与背景色不同。</p>
+<p><code>color</code> 命令的详细实现见代码。这里只说思路：</p>
+<ol>
+<li>加入全局变量 <code>fg_color</code>, <code>bg_color</code>，并将硬编码的黑底白字修改为：</li>
+</ol>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>c <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    c <span class="token operator">|=</span> <span class="token punctuation">(</span>fg_color <span class="token operator">&lt;&lt;</span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>bg_color <span class="token operator">&lt;&lt;</span> <span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ol start="2">
+<li>使用 <code>color</code> 命令修改全局变量 <code>fg_color</code>, <code>bg_color</code>。</li>
+</ol>
+<p>效果如图：</p>
+<p><img src="/OS-Lab-1/1.png" alt="`color` 命令" loading="lazy"></p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+        <tag>汇编</tag>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LaTeX 安装指南，或不安装指南</title>
+    <url>/2023/08/16/LaTeX-Install-or-Not-Install/</url>
+    <content><![CDATA[<div class="info">
+<blockquote>
+<p>计科人认为计算机技术的那个源头，它是什么？它是 Technique，对吧。所以这个词叫 TeX。我经常说 TeX 这个词有秘密。TeX，Technique 了吗？TeX 嘛。它真 Technique 吗？TeX。到底 Technique 没 Technique？TeX。我问 TeX，它真 Technique 了吗？TeX。你看看，Technique 没 Technique？TeX。它很厉害，它不是一个有形的。</p>
+</blockquote>
+<blockquote>
+<p>所以你读 The TeXbook，The TeXbook 里面讲什么，it’s supposed to be a panacea that satisfies everybody, at the risk of satisfying nobody. The category code for any character can be changed at any time, but it is usually wise to stick to a particular scheme. 所以，优雅的计算机排版生于 TeX，TeX 生于无。是这样说的吧，它不是个实体。</p>
+</blockquote>
+<blockquote>
+<p>我有一次去下北泽讲课，遇到一个人，他的老师，当时有七十多岁了。那个七十多岁的老人家，就问那个小伙子他，说真有中文编程吗？这个世界真有中文编程吗？一下子把小伙子问傻了。有。他说真有吗？一下就问傻了。你想想那是个软件，软件是无相的。所以 The LaTeX3 Interfaces 的一句话，叫 the colon and underscore are treated as &quot;letters&quot;. 见字母非字母，那是个软件，你不能迷信。</p>
+</blockquote>
+</div>
+<h2 id="你真的需要-LaTeX-吗？">你真的需要 LaTeX 吗？</h2>
+<p>LaTeX 就是个排版工具。如果你用 Word 之类的足够熟练，那其实没有必要学 LaTeX。最近 Typst 信徒和 TeXmacs（以及国产 Fork 墨干编辑器）信徒传教很疯狂，对于后者我要多说点。<a href="#%E7%A7%81%E8%B4%A7%EF%BC%9A%E9%94%90%E8%AF%84%E5%A2%A8%E5%B9%B2%E7%BC%96%E8%BE%91%E5%99%A8">私货：锐评墨干编辑器</a></p>
+<p>从美观角度考虑，我是推荐大家学 LaTeX 的。此外，我也建议高中老师学习 LaTeX。毕竟，数学排版有 amsmath 等包；化学式、结构式与化学方程式有 mhchem 和 chenfig 等包：美观的试题排版对提升学习积极性是十分必要的……而除了理科试题，其他学科的试卷和讲义在自动化排版方面都可以使用 LaTeX，这比 Word 手动调要好多了。</p>
+<h2 id="不安装指南">不安装指南</h2>
+<p>首先，你可以看自己的学校是否在校园网部署了在线 LaTeX。例如：</p>
+<ul>
+<li><a href="https://latex.pku.edu.cn/">北京大学 LaTeX</a></li>
+<li><a href="https://overleaf.tsinghua.edu.cn">清华大学 LaTeX</a></li>
+<li><a href="https://tex.nju.edu.cn/">南京大学 LaTeX</a></li>
+</ul>
+<p>如果校园网没有，可以考虑：</p>
+<ul>
+<li><a href="https://www.overleaf.com/">Overleaf</a></li>
+<li><a href="https://texpage.com/">TeXPages</a></li>
+</ul>
+<p>甚至使用 Github Actions 也可以编译。</p>
+<p>但是，本地编译仍然有不可替代的优势，万一在线服务崩了呢？</p>
+<h2 id="TeX-发行版介绍">TeX 发行版介绍</h2>
+<p><a href="https://miktex.org/">MiKTeX</a> 是一个滚动更新的发行版，支持 Windows、Linux 和 macOS。其控制台和包管理器带有友好的图形界面，且对于宏包支持即用即装（“Install on fly”）。目前我电脑上的 MiKTeX 仅占用 0.98 GB 空间，这远小于 TeX Live 的 5 GB。</p>
+<p>多年未更的 <a href="https://ctex.org/">CTeX</a> 套装也在今年更新了 3.0 正式版，目前基于 MiKTeX 20230420 二次打包，同时加入 CCT，TY 等上古时期的中文排版系统（因为还有中文期刊要用它们）。可以一试。</p>
+<p><a href="https://tug.org/texlive/">TeX Live</a> 由 TeX 用户组推出，每年更新，如今是 TeX Live 2023。支持 Windows、Linux 和 Unix，在 macOS 上有 MacTeX。其问题是包管理器的图形界面实在是太不友好了（悲），而且每年封装完镜像之后，新发布的包只能等待第二年再封装。例如：2022 年发布的 <a href="https://ctan.org/pkg/fixdif">fixdif</a> 包只能等 2023 年的 TeX Live 镜像，或者使用命令 <code>tlmgr install fixdif</code><br>
+手动安装。但如果使用 MiKTeX，你只需在文档中使用 <code>\usepackage&#123;fixdif&#125;</code>， 在编译时，会自动安装缺少的包。</p>
+<p>鉴于 TeX Live 的体积过大、控制台不友好、以及调用系统字体时出现的奇奇怪怪的问题，我更推荐 MiKTeX。但是，如果存在（但不限于）以下情况，请使用 TeX Live。</p>
+<ol>
+<li>由于网络原因，你无法连接到 MiKTeX 的服务器（因而无法更换检索源，无法安装宏包）。</li>
+<li>你需要使用 pTeX-ng 等仅包含于 TeX Live 的引擎。</li>
+</ol>
+<h2 id="MiKTeX-安装（Windows）">MiKTeX 安装（Windows）</h2>
+<p>可以前去 <a href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/win32/miktex/setup/windows-x64/">CTAN/MiKTeX | 清华大学开源软件镜像站</a>下载。选择 <code>basic-miktex-xx.x-x64.exe</code>，截至本文发布，你应当选择 <code>basic-miktex-23.4-x64.exe</code>。</p>
+<p>我想安装程序大家应该都会，在此不过多赘述。只指出一点：<strong>不要选择</strong>为所有用户安装。</p>
+<h2 id="配置-MiKTeX-源与更新宏包">配置 MiKTeX 源与更新宏包</h2>
+<p>在开始菜单中找到 MiKTeX Console，在左侧选择“更新”</p>
+<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/miktex-console.png" alt="MiKTeX Console" loading="lazy"></p>
+<p>此时，“检索源”是 <code>&lt;互联网上的随机存储库&gt;</code>。强烈建议点击右侧的“更改”，切换到一个国内的源，例如清华源或者科大源。然后，点击“检查更新”：</p>
+<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/update.png" alt="MiKTeX Update" loading="lazy"></p>
+<p>点击“立即更新”。</p>
+<p>首次安装的 MiKTeX 必须进行更新。同时，建议一段时间更新一次宏包。</p>
+<p>更新时，可能提示：</p>
+<pre class="line-numbers language-none"><code class="language-none">The remote package repository is outdated. You have to choose another repository.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>此时换一个镜像源即可。</p>
+<h2 id="使用什么编辑器？">使用什么编辑器？</h2>
+<p>MiKTeX 自带 TeXworks。TeXstudio 和 VS Code 是很多人的选择。Vim 与 Emacs 亦可。</p>
+<p>对于 VS Code，你可以安装 <a href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop">LaTeX Workshop</a> 或者 <a href="https://marketplace.visualstudio.com/items?itemName=efoerster.texlab">TexLab</a>。以下给出我个人的 LaTeX Workshop 配置。</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+    <span class="token property">"latex-workshop.latex.autoBuild.run"</span><span class="token operator">:</span> <span class="token string">"never"</span><span class="token punctuation">,</span>
+    <span class="token property">"latex-workshop.message.error.show"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"latex-workshop.message.warning.show"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"latex-workshop.latex.tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"-synctex=1"</span><span class="token punctuation">,</span>
+                <span class="token string">"-interaction=nonstopmode"</span><span class="token punctuation">,</span>
+                <span class="token string">"-file-line-error"</span><span class="token punctuation">,</span>
+                <span class="token string">"%DOCFILE%"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"%DOCFILE%"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"biber"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"biber"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"%DOCFILE%"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"latex-workshop.latex.recipes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"XeLaTeX"</span><span class="token punctuation">,</span>
+            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"xelatex"</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xe->biber->xe->xe"</span><span class="token punctuation">,</span>
+            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+                <span class="token string">"biber"</span><span class="token punctuation">,</span>
+                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+                <span class="token string">"xelatex"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xe->bib->xe->xe"</span><span class="token punctuation">,</span>
+            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+                <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
+                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+                <span class="token string">"xelatex"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="私货：锐评墨干编辑器">私货：锐评墨干编辑器</h2>
+<p>首先，请读到这里的各位先读一读墨干编辑器开发者的言论<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。平心而论，TeXmacs 是好软件，而墨干也做了很多性能优化和本土化的尝试。<strong>但是现在说“TeXmacs 功能上早已取代 LaTeX”为时尚早</strong>。我在昨天（2023/8/15）尝试了最新版的墨干，我就想问，<strong>一个连 OpenType 特性都不支持，动不动就闪退崩溃，文档语言设定为中文时英文 Ligature 莫名失效的软件，是怎么好意思说“功能上早已取代 LaTeX”的</strong>？现如今，Word 都支持基本的 OpenType 特性，TeX 这边呢，LuaHBTeX 引入了 Harfbuzz，搞出这种活是轻而易举的：</p>
+<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/luatex-loads-vf.png" alt="Source Serif 4 Variable 字体，LuaHBLaTeX 编译" loading="lazy"></p>
+<p>而墨干连 Ligature 都会莫名失效；官方给的解决方案真的很 ad-hoc。可以看<a href="https://gitee.com/XmacsLabs/mogan/issues/I7TGZS">我在 gitee 提的 issue</a>。</p>
+<p>至于 OpenType 特性，昨天<a href="https://gitee.com/XmacsLabs/mogan/issues/I7TH3U">我也提了 issue</a>，官方说一年之内解决。拭目以待。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://www.zhihu.com/question/487769817/answer/2792055709">如何看待 TeXmacs？未来能完全取代 LaTeX 吗？ - 沈浪熊猫儿的回答 - 知乎</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+      <categories>
+        <category>LaTeX</category>
+      </categories>
+      <tags>
+        <tag>VS Code</tag>
+        <tag>TeX</tag>
+        <tag>LaTeX</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>操作系统实验 环境配置</title>
+    <url>/2023/09/10/OS-Env-Setup/</url>
+    <content><![CDATA[<p>本文章描述了在 Ubuntu 22.04 上配置 JOS Lab 环境的过程。</p>
+<ol>
+<li>安装必要的工具软件与库：</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> build-essential gdb gcc-multilib libgmp-dev libmpfr-dev <span class="token function">install</span> libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="2">
+<li>获取 MIT 修改的 <code>qemu</code>：</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/mit-pdos/6.828-qemu.git qemu<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="3">
+<li>
+<p>把所有的 <code>#include &lt;sys/types.h&gt;</code> 改为 <code>#include &lt;sys/sysmacros.h&gt;</code></p>
+</li>
+<li>
+<p>创建文件夹：</p>
+</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/etc/qemu
+<span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/share/qemu<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ol start="5">
+<li>编译配置：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">cd qemu
+.&#x2F;configure --disable-kvm --disable-werror --python&#x3D;python2.7 --target-list&#x3D;&quot;i386-softmmu x86_64-softmmu&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ol start="6">
+<li>编译与安装：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">make &amp;&amp; sudo make install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>操作系统实验 2</title>
     <url>/2023/10/22/OS-Lab-2/</url>
     <content><![CDATA[<p>选择了 Challenge 1 和 2。</p>
@@ -1981,8 +1985,8 @@ PTE_U on virtual address 0xf0000000 is disabled. It's a large page<span aria-hid
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>操作系统</tag>
         <tag>汇编</tag>
+        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
@@ -2523,8 +2527,8 @@ fast_system_call:
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>操作系统</tag>
         <tag>汇编</tag>
+        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
@@ -3367,8 +3371,8 @@ No runnable environments in the system!<span aria-hidden="true" class="line-numb
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>操作系统</tag>
         <tag>汇编</tag>
+        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
@@ -4014,8 +4018,8 @@ fast_system_call:
       </categories>
       <tags>
         <tag>C/C++</tag>
-        <tag>操作系统</tag>
         <tag>汇编</tag>
+        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
@@ -4215,6 +4219,23 @@ pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></spa
       </categories>
       <tags>
         <tag>Minecraft</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>视觉字号</title>
+    <url>/2024/03/21/Optical-size/</url>
+    <content><![CDATA[<p>所谓“视觉字号”（Optical Size），可以说是某个字体（Typeface）对某些特定的字号优化，以达到最佳视觉效果。</p>
+<p>来看看 Computer Modern 的例子。<br>
+<img src="/2024/03/21/Optical-size/cm.png" alt="Computer Modern" loading="lazy"></p>
+<p>从上至下对应着视觉字号从大到小。分别适用于标题、正文、脚注、上下标。可以看到，从上到下，笔画的对比度越来越小，字符的相对宽度也越来越宽。</p>
+<p>所以 LaTeX 的 NFSS 定义一个字体也要包括字号。现代 OpenType 可变字体也有专门的 <code>opsz</code> 轴。</p>
+<p>只是很多人不在乎这种东西罢了。</p>
+]]></content>
+      <categories>
+        <category>排印学</category>
+      </categories>
+      <tags>
+        <tag>字体</tag>
       </tags>
   </entry>
   <entry>
@@ -4948,7 +4969,7 @@ Out<span class="token punctuation">[</span><span class="token number">1</span><s
 注意到 $x + y = (x \oplus y) + 2(x \&amp; y)$（半加器的原理），从而<br>
 $$ \frac{x + y}{2} = \frac{x \oplus y}{2} + (x \&amp; y) $$<br>
 也即：<br>
-$$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \&amp; y) = ((x \oplus y) &gt;&gt; 1) + (x \&amp; y) $$<br>
+$$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \&amp; y) = [(x \oplus y) &gt;&gt; 1] + (x \&amp; y) $$<br>
 所以： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
     <span class="token keyword">int</span> not_y <span class="token operator">=</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
@@ -5181,6 +5202,69 @@ range 1 4 |&gt; for_each (\ x -&gt; print &quot;%d &quot; (fib x)); &#x2F;&#x2F;
         <tag>编程语言</tag>
         <tag>雷语言</tag>
         <tag>雷氏力学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在计算机上显示一个字符串？</title>
+    <url>/2024/03/21/display-a-string/</url>
+    <content><![CDATA[<p>显示一个字符串，是非常复杂的问题。</p>
+<p>以字符串<code>東雪莲Official</code>为例。</p>
+<h2 id="码元流-→-字符流">码元流 → 字符流</h2>
+<p>计算机中，字符串是以某种编码存储的，例如 UTF-8、GB-18030，或者像 Python 那样直接用 Unicode。总而言之，字符串存储为一个码元流。为什么不是字节流？因为像 UTF-16 这种编码系统，它的码元是 16 位而不是 1 字节。</p>
+<p><code>東雪莲Official</code>以 UTF-8 存储如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">E6 9D B1 E9 9B AA E8 8E B2 4F 66 66 69 63 69 61 6C<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>一个字符对应着 Unicode 中的一个码位。上述 UTF-8 码元流应该解码成字符流：</p>
+<pre class="line-numbers language-none"><code class="language-none">00006771 000096EA 000083B2 0000004F 00000066 00000066 00000069 00000063 00000069 00000061 0000006C<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="字符流-→-字形流">字符流 → 字形流</h2>
+<p>这是最复杂的部分。上古时代，计算机字体是字符到字形的单射；但现代字体往往会有着一个字符对应多个字形（各种字符替代、样式集特性），或者多个字符连起来对应一个字形（连字），或者各种奇怪的上下文特性（比如遇到 3+2=5 这种数学式，自动提高 + 和 = 的位置；遇到 12:45 这种时间表示，自动提高 : 的位置；等等）。</p>
+<p>在这一部分，字符流和我们选定的字体文件，以及字体相关的配置（比如启用了哪些特性）输入到整型引擎，整型引擎需要将字符流对应到字形流；不过，整型引擎不需要知道这些字形长什么样子，它只需要知道这些字符对应这些字形。</p>
+<p>有些字符可能在字体中没有对应的字形，比如，如果我们选择的字体只有简体中文，“東”没有对应字形，这时候需要选择一个“后备的”字体，从这里面找字形。这称为 fallback。</p>
+<p>比如说，我们有一个主字体“雷宋体 SC”（Simplified Chinese），它只包含简体中文和英文。有一个 fallback 字体“雷黑体 JP”（Japanese），它只包含日文（汉字和假名）和英文。两者英文部分都包含连字。那么，字符串<code>東雪莲Official</code>会解析字形流：</p>
+<pre class="line-numbers language-none"><code class="language-none">東  --- 雷黑体 JP
+雪  --- 雷宋体 SC
+莲  --- 雷宋体 SC
+O   --- 雷宋体 SC
+ffi --- 雷宋体 SC（ffi 是英文中常见的连字）
+c   --- 雷宋体 SC
+i   --- 雷宋体 SC
+a   --- 雷宋体 SC
+l   --- 雷宋体 SC<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果字符串中既包含 LTR（如英文），又包含 RTL（如阿拉伯文），在整型引擎处理之前，往往需要预先把 LTR 和 RTL 分开。</p>
+<h2 id="字形流-↔️-定位">字形流 ↔️ 定位</h2>
+<p>得到了字形流，就如同得到了一个个铅活字。怎么把这些字形装配在一起？字形之间的间隔怎么处理？这是要考虑的问题。</p>
+<p>Todo:</p>
+<h2 id="定位-→-光栅化">定位 → 光栅化</h2>
+<p>光栅化，即把矢量图描述的字形填进像素点。需要考虑：</p>
+<ul>
+<li>
+<p>抗锯齿，包括灰度抗锯齿与子像素抗锯齿。</p>
+</li>
+<li>
+<p>像素定位，甚至可能要考虑子像素定位。</p>
+</li>
+<li>
+<p>微调（Hinting）。字体文件中可能预先设定了一些数学指令，可以指导光栅化引擎调整矢量轮廓，使其与光栅化网格对齐。其目的是在小尺寸和低分辨率下创建最佳的光栅化字符。这个东西非常复杂，推荐阅读 <a href="https://learn.microsoft.com/en-us/typography/truetype/hinting">TrueType hinting - Typography | Microsoft Learn</a>。</p>
+<p>大致来看，Hinting 有一种强行把笔画卡进像素点的感觉。以微软雅黑和思源黑体为例。</p>
+<p>高分辨率下，除了设计上的差异，两者没有显著区别：<br>
+<img src="/2024/03/21/display-a-string/CMP.png" alt="" loading="lazy"></p>
+<p>低分辨率下，Hinting 较激进的微软雅黑仍然保持着锐利的笔画，而思源黑体的笔画边缘已经模糊；尤其是“惰”字。（这里很奇怪，不知道为什么雅黑突然开启了灰度抗锯齿）<br>
+<img src="/2024/03/21/display-a-string/CMP-2.png" alt="" loading="lazy"></p>
+<p>再把字号调小，雅黑仍然锐利，思源已经彻底糊掉了。但代价是什么呢？“惰”字，“左”的下面一横，和“月”的上面一横，已经合二为一了。Hinting 其实是以扭曲字形为代价的。Windows 7 中文版“正在启动”，“启”明显要低一些，就是雅黑的 Hinting 所致。<br>
+<img src="/2024/03/21/display-a-string/CMP-3.png" alt="" loading="lazy"></p>
+<p>Hinting 在“矗立”两字表现得淋漓尽致：<br>
+<img src="/2024/03/21/display-a-string/CMP-4.png" alt="" loading="lazy"></p>
+</li>
+</ul>
+<p>最后，我们得到了东雪莲 Official：<br>
+<img src="/2024/03/21/display-a-string/1.png" alt="" loading="lazy"></p>
+<p>关注莲莲喵，关注莲莲谢谢喵</p>
+]]></content>
+      <categories>
+        <category>排印学</category>
+      </categories>
+      <tags>
+        <tag>字体</tag>
+        <tag>整型引擎</tag>
       </tags>
   </entry>
   <entry>
@@ -5693,6 +5777,34 @@ cache<span class="token double-colon punctuation">::</span><span class="token fu
       </tags>
   </entry>
   <entry>
+    <title>Todo List</title>
+    <url>/2024/02/26/todo/</url>
+    <content><![CDATA[<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> C++：左值引用</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> C++：右值引用、引用折叠、转发引用、移动语义</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> C++：从零实现 <code>tuple</code> <a href="/2024/03/06/cpp-tuple/" title="Love &amp; Magic: Tuple">Love &amp; Magic: Tuple</a>（施工中）</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> C++：协程</li>
+</ul>
+<hr>
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Data Lab</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Bomb Lab</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Attack Lab</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Arch Lab</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Cache Lab</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Shell Lab</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> CSAPP Malloc Lab： <a href="/2024/02/26/malloc-lab/" title="Malloc Lab 全过程纪实">Malloc Lab 全过程纪实</a></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> CSAPP Proxy Lab：<a href="/2024/03/04/proxy-lab/" title="Proxy Lab 的并发设计">Proxy Lab 的并发设计</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Todo</category>
+      </categories>
+      <tags>
+        <tag>Todo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每个人承担自己的风险！</title>
     <url>/2024/02/08/risk/</url>
     <content><![CDATA[<p>Unwrap inner type when enum variant is known. From <a href="https://stackoverflow.com/questions/34953711/unwrap-inner-type-when-enum-variant-is-known">Stack overflow</a>.</p>
@@ -5726,34 +5838,6 @@ cache<span class="token double-colon punctuation">::</span><span class="token fu
       </categories>
       <tags>
         <tag>Rust</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Todo List</title>
-    <url>/2024/02/26/todo/</url>
-    <content><![CDATA[<ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> C++：左值引用</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> C++：右值引用、引用折叠、转发引用、移动语义</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> C++：从零实现 <code>tuple</code> <a href="/2024/03/06/cpp-tuple/" title="Love &amp; Magic: Tuple">Love &amp; Magic: Tuple</a>（施工中）</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> C++：协程</li>
-</ul>
-<hr>
-<ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Data Lab</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Bomb Lab</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Attack Lab</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Arch Lab</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Cache Lab</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Shell Lab</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> CSAPP Malloc Lab： <a href="/2024/02/26/malloc-lab/" title="Malloc Lab 全过程纪实">Malloc Lab 全过程纪实</a></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> CSAPP Proxy Lab：<a href="/2024/03/04/proxy-lab/" title="Proxy Lab 的并发设计">Proxy Lab 的并发设计</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Todo</category>
-      </categories>
-      <tags>
-        <tag>Todo</tag>
       </tags>
   </entry>
 </search>
