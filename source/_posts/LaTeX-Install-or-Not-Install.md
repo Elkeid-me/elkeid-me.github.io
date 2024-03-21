@@ -5,6 +5,7 @@ excerpt: Windows 平台 MiKTeX 环境配置
 categories:
   - LaTeX
 tags:
+  - TeX
   - LaTeX
   - VS Code
 ---

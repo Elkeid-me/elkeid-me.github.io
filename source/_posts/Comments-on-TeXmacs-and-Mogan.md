@@ -4,7 +4,10 @@ date: 2024-02-24 14:05:41
 categories:
   - 乐
 tags:
-  - 排版
+  - 排印学
+  - TeXmacs
+  - TeX
+  - LaTeX
 excerpt: 我的评价是很难评价。
 ---
 

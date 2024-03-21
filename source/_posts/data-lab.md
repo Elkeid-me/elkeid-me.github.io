@@ -102,7 +102,7 @@ $$ x \leqslant y \Leftrightarrow x < y + 1, \qquad x, y \in \mathbb{Z} $$
     注意到 $x + y = (x \oplus y) + 2(x \\& y)$（半加器的原理），从而
     $$ \frac{x + y}{2} = \frac{x \oplus y}{2} + (x \\& y) $$
     也即：
-    $$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \\& y) = ((x \oplus y) >> 1) + (x \\& y) $$
+    $$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \\& y) = [(x \oplus y) >> 1] + (x \\& y) $$
     所以：
     ```c
     int isLessOrEqual(int x, int y)
