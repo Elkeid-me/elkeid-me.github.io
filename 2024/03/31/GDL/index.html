@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="喵喵喵？"><meta name="copyright" content="喵喵喵？"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>Graphite 描述语言（全文翻译） | Elkeid's site</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/img/core_imgs/fav.svg"><link rel="mask-icon" href="/img/core_imgs/fav.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"elkeid-me.github.io","root":"/","title":"喵呜喵呜","version":"1.10.11","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"/data/sentences.json"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="Graphite 描述语言文档的全文翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graphite 描述语言（全文翻译）">
+<meta property="og:url" content="https://elkeid-me.github.io/2024/03/31/GDL/index.html">
+<meta property="og:site_name" content="Elkeid&#39;s site">
+<meta property="og:description" content="Graphite 描述语言文档的全文翻译">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-31T14:45:18.000Z">
+<meta property="article:modified_time" content="2024-03-31T15:03:04.084Z">
+<meta property="article:author" content="喵喵喵？">
+<meta property="article:tag" content="字体">
+<meta property="article:tag" content="Graphite">
+<meta property="article:tag" content="状态机">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="喵喵喵？"><img width="96" loading="lazy" src="/img/core_imgs/Avatar.jpg" alt="喵喵喵？"><span class="site-author-status" title="撒糖啦！">🍬</span></a><div class="site-author-name"><a href="/about/">喵喵喵？</a></div><span class="site-name">Elkeid's site</span><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">25</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">26</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://github.com/Elkeid-me" title="GitHub"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:github-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:elkeid.me@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友链" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:link-m"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Graphite-%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.</span> <span class="toc-text">Graphite 系统的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Graphite-%E5%92%8C-Unicode"><span class="toc-number">1.2.</span> <span class="toc-text">Graphite 和 Unicode</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0%EF%BC%9A%E8%A7%84%E5%88%99%E3%80%81%E5%AD%97%E5%BD%A2%E5%92%8C%E8%B6%9F"><span class="toc-number">2.</span> <span class="toc-text">概述：规则、字形和趟</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99"><span class="toc-number">2.1.</span> <span class="toc-text">规则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-number">2.1.1.</span> <span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E5%88%97%E8%A1%A8"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">变量和列表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">范围</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ANY-%E7%B1%BB"><span class="toc-number">2.1.1.3.</span> <span class="toc-text">ANY 类</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://elkeid-me.github.io/2024/03/31/GDL/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="喵喵喵？"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Elkeid's site"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Graphite 描述语言（全文翻译）</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2024-03-31 22:45:18" itemprop="dateCreated datePublished" datetime="2024-03-31T22:45:18+08:00">2024-03-31</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E6%8E%92%E5%8D%B0%E5%AD%A6/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">排印学</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E5%AD%97%E4%BD%93/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">字体</span></a><a class="tag-item" href="/tags/Graphite/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Graphite</span></a><a class="tag-item" href="/tags/%E7%8A%B6%E6%80%81%E6%9C%BA/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">状态机</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><blockquote>
+<p>原文档版权归 SIL International 所有。本文仅为翻译。翻译结果不一定准确。本人不对翻译结果负任何责任。</p>
+</blockquote>
+<blockquote>
+<p>翻译仍在施工中。我们争取在 4 月完成。</p>
+</blockquote>
+<h2 id="简介">简介</h2>
+<p>这份文档旨在半正式地描述一种名为 Graphite 描述语言 (GDL) 的 Graphite 描述文件格式。 因此，它将以一种比正式描述更自然的方式引入概念（希望如此）。</p>
+<p>这篇文章还主要关注确保该语言具有描述所有可能脚本行为的足够描述能力。 因此，本文将倾向于关注脚本描述更复杂的方面，因此并不代表您在典型描述中找到的平衡，其中大多数行为都相对简单。</p>
+<p>撰写本文时假定您对字体、字符、字形和渲染问题有基本的了解。 有关术语的定义，请参阅第 9 节的术语表。</p>
+<p>如果有任何评论或问题，请发送至 <a href="mailto:graphite_nrsi@sil.org">graphite_nrsi@sil.org</a>。</p>
+<h3 id="Graphite-系统的功能">Graphite 系统的功能</h3>
+<p>Graphite 系统旨在处理以下类型的复杂渲染情况：</p>
+<ul>
+<li>移位和字距调整，其中字形的的位置会根据相邻字形的存在进行调整</li>
+<li>连字替换，其中一个字形用于表示几个底层字符</li>
+<li>重排，典型见于印度书写系统，其中呈现的字形顺序与相应的底层字符数据顺序不同</li>
+<li>堆叠附加符号，使用附着点</li>
+<li>双向排版，见于希伯来语和阿拉伯语等书写系统</li>
+</ul>
+<p>有关详细信息，请参阅“Graphite 需求”文档。</p>
+<h3 id="Graphite-和-Unicode">Graphite 和 Unicode</h3>
+<p>Graphite旨在与 Unicode 数据一起使用，即在基础数据符合 Unicode 标准的情况下使用。 同样，用于使用 Graphite 渲染的字体也应该是基于 Unicode 的；也就是说，字体 <code>cmap</code> 中的字符值应该是 Unicode 码点。 虽然可以将 Graphite 与自定义编码一起使用，但这不是推荐的做法。</p>
+<h2 id="概述：规则、字形和趟">概述：规则、字形和趟</h2>
+<h3 id="规则">规则</h3>
+<p>渲染描述的基础是规则。 规则用于几乎所有内容，并允许上下文属性分配、替换等。 规则是替换类型规则，格式类似于熟悉生成音韵学的人。</p>
+<p>我们最初的讨论将集中于替换类型规则。 稍后讨论其他类型的规则。</p>
+<p>典型的替换规则可能是：</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI &gt; gDotlessI &#x2F; _ gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这条规则表示，底层的带小写的 I 字形在表面上被相应的无点 I 字形替换，后跟波浪号字形。 更准确地说，包含以下内容的字形流：</p>
+<pre class="line-numbers language-none"><code class="language-none">... gLowercaseI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>将被修改为包含：</p>
+<pre class="line-numbers language-none"><code class="language-none">... gDotlessI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>用于字形的名称是标识符，假设它们已被定义为引用字体中的特定字形。 具体的操作方法将在以后的部分介绍。</p>
+<p>从上面的示例中，我们可以看到一条规则由三个部分组成：<em>左侧</em>、<em>右侧</em>和<em>上下文</em>。 左侧由基础形式中要替换的特定字形组成。 右侧给出了将替换 左侧 中的字形的字形。 请注意，左侧和右侧上的字形之间存在严格的一对一对应关系。 在 <code>/</code> 之后是 <em>上下文</em>，它描述了左侧所在的环境以及右侧将被输出的环境。</p>
+<p>规则的不同部分——左侧、右侧和上下文——不应视为字符串，而应视为字形序列。 因此，在上面的规则中，我们说当紧接波浪号字形时，字形 <code>gLowercaseI</code> 被字形 <code>gDotlessI</code> 替换。 因此，上下文中，<code>_</code> 用于表示单个字形，对应于规则 左侧 中的字形。</p>
+<p>指定右侧和上下文在匹配方面描述规则时提供了最大的清晰度和自我描述，但是可以为没有上下文的规则使用更简单的格式。 例如，上面的规则可以写成：</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这并不那么清楚，因为它没有突出显示正在更改的字形。 它也不够强大，因为它不允许在同一趟中重新匹配 <code>gTilde</code>。 但该规则是可能的，并且一个优化编译器（我们不承诺开发）应该给出相同的结果。 这条规则严格等价于第一条规则，而不是</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请注意两个 <code>_</code>，规则左侧的每个字形都对应一个 <code>_</code>。 如果上下文中 <code>_</code> 的数量与左侧和右侧的字形数量不同，则会出错。</p>
+<p>规则的上下文可以根据需要变得复杂。 左侧不必引用连续的字形序列：</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ gLowerDia _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请注意，上下文中的两个 _ 与左侧的两个字形相对应，也与右侧的两个字形相对应。</p>
+<p>有些规则根本不执行替换，而只对字形流中的项设置<em>属性</em>。在这种情况下，左侧（和右侧角括号）被省略：</p>
+<pre class="line-numbers language-none"><code class="language-none">gCapA &#123;kern.x &#x3D; -Kern1&#125; &#x2F; clsCapVW _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>大括号内的代码设置了大写 A 字形的属性，使其向大写 V 或 W 方向字距调整。<code>Kern1</code> 在文件的其他地方被定义为该字形的数字常量。</p>
+<p>不带左侧的规则主要用于定位表，下文将详细讨论。</p>
+<p>规则的结束需要使用分号。如果没有分号，则假定续行。其他语句可以使用可选的分号结束符。(对于技术人员来说，分号实际上是分隔符）。</p>
+<p>注释前有两条斜线。</p>
+<pre class="line-numbers language-none"><code class="language-none">a &gt; b &#x2F; _ c; &#x2F;&#x2F; this is a comment<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请注意，注释不需要分号。</p>
+<h4 id="类">类</h4>
+<p>如果我们想要修改的每个独立的字形组合都必须使用自己的规则来详细说明，那么描述将变得不可能长。相反，我们可以使用字形类的系统。我们的第一个规则可以概括如下：</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown">clsDotted > clsDotless / _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个规则表明所有有点的字形（比如 <code>i</code>、<code>j</code> 等）在后面跟着一个上标点时会被替换为它们的无点对应字形。</p>
+<p>从这里我们可以看出，类有点像数组。当匹配到类中的一个元素时，它在类中的位置会被记住，以便可以用来指代另一个类中的元素（该类必须是同样大小或更大）。这种对应关系非常有助于减少规则的数量。</p>
+<p>在类名前使用 <code>cls</code> 的前缀是一种纯粹的编码约定。在本文档中使用它是为了增加规则的可读性。</p>
+<p>一个更复杂的替换规则可能会同时更改两个字形：</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown">clsCons clsVowel > clsConsJoin clsVowelDia / <span class="token italic"><span class="token punctuation">_</span><span class="token content"> ZWJ </span><span class="token punctuation">_</span></span> ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个规则可能出现在一个印度脚本中，其中元音可以通过零宽连接字符（在这个上下文中是字形）与前面的辅音结合。这个规则并不理想，因为在同一时间删除 ZWJ 可能更可取。我们稍后会讨论到这一点。</p>
+<h5 id="变量和列表">变量和列表</h5>
+<p>类是使用标准的赋值命令（在字形表中）来定义的。赋值允许变量被定义为单个值或列表。赋值的形式如下：</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown">variable = value;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在列表的情况下，列表在 <code>()</code> 之间被识别。因此：</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown">clsDottedI = (gLI, gLBarredI);
+clsIWidth = (clsDottedI, gLL, gUI, gUBarredI);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>列表中的逗号是可选的。还要注意，类定义或变量赋值后的分号是可选的，不像在规则中是必需的。类名不需要单独声明，不像许多编程语言；赋值语句就是声明。</p>
+<p>可以使用 <code>+=</code> 运算符将元素添加到列表的末尾。例如：</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown">clsDottedI += gLJ;
+clsIWidth += (gUJ, gUL);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>列表机制还允许在规则中使用临时未命名的“类”，尽管这不是良好的做法，因为它不鼓励定义自我说明。给每个字形类命名相当于在编写 GDL 代码的同时编写文档。在整个文件中有其他机制鼓励这样做。</p>
+<p>一个临时列表的例子（如果必须使用）是：</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown">clsDotted > (gLDotlessI, gLDotlessBarredI, gLDotlessJ) / _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="范围">范围</h5>
+<p>列表也可以由范围组成。范围是一个包含两个端点的包含列表。因此：</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown">clsCaps = unicode(0x0041 .. 0x005A);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>相当于：</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown">clsCaps = (unicode(0x0041), unicode(0x0042), unicode(0x0043), unicode(0x0044), ..., unicode(0x005A));<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这两种形式都会创建一个包含标准罗马字母表中所有大写字母的类。<code>unicode</code> 和相关函数将在后面更详细地讨论。</p>
+<h5 id="ANY-类">ANY 类</h5>
+<p>一个特殊的类，称为“ANY”，可用于匹配任何字形。</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/03/30/water/" rel="next" title="（水）原来 LaTeX 是函数式语言啊"><span class="post-nav-text">（水）原来 LaTeX 是函数式语言啊</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><style>.utterances {
+  max-width: 100%;
+}</style><script src="https://giscus.app/client.js" data-repo="Elkeid-me/elkeid-me.github.io" data-repo-id="R_kgDOLYNLZA" data-category="Announcements" data-category-id="DIC_kwDOLYNLZM4Cdh6j" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-theme="preferred_color_scheme" crossorigin="anonymous" async></script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:emotion-happy-line"></span></span><span class="author"> 喵喵喵？</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v7.1.1</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.10.11</span></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div class="search-result-container"></div></div></body></html>
