@@ -61,7 +61,7 @@ menu:
 mode: auto
 say:
   enable: true
-  api: 我们小猫只要能吃能睡就是好的
+  api: /data/sentences.json
   # hitokoto:
   #   enable: false
   #   api: https://v1.hitokoto.cn
