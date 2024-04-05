@@ -62,7 +62,6 @@ namespace ll
     struct is_same<T, T> : true_type
     {
     };
-
     template <typename T, typename U>
     inline constexpr bool is_same_v{ll::is_same<T, U>::value};
 }
@@ -92,7 +91,6 @@ namespace ll
     {
         using type = T;
     };
-
     template <typename T>
     using remove_volatile_t = typename ll::remove_volatile<T>::type;
 
@@ -101,7 +99,6 @@ namespace ll
     {
         using type = typename remove_volatile<typename remove_const<T>::type>::type;
     };
-
     template <typename T>
     using remove_cv_t = typename ll::remove_cv<T>::type;
 }
@@ -153,9 +150,7 @@ namespace ll
     template <typename T>
     struct enable_if<false, T>
     {
-        using type = T;
     };
-
     template <bool condition, typename T = void>
     using enable_if_t = typename enable_if<condition, T>::type;
 }
