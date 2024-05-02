@@ -22,7 +22,7 @@
   <entry>
     <title>驳《耗时三个月，爆肝5万字，多方面分析美国载人登月造假的可能性！》</title>
     <url>/2024/05/01/Apollo-Project/</url>
-    <content><![CDATA[<p>B 站 Up 主于 2022 年 9 月至十月陆续发表质疑阿波罗登月的视频，后汇总于 2022 年 10 月 30 日 的视频<a href="https://www.bilibili.com/video/BV14P4y1m7X8/">《耗时三个月，爆肝5万字，多方面分析美国载人登月造假的可能性！》</a>。本文原发表于 2022 年，于 2024 年全面更新，驳斥视频内容。</p>
+    <content><![CDATA[<p>B 站 Up 主<a href="https://space.bilibili.com/361519248/">@悬案缉凶</a>于 2022 年 9 月至十月陆续发表质疑阿波罗登月的视频，后汇总于 2022 年 10 月 30 日 的视频<a href="https://www.bilibili.com/video/BV14P4y1m7X8/">《耗时三个月，爆肝5万字，多方面分析美国载人登月造假的可能性！》</a>。本文原发表于 2022 年，于 2024 年全面更新，驳斥视频内容。</p>
 <p>本文已在 B 站与知乎同步发表。三个平台的文章内容可能略有出入。</p>
 <hr>
 <blockquote>
@@ -36,7 +36,7 @@
 <p>Up 在视频中框出了阿波罗 7 号到 13 号，并质疑造 7 枚土星 5 号的经济压力。但是 Up 犯了个低级错误：<strong>阿波罗 7 号是土星 1B 发射的，而不是土星 5 号</strong>。</p>
 <p>当然，这也无伤大雅。我们继续看。</p>
 <blockquote>
-<p>10:22 “即便是建造 7 座 33 层楼高的大楼也不容易吧？”</p>
+<p>10:17 “但是土星 5 号高度是 110 米是吧？在那个年代，即便是建造 7 座 33 层楼高的大楼也不容易吧？”</p>
 </blockquote>
 <p>50 年代前期，刚从二战废墟中恢复的苏联都能建起七姐妹，其中最高的莫斯科大学主楼高达 240 米，为什么 Up 认为 60 年代后期，作为世界最大工业国且素有摩天大楼传统的美国很难建出来 7 座 33 层楼高的大楼？</p>
 <p>实际上，110 层、不算天线高约 410 米的的世贸双塔正是 <strong>1966 年</strong>动工，108 层、不算天线高约 440 米的西尔斯大厦于 <strong>1970 年</strong>动工。</p>
@@ -548,237 +548,6 @@ gcc version <span class="token number">11.2</span>.0 <span class="token punctuat
         <tag>TeX</tag>
         <tag>排印学</tag>
         <tag>TeXmacs</tag>
-        <tag>LaTeX</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Graphite 描述语言（全文翻译）</title>
-    <url>/2024/03/31/GDL/</url>
-    <content><![CDATA[<blockquote>
-<p>原文档版权归 SIL International 所有。本文仅为翻译。翻译结果不一定准确。本人不对翻译结果负任何责任。</p>
-</blockquote>
-<blockquote>
-<p>翻译仍在施工中。我们争取在 4 月完成。</p>
-</blockquote>
-<h2 id="简介">简介</h2>
-<p>这份文档旨在半正式地描述一种名为 Graphite 描述语言 (GDL) 的 Graphite 描述文件格式。因此，它将以一种比正式描述更自然的方式引入概念（希望如此）。</p>
-<p>这篇文章还主要关注确保该语言具有描述所有可能脚本行为的足够描述能力。因此，本文将倾向于关注脚本描述更复杂的方面，因此并不代表您在典型描述中找到的平衡，其中大多数行为都相对简单。</p>
-<p>撰写本文时假定您对字体、字符、字形和渲染问题有基本的了解。有关术语的定义，请参阅第 9 节的术语表。</p>
-<p>如果有任何评论或问题，请发送至 <a href="mailto:graphite_nrsi@sil.org">graphite_nrsi@sil.org</a>。</p>
-<h3 id="Graphite-系统的功能">Graphite 系统的功能</h3>
-<p>Graphite 系统旨在处理以下类型的复杂渲染情况：</p>
-<ul>
-<li>移位和字距调整，其中字形的的位置会根据相邻字形的存在进行调整</li>
-<li>连字替换，其中一个字形用于表示几个底层字符</li>
-<li>重排，典型见于印度书写系统，其中呈现的字形顺序与相应的底层字符数据顺序不同</li>
-<li>堆叠附加符号，使用附着点</li>
-<li>双向排版，见于希伯来语和阿拉伯语等书写系统</li>
-</ul>
-<p>有关详细信息，请参阅“Graphite 需求”文档。</p>
-<h3 id="Graphite-和-Unicode">Graphite 和 Unicode</h3>
-<p>Graphite旨在与 Unicode 数据一起使用，即在基础数据符合 Unicode 标准的情况下使用。同样，用于使用 Graphite 渲染的字体也应该是基于 Unicode 的；也就是说，字体 <code>cmap</code> 中的字符值应该是 Unicode 码点。虽然可以将 Graphite 与自定义编码一起使用，但这不是推荐的做法。</p>
-<h2 id="概述：规则、字形和趟">概述：规则、字形和趟</h2>
-<h3 id="规则">规则</h3>
-<p>渲染描述的基础是规则。规则用于几乎所有内容，并允许上下文属性分配、替换等。规则是替换类型规则，格式类似于熟悉生成音韵学的人。</p>
-<p>我们最初的讨论将集中于替换类型规则。稍后讨论其他类型的规则。</p>
-<p>典型的替换规则可能是：</p>
-<pre class="line-numbers language-none"><code class="language-none">gLowercaseI &gt; gDotlessI &#x2F; _ gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这条规则表示，底层的带小写的 I 字形在表面上被相应的无点 I 字形替换，后跟波浪号字形。更准确地说，包含以下内容的字形流：</p>
-<pre class="line-numbers language-none"><code class="language-none">... gLowercaseI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>将被修改为包含：</p>
-<pre class="line-numbers language-none"><code class="language-none">... gDotlessI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>用于字形的名称是标识符，假设它们已被定义为引用字体中的特定字形。具体的操作方法将在以后的部分介绍。</p>
-<p>从上面的示例中，我们可以看到一条规则由三个部分组成：<em>左侧</em>、<em>右侧</em>和<em>上下文</em>。左侧由基础形式中要替换的特定字形组成。右侧给出了将替换左侧中的字形的字形。请注意，左侧和右侧上的字形之间存在严格的一对一对应关系。在 <code>/</code> 之后是 <em>上下文</em>，它描述了左侧所在的环境以及右侧将被输出的环境。</p>
-<p>规则的不同部分——左侧、右侧和上下文——不应视为字符串，而应视为字形序列。因此，在上面的规则中，我们说当紧接波浪号字形时，字形 <code>gLowercaseI</code> 被字形 <code>gDotlessI</code> 替换。因此，上下文中，<code>_</code> 用于表示单个字形，对应于规则左侧中的字形。</p>
-<p>指定右侧和上下文在匹配方面描述规则时提供了最大的清晰度和自我描述，但是可以为没有上下文的规则使用更简单的格式。例如，上面的规则可以写成：</p>
-<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这并不那么清楚，因为它没有突出显示正在更改的字形。它也不够强大，因为它不允许在同一趟中重新匹配 <code>gTilde</code>。但该规则是可能的，并且一个优化编译器（我们不承诺开发）应该给出相同的结果。这条规则严格等价于第一条规则，而不是</p>
-<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>请注意两个 <code>_</code>，规则左侧的每个字形都对应一个 <code>_</code>。如果上下文中 <code>_</code> 的数量与左侧和右侧的字形数量不同，则会出错。</p>
-<p>规则的上下文可以根据需要变得复杂。左侧不必引用连续的字形序列：</p>
-<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ gLowerDia _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>请注意，上下文中的两个 _ 与左侧的两个字形相对应，也与右侧的两个字形相对应。</p>
-<p>有些规则根本不执行替换，而只对字形流中的项设置<em>属性</em>。在这种情况下，左侧（和右侧角括号）被省略：</p>
-<pre class="line-numbers language-none"><code class="language-none">gCapA &#123;kern.x &#x3D; -Kern1&#125; &#x2F; clsCapVW _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>大括号内的代码设置了大写 A 字形的属性，使其向大写 V 或 W 方向字距调整。<code>Kern1</code> 在文件的其他地方被定义为该字形的数字常量。</p>
-<p>不带左侧的规则主要用于定位表，下文将详细讨论。</p>
-<p>规则的结束需要使用分号。如果没有分号，则假定续行。其他语句可以使用可选的分号结束符。（对于技术人员来说，分号实际上是分隔符）。</p>
-<p>注释前有两条斜线。</p>
-<pre class="line-numbers language-none"><code class="language-none">a &gt; b &#x2F; _ c; &#x2F;&#x2F; this is a comment<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>请注意，注释不需要分号。</p>
-<h4 id="类">类</h4>
-<p>如果我们想要修改的每个独立的字形组合都必须使用自己的规则来详细说明，那么描述将变得不可能长。相反，我们可以使用字形类的系统。我们的第一个规则可以概括如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsDotted &gt; clsDotless &#x2F; _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这个规则表明所有有点的字形（比如 <code>i</code>、<code>j</code> 等）在后面跟着一个上标点时会被替换为它们的无点对应字形。</p>
-<p>从这里我们可以看出，类有点像数组。当匹配到类中的一个元素时，它在类中的位置会被记住，以便可以用来指代另一个类中的元素（该类必须是同样大小或更大）。这种对应关系非常有助于减少规则的数量。</p>
-<p>在类名前使用 <code>cls</code> 的前缀是一种纯粹的编码约定。在本文档中使用它是为了增加规则的可读性。</p>
-<p>一个更复杂的替换规则可能会同时更改两个字形：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsCons clsVowel &gt; clsConsJoin clsVowelDia &#x2F; _ ZWJ _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这个规则可能出现在一个印度脚本中，其中元音可以通过零宽连接字符（在这个上下文中是字形）与前面的辅音结合。这个规则并不理想，因为在同一时间删除 ZWJ 可能更可取。我们稍后会讨论到这一点。</p>
-<h5 id="变量和列表">变量和列表</h5>
-<p>类是使用标准的赋值命令（在字形表中）来定义的。赋值允许变量被定义为单个值或列表。赋值的形式如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">variable &#x3D; value;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>在列表的情况下，列表在 <code>()</code> 之间被识别。因此：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsDottedI &#x3D; (gLI, gLBarredI);
-clsIWidth &#x3D; (clsDottedI, gLL, gUI, gUBarredI);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>列表中的逗号是可选的。还要注意，类定义或变量赋值后的分号是可选的，不像在规则中是必需的。类名不需要单独声明，不像许多编程语言；赋值语句就是声明。</p>
-<p>可以使用 <code>+=</code> 运算符将元素添加到列表的末尾。例如：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsDottedI +&#x3D; gLJ;
-clsIWidth +&#x3D; (gUJ, gUL);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>列表机制还允许在规则中使用临时未命名的“类”，尽管这不是良好的做法，因为它不鼓励定义自我说明。给每个字形类命名相当于在编写 GDL 代码的同时编写文档。在整个文件中有其他机制鼓励这样做。</p>
-<p>一个临时列表的例子（如果必须使用）是：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsDotted &gt; (gLDotlessI, gLDotlessBarredI, gLDotlessJ) &#x2F; _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h5 id="范围">范围</h5>
-<p>列表也可以由范围组成。范围是一个包含两个端点的包含列表。因此：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsCaps &#x3D; unicode(0x0041 .. 0x005A);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>相当于：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsCaps &#x3D; (unicode(0x0041), unicode(0x0042), unicode(0x0043), unicode(0x0044), ..., unicode(0x005A));<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这两种形式都会创建一个包含标准罗马字母表中所有大写字母的类。<code>unicode</code> 和相关函数将在后面更详细地讨论。</p>
-<h5 id="ANY-类">ANY 类</h5>
-<p>一个特殊的类，称为“ANY”，可用于匹配任何字形。</p>
-]]></content>
-      <categories>
-        <category>排印学</category>
-      </categories>
-      <tags>
-        <tag>字体</tag>
-        <tag>Graphite</tag>
-        <tag>状态机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LaTeX 安装指南，或不安装指南</title>
-    <url>/2023/08/16/LaTeX-Install-or-Not-Install/</url>
-    <content><![CDATA[<div class="info">
-<blockquote>
-<p>计科人认为计算机技术的那个源头，它是什么？它是 Technique，对吧。所以这个词叫 TeX。我经常说 TeX 这个词有秘密。TeX，Technique 了吗？TeX 嘛。它真 Technique 吗？TeX。到底 Technique 没 Technique？TeX。我问 TeX，它真 Technique 了吗？TeX。你看看，Technique 没 Technique？TeX。它很厉害，它不是一个有形的。</p>
-</blockquote>
-<blockquote>
-<p>所以你读 The TeXbook，The TeXbook 里面讲什么，it’s supposed to be a panacea that satisfies everybody, at the risk of satisfying nobody. The category code for any character can be changed at any time, but it is usually wise to stick to a particular scheme. 所以，优雅的计算机排版生于 TeX，TeX 生于无。是这样说的吧，它不是个实体。</p>
-</blockquote>
-<blockquote>
-<p>我有一次去下北泽讲课，遇到一个人，他的老师，当时有七十多岁了。那个七十多岁的老人家，就问那个小伙子他，说真有中文编程吗？这个世界真有中文编程吗？一下子把小伙子问傻了。有。他说真有吗？一下就问傻了。你想想那是个软件，软件是无相的。所以 The LaTeX3 Interfaces 的一句话，叫 the colon and underscore are treated as &quot;letters&quot;. 见字母非字母，那是个软件，你不能迷信。</p>
-</blockquote>
-</div>
-<h2 id="你真的需要-LaTeX-吗？">你真的需要 LaTeX 吗？</h2>
-<p>LaTeX 就是个排版工具。如果你用 Word 之类的足够熟练，那其实没有必要学 LaTeX。最近 Typst 信徒和 TeXmacs（以及国产 Fork 墨干编辑器）信徒传教很疯狂，对于后者我要多说点。<a href="#%E7%A7%81%E8%B4%A7%EF%BC%9A%E9%94%90%E8%AF%84%E5%A2%A8%E5%B9%B2%E7%BC%96%E8%BE%91%E5%99%A8">私货：锐评墨干编辑器</a></p>
-<p>从美观角度考虑，我是推荐大家学 LaTeX 的。此外，我也建议高中老师学习 LaTeX。毕竟，数学排版有 amsmath 等包；化学式、结构式与化学方程式有 mhchem 和 chenfig 等包：美观的试题排版对提升学习积极性是十分必要的……而除了理科试题，其他学科的试卷和讲义在自动化排版方面都可以使用 LaTeX，这比 Word 手动调要好多了。</p>
-<h2 id="不安装指南">不安装指南</h2>
-<p>首先，你可以看自己的学校是否在校园网部署了在线 LaTeX。例如：</p>
-<ul>
-<li><a href="https://latex.pku.edu.cn/">北京大学 LaTeX</a></li>
-<li><a href="https://overleaf.tsinghua.edu.cn">清华大学 LaTeX</a></li>
-<li><a href="https://tex.nju.edu.cn/">南京大学 LaTeX</a></li>
-</ul>
-<p>如果校园网没有，可以考虑：</p>
-<ul>
-<li><a href="https://www.overleaf.com/">Overleaf</a></li>
-<li><a href="https://texpage.com/">TeXPages</a></li>
-</ul>
-<p>甚至使用 Github Actions 也可以编译。</p>
-<p>但是，本地编译仍然有不可替代的优势，万一在线服务崩了呢？</p>
-<h2 id="TeX-发行版介绍">TeX 发行版介绍</h2>
-<p><a href="https://miktex.org/">MiKTeX</a> 是一个滚动更新的发行版，支持 Windows、Linux 和 macOS。其控制台和包管理器带有友好的图形界面，且对于宏包支持即用即装（“Install on fly”）。目前我电脑上的 MiKTeX 仅占用 0.98 GB 空间，这远小于 TeX Live 的 5 GB。</p>
-<p>多年未更的 <a href="https://ctex.org/">CTeX</a> 套装也在今年更新了 3.0 正式版，目前基于 MiKTeX 20230420 二次打包，同时加入 CCT，TY 等上古时期的中文排版系统（因为还有中文期刊要用它们）。可以一试。</p>
-<p><a href="https://tug.org/texlive/">TeX Live</a> 由 TeX 用户组推出，每年更新，如今是 TeX Live 2023。支持 Windows、Linux 和 Unix，在 macOS 上有 MacTeX。其问题是包管理器的图形界面实在是太不友好了（悲），而且每年封装完镜像之后，新发布的包只能等待第二年再封装。例如：2022 年发布的 <a href="https://ctan.org/pkg/fixdif">fixdif</a> 包只能等 2023 年的 TeX Live 镜像，或者使用命令 <code>tlmgr install fixdif</code><br>
-手动安装。但如果使用 MiKTeX，你只需在文档中使用 <code>\usepackage&#123;fixdif&#125;</code>， 在编译时，会自动安装缺少的包。</p>
-<p>鉴于 TeX Live 的体积过大、控制台不友好、以及调用系统字体时出现的奇奇怪怪的问题，我更推荐 MiKTeX。但是，如果存在（但不限于）以下情况，请使用 TeX Live。</p>
-<ol>
-<li>由于网络原因，你无法连接到 MiKTeX 的服务器（因而无法更换检索源，无法安装宏包）。</li>
-<li>你需要使用 pTeX-ng 等仅包含于 TeX Live 的引擎。</li>
-</ol>
-<h2 id="MiKTeX-安装（Windows）">MiKTeX 安装（Windows）</h2>
-<p>可以前去 <a href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/win32/miktex/setup/windows-x64/">CTAN/MiKTeX | 清华大学开源软件镜像站</a>下载。选择 <code>basic-miktex-xx.x-x64.exe</code>，截至本文发布，你应当选择 <code>basic-miktex-23.4-x64.exe</code>。</p>
-<p>我想安装程序大家应该都会，在此不过多赘述。只指出一点：<strong>不要选择</strong>为所有用户安装。</p>
-<h2 id="配置-MiKTeX-源与更新宏包">配置 MiKTeX 源与更新宏包</h2>
-<p>在开始菜单中找到 MiKTeX Console，在左侧选择“更新”</p>
-<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/miktex-console.png" alt="MiKTeX Console" loading="lazy"></p>
-<p>此时，“检索源”是 <code>&lt;互联网上的随机存储库&gt;</code>。强烈建议点击右侧的“更改”，切换到一个国内的源，例如清华源或者科大源。然后，点击“检查更新”：</p>
-<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/update.png" alt="MiKTeX Update" loading="lazy"></p>
-<p>点击“立即更新”。</p>
-<p>首次安装的 MiKTeX 必须进行更新。同时，建议一段时间更新一次宏包。</p>
-<p>更新时，可能提示：</p>
-<pre class="line-numbers language-none"><code class="language-none">The remote package repository is outdated. You have to choose another repository.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>此时换一个镜像源即可。</p>
-<h2 id="使用什么编辑器？">使用什么编辑器？</h2>
-<p>MiKTeX 自带 TeXworks。TeXstudio 和 VS Code 是很多人的选择。Vim 与 Emacs 亦可。</p>
-<p>对于 VS Code，你可以安装 <a href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop">LaTeX Workshop</a> 或者 <a href="https://marketplace.visualstudio.com/items?itemName=efoerster.texlab">TexLab</a>。以下给出我个人的 LaTeX Workshop 配置。</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
-    <span class="token property">"latex-workshop.latex.autoBuild.run"</span><span class="token operator">:</span> <span class="token string">"never"</span><span class="token punctuation">,</span>
-    <span class="token property">"latex-workshop.message.error.show"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-    <span class="token property">"latex-workshop.message.warning.show"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-    <span class="token property">"latex-workshop.latex.tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"-synctex=1"</span><span class="token punctuation">,</span>
-                <span class="token string">"-interaction=nonstopmode"</span><span class="token punctuation">,</span>
-                <span class="token string">"-file-line-error"</span><span class="token punctuation">,</span>
-                <span class="token string">"%DOCFILE%"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
-            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
-            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"%DOCFILE%"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"biber"</span><span class="token punctuation">,</span>
-            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"biber"</span><span class="token punctuation">,</span>
-            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"%DOCFILE%"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">]</span><span class="token punctuation">,</span>
-    <span class="token property">"latex-workshop.latex.recipes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"XeLaTeX"</span><span class="token punctuation">,</span>
-            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"xelatex"</span>
-            <span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xe->biber->xe->xe"</span><span class="token punctuation">,</span>
-            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-                <span class="token string">"biber"</span><span class="token punctuation">,</span>
-                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-                <span class="token string">"xelatex"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xe->bib->xe->xe"</span><span class="token punctuation">,</span>
-            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-                <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
-                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
-                <span class="token string">"xelatex"</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">]</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="私货：锐评墨干编辑器">私货：锐评墨干编辑器</h2>
-<p>首先，请读到这里的各位先读一读墨干编辑器开发者的言论<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。平心而论，TeXmacs 是好软件，而墨干也做了很多性能优化和本土化的尝试。<strong>但是现在说“TeXmacs 功能上早已取代 LaTeX”为时尚早</strong>。我在昨天（2023/8/15）尝试了最新版的墨干，我就想问，<strong>一个连 OpenType 特性都不支持，动不动就闪退崩溃，文档语言设定为中文时英文 Ligature 莫名失效的软件，是怎么好意思说“功能上早已取代 LaTeX”的</strong>？现如今，Word 都支持基本的 OpenType 特性，TeX 这边呢，LuaHBTeX 引入了 Harfbuzz，搞出这种活是轻而易举的：</p>
-<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/luatex-loads-vf.png" alt="Source Serif 4 Variable 字体，LuaHBLaTeX 编译" loading="lazy"></p>
-<p>而墨干连 Ligature 都会莫名失效；官方给的解决方案真的很 ad-hoc。可以看<a href="https://gitee.com/XmacsLabs/mogan/issues/I7TGZS">我在 gitee 提的 issue</a>。</p>
-<p>至于 OpenType 特性，昨天<a href="https://gitee.com/XmacsLabs/mogan/issues/I7TH3U">我也提了 issue</a>，官方说一年之内解决。拭目以待。</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p><a href="https://www.zhihu.com/question/487769817/answer/2792055709">如何看待 TeXmacs？未来能完全取代 LaTeX 吗？ - 沈浪熊猫儿的回答 - 知乎</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-]]></content>
-      <categories>
-        <category>LaTeX</category>
-      </categories>
-      <tags>
-        <tag>TeX</tag>
-        <tag>VS Code</tag>
         <tag>LaTeX</tag>
       </tags>
   </entry>
@@ -1692,6 +1461,275 @@ top<span class="token operator">:</span>
       </tags>
   </entry>
   <entry>
+    <title>Graphite 描述语言（全文翻译）</title>
+    <url>/2024/03/31/GDL/</url>
+    <content><![CDATA[<blockquote>
+<p>原文档版权归 SIL International 所有。本文仅为翻译。翻译结果不一定准确。本人不对翻译结果负任何责任。</p>
+</blockquote>
+<blockquote>
+<p>翻译仍在施工中。我们争取在 4 月完成。</p>
+</blockquote>
+<h2 id="简介">简介</h2>
+<p>这份文档旨在半正式地描述一种名为 Graphite 描述语言 (GDL) 的 Graphite 描述文件格式。因此，它将以一种比正式描述更自然的方式引入概念（希望如此）。</p>
+<p>这篇文章还主要关注确保该语言具有描述所有可能脚本行为的足够描述能力。因此，本文将倾向于关注脚本描述更复杂的方面，因此并不代表您在典型描述中找到的平衡，其中大多数行为都相对简单。</p>
+<p>撰写本文时假定您对字体、字符、字形和渲染问题有基本的了解。有关术语的定义，请参阅第 9 节的术语表。</p>
+<p>如果有任何评论或问题，请发送至 <a href="mailto:graphite_nrsi@sil.org">graphite_nrsi@sil.org</a>。</p>
+<h3 id="Graphite-系统的功能">Graphite 系统的功能</h3>
+<p>Graphite 系统旨在处理以下类型的复杂渲染情况：</p>
+<ul>
+<li>移位和字距调整，其中字形的的位置会根据相邻字形的存在进行调整</li>
+<li>连字替换，其中一个字形用于表示几个底层字符</li>
+<li>重排，典型见于印度书写系统，其中呈现的字形顺序与相应的底层字符数据顺序不同</li>
+<li>堆叠附加符号，使用附着点</li>
+<li>双向排版，见于希伯来语和阿拉伯语等书写系统</li>
+</ul>
+<p>有关详细信息，请参阅“Graphite 需求”文档。</p>
+<h3 id="Graphite-和-Unicode">Graphite 和 Unicode</h3>
+<p>Graphite旨在与 Unicode 数据一起使用，即在基础数据符合 Unicode 标准的情况下使用。同样，用于使用 Graphite 渲染的字体也应该是基于 Unicode 的；也就是说，字体 <code>cmap</code> 中的字符值应该是 Unicode 码点。虽然可以将 Graphite 与自定义编码一起使用，但这不是推荐的做法。</p>
+<h2 id="概述：规则、字形和趟">概述：规则、字形和趟</h2>
+<h3 id="规则">规则</h3>
+<p>渲染描述的基础是规则。规则用于几乎所有内容，并允许上下文属性分配、替换等。规则是替换类型规则，格式类似于熟悉生成音韵学的人。</p>
+<p>我们最初的讨论将集中于替换类型规则。稍后讨论其他类型的规则。</p>
+<p>典型的替换规则可能是：</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI &gt; gDotlessI &#x2F; _ gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这条规则表示，底层的带小写的 I 字形在表面上被相应的无点 I 字形替换，后跟波浪号字形。更准确地说，包含以下内容的字形流：</p>
+<pre class="line-numbers language-none"><code class="language-none">... gLowercaseI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>将被修改为包含：</p>
+<pre class="line-numbers language-none"><code class="language-none">... gDotlessI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>用于字形的名称是标识符，假设它们已被定义为引用字体中的特定字形。具体的操作方法将在以后的部分介绍。</p>
+<p>从上面的示例中，我们可以看到一条规则由三个部分组成：<em>左侧</em>、<em>右侧</em>和<em>上下文</em>。左侧由基础形式中要替换的特定字形组成。右侧给出了将替换左侧中的字形的字形。请注意，左侧和右侧上的字形之间存在严格的一对一对应关系。在 <code>/</code> 之后是 <em>上下文</em>，它描述了左侧所在的环境以及右侧将被输出的环境。</p>
+<p>规则的不同部分——左侧、右侧和上下文——不应视为字符串，而应视为字形序列。因此，在上面的规则中，我们说当紧接波浪号字形时，字形 <code>gLowercaseI</code> 被字形 <code>gDotlessI</code> 替换。因此，上下文中，<code>_</code> 用于表示单个字形，对应于规则左侧中的字形。</p>
+<p>指定右侧和上下文在匹配方面描述规则时提供了最大的清晰度和自我描述，但是可以为没有上下文的规则使用更简单的格式。例如，上面的规则可以写成：</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这并不那么清楚，因为它没有突出显示正在更改的字形。它也不够强大，因为它不允许在同一趟中重新匹配 <code>gTilde</code>。但该规则是可能的，并且一个优化编译器（我们不承诺开发）应该给出相同的结果。这条规则严格等价于第一条规则，而不是</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请注意两个 <code>_</code>，规则左侧的每个字形都对应一个 <code>_</code>。如果上下文中 <code>_</code> 的数量与左侧和右侧的字形数量不同，则会出错。</p>
+<p>规则的上下文可以根据需要变得复杂。左侧不必引用连续的字形序列：</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ gLowerDia _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请注意，上下文中的两个 _ 与左侧的两个字形相对应，也与右侧的两个字形相对应。</p>
+<p>有些规则根本不执行替换，而只对字形流中的项设置<em>属性</em>。在这种情况下，左侧（和右侧角括号）被省略：</p>
+<pre class="line-numbers language-none"><code class="language-none">gCapA &#123;kern.x &#x3D; -Kern1&#125; &#x2F; clsCapVW _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>大括号内的代码设置了大写 A 字形的属性，使其向大写 V 或 W 方向字距调整。<code>Kern1</code> 在文件的其他地方被定义为该字形的数字常量。</p>
+<p>不带左侧的规则主要用于定位表，下文将详细讨论。</p>
+<p>规则的结束需要使用分号。如果没有分号，则假定续行。其他语句可以使用可选的分号结束符。（对于技术人员来说，分号实际上是分隔符）。</p>
+<p>注释前有两条斜线。</p>
+<pre class="line-numbers language-none"><code class="language-none">a &gt; b &#x2F; _ c; &#x2F;&#x2F; this is a comment<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请注意，注释不需要分号。</p>
+<h4 id="类">类</h4>
+<p>如果我们想要修改的每个独立的字形组合都必须使用自己的规则来详细说明，那么描述将变得不可能长。相反，我们可以使用字形类的系统。我们的第一个规则可以概括如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsDotted &gt; clsDotless &#x2F; _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个规则表明所有有点的字形（比如 <code>i</code>、<code>j</code> 等）在后面跟着一个上标点时会被替换为它们的无点对应字形。</p>
+<p>从这里我们可以看出，类有点像数组。当匹配到类中的一个元素时，它在类中的位置会被记住，以便可以用来指代另一个类中的元素（该类必须是同样大小或更大）。这种对应关系非常有助于减少规则的数量。</p>
+<p>在类名前使用 <code>cls</code> 的前缀是一种纯粹的编码约定。在本文档中使用它是为了增加规则的可读性。</p>
+<p>一个更复杂的替换规则可能会同时更改两个字形：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsCons clsVowel &gt; clsConsJoin clsVowelDia &#x2F; _ ZWJ _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个规则可能出现在一个印度脚本中，其中元音可以通过零宽连接字符（在这个上下文中是字形）与前面的辅音结合。这个规则并不理想，因为在同一时间删除 ZWJ 可能更可取。我们稍后会讨论到这一点。</p>
+<h5 id="变量和列表">变量和列表</h5>
+<p>类是使用标准的赋值命令（在字形表中）来定义的。赋值允许变量被定义为单个值或列表。赋值的形式如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">variable &#x3D; value;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在列表的情况下，列表在 <code>()</code> 之间被识别。因此：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsDottedI &#x3D; (gLI, gLBarredI);
+clsIWidth &#x3D; (clsDottedI, gLL, gUI, gUBarredI);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>列表中的逗号是可选的。还要注意，类定义或变量赋值后的分号是可选的，不像在规则中是必需的。类名不需要单独声明，不像许多编程语言；赋值语句就是声明。</p>
+<p>可以使用 <code>+=</code> 运算符将元素添加到列表的末尾。例如：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsDottedI +&#x3D; gLJ;
+clsIWidth +&#x3D; (gUJ, gUL);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>列表机制还允许在规则中使用临时未命名的“类”，尽管这不是良好的做法，因为它不鼓励定义自我说明。给每个字形类命名相当于在编写 GDL 代码的同时编写文档。在整个文件中有其他机制鼓励这样做。</p>
+<p>一个临时列表的例子（如果必须使用）是：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsDotted &gt; (gLDotlessI, gLDotlessBarredI, gLDotlessJ) &#x2F; _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="范围">范围</h5>
+<p>列表也可以由范围组成。范围是一个包含两个端点的包含列表。因此：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsCaps &#x3D; unicode(0x0041 .. 0x005A);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>相当于：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsCaps &#x3D; (unicode(0x0041), unicode(0x0042), unicode(0x0043), unicode(0x0044), ..., unicode(0x005A));<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这两种形式都会创建一个包含标准罗马字母表中所有大写字母的类。<code>unicode</code> 和相关函数将在后面更详细地讨论。</p>
+<h5 id="ANY-类">ANY 类</h5>
+<p>一个特殊的类，称为“ANY”，可用于匹配任何字形。</p>
+]]></content>
+      <categories>
+        <category>排印学</category>
+      </categories>
+      <tags>
+        <tag>字体</tag>
+        <tag>Graphite</tag>
+        <tag>状态机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LaTeX 安装指南，或不安装指南</title>
+    <url>/2023/08/16/LaTeX-Install-or-Not-Install/</url>
+    <content><![CDATA[<div class="info">
+<blockquote>
+<p>计科人认为计算机技术的那个源头，它是什么？它是 Technique，对吧。所以这个词叫 TeX。我经常说 TeX 这个词有秘密。TeX，Technique 了吗？TeX 嘛。它真 Technique 吗？TeX。到底 Technique 没 Technique？TeX。我问 TeX，它真 Technique 了吗？TeX。你看看，Technique 没 Technique？TeX。它很厉害，它不是一个有形的。</p>
+</blockquote>
+<blockquote>
+<p>所以你读 The TeXbook，The TeXbook 里面讲什么，it’s supposed to be a panacea that satisfies everybody, at the risk of satisfying nobody. The category code for any character can be changed at any time, but it is usually wise to stick to a particular scheme. 所以，优雅的计算机排版生于 TeX，TeX 生于无。是这样说的吧，它不是个实体。</p>
+</blockquote>
+<blockquote>
+<p>我有一次去下北泽讲课，遇到一个人，他的老师，当时有七十多岁了。那个七十多岁的老人家，就问那个小伙子他，说真有中文编程吗？这个世界真有中文编程吗？一下子把小伙子问傻了。有。他说真有吗？一下就问傻了。你想想那是个软件，软件是无相的。所以 The LaTeX3 Interfaces 的一句话，叫 the colon and underscore are treated as &quot;letters&quot;. 见字母非字母，那是个软件，你不能迷信。</p>
+</blockquote>
+</div>
+<h2 id="你真的需要-LaTeX-吗？">你真的需要 LaTeX 吗？</h2>
+<p>LaTeX 就是个排版工具。如果你用 Word 之类的足够熟练，那其实没有必要学 LaTeX。最近 Typst 信徒和 TeXmacs（以及国产 Fork 墨干编辑器）信徒传教很疯狂，对于后者我要多说点。<a href="#%E7%A7%81%E8%B4%A7%EF%BC%9A%E9%94%90%E8%AF%84%E5%A2%A8%E5%B9%B2%E7%BC%96%E8%BE%91%E5%99%A8">私货：锐评墨干编辑器</a></p>
+<p>从美观角度考虑，我是推荐大家学 LaTeX 的。此外，我也建议高中老师学习 LaTeX。毕竟，数学排版有 amsmath 等包；化学式、结构式与化学方程式有 mhchem 和 chenfig 等包：美观的试题排版对提升学习积极性是十分必要的……而除了理科试题，其他学科的试卷和讲义在自动化排版方面都可以使用 LaTeX，这比 Word 手动调要好多了。</p>
+<h2 id="不安装指南">不安装指南</h2>
+<p>首先，你可以看自己的学校是否在校园网部署了在线 LaTeX。例如：</p>
+<ul>
+<li><a href="https://latex.pku.edu.cn/">北京大学 LaTeX</a></li>
+<li><a href="https://overleaf.tsinghua.edu.cn">清华大学 LaTeX</a></li>
+<li><a href="https://tex.nju.edu.cn/">南京大学 LaTeX</a></li>
+</ul>
+<p>如果校园网没有，可以考虑：</p>
+<ul>
+<li><a href="https://www.overleaf.com/">Overleaf</a></li>
+<li><a href="https://texpage.com/">TeXPages</a></li>
+</ul>
+<p>甚至使用 Github Actions 也可以编译。</p>
+<p>但是，本地编译仍然有不可替代的优势，万一在线服务崩了呢？</p>
+<h2 id="TeX-发行版介绍">TeX 发行版介绍</h2>
+<p><a href="https://miktex.org/">MiKTeX</a> 是一个滚动更新的发行版，支持 Windows、Linux 和 macOS。其控制台和包管理器带有友好的图形界面，且对于宏包支持即用即装（“Install on fly”）。目前我电脑上的 MiKTeX 仅占用 0.98 GB 空间，这远小于 TeX Live 的 5 GB。</p>
+<p>多年未更的 <a href="https://ctex.org/">CTeX</a> 套装也在今年更新了 3.0 正式版，目前基于 MiKTeX 20230420 二次打包，同时加入 CCT，TY 等上古时期的中文排版系统（因为还有中文期刊要用它们）。可以一试。</p>
+<p><a href="https://tug.org/texlive/">TeX Live</a> 由 TeX 用户组推出，每年更新，如今是 TeX Live 2023。支持 Windows、Linux 和 Unix，在 macOS 上有 MacTeX。其问题是包管理器的图形界面实在是太不友好了（悲），而且每年封装完镜像之后，新发布的包只能等待第二年再封装。例如：2022 年发布的 <a href="https://ctan.org/pkg/fixdif">fixdif</a> 包只能等 2023 年的 TeX Live 镜像，或者使用命令 <code>tlmgr install fixdif</code><br>
+手动安装。但如果使用 MiKTeX，你只需在文档中使用 <code>\usepackage&#123;fixdif&#125;</code>， 在编译时，会自动安装缺少的包。</p>
+<p>鉴于 TeX Live 的体积过大、控制台不友好、以及调用系统字体时出现的奇奇怪怪的问题，我更推荐 MiKTeX。但是，如果存在（但不限于）以下情况，请使用 TeX Live。</p>
+<ol>
+<li>由于网络原因，你无法连接到 MiKTeX 的服务器（因而无法更换检索源，无法安装宏包）。</li>
+<li>你需要使用 pTeX-ng 等仅包含于 TeX Live 的引擎。</li>
+</ol>
+<h2 id="MiKTeX-安装（Windows）">MiKTeX 安装（Windows）</h2>
+<p>可以前去 <a href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/win32/miktex/setup/windows-x64/">CTAN/MiKTeX | 清华大学开源软件镜像站</a>下载。选择 <code>basic-miktex-xx.x-x64.exe</code>，截至本文发布，你应当选择 <code>basic-miktex-23.4-x64.exe</code>。</p>
+<p>我想安装程序大家应该都会，在此不过多赘述。只指出一点：<strong>不要选择</strong>为所有用户安装。</p>
+<h2 id="配置-MiKTeX-源与更新宏包">配置 MiKTeX 源与更新宏包</h2>
+<p>在开始菜单中找到 MiKTeX Console，在左侧选择“更新”</p>
+<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/miktex-console.png" alt="MiKTeX Console" loading="lazy"></p>
+<p>此时，“检索源”是 <code>&lt;互联网上的随机存储库&gt;</code>。强烈建议点击右侧的“更改”，切换到一个国内的源，例如清华源或者科大源。然后，点击“检查更新”：</p>
+<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/update.png" alt="MiKTeX Update" loading="lazy"></p>
+<p>点击“立即更新”。</p>
+<p>首次安装的 MiKTeX 必须进行更新。同时，建议一段时间更新一次宏包。</p>
+<p>更新时，可能提示：</p>
+<pre class="line-numbers language-none"><code class="language-none">The remote package repository is outdated. You have to choose another repository.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>此时换一个镜像源即可。</p>
+<h2 id="使用什么编辑器？">使用什么编辑器？</h2>
+<p>MiKTeX 自带 TeXworks。TeXstudio 和 VS Code 是很多人的选择。Vim 与 Emacs 亦可。</p>
+<p>对于 VS Code，你可以安装 <a href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop">LaTeX Workshop</a> 或者 <a href="https://marketplace.visualstudio.com/items?itemName=efoerster.texlab">TexLab</a>。以下给出我个人的 LaTeX Workshop 配置。</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+    <span class="token property">"latex-workshop.latex.autoBuild.run"</span><span class="token operator">:</span> <span class="token string">"never"</span><span class="token punctuation">,</span>
+    <span class="token property">"latex-workshop.message.error.show"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"latex-workshop.message.warning.show"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"latex-workshop.latex.tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"-synctex=1"</span><span class="token punctuation">,</span>
+                <span class="token string">"-interaction=nonstopmode"</span><span class="token punctuation">,</span>
+                <span class="token string">"-file-line-error"</span><span class="token punctuation">,</span>
+                <span class="token string">"%DOCFILE%"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"%DOCFILE%"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"biber"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"biber"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"%DOCFILE%"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"latex-workshop.latex.recipes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"XeLaTeX"</span><span class="token punctuation">,</span>
+            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"xelatex"</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xe->biber->xe->xe"</span><span class="token punctuation">,</span>
+            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+                <span class="token string">"biber"</span><span class="token punctuation">,</span>
+                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+                <span class="token string">"xelatex"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"xe->bib->xe->xe"</span><span class="token punctuation">,</span>
+            <span class="token property">"tools"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+                <span class="token string">"bibtex"</span><span class="token punctuation">,</span>
+                <span class="token string">"xelatex"</span><span class="token punctuation">,</span>
+                <span class="token string">"xelatex"</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="私货：锐评墨干编辑器">私货：锐评墨干编辑器</h2>
+<p>首先，请读到这里的各位先读一读墨干编辑器开发者的言论<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。平心而论，TeXmacs 是好软件，而墨干也做了很多性能优化和本土化的尝试。<strong>但是现在说“TeXmacs 功能上早已取代 LaTeX”为时尚早</strong>。我在昨天（2023/8/15）尝试了最新版的墨干，我就想问，<strong>一个连 OpenType 特性都不支持，动不动就闪退崩溃，文档语言设定为中文时英文 Ligature 莫名失效的软件，是怎么好意思说“功能上早已取代 LaTeX”的</strong>？现如今，Word 都支持基本的 OpenType 特性，TeX 这边呢，LuaHBTeX 引入了 Harfbuzz，搞出这种活是轻而易举的：</p>
+<p><img src="/2023/08/16/LaTeX-Install-or-Not-Install/luatex-loads-vf.png" alt="Source Serif 4 Variable 字体，LuaHBLaTeX 编译" loading="lazy"></p>
+<p>而墨干连 Ligature 都会莫名失效；官方给的解决方案真的很 ad-hoc。可以看<a href="https://gitee.com/XmacsLabs/mogan/issues/I7TGZS">我在 gitee 提的 issue</a>。</p>
+<p>至于 OpenType 特性，昨天<a href="https://gitee.com/XmacsLabs/mogan/issues/I7TH3U">我也提了 issue</a>，官方说一年之内解决。拭目以待。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://www.zhihu.com/question/487769817/answer/2792055709">如何看待 TeXmacs？未来能完全取代 LaTeX 吗？ - 沈浪熊猫儿的回答 - 知乎</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+      <categories>
+        <category>LaTeX</category>
+      </categories>
+      <tags>
+        <tag>TeX</tag>
+        <tag>VS Code</tag>
+        <tag>LaTeX</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>操作系统实验 环境配置</title>
+    <url>/2023/09/10/OS-Env-Setup/</url>
+    <content><![CDATA[<p>本文章描述了在 Ubuntu 22.04 上配置 JOS Lab 环境的过程。</p>
+<ol>
+<li>安装必要的工具软件与库：</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> build-essential gdb gcc-multilib libgmp-dev libmpfr-dev <span class="token function">install</span> libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="2">
+<li>获取 MIT 修改的 <code>qemu</code>：</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/mit-pdos/6.828-qemu.git qemu<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="3">
+<li>
+<p>把所有的 <code>#include &lt;sys/types.h&gt;</code> 改为 <code>#include &lt;sys/sysmacros.h&gt;</code></p>
+</li>
+<li>
+<p>创建文件夹：</p>
+</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/etc/qemu
+<span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/share/qemu<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ol start="5">
+<li>编译配置：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">cd qemu
+.&#x2F;configure --disable-kvm --disable-werror --python&#x3D;python2.7 --target-list&#x3D;&quot;i386-softmmu x86_64-softmmu&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ol start="6">
+<li>编译与安装：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">make &amp;&amp; sudo make install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>操作系统实验 1</title>
     <url>/2023/10/08/OS-Lab-1/</url>
     <content><![CDATA[<p>选择了唯一的 Challenge。</p>
@@ -1870,44 +1908,6 @@ top<span class="token operator">:</span>
       <tags>
         <tag>C/C++</tag>
         <tag>汇编</tag>
-        <tag>操作系统</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>操作系统实验 环境配置</title>
-    <url>/2023/09/10/OS-Env-Setup/</url>
-    <content><![CDATA[<p>本文章描述了在 Ubuntu 22.04 上配置 JOS Lab 环境的过程。</p>
-<ol>
-<li>安装必要的工具软件与库：</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> build-essential gdb gcc-multilib libgmp-dev libmpfr-dev <span class="token function">install</span> libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<ol start="2">
-<li>获取 MIT 修改的 <code>qemu</code>：</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/mit-pdos/6.828-qemu.git qemu<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<ol start="3">
-<li>
-<p>把所有的 <code>#include &lt;sys/types.h&gt;</code> 改为 <code>#include &lt;sys/sysmacros.h&gt;</code></p>
-</li>
-<li>
-<p>创建文件夹：</p>
-</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/etc/qemu
-<span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/share/qemu<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<ol start="5">
-<li>编译配置：</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">cd qemu
-.&#x2F;configure --disable-kvm --disable-werror --python&#x3D;python2.7 --target-list&#x3D;&quot;i386-softmmu x86_64-softmmu&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<ol start="6">
-<li>编译与安装：</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">make &amp;&amp; sudo make install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
         <tag>操作系统</tag>
       </tags>
   </entry>
@@ -3711,78 +3711,6 @@ No runnable environments in the system!<span aria-hidden="true" class="line-numb
       </tags>
   </entry>
   <entry>
-    <title>架设自己的 Forge 服务器</title>
-    <url>/2023/07/03/Open-a-Forge-Server/</url>
-    <content><![CDATA[<p>这篇文章将简要介绍 Forge 服务器的搭建。Forge 服务器有多种服务端软件，在本文中只会介绍其中一种。</p>
-<p>本文以 1.12.2 版本为例。</p>
-<div class="warning">
-<blockquote>
-<p>警告：长期以来，笔者只游玩原版 MC，对模组不甚熟悉。因此，本文内容较为简略，且可能有诸多错误。</p>
-</blockquote>
-</div>
-<div class="info">
-<blockquote>
-<p>阅读本文之前，建议先阅读 <a href="/2023/02/05/Open-an-MC-Server/" title="架设自己的 Minecraft 服务器">架设自己的 Minecraft 服务器</a>，并确保安装了恰当的 Java。对于 1.12.2 版本，你需要 Java 8。</p>
-</blockquote>
-</div>
-<h2 id="下载与安装-Forge">下载与安装 Forge</h2>
-<p>前往 <a href="https://files.minecraftforge.net/net/minecraftforge/forge/">Forge 下载页</a> 下载对应版本的安装器。例如，我下载了 <code>forge-1.12.2-14.23.5.2859-installer.jar</code>。</p>
-<p>将下载的 <code>.jar</code> 文件移动到一个空文件夹，在同一个文件夹下新建 <code>install.bat</code> 文件。此时文件夹里应该是这样：</p>
-<p><img src="/2023/07/03/Open-a-Forge-Server/folder_1.jpg" alt="" loading="lazy"></p>
-<p>右键编辑 <code>install.bat</code>，写入以下内容：</p>
-<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
-java -jar &lt;安装器的文件名&gt; --installServer
-pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>如果你没有把 Java 运行时添加到 PATH，那么第二行的 <code>java</code> 可以替换为 Java 运行时的完整路径，例如：</p>
-<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
-&quot;C:\Program Files\Java\jre-1.8\bin\java.exe&quot; -jar forge-1.12.2-14.23.5.2859-installer.jar --installServer
-pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>而后运行 <code>install.bat</code>。以下的输出是我使用 1.12.2 版本得到的。你得到的输出应当与我大同小异：</p>
-<p><img src="/2023/07/03/Open-a-Forge-Server/output.jpg" alt="" loading="lazy"></p>
-<p>当最终出现</p>
-<pre class="line-numbers language-none"><code class="language-none">The server installed successfully
-You can delete this installer file now if you wish<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>时，则证明安装成功。此时，你可以删除 <code>install.bat</code> 和安装器。</p>
-<div class="info">
-> 安装过程可能比较漫长，并且需要根据实际情况，启动国际互联网连接。
-</div>
-<h2 id="启动服务器">启动服务器</h2>
-<p>如果你使用新版本的 MC，那么文件夹下已经包含了 <code>run.bat</code>（用于在 Windows 下启动服务器），即可。</p>
-<p>如果你使用旧版本的 MC，例如本教程中的 1.12.2，我们需要自己写一个 <code>run.bat</code>。写入以下内容：</p>
-<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
-java -Xms2G -Xmx2G -jar &lt;forge 文件名&gt; nogui
-pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>多数情况下，我建议将 java 替换为完整的 java 路径。例如：</p>
-<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
-&quot;C:\Program Files\Java\jre-1.8\bin\java.exe&quot; -Xms2G -Xmx2G -jar forge-1.12.2-14.23.5.2859.jar nogui
-pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>这里，<code>-Xms2G -Xmx2G</code> 意味着将服务器的内存限制在 2 GB。你也可以使用形如 <code>-Xms4G -Xmx4G</code>、<code>-Xms3500M -Xmx3500M</code> 等参数。Forge 官方建议内存不小于 4 GB（但是我 3 GB 也玩的很愉快）</p>
-<p>现在，运行 <code>run.bat</code>。命令行窗口会弹出提示，要求你修改 <code>eula.txt</code>。根据文章 <a href="/2023/02/05/Open-an-MC-Server/" title="架设自己的 Minecraft 服务器">架设自己的 Minecraft 服务器</a> 修改即可。</p>
-<p>关闭命令行窗口，再次运行 <code>run.bat</code> 即可。</p>
-<p><img src="/2023/07/03/Open-a-Forge-Server/output2.jpg" alt="" loading="lazy"></p>
-<p>对于 <code>server.properties</code> 的配置，建议阅读 <a href="/2023/02/05/Open-an-MC-Server/" title="架设自己的 Minecraft 服务器">架设自己的 Minecraft 服务器</a>。安装 mod 时，放入 <code>mods</code> 文件夹即可。</p>
-<h2 id="如何联机？">如何联机？</h2>
-<ol>
-<li>使用本机的公网 IPv4 或 IPv6 地址。</li>
-<li>使用端口映射软件，如 <a href="https://www.natfrp.com/">SakuraFrp</a></li>
-<li>在财力与技术允许的情况下，租一台服务器。如腾讯云的 2 核心 4 GB 内存轻量应用服务器、Azure 的 B2s 虚拟机等<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。</li>
-</ol>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>Azure 中国版仅限企业或组织用户。个人用户只能使用 Azure 国际版，无法使用中国大陆的数据中心。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
-]]></content>
-      <categories>
-        <category>Minecraft</category>
-      </categories>
-      <tags>
-        <tag>Minecraft</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>操作系统实验 5</title>
     <url>/2023/12/17/OS-Lab-5/</url>
     <content><![CDATA[<p>选择了 Challenge 2：文件缓存的驱逐机制。</p>
@@ -4427,6 +4355,78 @@ fast_system_call:
         <tag>C/C++</tag>
         <tag>汇编</tag>
         <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>架设自己的 Forge 服务器</title>
+    <url>/2023/07/03/Open-a-Forge-Server/</url>
+    <content><![CDATA[<p>这篇文章将简要介绍 Forge 服务器的搭建。Forge 服务器有多种服务端软件，在本文中只会介绍其中一种。</p>
+<p>本文以 1.12.2 版本为例。</p>
+<div class="warning">
+<blockquote>
+<p>警告：长期以来，笔者只游玩原版 MC，对模组不甚熟悉。因此，本文内容较为简略，且可能有诸多错误。</p>
+</blockquote>
+</div>
+<div class="info">
+<blockquote>
+<p>阅读本文之前，建议先阅读 <a href="/2023/02/05/Open-an-MC-Server/" title="架设自己的 Minecraft 服务器">架设自己的 Minecraft 服务器</a>，并确保安装了恰当的 Java。对于 1.12.2 版本，你需要 Java 8。</p>
+</blockquote>
+</div>
+<h2 id="下载与安装-Forge">下载与安装 Forge</h2>
+<p>前往 <a href="https://files.minecraftforge.net/net/minecraftforge/forge/">Forge 下载页</a> 下载对应版本的安装器。例如，我下载了 <code>forge-1.12.2-14.23.5.2859-installer.jar</code>。</p>
+<p>将下载的 <code>.jar</code> 文件移动到一个空文件夹，在同一个文件夹下新建 <code>install.bat</code> 文件。此时文件夹里应该是这样：</p>
+<p><img src="/2023/07/03/Open-a-Forge-Server/folder_1.jpg" alt="" loading="lazy"></p>
+<p>右键编辑 <code>install.bat</code>，写入以下内容：</p>
+<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
+java -jar &lt;安装器的文件名&gt; --installServer
+pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>如果你没有把 Java 运行时添加到 PATH，那么第二行的 <code>java</code> 可以替换为 Java 运行时的完整路径，例如：</p>
+<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
+&quot;C:\Program Files\Java\jre-1.8\bin\java.exe&quot; -jar forge-1.12.2-14.23.5.2859-installer.jar --installServer
+pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>而后运行 <code>install.bat</code>。以下的输出是我使用 1.12.2 版本得到的。你得到的输出应当与我大同小异：</p>
+<p><img src="/2023/07/03/Open-a-Forge-Server/output.jpg" alt="" loading="lazy"></p>
+<p>当最终出现</p>
+<pre class="line-numbers language-none"><code class="language-none">The server installed successfully
+You can delete this installer file now if you wish<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>时，则证明安装成功。此时，你可以删除 <code>install.bat</code> 和安装器。</p>
+<div class="info">
+> 安装过程可能比较漫长，并且需要根据实际情况，启动国际互联网连接。
+</div>
+<h2 id="启动服务器">启动服务器</h2>
+<p>如果你使用新版本的 MC，那么文件夹下已经包含了 <code>run.bat</code>（用于在 Windows 下启动服务器），即可。</p>
+<p>如果你使用旧版本的 MC，例如本教程中的 1.12.2，我们需要自己写一个 <code>run.bat</code>。写入以下内容：</p>
+<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
+java -Xms2G -Xmx2G -jar &lt;forge 文件名&gt; nogui
+pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>多数情况下，我建议将 java 替换为完整的 java 路径。例如：</p>
+<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">@ECHO OFF
+&quot;C:\Program Files\Java\jre-1.8\bin\java.exe&quot; -Xms2G -Xmx2G -jar forge-1.12.2-14.23.5.2859.jar nogui
+pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>这里，<code>-Xms2G -Xmx2G</code> 意味着将服务器的内存限制在 2 GB。你也可以使用形如 <code>-Xms4G -Xmx4G</code>、<code>-Xms3500M -Xmx3500M</code> 等参数。Forge 官方建议内存不小于 4 GB（但是我 3 GB 也玩的很愉快）</p>
+<p>现在，运行 <code>run.bat</code>。命令行窗口会弹出提示，要求你修改 <code>eula.txt</code>。根据文章 <a href="/2023/02/05/Open-an-MC-Server/" title="架设自己的 Minecraft 服务器">架设自己的 Minecraft 服务器</a> 修改即可。</p>
+<p>关闭命令行窗口，再次运行 <code>run.bat</code> 即可。</p>
+<p><img src="/2023/07/03/Open-a-Forge-Server/output2.jpg" alt="" loading="lazy"></p>
+<p>对于 <code>server.properties</code> 的配置，建议阅读 <a href="/2023/02/05/Open-an-MC-Server/" title="架设自己的 Minecraft 服务器">架设自己的 Minecraft 服务器</a>。安装 mod 时，放入 <code>mods</code> 文件夹即可。</p>
+<h2 id="如何联机？">如何联机？</h2>
+<ol>
+<li>使用本机的公网 IPv4 或 IPv6 地址。</li>
+<li>使用端口映射软件，如 <a href="https://www.natfrp.com/">SakuraFrp</a></li>
+<li>在财力与技术允许的情况下，租一台服务器。如腾讯云的 2 核心 4 GB 内存轻量应用服务器、Azure 的 B2s 虚拟机等<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。</li>
+</ol>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>Azure 中国版仅限企业或组织用户。个人用户只能使用 Azure 国际版，无法使用中国大陆的数据中心。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+      <categories>
+        <category>Minecraft</category>
+      </categories>
+      <tags>
+        <tag>Minecraft</tag>
       </tags>
   </entry>
   <entry>
