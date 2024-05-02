@@ -1692,44 +1692,6 @@ top<span class="token operator">:</span>
       </tags>
   </entry>
   <entry>
-    <title>操作系统实验 环境配置</title>
-    <url>/2023/09/10/OS-Env-Setup/</url>
-    <content><![CDATA[<p>本文章描述了在 Ubuntu 22.04 上配置 JOS Lab 环境的过程。</p>
-<ol>
-<li>安装必要的工具软件与库：</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> build-essential gdb gcc-multilib libgmp-dev libmpfr-dev <span class="token function">install</span> libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<ol start="2">
-<li>获取 MIT 修改的 <code>qemu</code>：</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/mit-pdos/6.828-qemu.git qemu<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<ol start="3">
-<li>
-<p>把所有的 <code>#include &lt;sys/types.h&gt;</code> 改为 <code>#include &lt;sys/sysmacros.h&gt;</code></p>
-</li>
-<li>
-<p>创建文件夹：</p>
-</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/etc/qemu
-<span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/share/qemu<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<ol start="5">
-<li>编译配置：</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">cd qemu
-.&#x2F;configure --disable-kvm --disable-werror --python&#x3D;python2.7 --target-list&#x3D;&quot;i386-softmmu x86_64-softmmu&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<ol start="6">
-<li>编译与安装：</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">make &amp;&amp; sudo make install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>操作系统</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>操作系统实验 1</title>
     <url>/2023/10/08/OS-Lab-1/</url>
     <content><![CDATA[<p>选择了唯一的 Challenge。</p>
@@ -1908,6 +1870,44 @@ top<span class="token operator">:</span>
       <tags>
         <tag>C/C++</tag>
         <tag>汇编</tag>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>操作系统实验 环境配置</title>
+    <url>/2023/09/10/OS-Env-Setup/</url>
+    <content><![CDATA[<p>本文章描述了在 Ubuntu 22.04 上配置 JOS Lab 环境的过程。</p>
+<ol>
+<li>安装必要的工具软件与库：</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> build-essential gdb gcc-multilib libgmp-dev libmpfr-dev <span class="token function">install</span> libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="2">
+<li>获取 MIT 修改的 <code>qemu</code>：</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/mit-pdos/6.828-qemu.git qemu<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="3">
+<li>
+<p>把所有的 <code>#include &lt;sys/types.h&gt;</code> 改为 <code>#include &lt;sys/sysmacros.h&gt;</code></p>
+</li>
+<li>
+<p>创建文件夹：</p>
+</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/etc/qemu
+<span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/share/qemu<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ol start="5">
+<li>编译配置：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">cd qemu
+.&#x2F;configure --disable-kvm --disable-werror --python&#x3D;python2.7 --target-list&#x3D;&quot;i386-softmmu x86_64-softmmu&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ol start="6">
+<li>编译与安装：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">make &amp;&amp; sudo make install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
         <tag>操作系统</tag>
       </tags>
   </entry>
@@ -4571,6 +4571,58 @@ pause<span aria-hidden="true" class="line-numbers-rows"><span></span><span></spa
       </categories>
       <tags>
         <tag>字体</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一个奇怪的 LaTeX 字体问题</title>
+    <url>/2024/05/02/a-latex-error/</url>
+    <content><![CDATA[<p>前几天 fontspec 更新到了 2.9b，然后我的文档就没办法正常编译了。问题出在 <code>\setmainfont&#123;Noto Serif&#125;[Renderer=OpenType]</code>，但是它告诉我找不到名为 Noto 的字体。</p>
+<p>昨天凌晨查到应该是 <a href="https://github.com/latex3/fontspec/commit/b3f91feab5519d1a04db4b63adfc397e3e81a742">stop stripping spaces. Hope this doesn’t lead to more problems!</a> 这个提交的问题，尝试把 fontspec-luatex.sty 的代码改成之前的，文档就能正常编译了。</p>
+<p>今天想构造一个 MWE 反馈给 fontspec 开发者，但是</p>
+<pre class="line-numbers language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\documentclass</span><span class="token punctuation">&#123;</span><span class="token keyword">article</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\usepackage</span><span class="token punctuation">&#123;</span><span class="token keyword">fontspec</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\setmainfont</span><span class="token punctuation">&#123;</span>Noto Serif<span class="token punctuation">&#125;</span><span class="token punctuation">[</span>Renderer=OpenType<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>是正常的（？）</p>
+<p>所以我怀疑是 luatex-ja 没有对新版 fontspec 做适配，然而</p>
+<pre class="line-numbers language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\documentclass</span><span class="token punctuation">&#123;</span><span class="token keyword">ltjarticle</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\usepackage</span><span class="token punctuation">&#123;</span><span class="token keyword">fontspec</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\setmainfont</span><span class="token punctuation">&#123;</span>Noto Serif<span class="token punctuation">&#125;</span><span class="token punctuation">[</span>Renderer=OpenType<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>也是正常的（？）</p>
+<p>那我只能怀疑到 ctex 头上了。</p>
+<pre class="line-numbers language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\documentclass</span><span class="token punctuation">&#123;</span><span class="token keyword">article</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\usepackage</span><span class="token punctuation">&#123;</span><span class="token keyword">ctex</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\usepackage</span><span class="token punctuation">&#123;</span><span class="token keyword">fontspec</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\setmainfont</span><span class="token punctuation">&#123;</span>Noto Serif<span class="token punctuation">&#125;</span><span class="token punctuation">[</span>Renderer=OpenType<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>正常；</p>
+<pre class="line-numbers language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\documentclass</span><span class="token punctuation">&#123;</span><span class="token keyword">ctexart</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\usepackage</span><span class="token punctuation">&#123;</span><span class="token keyword">fontspec</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\setmainfont</span><span class="token punctuation">&#123;</span>Noto Serif<span class="token punctuation">&#125;</span><span class="token punctuation">[</span>Renderer=OpenType<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>编译错误；如果把最后一句改成：</p>
+<pre class="line-numbers language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\setmainfont</span><span class="token punctuation">&#123;</span>NotoSerif<span class="token punctuation">&#125;</span><span class="token punctuation">[</span>Renderer=OpenType<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>至少能正常编译了，但是文档中会输出一堆奇怪的信息。</p>
+<p>好，这时候可以把目标锁定在 ctex 文档类上了。然而，当我想构造一个 MWE 反馈给 ctex 开发者时，诡异的事情又发生了：</p>
+<pre class="line-numbers language-latex" data-language="latex"><code class="language-latex"><span class="token function selector">\documentclass</span><span class="token punctuation">&#123;</span><span class="token keyword">ctexart</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\usepackage</span><span class="token punctuation">&#123;</span><span class="token keyword">fontspec</span><span class="token punctuation">&#125;</span>
+<span class="token function selector">\setmainfont</span><span class="token punctuation">&#123;</span>Times New Roman<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>也是正常的！看到这里你应该明白了：问题出在 <code>Renderer=OpenType</code> 这一选项上。</p>
+<p>所以问题应该描述为：</p>
+<div class="info">
+<blockquote>
+<p>使用 ctex 文档类且 fontspec 更新至 2.9b 时，使用 LuaLaTeX 引擎，如果 \setmainfont 使用 Renderer=OpenType 选项，则不能正确加载名称中含有空格的字体。</p>
+</blockquote>
+</div>
+<p>到这里就结束了吗？你会发现 <code>\setmainfont&#123;NotoSerif Italic&#125;[Renderer=OpenType]</code> 就能编译，虽然还是会输出一堆奇怪的信息。</p>
+<p>太有趣了.jpg</p>
+]]></content>
+      <categories>
+        <category>LaTeX</category>
+      </categories>
+      <tags>
+        <tag>TeX</tag>
+        <tag>LaTeX</tag>
+        <tag>ctex</tag>
+        <tag>fontspec</tag>
+        <tag>luatex-ja</tag>
       </tags>
   </entry>
   <entry>
