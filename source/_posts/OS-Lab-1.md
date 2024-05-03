@@ -234,4 +234,4 @@ if (!(c & ~0xFF))
 
 效果如图：
 
-![`color` 命令](OS-Lab-1/1.png)
+![](OS-Lab-1/1.png)_`color` 命令_

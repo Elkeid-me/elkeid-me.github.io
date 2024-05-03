@@ -13,4 +13,4 @@ tags:
 
 苏-27 和歼-20，原创。
 
-![SU-27 & J-20](Gallery/1.jpg)
+![](Gallery/1.jpg)_SU-27 & J-20_
