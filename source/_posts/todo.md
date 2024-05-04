@@ -23,3 +23,9 @@ sticky: true
 - [ ] CSAPP Shell Lab
 - [x] CSAPP Malloc Lab：{% post_link malloc-lab %}
 - [x] CSAPP Proxy Lab：{% post_link proxy-lab %}
+
+***
+
+- [ ] LaTeX2e New Font Selection Scheme
+- [ ] OpenType 与 PostScript
+- [ ] Graphite 描述语言
