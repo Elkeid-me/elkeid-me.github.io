@@ -534,116 +534,6 @@ gcc version <span class="token number">11.2</span>.0 <span class="token punctuat
       </tags>
   </entry>
   <entry>
-    <title>Graphite 描述语言（全文翻译）</title>
-    <url>/2024/03/31/GDL/</url>
-    <content><![CDATA[<blockquote>
-<p>原文档版权归 SIL International 所有。本文仅为翻译。翻译结果不一定准确。本人不对翻译结果负任何责任。</p>
-</blockquote>
-<blockquote>
-<p>翻译仍在施工中。我们争取在 4 月完成。</p>
-</blockquote>
-<h2 id="简介">简介</h2>
-<p>这份文档旨在半正式地描述一种名为 Graphite 描述语言 (GDL) 的 Graphite 描述文件格式。因此，它将以一种比正式描述更自然的方式引入概念（希望如此）。</p>
-<p>这篇文章还主要关注确保该语言具有描述所有可能脚本行为的足够描述能力。因此，本文将倾向于关注脚本描述更复杂的方面，因此并不代表您在典型描述中找到的平衡，其中大多数行为都相对简单。</p>
-<p>撰写本文时假定您对字体、字符、字形和渲染问题有基本的了解。有关术语的定义，请参阅第 9 节的术语表。</p>
-<p>如果有任何评论或问题，请发送至 <a href="mailto:graphite_nrsi@sil.org">graphite_nrsi@sil.org</a>。</p>
-<h3 id="Graphite-系统的功能">Graphite 系统的功能</h3>
-<p>Graphite 系统旨在处理以下类型的复杂渲染情况：</p>
-<ul>
-<li>移位和字距调整，其中字形的的位置会根据相邻字形的存在进行调整</li>
-<li>连字替换，其中一个字形用于表示几个底层字符</li>
-<li>重排，典型见于印度书写系统，其中呈现的字形顺序与相应的底层字符数据顺序不同</li>
-<li>堆叠附加符号，使用附着点</li>
-<li>双向排版，见于希伯来语和阿拉伯语等书写系统</li>
-</ul>
-<p>有关详细信息，请参阅“Graphite 需求”文档。</p>
-<h3 id="Graphite-和-Unicode">Graphite 和 Unicode</h3>
-<p>Graphite旨在与 Unicode 数据一起使用，即在基础数据符合 Unicode 标准的情况下使用。同样，用于使用 Graphite 渲染的字体也应该是基于 Unicode 的；也就是说，字体 <code>cmap</code> 中的字符值应该是 Unicode 码点。虽然可以将 Graphite 与自定义编码一起使用，但这不是推荐的做法。</p>
-<h2 id="概述：规则、字形和趟">概述：规则、字形和趟</h2>
-<h3 id="规则">规则</h3>
-<p>渲染描述的基础是规则。规则用于几乎所有内容，并允许上下文属性分配、替换等。规则是替换类型规则，格式类似于熟悉生成音韵学的人。</p>
-<p>我们最初的讨论将集中于替换类型规则。稍后讨论其他类型的规则。</p>
-<p>典型的替换规则可能是：</p>
-<pre class="line-numbers language-none"><code class="language-none">gLowercaseI &gt; gDotlessI &#x2F; _ gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这条规则表示，底层的带小写的 I 字形在表面上被相应的无点 I 字形替换，后跟波浪号字形。更准确地说，包含以下内容的字形流：</p>
-<pre class="line-numbers language-none"><code class="language-none">... gLowercaseI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>将被修改为包含：</p>
-<pre class="line-numbers language-none"><code class="language-none">... gDotlessI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>用于字形的名称是标识符，假设它们已被定义为引用字体中的特定字形。具体的操作方法将在以后的部分介绍。</p>
-<p>从上面的示例中，我们可以看到一条规则由三个部分组成：<em>左侧</em>、<em>右侧</em>和<em>上下文</em>。左侧由基础形式中要替换的特定字形组成。右侧给出了将替换左侧中的字形的字形。请注意，左侧和右侧上的字形之间存在严格的一对一对应关系。在 <code>/</code> 之后是 <em>上下文</em>，它描述了左侧所在的环境以及右侧将被输出的环境。</p>
-<p>规则的不同部分——左侧、右侧和上下文——不应视为字符串，而应视为字形序列。因此，在上面的规则中，我们说当紧接波浪号字形时，字形 <code>gLowercaseI</code> 被字形 <code>gDotlessI</code> 替换。因此，上下文中，<code>_</code> 用于表示单个字形，对应于规则左侧中的字形。</p>
-<p>指定右侧和上下文在匹配方面描述规则时提供了最大的清晰度和自我描述，但是可以为没有上下文的规则使用更简单的格式。例如，上面的规则可以写成：</p>
-<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这并不那么清楚，因为它没有突出显示正在更改的字形。它也不够强大，因为它不允许在同一趟中重新匹配 <code>gTilde</code>。但该规则是可能的，并且一个优化编译器（我们不承诺开发）应该给出相同的结果。这条规则严格等价于第一条规则，而不是</p>
-<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>请注意两个 <code>_</code>，规则左侧的每个字形都对应一个 <code>_</code>。如果上下文中 <code>_</code> 的数量与左侧和右侧的字形数量不同，则会出错。</p>
-<p>规则的上下文可以根据需要变得复杂。左侧不必引用连续的字形序列：</p>
-<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ gLowerDia _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>请注意，上下文中的两个 _ 与左侧的两个字形相对应，也与右侧的两个字形相对应。</p>
-<p>有些规则根本不执行替换，而只对字形流中的项设置<em>属性</em>。在这种情况下，左侧（和右侧角括号）被省略：</p>
-<pre class="line-numbers language-none"><code class="language-none">gCapA &#123;kern.x &#x3D; -Kern1&#125; &#x2F; clsCapVW _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>大括号内的代码设置了大写 A 字形的属性，使其向大写 V 或 W 方向字距调整。<code>Kern1</code> 在文件的其他地方被定义为该字形的数字常量。</p>
-<p>不带左侧的规则主要用于定位表，下文将详细讨论。</p>
-<p>规则的结束需要使用分号。如果没有分号，则假定续行。其他语句可以使用可选的分号结束符。（对于技术人员来说，分号实际上是分隔符）。</p>
-<p>注释前有两条斜线。</p>
-<pre class="line-numbers language-none"><code class="language-none">a &gt; b &#x2F; _ c; &#x2F;&#x2F; this is a comment<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>请注意，注释不需要分号。</p>
-<h4 id="类">类</h4>
-<p>如果我们想要修改的每个独立的字形组合都必须使用自己的规则来详细说明，那么描述将变得不可能长。相反，我们可以使用字形类的系统。我们的第一个规则可以概括如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsDotted &gt; clsDotless &#x2F; _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这个规则表明所有有点的字形（比如 <code>i</code>、<code>j</code> 等）在后面跟着一个上标点时会被替换为它们的无点对应字形。</p>
-<p>从这里我们可以看出，类有点像数组。当匹配到类中的一个元素时，它在类中的位置会被记住，以便可以用来指代另一个类中的元素（该类必须是同样大小或更大）。这种对应关系非常有助于减少规则的数量。</p>
-<p>在类名前使用 <code>cls</code> 的前缀是一种纯粹的编码约定。在本文档中使用它是为了增加规则的可读性。</p>
-<p>一个更复杂的替换规则可能会同时更改两个字形：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsCons clsVowel &gt; clsConsJoin clsVowelDia &#x2F; _ ZWJ _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这个规则可能出现在一个印度脚本中，其中元音可以通过零宽连接字符（在这个上下文中是字形）与前面的辅音结合。这个规则并不理想，因为在同一时间删除 ZWJ 可能更可取。我们稍后会讨论到这一点。</p>
-<h5 id="变量和列表">变量和列表</h5>
-<p>类是使用标准的赋值命令（在字形表中）来定义的。赋值允许变量被定义为单个值或列表。赋值的形式如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">variable &#x3D; value;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>在列表的情况下，列表在 <code>()</code> 之间被识别。因此：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsDottedI &#x3D; (gLI, gLBarredI);
-clsIWidth &#x3D; (clsDottedI, gLL, gUI, gUBarredI);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>列表中的逗号是可选的。还要注意，类定义或变量赋值后的分号是可选的，不像在规则中是必需的。类名不需要单独声明，不像许多编程语言；赋值语句就是声明。</p>
-<p>可以使用 <code>+=</code> 运算符将元素添加到列表的末尾。例如：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsDottedI +&#x3D; gLJ;
-clsIWidth +&#x3D; (gUJ, gUL);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>列表机制还允许在规则中使用临时未命名的“类”，尽管这不是良好的做法，因为它不鼓励定义自我说明。给每个字形类命名相当于在编写 GDL 代码的同时编写文档。在整个文件中有其他机制鼓励这样做。</p>
-<p>一个临时列表的例子（如果必须使用）是：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsDotted &gt; (gLDotlessI, gLDotlessBarredI, gLDotlessJ) &#x2F; _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h5 id="范围">范围</h5>
-<p>列表也可以由范围组成。范围是一个包含两个端点的包含列表。因此：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsCaps &#x3D; unicode(0x0041 .. 0x005A);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>相当于：</p>
-<pre class="line-numbers language-none"><code class="language-none">clsCaps &#x3D; (unicode(0x0041), unicode(0x0042), unicode(0x0043), unicode(0x0044), ..., unicode(0x005A));<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这两种形式都会创建一个包含标准罗马字母表中所有大写字母的类。<code>unicode</code> 和相关函数将在后面更详细地讨论。</p>
-<h5 id="ANY-类">ANY 类</h5>
-<p>一个特殊的类，称为“ANY”，可用于匹配任何字形。</p>
-]]></content>
-      <categories>
-        <category>排印学</category>
-      </categories>
-      <tags>
-        <tag>字体</tag>
-        <tag>Graphite</tag>
-        <tag>状态机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Gallery</title>
-    <url>/2024/05/02/Gallery/</url>
-    <content><![CDATA[<p>差不多高中之后就没在搞正经折纸了，只能搞搞纸飞机玩玩。</p>
-<p>苏-27 和歼-20，原创。</p>
-<p><img src="/2024/05/02/Gallery/1.jpg" alt="" loading="lazy"><em>SU-27 &amp; J-20</em></p>
-]]></content>
-      <categories>
-        <category>折纸</category>
-      </categories>
-      <tags>
-        <tag>折纸</tag>
-        <tag>纸飞机</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>GCC 内联汇编文档</title>
     <url>/2022/01/18/GCC-Inline-Asm/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -1553,18 +1443,129 @@ top<span class="token operator">:</span>
       </tags>
   </entry>
   <entry>
+    <title>Graphite 描述语言（全文翻译）</title>
+    <url>/2024/03/31/GDL/</url>
+    <content><![CDATA[<blockquote>
+<p>原文档版权归 SIL International 所有。本文仅为翻译。翻译结果不一定准确。本人不对翻译结果负任何责任。</p>
+</blockquote>
+<blockquote>
+<p>翻译仍在施工中。我们争取在 4 月完成。</p>
+</blockquote>
+<h2 id="简介">简介</h2>
+<p>这份文档旨在半正式地描述一种名为 Graphite 描述语言 (GDL) 的 Graphite 描述文件格式。因此，它将以一种比正式描述更自然的方式引入概念（希望如此）。</p>
+<p>这篇文章还主要关注确保该语言具有描述所有可能脚本行为的足够描述能力。因此，本文将倾向于关注脚本描述更复杂的方面，因此并不代表您在典型描述中找到的平衡，其中大多数行为都相对简单。</p>
+<p>撰写本文时假定您对字体、字符、字形和渲染问题有基本的了解。有关术语的定义，请参阅第 9 节的术语表。</p>
+<p>如果有任何评论或问题，请发送至 <a href="mailto:graphite_nrsi@sil.org">graphite_nrsi@sil.org</a>。</p>
+<h3 id="Graphite-系统的功能">Graphite 系统的功能</h3>
+<p>Graphite 系统旨在处理以下类型的复杂渲染情况：</p>
+<ul>
+<li>移位和字距调整，其中字形的的位置会根据相邻字形的存在进行调整</li>
+<li>连字替换，其中一个字形用于表示几个底层字符</li>
+<li>重排，典型见于印度书写系统，其中呈现的字形顺序与相应的底层字符数据顺序不同</li>
+<li>堆叠附加符号，使用附着点</li>
+<li>双向排版，见于希伯来语和阿拉伯语等书写系统</li>
+</ul>
+<p>有关详细信息，请参阅“Graphite 需求”文档。</p>
+<h3 id="Graphite-和-Unicode">Graphite 和 Unicode</h3>
+<p>Graphite旨在与 Unicode 数据一起使用，即在基础数据符合 Unicode 标准的情况下使用。同样，用于使用 Graphite 渲染的字体也应该是基于 Unicode 的；也就是说，字体 <code>cmap</code> 中的字符值应该是 Unicode 码点。虽然可以将 Graphite 与自定义编码一起使用，但这不是推荐的做法。</p>
+<h2 id="概述：规则、字形和趟">概述：规则、字形和趟</h2>
+<h3 id="规则">规则</h3>
+<p>渲染描述的基础是规则。规则用于几乎所有内容，并允许上下文属性分配、替换等。规则是替换类型规则，格式类似于熟悉生成音韵学的人。</p>
+<p>我们最初的讨论将集中于替换类型规则。稍后讨论其他类型的规则。</p>
+<p>典型的替换规则可能是：</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI &gt; gDotlessI &#x2F; _ gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这条规则表示，底层的带小写的 I 字形在表面上被相应的无点 I 字形替换，后跟波浪号字形。更准确地说，包含以下内容的字形流：</p>
+<pre class="line-numbers language-none"><code class="language-none">... gLowercaseI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>将被修改为包含：</p>
+<pre class="line-numbers language-none"><code class="language-none">... gDotlessI gTilde ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>用于字形的名称是标识符，假设它们已被定义为引用字体中的特定字形。具体的操作方法将在以后的部分介绍。</p>
+<p>从上面的示例中，我们可以看到一条规则由三个部分组成：<em>左侧</em>、<em>右侧</em>和<em>上下文</em>。左侧由基础形式中要替换的特定字形组成。右侧给出了将替换左侧中的字形的字形。请注意，左侧和右侧上的字形之间存在严格的一对一对应关系。在 <code>/</code> 之后是 <em>上下文</em>，它描述了左侧所在的环境以及右侧将被输出的环境。</p>
+<p>规则的不同部分——左侧、右侧和上下文——不应视为字符串，而应视为字形序列。因此，在上面的规则中，我们说当紧接波浪号字形时，字形 <code>gLowercaseI</code> 被字形 <code>gDotlessI</code> 替换。因此，上下文中，<code>_</code> 用于表示单个字形，对应于规则左侧中的字形。</p>
+<p>指定右侧和上下文在匹配方面描述规则时提供了最大的清晰度和自我描述，但是可以为没有上下文的规则使用更简单的格式。例如，上面的规则可以写成：</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这并不那么清楚，因为它没有突出显示正在更改的字形。它也不够强大，因为它不允许在同一趟中重新匹配 <code>gTilde</code>。但该规则是可能的，并且一个优化编译器（我们不承诺开发）应该给出相同的结果。这条规则严格等价于第一条规则，而不是</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请注意两个 <code>_</code>，规则左侧的每个字形都对应一个 <code>_</code>。如果上下文中 <code>_</code> 的数量与左侧和右侧的字形数量不同，则会出错。</p>
+<p>规则的上下文可以根据需要变得复杂。左侧不必引用连续的字形序列：</p>
+<pre class="line-numbers language-none"><code class="language-none">gLowercaseI gTilde &gt; gDotlessI gTilde &#x2F; _ gLowerDia _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请注意，上下文中的两个 _ 与左侧的两个字形相对应，也与右侧的两个字形相对应。</p>
+<p>有些规则根本不执行替换，而只对字形流中的项设置<em>属性</em>。在这种情况下，左侧（和右侧角括号）被省略：</p>
+<pre class="line-numbers language-none"><code class="language-none">gCapA &#123;kern.x &#x3D; -Kern1&#125; &#x2F; clsCapVW _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>大括号内的代码设置了大写 A 字形的属性，使其向大写 V 或 W 方向字距调整。<code>Kern1</code> 在文件的其他地方被定义为该字形的数字常量。</p>
+<p>不带左侧的规则主要用于定位表，下文将详细讨论。</p>
+<p>规则的结束需要使用分号。如果没有分号，则假定续行。其他语句可以使用可选的分号结束符。（对于技术人员来说，分号实际上是分隔符）。</p>
+<p>注释前有两条斜线。</p>
+<pre class="line-numbers language-none"><code class="language-none">a &gt; b &#x2F; _ c; &#x2F;&#x2F; this is a comment<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请注意，注释不需要分号。</p>
+<h4 id="类">类</h4>
+<p>如果我们想要修改的每个独立的字形组合都必须使用自己的规则来详细说明，那么描述将变得不可能长。相反，我们可以使用字形类的系统。我们的第一个规则可以概括如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsDotted &gt; clsDotless &#x2F; _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个规则表明所有有点的字形（比如 <code>i</code>、<code>j</code> 等）在后面跟着一个上标点时会被替换为它们的无点对应字形。</p>
+<p>从这里我们可以看出，类有点像数组。当匹配到类中的一个元素时，它在类中的位置会被记住，以便可以用来指代另一个类中的元素（该类必须是同样大小或更大）。这种对应关系非常有助于减少规则的数量。</p>
+<p>在类名前使用 <code>cls</code> 的前缀是一种纯粹的编码约定。在本文档中使用它是为了增加规则的可读性。</p>
+<p>一个更复杂的替换规则可能会同时更改两个字形：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsCons clsVowel &gt; clsConsJoin clsVowelDia &#x2F; _ ZWJ _ ;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个规则可能出现在一个印度脚本中，其中元音可以通过零宽连接字符（在这个上下文中是字形）与前面的辅音结合。这个规则并不理想，因为在同一时间删除 ZWJ 可能更可取。我们稍后会讨论到这一点。</p>
+<h5 id="变量和列表">变量和列表</h5>
+<p>类是使用标准的赋值命令（在字形表中）来定义的。赋值允许变量被定义为单个值或列表。赋值的形式如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">variable &#x3D; value;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在列表的情况下，列表在 <code>()</code> 之间被识别。因此：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsDottedI &#x3D; (gLI, gLBarredI);
+clsIWidth &#x3D; (clsDottedI, gLL, gUI, gUBarredI);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>列表中的逗号是可选的。还要注意，类定义或变量赋值后的分号是可选的，不像在规则中是必需的。类名不需要单独声明，不像许多编程语言；赋值语句就是声明。</p>
+<p>可以使用 <code>+=</code> 运算符将元素添加到列表的末尾。例如：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsDottedI +&#x3D; gLJ;
+clsIWidth +&#x3D; (gUJ, gUL);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>列表机制还允许在规则中使用临时未命名的“类”，尽管这不是良好的做法，因为它不鼓励定义自我说明。给每个字形类命名相当于在编写 GDL 代码的同时编写文档。在整个文件中有其他机制鼓励这样做。</p>
+<p>一个临时列表的例子（如果必须使用）是：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsDotted &gt; (gLDotlessI, gLDotlessBarredI, gLDotlessJ) &#x2F; _ clsUpperDia;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="范围">范围</h5>
+<p>列表也可以由范围组成。范围是一个包含两个端点的包含列表。因此：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsCaps &#x3D; unicode(0x0041 .. 0x005A);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>相当于：</p>
+<pre class="line-numbers language-none"><code class="language-none">clsCaps &#x3D; (unicode(0x0041), unicode(0x0042), unicode(0x0043), unicode(0x0044), ..., unicode(0x005A));<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这两种形式都会创建一个包含标准罗马字母表中所有大写字母的类。<code>unicode</code> 和相关函数将在后面更详细地讨论。</p>
+<h5 id="ANY-类">ANY 类</h5>
+<p>一个特殊的类，称为“ANY”，可用于匹配任何字形。</p>
+]]></content>
+      <categories>
+        <category>排印学</category>
+      </categories>
+      <tags>
+        <tag>字体</tag>
+        <tag>Graphite</tag>
+        <tag>状态机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gallery</title>
+    <url>/2024/05/02/Gallery/</url>
+    <content><![CDATA[<p>差不多高中之后就没在搞正经折纸了，只能搞搞纸飞机玩玩。</p>
+<p>苏-27 和歼-20，原创。</p>
+<p><img src="/2024/05/02/Gallery/1.jpg" alt="" loading="lazy"><em>SU-27 &amp; J-20</em></p>
+]]></content>
+      <categories>
+        <category>折纸</category>
+      </categories>
+      <tags>
+        <tag>折纸</tag>
+        <tag>纸飞机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>操作系统 Lab 笔记——为什么 mpentry_start 到 mp_main 是间接调用？</title>
     <url>/2024/05/03/JOS-Lab-why-mp-main-indirect-call/</url>
     <content><![CDATA[<p>本文内容分析于 2023 年 12 月 18 日。今整理成文。</p>
-<pre class="line-numbers language-asm" data-language="asm"><code class="language-asm"># kern&#x2F;mpentry.S:76
-    # Call mp_main().  (Exercise for the reader: why the indirect call?)
-    movl    $mp_main, %eax
-    call    *%eax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>因为链接地址和运行地址不一样，而 <code>call</code> 指令的偏移量是根据链接地址算的，运行时会出现错误。</p>
-<p>知道了原理，就可以改动链接器脚本，使 <code>mpentry_start</code> 到 <code>mp_main</code> 通过 <code>call</code> 指令直接调用。</p>
+<p>先看源代码：<code>kern/mpentry.S:76</code>：</p>
+<pre class="line-numbers language-asm" data-language="asm"><code class="language-asm"># Call mp_main(). (Exercise for the reader: why the indirect call?)
+movl    $mp_main, %eax
+call    *%eax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>灵魂提问：why the indirect call?</p>
+<p>直接调用的 <code>call</code> 指令，使用 <code>%eip</code> 相对寻址。而 <code>call</code> 指令的偏移量，是在链接时确定的。但 <code>mpentry.S</code> 链接地址和运行地址不一样（复制到 0x7000 再执行），这使得链接时确定的偏移量在运行时是错误的。因此，只能使用间接调用，将 <code>mp_main</code> 的绝对地址加载到 <code>%eax</code> 中，然后 <code>call *%eax</code>。</p>
+<p>知道了原理，就可以改动链接脚本，使 <code>mpentry_start</code> 到 <code>mp_main</code> 通过 <code>call</code> 指令直接调用。</p>
 <p>上面两句汇编改成：</p>
 <pre class="line-numbers language-asm" data-language="asm"><code class="language-asm">call true_mp_main<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>链接器脚本 <code>kern/kernel.ld</code> 原本有：</p>
+<p>链接脚本 <code>kern/kernel.ld</code> 原本有：</p>
 <pre class="line-numbers language-linker-script" data-language="linker-script"><code class="language-linker-script"><span class="token section keyword">.text</span> <span class="token operator">:</span> <span class="token function">AT</span><span class="token punctuation">(</span><span class="token number">0x100000</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     <span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.text</span> <span class="token section keyword">.stub</span> <span class="token section keyword">.text</span>.<span class="token operator">*</span> <span class="token section keyword">.gnu</span><span class="token section keyword">.linkonce</span><span class="token section keyword">.t</span>.<span class="token operator">*</span><span class="token punctuation">)</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
@@ -4865,6 +4866,96 @@ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span><span
       </tags>
   </entry>
   <entry>
+    <title>Data Lab</title>
+    <url>/2024/03/08/data-lab/</url>
+    <content><![CDATA[<p>我没打算把每道题都拿出来讲. 只讲一些有意思的.</p>
+<p>下文的数学式中，$\lnot$ 表示逻辑非，$\&amp;$ 表示按位与，$\mid$ 表示按位或，$\bar{x}$ 表示 $x$ 按位取反，$\oplus$ 表示按位异或，$/$ 表示整数除，而分数线代表数学中的除法.</p>
+<h2 id="Part-A">Part A</h2>
+<h3 id="bitConditional">bitConditional</h3>
+<ul>
+<li>签名：<code>int bitConditional(int x, int y, int z)</code></li>
+<li>描述：按位计算 <code>x ? y : z</code></li>
+<li>分数：1</li>
+<li>允许的运算符：<code>&amp;</code>，<code>|</code>，<code>^</code>，<code>~</code></li>
+<li>Max Ops: 8</li>
+</ul>
+<p>简单的位运算秒了：<code>(y &amp; x) | (z &amp; ~x)</code>. 4 ops.</p>
+<p>还能不能再卷一卷 ops？注意到：</p>
+<pre class="line-numbers language-wolfram" data-language="wolfram"><code class="language-wolfram">In<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span> Simplify<span class="token punctuation">[</span>LogicalExpand<span class="token punctuation">[</span><span class="token punctuation">(</span>x <span class="token operator">&amp;</span><span class="token operator">&amp;</span> <span class="token punctuation">(</span>y<span class="token operator">~</span>Xor<span class="token operator">~</span>z<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">~</span>Xor<span class="token operator">~</span>z<span class="token punctuation">]</span><span class="token punctuation">]</span>
+Out<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>x <span class="token operator">&amp;</span><span class="token operator">&amp;</span> y<span class="token punctuation">)</span> <span class="token operator">|</span><span class="token operator">|</span> <span class="token punctuation">(</span>! x <span class="token operator">&amp;</span><span class="token operator">&amp;</span> z<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>所以直接用 <code>(x &amp; (y ^ z)) ^ z</code> 就好了. 3 ops.</p>
+<h3 id="countTrailingZero">countTrailingZero</h3>
+<ul>
+<li>签名：<code>int countTrailingZero(int x)</code></li>
+<li>描述：计算 <code>x</code> 的尾随零，即 <code>tzcnt</code>. 例如 <code>tzcnt(0x1) = 0</code>，<code>tzcnt(4) = 2</code>，<code>tzcnt(0) = 32</code></li>
+<li>分数：4</li>
+<li>允许的运算符：<code>!</code>，<code>~</code>，<code>&amp;</code>，<code>^</code>，<code>|</code>，<code>+</code>，<code>&lt;&lt;</code>，<code>&gt;&gt;</code></li>
+<li>Max Ops：40</li>
+<li>补充说明：这个函数中可以使用较大的整型字面量，如 <code>0xffff0000</code></li>
+</ul>
+<p>纯粹的黑魔法，我在 Data Lab 的得意之作，19 ops 的极致解答：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">countTrailingZero</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> x_sub_1 <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">0xffffffff</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> tmp <span class="token operator">=</span> <span class="token operator">~</span>x <span class="token operator">&amp;</span> x_sub_1<span class="token punctuation">;</span>
+    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">&amp;</span> <span class="token number">0x55555555</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x55555555</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">&amp;</span> <span class="token number">0x33333333</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x33333333</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">+</span> <span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x0f0f0f0f</span><span class="token punctuation">;</span>
+    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">+</span> <span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">+</span> <span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x000000ff</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> tmp<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="isLessOrEqual">isLessOrEqual</h3>
+<ul>
+<li>签名：<code>int isLessOrEqual(int x, int y)</code></li>
+<li>描述：判断是否有 <code>x &lt;= y</code></li>
+<li>分数：3</li>
+<li>允许的运算符：<code>!</code>，<code>~</code>，<code>&amp;</code>，<code>^</code>，<code>|</code>，<code>+</code>，<code>&lt;&lt;</code>，<code>&gt;&gt;</code></li>
+<li>Max Ops：24</li>
+</ul>
+<p>让我们从数学的角度分析.</p>
+<p>$$ x \leqslant y \Leftrightarrow x &lt; y + 1, \qquad x, y \in \mathbb{Z} $$</p>
+<p>从数学的角度，只需要计算 $x - (y + 1)$，判断其符号即可（以下 0 被视为正号）. 恰好，在计算机中，$-(y + 1) = \bar{y}$.</p>
+<p>但是在计算机中，$x + \bar{y}$ 有溢出问题，例如 $x = -1, y = 2^{31} - 1$，$x + \bar{y} = 2^{31} - 1 &gt; 0$.</p>
+<p>下面讨论两种避开溢出的办法.</p>
+<ol>
+<li>注意到 $x, y$ 同号时，$x - (y + 1)$ 不会溢出（即便 $y + 1$ 溢出也没有问题，注意这是个环，$x - (y + 1) = x - y - 1$）. 所以 $x, y$ 同号时，$x \leqslant y$ 可以由 $x - (y + 1)$ 的符号来判断. 而 $x, y$ 异号时，$x \leqslant y$ 可以直接由 $x$ 的符号来判断！代码如下： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> not_same_sign <span class="token operator">=</span> x <span class="token operator">^</span> y<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> dis <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>not_same_sign <span class="token operator">&amp;</span> x<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token operator">~</span>not_same_sign <span class="token operator">&amp;</span> dis<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">31</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+9 ops.<br>
+注意到上式中 <code>(not_same_sign &amp; x) | (~not_same_sign &amp; dis);</code> 正是 <code>bitConditional(not_same_sign, x, dis)</code>，又可以化为： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> not_same_sign <span class="token operator">=</span> x <span class="token operator">^</span> y<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> dis <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>not_same_sign <span class="token operator">&amp;</span> <span class="token punctuation">(</span>x <span class="token operator">^</span> dis<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">^</span> dis<span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">31</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+8 ops.</li>
+<li>注意到 $\forall x \in \mathbb{Z}$，有 $x$ 与 $\lfloor \frac{x}{2} \rfloor$ 同号. 所以只要找到一种方法，计算出 $\lfloor \frac{x - (y + 1)}{2} \rfloor$ 即可.<br>
+注意到 $x + y = (x \oplus y) + 2(x \&amp; y)$（半加器的原理），从而<br>
+$$ \frac{x + y}{2} = \frac{x \oplus y}{2} + (x \&amp; y) $$<br>
+也即：<br>
+$$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \&amp; y) = [(x \oplus y) &gt;&gt; 1] + (x \&amp; y) $$<br>
+所以： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> not_y <span class="token operator">=</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x <span class="token operator">^</span> not_y<span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>x <span class="token operator">&amp;</span> not_y<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">31</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+7 ops.</li>
+</ol>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+        <tag>CS: APP</tag>
+        <tag>ICS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Love &amp; Magic: Tuple</title>
     <url>/2024/03/06/cpp-tuple/</url>
     <content><![CDATA[<p>先扔个草稿在这里.</p>
@@ -5355,96 +5446,6 @@ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span><span
         <tag>C/C++</tag>
         <tag>元编程</tag>
         <tag>模板</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Data Lab</title>
-    <url>/2024/03/08/data-lab/</url>
-    <content><![CDATA[<p>我没打算把每道题都拿出来讲. 只讲一些有意思的.</p>
-<p>下文的数学式中，$\lnot$ 表示逻辑非，$\&amp;$ 表示按位与，$\mid$ 表示按位或，$\bar{x}$ 表示 $x$ 按位取反，$\oplus$ 表示按位异或，$/$ 表示整数除，而分数线代表数学中的除法.</p>
-<h2 id="Part-A">Part A</h2>
-<h3 id="bitConditional">bitConditional</h3>
-<ul>
-<li>签名：<code>int bitConditional(int x, int y, int z)</code></li>
-<li>描述：按位计算 <code>x ? y : z</code></li>
-<li>分数：1</li>
-<li>允许的运算符：<code>&amp;</code>，<code>|</code>，<code>^</code>，<code>~</code></li>
-<li>Max Ops: 8</li>
-</ul>
-<p>简单的位运算秒了：<code>(y &amp; x) | (z &amp; ~x)</code>. 4 ops.</p>
-<p>还能不能再卷一卷 ops？注意到：</p>
-<pre class="line-numbers language-wolfram" data-language="wolfram"><code class="language-wolfram">In<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span> Simplify<span class="token punctuation">[</span>LogicalExpand<span class="token punctuation">[</span><span class="token punctuation">(</span>x <span class="token operator">&amp;</span><span class="token operator">&amp;</span> <span class="token punctuation">(</span>y<span class="token operator">~</span>Xor<span class="token operator">~</span>z<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">~</span>Xor<span class="token operator">~</span>z<span class="token punctuation">]</span><span class="token punctuation">]</span>
-Out<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>x <span class="token operator">&amp;</span><span class="token operator">&amp;</span> y<span class="token punctuation">)</span> <span class="token operator">|</span><span class="token operator">|</span> <span class="token punctuation">(</span>! x <span class="token operator">&amp;</span><span class="token operator">&amp;</span> z<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>所以直接用 <code>(x &amp; (y ^ z)) ^ z</code> 就好了. 3 ops.</p>
-<h3 id="countTrailingZero">countTrailingZero</h3>
-<ul>
-<li>签名：<code>int countTrailingZero(int x)</code></li>
-<li>描述：计算 <code>x</code> 的尾随零，即 <code>tzcnt</code>. 例如 <code>tzcnt(0x1) = 0</code>，<code>tzcnt(4) = 2</code>，<code>tzcnt(0) = 32</code></li>
-<li>分数：4</li>
-<li>允许的运算符：<code>!</code>，<code>~</code>，<code>&amp;</code>，<code>^</code>，<code>|</code>，<code>+</code>，<code>&lt;&lt;</code>，<code>&gt;&gt;</code></li>
-<li>Max Ops：40</li>
-<li>补充说明：这个函数中可以使用较大的整型字面量，如 <code>0xffff0000</code></li>
-</ul>
-<p>纯粹的黑魔法，我在 Data Lab 的得意之作，19 ops 的极致解答：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">countTrailingZero</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">int</span> x_sub_1 <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">0xffffffff</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> tmp <span class="token operator">=</span> <span class="token operator">~</span>x <span class="token operator">&amp;</span> x_sub_1<span class="token punctuation">;</span>
-    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">&amp;</span> <span class="token number">0x55555555</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x55555555</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">&amp;</span> <span class="token number">0x33333333</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x33333333</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">+</span> <span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x0f0f0f0f</span><span class="token punctuation">;</span>
-    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">+</span> <span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    tmp <span class="token operator">=</span> <span class="token punctuation">(</span>tmp <span class="token operator">+</span> <span class="token punctuation">(</span>tmp <span class="token operator">>></span> <span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x000000ff</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> tmp<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="isLessOrEqual">isLessOrEqual</h3>
-<ul>
-<li>签名：<code>int isLessOrEqual(int x, int y)</code></li>
-<li>描述：判断是否有 <code>x &lt;= y</code></li>
-<li>分数：3</li>
-<li>允许的运算符：<code>!</code>，<code>~</code>，<code>&amp;</code>，<code>^</code>，<code>|</code>，<code>+</code>，<code>&lt;&lt;</code>，<code>&gt;&gt;</code></li>
-<li>Max Ops：24</li>
-</ul>
-<p>让我们从数学的角度分析.</p>
-<p>$$ x \leqslant y \Leftrightarrow x &lt; y + 1, \qquad x, y \in \mathbb{Z} $$</p>
-<p>从数学的角度，只需要计算 $x - (y + 1)$，判断其符号即可（以下 0 被视为正号）. 恰好，在计算机中，$-(y + 1) = \bar{y}$.</p>
-<p>但是在计算机中，$x + \bar{y}$ 有溢出问题，例如 $x = -1, y = 2^{31} - 1$，$x + \bar{y} = 2^{31} - 1 &gt; 0$.</p>
-<p>下面讨论两种避开溢出的办法.</p>
-<ol>
-<li>注意到 $x, y$ 同号时，$x - (y + 1)$ 不会溢出（即便 $y + 1$ 溢出也没有问题，注意这是个环，$x - (y + 1) = x - y - 1$）. 所以 $x, y$ 同号时，$x \leqslant y$ 可以由 $x - (y + 1)$ 的符号来判断. 而 $x, y$ 异号时，$x \leqslant y$ 可以直接由 $x$ 的符号来判断！代码如下： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">int</span> not_same_sign <span class="token operator">=</span> x <span class="token operator">^</span> y<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> dis <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>not_same_sign <span class="token operator">&amp;</span> x<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token operator">~</span>not_same_sign <span class="token operator">&amp;</span> dis<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">31</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-9 ops.<br>
-注意到上式中 <code>(not_same_sign &amp; x) | (~not_same_sign &amp; dis);</code> 正是 <code>bitConditional(not_same_sign, x, dis)</code>，又可以化为： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">int</span> not_same_sign <span class="token operator">=</span> x <span class="token operator">^</span> y<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> dis <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>not_same_sign <span class="token operator">&amp;</span> <span class="token punctuation">(</span>x <span class="token operator">^</span> dis<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">^</span> dis<span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">31</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-8 ops.</li>
-<li>注意到 $\forall x \in \mathbb{Z}$，有 $x$ 与 $\lfloor \frac{x}{2} \rfloor$ 同号. 所以只要找到一种方法，计算出 $\lfloor \frac{x - (y + 1)}{2} \rfloor$ 即可.<br>
-注意到 $x + y = (x \oplus y) + 2(x \&amp; y)$（半加器的原理），从而<br>
-$$ \frac{x + y}{2} = \frac{x \oplus y}{2} + (x \&amp; y) $$<br>
-也即：<br>
-$$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \&amp; y) = [(x \oplus y) &gt;&gt; 1] + (x \&amp; y) $$<br>
-所以： <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">isLessOrEqual</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">int</span> not_y <span class="token operator">=</span> <span class="token operator">~</span>y<span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x <span class="token operator">^</span> not_y<span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>x <span class="token operator">&amp;</span> not_y<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">31</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-7 ops.</li>
-</ol>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-        <tag>CS: APP</tag>
-        <tag>ICS</tag>
       </tags>
   </entry>
   <entry>
@@ -6339,6 +6340,12 @@ cache<span class="token double-colon punctuation">::</span><span class="token fu
 <li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CSAPP Shell Lab</li>
 <li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> CSAPP Malloc Lab：<a href="/2024/02/26/malloc-lab/" title="Malloc Lab 全过程纪实">Malloc Lab 全过程纪实</a></li>
 <li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> CSAPP Proxy Lab：<a href="/2024/03/04/proxy-lab/" title="Proxy Lab 的并发设计">Proxy Lab 的并发设计</a></li>
+</ul>
+<hr>
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> LaTeX2e New Font Selection Scheme</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> OpenType 与 PostScript</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Graphite 描述语言</li>
 </ul>
 ]]></content>
       <categories>
