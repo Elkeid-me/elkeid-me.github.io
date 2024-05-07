@@ -13,7 +13,7 @@ tags:
 1. 安装必要的工具软件与库：
 
 ```bash
-sudo apt install build-essential gdb gcc-multilib libgmp-dev libmpfr-dev install libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev
+sudo apt install build-essential gdb gcc-multilib libgmp-dev libmpfr-dev libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev
 ```
 
 2. 获取 MIT 修改的 `qemu`：
