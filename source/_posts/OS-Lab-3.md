@@ -621,6 +621,6 @@ fast_system_call:
     sysexit
 ```
 
-5 ~ 12 行传参并调用 kern/syscall.c: `syscall()`，14 和 15 行为 `syseixt` 提供相关信息。
+5 ~ 12 行传参并调用 kern/syscall.c: `syscall()`，14 和 15 行为 `sysexit` 提供相关信息。
 
-`sysenter` 和 `syseixt` 的正确执行依赖于 GDT 的一些假定，而 JOS 的 GDT 满足这些假定。
+`sysenter` 和 `sysexit` 的正确执行依赖于 GDT 的一些假定，而 JOS 的 GDT 满足这些假定。
