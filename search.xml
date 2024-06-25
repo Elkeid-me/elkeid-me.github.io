@@ -1241,6 +1241,21 @@ top<span class="token operator">:</span>
       </tags>
   </entry>
   <entry>
+    <title>Gallery</title>
+    <url>/2024/05/02/Gallery/</url>
+    <content><![CDATA[<p>差不多高中之后就没在搞正经折纸了，只能搞搞纸飞机玩玩。</p>
+<p>苏-27 和歼-20，原创。</p>
+<p><img src="/2024/05/02/Gallery/1.jpg" alt="" loading="lazy"><em>SU-27 &amp; J-20</em></p>
+]]></content>
+      <categories>
+        <category>折纸</category>
+      </categories>
+      <tags>
+        <tag>折纸</tag>
+        <tag>纸飞机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Graphite 描述语言（全文翻译）</title>
     <url>/2024/03/31/GDL/</url>
     <content><![CDATA[<blockquote>
@@ -1333,21 +1348,6 @@ clsIWidth +&#x3D; (gUJ, gUL);<span aria-hidden="true" class="line-numbers-rows">
         <tag>字体</tag>
         <tag>Graphite</tag>
         <tag>状态机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Gallery</title>
-    <url>/2024/05/02/Gallery/</url>
-    <content><![CDATA[<p>差不多高中之后就没在搞正经折纸了，只能搞搞纸飞机玩玩。</p>
-<p>苏-27 和歼-20，原创。</p>
-<p><img src="/2024/05/02/Gallery/1.jpg" alt="" loading="lazy"><em>SU-27 &amp; J-20</em></p>
-]]></content>
-      <categories>
-        <category>折纸</category>
-      </categories>
-      <tags>
-        <tag>折纸</tag>
-        <tag>纸飞机</tag>
       </tags>
   </entry>
   <entry>
@@ -1561,6 +1561,32 @@ call    *%eax<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
         <tag>TeX</tag>
         <tag>VS Code</tag>
         <tag>LaTeX</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>创新咏雷一首</title>
+    <url>/2024/06/25/Lei/</url>
+    <content><![CDATA[<p>无极雷绍武，</p>
+<p>无双不二论！</p>
+<p>如光明，亦金光，</p>
+<p>雷绍武博恩灵动！</p>
+<p>运动力的原理：雷绍武教诲！</p>
+<p>运动力创新理论素称伟大，</p>
+<p>运动力凝练符合客观事实！</p>
+<p>只要大家认真去思考，</p>
+<p>就一定能够发现运动力创新理论的</p>
+<p>种种参悟；</p>
+<p>只有坚定练习，</p>
+<p>才能够完美地记得雷绍武不二论必能解答的</p>
+<p>许多问题。</p>
+<p>希望大家明白这个道理。</p>
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>雷氏力学</tag>
+        <tag>咏雷</tag>
       </tags>
   </entry>
   <entry>
@@ -5568,9 +5594,9 @@ range 1 4 |&gt; for_each (\ x -&gt; print &quot;%d &quot; (fib x)); &#x2F;&#x2F;
         <category>编程</category>
       </categories>
       <tags>
+        <tag>雷氏力学</tag>
         <tag>编程语言</tag>
         <tag>雷语言</tag>
-        <tag>雷氏力学</tag>
       </tags>
   </entry>
   <entry>
