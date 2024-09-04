@@ -17,7 +17,7 @@ tags:
 :::
 
 ::: tip
-阅读本文之前，建议先阅读 post_link Open-an-MC-Server，并确保安装了恰当的 Java。对于 1.12.2 版本，你需要 Java 8。
+阅读本文之前，建议先阅读 [架设自己的 Minecraft 服务器](/posts/setup-a-paper-server)，并确保安装了恰当的 Java。对于 1.12.2 版本，你需要 Java 8。
 :::
 
 ## 下载与安装 Forge
@@ -82,13 +82,13 @@ pause
 
 这里，`-Xms2G -Xmx2G` 意味着将服务器的内存限制在 2 GB。你也可以使用形如 `-Xms4G -Xmx4G`、`-Xms3500M -Xmx3500M` 等参数。Forge 官方建议内存不小于 4 GB（但是我 3 GB 也玩的很愉快）
 
-现在，运行 `run.bat`。命令行窗口会弹出提示，要求你修改 `eula.txt`。根据文章 Open-an-MC-Server 修改即可。
+现在，运行 `run.bat`。命令行窗口会弹出提示，要求你修改 `eula.txt`。根据文章 [架设自己的 Minecraft 服务器](/posts/setup-a-paper-server) 修改即可。
 
 关闭命令行窗口，再次运行 `run.bat` 即可。
 
 ![](./output-2.webp)
 
-对于 `server.properties` 的配置，建议阅读 Open-an-MC-Server。安装 mod 时，放入 `mods` 文件夹即可。
+对于 `server.properties` 的配置，建议阅读 [架设自己的 Minecraft 服务器](/posts/setup-a-paper-server)。安装 mod 时，放入 `mods` 文件夹即可。
 
 ## 如何联机？
 

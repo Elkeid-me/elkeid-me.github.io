@@ -338,6 +338,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 你可能需要手工移动生成的 `compile_commands.json`。
 
+只有在生成 Makefile 或 Ninja 时，CMake 才会生成 `compile_commands.json`。
+
 ##### Xmake
 
 [Xmake](https://xmake.io/#/zh-cn/) 是一个基于 Lua 的轻量级跨平台构建工具。

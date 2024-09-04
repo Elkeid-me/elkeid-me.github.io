@@ -43,5 +43,9 @@ export default defineSiteConfig({
   license: { enabled: false },
   lastUpdated: false,
 
-  favicon: '/favicon.svg'
+  favicon: '/favicon.svg',
+
+  encrypt: {
+    enable: true,
+  },
 })
