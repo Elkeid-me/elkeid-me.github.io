@@ -38,6 +38,9 @@ export default defineValaxyConfig<UserThemeConfig>({
         enable: false,
         icp: '',
       },
+      icon: {
+        enable: false,
+      },
       powered: true
     },
 
