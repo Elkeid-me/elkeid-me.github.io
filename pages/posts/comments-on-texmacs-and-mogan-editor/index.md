@@ -2,7 +2,7 @@
 title: 评 TeXmacs 与墨干编辑器
 date: 2024-02-24 14:05:41
 categories:
-  - 乐
+  - 发电
 tags:
   - 排印学
   - TeXmacs
