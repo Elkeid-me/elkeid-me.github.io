@@ -6,7 +6,7 @@ title: 关于
 
 21 岁，大四老狗。
 
-轻音乐爱好者，GalGame 玩家，~~柚子厨~~。
+轻音乐爱好者，GalGame 玩家。
 
 航空航天爱好者，[《SimplePlanes》](https://store.steampowered.com/app/397340/SimplePlanes/)十年玩家、全成就，[《Juno: New Origins》](https://store.steampowered.com/app/870200/Juno_New_Origins/) 250 小时+，成就 93/95。
 
