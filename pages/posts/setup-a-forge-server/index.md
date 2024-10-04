@@ -1,12 +1,17 @@
 ---
 title: 架设自己的 Forge 服务器
 date: 2023-07-03 19:32:34
+updated: 2024-10-04 22:47:30
 excerpt: 如题
 categories:
   - Minecraft
 tags:
   - Minecraft
 ---
+
+::: info
+对于新版本，请考虑 NeoForge。在本文更新的三小时前，Sponge 合并了支持 NeoForge 的 PR。
+:::
 
 这篇文章将简要介绍 Forge 服务器的搭建。Forge 服务器有多种服务端软件，在本文中只会介绍其中一种。
 
