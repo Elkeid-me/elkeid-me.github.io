@@ -44,6 +44,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/setup-jos-lab-environment/': RouteRecordInfo<'/posts/setup-jos-lab-environment/', '/posts/setup-jos-lab-environment', Record<never, never>, Record<never, never>>,
     '/posts/setup-static-blog/': RouteRecordInfo<'/posts/setup-static-blog/', '/posts/setup-static-blog', Record<never, never>, Record<never, never>>,
     '/posts/thunder/': RouteRecordInfo<'/posts/thunder/', '/posts/thunder', Record<never, never>, Record<never, never>>,
+    '/posts/waydroid-on-wsl2/': RouteRecordInfo<'/posts/waydroid-on-wsl2/', '/posts/waydroid-on-wsl2', Record<never, never>, Record<never, never>>,
     '/posts/why-mp-maun-indirect-call/': RouteRecordInfo<'/posts/why-mp-maun-indirect-call/', '/posts/why-mp-maun-indirect-call', Record<never, never>, Record<never, never>>,
     '/posts/why-sys-exofork-inlined/': RouteRecordInfo<'/posts/why-sys-exofork-inlined/', '/posts/why-sys-exofork-inlined', Record<never, never>, Record<never, never>>,
     '/tags/': RouteRecordInfo<'/tags/', '/tags', Record<never, never>, Record<never, never>>,

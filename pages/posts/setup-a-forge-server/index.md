@@ -51,7 +51,7 @@ pause
 
 而后运行 `install.bat`。以下的输出是我使用 1.12.2 版本得到的。你得到的输出应当与我大同小异：
 
-![](./output.webp)
+![](./output-1.webp)
 
 当最终出现
 
@@ -62,7 +62,10 @@ You can delete this installer file now if you wish
 时，则证明安装成功。此时，你可以删除 `install.bat` 和安装器。
 
 ::: tip
-安装过程可能比较漫长，并且需要根据实际情况，启动国际互联网连接。
+下载失败？在 `-jar` 前加两个妙妙参数：
+```bash
+-DsocksProxyHost=localhost -DsocksProxyPort=<Clash Socks5 端口号>
+```
 :::
 
 ## 启动服务器
@@ -92,8 +95,6 @@ pause
 关闭命令行窗口，再次运行 `run.bat` 即可。
 
 ![](./output-2.webp)
-
-对于 `server.properties` 的配置，建议阅读 [架设自己的 Minecraft 服务器](/posts/setup-a-paper-server)。安装 mod 时，放入 `mods` 文件夹即可。
 
 ## 如何联机？
 

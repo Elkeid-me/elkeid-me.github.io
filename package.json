@@ -9,13 +9,15 @@
     "build:ssg": "valaxy build --ssg",
     "dev": "valaxy",
     "rss": "valaxy rss",
+    "clean": "valaxy clean",
+    "new": "valaxy new",
     "serve": "vite preview"
   },
   "dependencies": {
-    "valaxy": "^0.19.13",
-    "valaxy-theme-yun": "^0.19.13"
+    "valaxy": "0.19.13",
+    "valaxy-theme-yun": "0.19.13"
   },
   "devDependencies": {
-    "typescript": "^5.6.2"
+    "typescript": "5.6.2"
   }
 }

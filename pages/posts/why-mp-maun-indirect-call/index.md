@@ -38,7 +38,7 @@ call    true_mp_main // [!code ++]
 
 链接脚本 `kern/kernel.ld`：
 
-```ld
+```txt
 .text : AT(0x100000) {
     *(.text .stub .text.* .gnu.linkonce.t.*) // [!code --]
     PROVIDE(true_mp_main = mp_main + (0xF0100000 + mpentry_start - 0x7000)); // [!code ++]

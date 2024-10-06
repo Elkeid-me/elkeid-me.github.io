@@ -84,6 +84,13 @@ pause
 
 此时文件夹里应当是这样的：
 
+::: tip
+下载失败？在 `-jar` 前加两个妙妙参数：
+```bash
+-DsocksProxyHost=localhost -DsocksProxyPort=<Clash Socks5 端口号>
+```
+:::
+
 ![](./folder-2.webp)
 
 打开 `eula.txt`，将最后一行的 `eula=false` 改为 `eula=true`
@@ -110,3 +117,11 @@ pause
 当需要关闭服务器时，在控制台输入 `stop` 并回车即可。
 
 ![](./stop.webp)
+
+## 如何联机？
+
+1. 使用本机的公网 IPv4 或 IPv6 地址。
+2. 使用端口映射软件，如 [SakuraFrp](https://www.natfrp.com/)
+3. 在财力与技术允许的情况下，租一台服务器。如腾讯云的 2 核心 4 GB 内存轻量应用服务器、Azure 的 B2s 虚拟机等[^1]。
+
+[^1]: Azure 中国版仅限企业或组织用户。个人用户只能使用 Azure 国际版，无法使用中国大陆的数据中心。
