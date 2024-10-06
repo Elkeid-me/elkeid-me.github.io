@@ -111,6 +111,13 @@ wsl --shutdown
 
 ## 启动 Waydroid
 
+<!-- `/etc/apparmor.d/usr.sbin.dnsmasq` 加入：
+
+```txt
+@{run}/waydroid-lxc/ r,
+@{run}/waydroid-lxc/* rw,
+``` -->
+
 ```bash
 unset WAYLAND_DISPLAY
 weston
@@ -119,11 +126,12 @@ weston
 此时会打开一个 WSLg 窗口。点击窗口左上角，打开两个 Weston 终端。
 
 其中一个输入：
+
 ```bash
 waydroid session start
 ```
 
-等到 ``
+等到 `Andorid with user 0 is ready`.
 
 另一个输入：
 

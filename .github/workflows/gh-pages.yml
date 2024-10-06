@@ -30,6 +30,7 @@ jobs:
 
       - name: Install pnpm
         run: npm install pnpm -g
+
       - name: Install Dependencies
         run: pnpm install
 
