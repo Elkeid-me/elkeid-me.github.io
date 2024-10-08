@@ -1,15 +1,13 @@
 ---
 title: 评 TeXmacs 与墨干编辑器
 date: 2024-02-24 14:05:41
-categories:
-  - 发电
+categories: 发电
 tags:
   - 排印学
   - TeXmacs
   - TeX
   - LaTeX
 excerpt: 我的评价是很难评价。
-hide: true
 ---
 
 TeXmacs，特别是其国产 fork [墨干编辑器](https://gitee.com/XmacsLabs/mogan)，这两个东西我已经批判过一番了。但是呢，鉴于 TeXmacs / 墨干的信徒们四处传教，在 LaTeX 讨论区传教、在 Typst 讨论区传教、在 Word 讨论区传教，甚至某些开发者自己做了个富文本编辑器，墨干还要在评论区传教，颇有“感觉不如原神”的架势，我还是来多说点罢。

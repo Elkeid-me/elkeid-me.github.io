@@ -2,11 +2,12 @@
 title: C/C++ 环境配置
 date: 2024-09-04 19:27:00
 excerpt: Windows 平台 C/C++ 环境配置，基于 Visual Studio Code 和 MinGW-w64
-categories:
-  - 编程
+categories: 环境配置
 tags:
   - C/C++
   - VS Code
+  - Clangd
+  - MinGW
 ---
 
 

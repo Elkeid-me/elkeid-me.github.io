@@ -2,11 +2,11 @@
 title: LaTeX 安装指南，或不安装指南
 date: 2023-08-16 23:00:00
 excerpt: Windows 平台 MiKTeX 环境配置
-categories:
-  - LaTeX
+categories: 环境配置
 tags:
   - TeX
   - LaTeX
+  - LaTeX Workshop
   - VS Code
 ---
 

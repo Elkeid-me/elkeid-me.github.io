@@ -2,8 +2,7 @@
 title: 2024-3-24
 date: 2024-03-24 23:49:28
 excerpt: 啊？
-categories:
-  - 发电
+categories: 发电
 tags:
   - TeX
   - Mathematica

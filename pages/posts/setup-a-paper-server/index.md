@@ -3,10 +3,10 @@ title: 架设自己的 Minecraft 服务器
 date: 2023-02-05 19:37:34
 updated: 2024-10-04 20:49:30
 excerpt: 基于 Paper 服务端的 Minecraft 服务器架设。
-categories:
-  - Minecraft
+categories: Minecraft
 tags:
   - Minecraft
+  - Paper
 ---
 
 这篇文章呢，是受同学委托所写。本来打算一次性写完 Forge 服务器、Fabric 服务器和原版服务器的架设方法，但是考虑到我咕咕咕的能力（雾）和篇幅限制，还是先只写原版服务器的架设方法罢。

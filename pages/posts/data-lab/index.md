@@ -2,8 +2,7 @@
 title: Data Lab
 date: 2024-03-08 23:12:57
 excerpt: 位运算黑魔法
-categories:
-  - 编程
+categories: ICS
 tags:
   - 'CS: APP'
   - ICS

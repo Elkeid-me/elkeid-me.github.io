@@ -1,7 +1,12 @@
 ---
 title: Waydroid on WSL2
 date: 2024-10-05 15:36:27
-hide: true
+categories: 杂项
+tags:
+  - WSL
+  - WSLg
+  - Waydroid
+  -
 ---
 
 ## 环境
@@ -111,11 +116,13 @@ wsl --shutdown
 
 ## 启动 Waydroid
 
-<!-- `/etc/apparmor.d/usr.sbin.dnsmasq` 加入：
+在 `/var/lib/waydroid/waydroid_base.prop`：
 
 ```txt
-@{run}/waydroid-lxc/ r,
-@{run}/waydroid-lxc/* rw,
+ro.hardware.gralloc=gbm // [!code --]
+ro.hardware.egl=mesa-drivers // [!code --]
+ro.hardware.gralloc=default // [!code ++]
+ro.hardware.egl=swiftshader // [!code ++]
 ``` -->
 
 ```bash

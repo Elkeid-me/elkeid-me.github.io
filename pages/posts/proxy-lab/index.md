@@ -2,8 +2,7 @@
 title: Proxy Lab 的并发设计
 date: 2024-03-04 18:48:14
 excerpt: 看看 C++ 标准库有什么并发魔法
-categories:
-  - 编程
+categories: ICS
 tags:
   - 'CS: APP'
   - ICS

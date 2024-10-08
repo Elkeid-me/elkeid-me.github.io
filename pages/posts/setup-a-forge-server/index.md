@@ -3,10 +3,10 @@ title: 架设自己的 Forge 服务器
 date: 2023-07-03 19:32:34
 updated: 2024-10-04 22:47:30
 excerpt: 如题
-categories:
-  - Minecraft
+categories: Minecraft
 tags:
   - Minecraft
+  - Forge
 ---
 
 ::: info

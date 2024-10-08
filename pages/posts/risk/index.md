@@ -2,8 +2,7 @@
 title: 每个人承担自己的风险！
 date: 2024-02-08 13:21:13
 excerpt: Use it at your own risk!
-categories:
-  - 编程
+categories: 编程
 tags:
   - Rust
 ---

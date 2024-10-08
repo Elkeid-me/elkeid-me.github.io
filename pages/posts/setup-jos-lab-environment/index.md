@@ -2,9 +2,11 @@
 title: 操作系统实验 环境配置
 date: 2023-09-10 20:00:00
 excerpt: MIT 6.828 JOS Lab 环境配置
-categories:
-  - 编程
+categories: JOS Lab
 tags:
+  - JOS
+  - C/C++
+  - 汇编
   - 操作系统
 ---
 

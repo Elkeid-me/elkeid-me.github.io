@@ -2,8 +2,7 @@
 title: 操作系统实验 4
 date: 2023-11-26 23:53:00
 excerpt: MIT 6.828 JOS Lab 4
-categories:
-  - JOS Lab
+categories: JOS Lab
 tags:
   - JOS
   - C/C++

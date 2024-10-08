@@ -4,8 +4,8 @@ date: 2022-12-24 19:32:00
 excerpt: Hexo + GitHub Pages 搭建个人博客教程。
 tags:
   - Hexo
-categories:
-  - 杂项
+  - GitHub
+categories: 杂项
 ---
 
 ## 前言

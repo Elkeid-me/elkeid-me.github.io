@@ -2,8 +2,7 @@
 title: Malloc Lab 全过程纪实
 date: 2024-02-26 21:05:00
 excerpt: ICS 是北大第一好课！
-categories:
-  - 编程
+categories: ICS
 tags:
   - 'CS: APP'
   - ICS
