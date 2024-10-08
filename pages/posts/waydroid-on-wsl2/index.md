@@ -1,12 +1,13 @@
 ---
 title: Waydroid on WSL2
-date: 2024-10-05 15:36:27
+date: 2024-10-08 15:36:27
+excerpt: 如题
 categories: 杂项
 tags:
   - WSL
   - WSLg
   - Waydroid
-  -
+  - Linux Kernel
 ---
 
 ## 环境
@@ -123,7 +124,14 @@ ro.hardware.gralloc=gbm // [!code --]
 ro.hardware.egl=mesa-drivers // [!code --]
 ro.hardware.gralloc=default // [!code ++]
 ro.hardware.egl=swiftshader // [!code ++]
-``` -->
+```
+::: tip
+这一步可能不是必须的。
+:::
+
+***
+
+然后：
 
 ```bash
 unset WAYLAND_DISPLAY
@@ -145,3 +153,7 @@ waydroid session start
 ```bash
 waydroid show-full-ui
 ```
+
+最终：
+
+![](./waydroid.webp)

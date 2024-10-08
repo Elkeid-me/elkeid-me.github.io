@@ -2,8 +2,7 @@
 title: 操作系统 Lab 笔记——为什么 mpentry_start 到 mp_main 是间接调用？
 date: 2024-05-03 21:00:00
 excerpt: MIT 6.828 JOS Lab
-categories:
-  - JOS Lab
+categories: JOS Lab
 tags:
   - JOS
   - C/C++
