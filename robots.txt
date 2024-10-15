@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://elkeid-me.github.io/sitemap.xml
