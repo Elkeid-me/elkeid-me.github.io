@@ -30,6 +30,8 @@ declare module 'vue-router/auto-routes' {
     '/posts/comments-on-texmacs-and-mogan-editor/': RouteRecordInfo<'/posts/comments-on-texmacs-and-mogan-editor/', '/posts/comments-on-texmacs-and-mogan-editor', Record<never, never>, Record<never, never>>,
     '/posts/cxx-config/': RouteRecordInfo<'/posts/cxx-config/', '/posts/cxx-config', Record<never, never>, Record<never, never>>,
     '/posts/data-lab/': RouteRecordInfo<'/posts/data-lab/', '/posts/data-lab', Record<never, never>, Record<never, never>>,
+    '/posts/do-not-recommend-edge-in-2024/': RouteRecordInfo<'/posts/do-not-recommend-edge-in-2024/', '/posts/do-not-recommend-edge-in-2024', Record<never, never>, Record<never, never>>,
+    '/posts/huawei-smartphone-optimization': RouteRecordInfo<'/posts/huawei-smartphone-optimization', '/posts/huawei-smartphone-optimization', Record<never, never>, Record<never, never>>,
     '/posts/latex-config/': RouteRecordInfo<'/posts/latex-config/', '/posts/latex-config', Record<never, never>, Record<never, never>>,
     '/posts/malloc-lab/': RouteRecordInfo<'/posts/malloc-lab/', '/posts/malloc-lab', Record<never, never>, Record<never, never>>,
     '/posts/os-lab-1/': RouteRecordInfo<'/posts/os-lab-1/', '/posts/os-lab-1', Record<never, never>, Record<never, never>>,
