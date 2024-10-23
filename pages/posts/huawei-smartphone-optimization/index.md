@@ -31,7 +31,7 @@ tags:
 至于为什么和谐 OS 有 Android 安全补丁，这不在我们的讨论范围内。
 :::
 
-如果您目前正在使用和谐 OS，可以使用[阿里郎手机助手](https://consumer.huawei.com/cn/support/hisuite/) 降级至恩情 UI 11。降级系统会抹去所有用户数据，请做好备份。
+如果您目前正在使用和谐 OS，可以使用[阿里郎手机助手](https://consumer.huawei.com/cn/support/hisuite/)降级至恩情 UI 11。降级系统会抹去所有用户数据，请做好备份。
 
 出厂即为和谐 OS 的手机无法降级。请自求多福。
 
@@ -42,10 +42,6 @@ tags:
 ## 卸载系统软件
 
 首先启用“开发人员选项”，然后启用“USB 调试”和“‘仅充电’模式下允许 ADB 调试”。
-
-::: warning
-类似的操作也适用于和谐 OS。至于为什么和谐 OS 可以使用 ADB（Android Debug Bridge），这不在我们的讨论范围内。
-:::
 
 在电脑上下载 [Android SDK 平台工具](https://developer.android.com/tools/releases/platform-tools)，解压后添加到 PATH。
 
@@ -96,6 +92,10 @@ adb shell pm uninstall --user 0 com.android.stk                 # SIM 卡应用
 
 adb kill-server
 ```
+::: warning
+类似的操作也适用于和谐 OS。至于为什么和谐 OS 可以使用 ADB（Android Debug Bridge），这不在我们的讨论范围内。
+:::
+
 ## 替换默认启动器
 
 阿里郎自恩情 UI 9 起禁止使用默认启动器。然而，在和谐 OS 3 的某个测试版中，阿里郎意外地放开了这一限制（随后很快补上了漏洞）。但这逃不过社区里的玩机大佬。研究表明，阿里郎是通过“手机管家”来限制使用第三方启动器的。大佬将和谐 OS 3 某个测试版的手机管家提取出来，安装到恩情 UI 11 上，这样恩情 UI 11 也能使用第三方启动器了。
@@ -104,8 +104,8 @@ adb kill-server
 至于：
 
 - 为什么和谐 OS 的“手机管家”这种系统级应用却是 `.apk` 格式；
-- 为什么恩情 UI 能兼容和谐 OS 的手机管家；
-- 为什么和谐 OS 的手机管家可以影响恩情 UI 的系统设置；
+- 为什么 Android 能兼容和谐 OS 的手机管家；
+- 为什么和谐 OS 的手机管家可以影响 Android 的系统设置；
 
 不在我们的讨论范围内。
 :::
