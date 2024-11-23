@@ -16,6 +16,12 @@ export default defineSiteConfig({
   description: '',
   social: [
     {
+      name: 'RSS',
+      link: '/atom.xml',
+      icon: 'i-ri-rss-line',
+      color: 'orange',
+    },
+    {
       name: 'GitHub',
       link: 'https://github.com/Elkeid-me',
       icon: 'i-ri-github-line',
