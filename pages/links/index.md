@@ -1,6 +1,6 @@
 ---
-title: 友链
-keywords: 链接
+title: Links
+keywords: Links
 links:
   - url: https://passedeiweiss.github.io/
     avatar: https://avatars.githubusercontent.com/u/100470667?v=4
@@ -10,10 +10,12 @@ links:
     color: '#0078e7'
   - url: https://decknock.github.io/
     color: '#92cafa'
-    avatar: https://decknock.github.io/img/leina.jpg
-    name: Decknock
+    avatar: https://avatars.githubusercontent.com/u/97667256?v=4
+    name: DeckNock
     blog: DeckNock
 random: true
 ---
 
 <YunLinks :links="frontmatter.links" :random="frontmatter.random" />
+
+点击左侧邮件申请友联（
