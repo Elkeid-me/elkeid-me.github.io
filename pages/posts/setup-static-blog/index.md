@@ -1,6 +1,7 @@
 ---
 title: 搭建静态博客
 date: 2022-12-24 19:32:00
+updated: 2024-11-24 00:15:00
 excerpt: Hexo + GitHub Pages 搭建个人博客教程。
 tags:
   - Hexo
@@ -179,6 +180,8 @@ hexo s
 
 可以配置主题、插件等。Hexo 文档及相关主题、插件文档有详细描述。
 
-[^1]: Oracle Cloud 可以白嫖服务器的。
+GitHub Pages 的连接速度是大问题。必要时可以使用 WebP、HEIC、AVIF 等现代图片格式。
+
+[^1]: Oracle Cloud 可以白嫖 ARM 服务器。
 [^2]: [Commands | Hexo](https://hexo.io/docs/commands.html)
 [^3]: [GitHub Pages | Hexo](https://hexo.io/docs/github-pages#One-command-deployment)
