@@ -49,6 +49,15 @@ pause
 pause
 ```
 
+::: warning
+在文章 [架设自己的 Minecraft 服务器](/posts/setup-a-paper-server) 中，我提到了 OpenJ9。相比 HotSpot，OpenJ9 声称自己启动更快、更省内存。然而，早期的一些尝试表明，Forge/NeoForge 无法与 OpenJ9 兼容。我们在：
+- Minecraft 1.20.4
+- NeoForge 20.4.237
+- OpenJ9 0.48.0（IBM Semeru，OpenJDK 21.0.5）
+
+进行测试，无法运行，并提示使用 HotSpot。我们没有测试更高的版本。一些报告[^1]表明新版本 NeoForge 似乎支持 OpenJ9。
+:::
+
 而后运行 `install.bat`。以下的输出是我使用 1.12.2 版本得到的。你得到的输出应当与我大同小异：
 
 ![](./output-1.webp)
@@ -100,6 +109,7 @@ pause
 
 1. 使用本机的公网 IPv4 或 IPv6 地址。
 2. 使用端口映射软件，如 [SakuraFrp](https://www.natfrp.com/)
-3. 在财力与技术允许的情况下，租一台服务器。如腾讯云的 2 核心 4 GB 内存轻量应用服务器、Azure 的 B2s 虚拟机等[^1]。
+3. 在财力与技术允许的情况下，租一台服务器。如腾讯云的 2 核心 4 GB 内存轻量应用服务器、Azure 的 B2s 虚拟机等[^2]。
 
-[^1]: Azure 中国版仅限企业或组织用户。个人用户只能使用 Azure 国际版，无法使用中国大陆的数据中心。
+[^1]: https://github.com/neoforged/NeoForge/issues/81
+[^2]: Azure 中国版仅限企业或组织用户。个人用户只能使用 Azure 国际版，无法使用中国大陆的数据中心。

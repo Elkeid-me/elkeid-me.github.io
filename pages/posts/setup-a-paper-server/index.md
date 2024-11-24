@@ -44,6 +44,10 @@ Paper 官方推荐的 Java 运行时是 [Amazon Corretto](https://aws.amazon.com
 
 以上是基于 HotSpot 的 Java。你也可以尝试基于 OpenJ9 的 [IBM Semeru Runtime](https://developer.ibm.com/languages/java/semeru-runtimes/)。
 
+::: warning
+相比 HotSpot，OpenJ9 声称自己启动更快、更省内存[^1]。Paper 与 OpenJ9 兼容。
+:::
+
 ## 下载 Paper
 
 最新版本下载（截至本文发稿，是 1.21.1）：[Paper Downloads | PaperMC](https://papermc.io/downloads/paper)
@@ -122,6 +126,7 @@ pause
 
 1. 使用本机的公网 IPv4 或 IPv6 地址。
 2. 使用端口映射软件，如 [SakuraFrp](https://www.natfrp.com/)
-3. 在财力与技术允许的情况下，租一台服务器。如腾讯云的 2 核心 4 GB 内存轻量应用服务器、Azure 的 B2s 虚拟机等[^1]。
+3. 在财力与技术允许的情况下，租一台服务器。如腾讯云的 2 核心 4 GB 内存轻量应用服务器、Azure 的 B2s 虚拟机等[^2]。
 
-[^1]: Azure 中国版仅限企业或组织用户。个人用户只能使用 Azure 国际版，无法使用中国大陆的数据中心。
+[^1]: [Eclipse OpenJ9 performance](https://eclipse.dev/openj9/performance/)，注意此网站可能过时。
+[^2]: Azure 中国版仅限企业或组织用户。个人用户只能使用 Azure 国际版，无法使用中国大陆的数据中心。
