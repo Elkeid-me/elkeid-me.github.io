@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://elkeid-me.github.io/</id>
+    <title>Elkeid's Site</title>
+    <updated>2024-12-05T13:30:35.924Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <author>
+        <name>Elkeid</name>
+        <email>i@valaxy.site</email>
+        <uri>https://valaxy.site</uri>
+    </author>
+    <link rel="alternate" href="https://elkeid-me.github.io/"/>
+    <link rel="self" href="https://elkeid-me.github.io/atom.xml"/>
+    <logo>https://elkeid-me.github.io/avatar.webp</logo>
+    <icon>https://elkeid-me.github.io/favicon.svg</icon>
+    <rights>CC BY-NC-SA 4.0 2024 © Elkeid</rights>
+    <entry>
+        <title type="html"><![CDATA[每个人承担自己的风险！]]></title>
+        <id>https://elkeid-me.github.io/posts/risk/index</id>
+        <link href="https://elkeid-me.github.io/posts/risk/index"/>
+        <updated>2024-02-08T13:21:13.000Z</updated>
+        <content type="html"><![CDATA[<p>Unwrap inner type when enum variant is known. From [Stack overflow](<a href="https://stackoverflow.com/quest">https://stackoverflow.com/quest</a></p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/risk/index" target="_blank">https://elkeid-me.github.io/posts/risk/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-11-24T00:15:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[搭建静态博客]]></title>
+        <id>https://elkeid-me.github.io/posts/setup-static-blog/index</id>
+        <link href="https://elkeid-me.github.io/posts/setup-static-blog/index"/>
+        <updated>2022-12-24T19:32:00.000Z</updated>
+        <content type="html"><![CDATA[<h2>前言</h2>
+<p>静态博客是静态网站<s>废话</s>，是将作者的博文编译到 HTML、JS、CSS 静态文件。用户通过浏览器访问托管服务器，直接获得已编译的静态资源。</p>
+<p>相比于带有后端的博客，静态博客最大的</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/setup-static-blog/index" target="_blank">https://elkeid-me.github.io/posts/setup-static-blog/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-11-24T00:15:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[创新咏雷一首]]></title>
+        <id>https://elkeid-me.github.io/posts/thunder/index</id>
+        <link href="https://elkeid-me.github.io/posts/thunder/index"/>
+        <updated>2024-06-25T23:02:22.000Z</updated>
+        <content type="html"><![CDATA[<p>::: tip<br>
+此诗已被雷绍武先生收录至《咏雷》<br>
+:::</p>
+<h2>原文</h2>
+<p>无极雷绍武，</p>
+<p>无双不二论！</p>
+<p>如光明，亦金光，</p>
+<p>雷绍武博恩灵动！</p>
+<p>运动力的原理：雷绍武教诲！</p>
+<p>运动力创新理论素称伟大</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/thunder/index" target="_blank">https://elkeid-me.github.io/posts/thunder/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-11-24T00:15:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Todo List]]></title>
+        <id>https://elkeid-me.github.io/posts/todo/index</id>
+        <link href="https://elkeid-me.github.io/posts/todo/index"/>
+        <updated>2024-02-26T19:03:07.000Z</updated>
+        <content type="html"><![CDATA[<ul>
+<li>[ ] C++：左值引用</li>
+<li>[ ] C++：右值引用、引用折叠、转发引用、移动语义</li>
+<li>[ ] C++：从零实现 <code>tuple</code></li>
+<li>[ ] C++：协程</li>
+<li>[ ] C++ P2300：`s</li>
+</ul>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/todo/index" target="_blank">https://elkeid-me.github.io/posts/todo/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-11-24T00:15:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[阿里郎手机调优指南]]></title>
+        <id>https://elkeid-me.github.io/posts/huawei-smartphone-optimization/index</id>
+        <link href="https://elkeid-me.github.io/posts/huawei-smartphone-optimization/index"/>
+        <updated>2024-10-22T15:07:23.000Z</updated>
+        <content type="html"><![CDATA[<p>阿里郎是光之国著名手机品牌，以其自研的“千里马”芯片闻名于世。然而：</p>
+<ul>
+<li>阿里郎手机被植入了淳平饺子馆的跟踪软件，以提高淳平饺子馆的好评率；</li>
+<li>用户想要侧载 <code>.apk</code> 或是更改设备名称，都必</li>
+</ul>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/huawei-smartphone-optimization/index" target="_blank">https://elkeid-me.github.io/posts/huawei-smartphone-optimization/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-10-22T15:07:23.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[2024 年，我不再推荐 Microsoft Edge]]></title>
+        <id>https://elkeid-me.github.io/posts/do-not-recommend-edge-in-2024/index</id>
+        <link href="https://elkeid-me.github.io/posts/do-not-recommend-edge-in-2024/index"/>
+        <updated>2024-10-09T21:30:13.000Z</updated>
+        <content type="html"><![CDATA[<p>早年我用过不少浏览器，原因是 Windows 自带的 Internet Explorer 实在是太差了。在 Windows 10 推出前，我主要使用 Chrome。</p>
+<p>2015 年，Windows</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/do-not-recommend-edge-in-2024/index" target="_blank">https://elkeid-me.github.io/posts/do-not-recommend-edge-in-2024/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-10-09T21:30:13.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Waydroid on WSL2]]></title>
+        <id>https://elkeid-me.github.io/posts/waydroid-on-wsl2/index</id>
+        <link href="https://elkeid-me.github.io/posts/waydroid-on-wsl2/index"/>
+        <updated>2024-10-08T15:36:27.000Z</updated>
+        <content type="html"><![CDATA[<h2>环境</h2>
+<ul>
+<li>WSL 版本： 2.3.24.0</li>
+<li>内核版本： 5.15.153.1-2</li>
+<li>WSLg 版本： 1.0.65</li>
+<li>MSRDC 版本： 1.2.5620</li>
+<li>Direct3D 版本</li>
+</ul>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/waydroid-on-wsl2/index" target="_blank">https://elkeid-me.github.io/posts/waydroid-on-wsl2/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-10-08T15:36:27.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[架设自己的 Forge 服务器]]></title>
+        <id>https://elkeid-me.github.io/posts/setup-a-forge-server/index</id>
+        <link href="https://elkeid-me.github.io/posts/setup-a-forge-server/index"/>
+        <updated>2023-07-03T19:32:34.000Z</updated>
+        <content type="html"><![CDATA[<p>::: info<br>
+对于新版本，请考虑 NeoForge。在本文更新的三小时前，Sponge 合并了支持 NeoForge 的 PR。<br>
+:::</p>
+<p>这篇文章将简要介绍 Forge 服务器的搭建。Forg</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/setup-a-forge-server/index" target="_blank">https://elkeid-me.github.io/posts/setup-a-forge-server/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-10-04T22:47:30.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[架设自己的 Minecraft 服务器]]></title>
+        <id>https://elkeid-me.github.io/posts/setup-a-paper-server/index</id>
+        <link href="https://elkeid-me.github.io/posts/setup-a-paper-server/index"/>
+        <updated>2023-02-05T19:37:34.000Z</updated>
+        <content type="html"><![CDATA[<p>这篇文章呢，是受同学委托所写。本来打算一次性写完 Forge 服务器、Fabric 服务器和原版服务器的架设方法，但是考虑到我咕咕咕的能力（雾）和篇幅限制，还是先只写原版服务器的架设方法罢。</p>
+<p>在继</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/setup-a-paper-server/index" target="_blank">https://elkeid-me.github.io/posts/setup-a-paper-server/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-10-04T20:49:30.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[C/C++ 环境配置]]></title>
+        <id>https://elkeid-me.github.io/posts/cxx-config/index</id>
+        <link href="https://elkeid-me.github.io/posts/cxx-config/index"/>
+        <updated>2024-09-04T19:27:00.000Z</updated>
+        <content type="html"><![CDATA[<h2>前言</h2>
+<p>本文力求以通俗的方式讲述环境配置。通俗不可避免地会不严谨——这也没法请各位批评指正（雾）。</p>
+<p>本文描述的环境配置包含：</p>
+<ol>
+<li>编辑器：用来编写和查看纯文本文件的软件，例如 Wind</li>
+</ol>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/cxx-config/index" target="_blank">https://elkeid-me.github.io/posts/cxx-config/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-09-04T19:27:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[操作系统 Lab 笔记——为什么 mpentry_start 到 mp_main 是间接调用？]]></title>
+        <id>https://elkeid-me.github.io/posts/why-mp-maun-indirect-call/index</id>
+        <link href="https://elkeid-me.github.io/posts/why-mp-maun-indirect-call/index"/>
+        <updated>2024-05-03T21:00:00.000Z</updated>
+        <content type="html"><![CDATA[<p>本文内容分析于 2023 年 12 月 18 日。今整理成文。</p>
+<p>先看源代码：<code>kern/mpentry.S:76</code>：</p>
+<pre><code class="language-asm"># Call mp_main(). (Exercise for</code></pre>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/why-mp-maun-indirect-call/index" target="_blank">https://elkeid-me.github.io/posts/why-mp-maun-indirect-call/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-05-03T21:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[操作系统 Lab 笔记——为什么 sys_exofork() 必须内联？]]></title>
+        <id>https://elkeid-me.github.io/posts/why-sys-exofork-inlined/index</id>
+        <link href="https://elkeid-me.github.io/posts/why-sys-exofork-inlined/index"/>
+        <updated>2024-05-03T21:00:00.000Z</updated>
+        <content type="html"><![CDATA[<p>本文内容写于 2023 年 12 月 18 日，为 JOS Lab 的分析笔记。今正式公开。</p>
+<p>如果 <code>sys_exofork()</code> 不内联，在 <code>ret</code> 指令前，<code>%esp</code> 为 `0xeebf</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/why-sys-exofork-inlined/index" target="_blank">https://elkeid-me.github.io/posts/why-sys-exofork-inlined/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-05-03T21:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[2024-3-24]]></title>
+        <id>https://elkeid-me.github.io/posts/24-3-24/index</id>
+        <link href="https://elkeid-me.github.io/posts/24-3-24/index"/>
+        <updated>2024-03-24T23:49:28.000Z</updated>
+        <content type="html"><![CDATA[<p>很多时候我们会陷入对工具的惯性思维，即“手里拿着锤子，看什么任务都像钉子”。</p>
+<p>但其实还有另一个问题，我们手里拿着瑞士军刀，但还是想砸钉子。瑞士军刀能砸钉子吗？能。好用吗？不好用。去年有一门课程叫</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/24-3-24/index" target="_blank">https://elkeid-me.github.io/posts/24-3-24/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-03-24T23:49:28.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Data Lab]]></title>
+        <id>https://elkeid-me.github.io/posts/data-lab/index</id>
+        <link href="https://elkeid-me.github.io/posts/data-lab/index"/>
+        <updated>2024-03-08T23:12:57.000Z</updated>
+        <content type="html"><![CDATA[<p>我没打算把每道题都拿出来讲. 只讲一些有意思的.</p>
+<p>下文的数学式中，$\lnot$ 表示逻辑非，$&amp;$ 表示按位与，$\mid$ 表示按位或，$\bar{x}$ 表示 $x$ 按位取反，$\opl</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/data-lab/index" target="_blank">https://elkeid-me.github.io/posts/data-lab/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-03-08T23:12:57.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Proxy Lab 的并发设计]]></title>
+        <id>https://elkeid-me.github.io/posts/proxy-lab/index</id>
+        <link href="https://elkeid-me.github.io/posts/proxy-lab/index"/>
+        <updated>2024-03-04T18:48:14.000Z</updated>
+        <content type="html"><![CDATA[<p>Proxy Lab 要求我们自己写 Makefile，所以用 C++ 是完全可行的。</p>
+<h2>Part A</h2>
+<p>Part A 要求做一个并发的 HTTP 代理。比较先进的思路可以考虑 I/O 多路复用</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/proxy-lab/index" target="_blank">https://elkeid-me.github.io/posts/proxy-lab/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-03-04T18:48:14.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Malloc Lab 全过程纪实]]></title>
+        <id>https://elkeid-me.github.io/posts/malloc-lab/index</id>
+        <link href="https://elkeid-me.github.io/posts/malloc-lab/index"/>
+        <updated>2024-02-26T21:05:00.000Z</updated>
+        <content type="html"><![CDATA[<p>完整代码见 <a href="https://github.com/Elkeid-me/csapp-3e-malloc-lab">Elkeid-me/csapp-3e-malloc-lab</a></p>
+<h2>前言</h2>
+<p>众所周</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/malloc-lab/index" target="_blank">https://elkeid-me.github.io/posts/malloc-lab/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-02-26T21:05:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[评 TeXmacs 与墨干编辑器]]></title>
+        <id>https://elkeid-me.github.io/posts/comments-on-texmacs-and-mogan-editor/index</id>
+        <link href="https://elkeid-me.github.io/posts/comments-on-texmacs-and-mogan-editor/index"/>
+        <updated>2024-02-24T14:05:41.000Z</updated>
+        <content type="html"><![CDATA[<p>TeXmacs，特别是其国产 fork <a href="https://gitee.com/XmacsLabs/mogan">墨干编辑器</a>，这两个东西我已经批判过一番了。但是呢，鉴于 TeXmacs / 墨干的信</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/comments-on-texmacs-and-mogan-editor/index" target="_blank">https://elkeid-me.github.io/posts/comments-on-texmacs-and-mogan-editor/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-02-24T14:05:41.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[操作系统实验 5]]></title>
+        <id>https://elkeid-me.github.io/posts/os-lab-5/index</id>
+        <link href="https://elkeid-me.github.io/posts/os-lab-5/index"/>
+        <updated>2023-12-17T23:53:00.000Z</updated>
+        <content type="html"><![CDATA[<p>选择了 Challenge 2：文件缓存的驱逐机制。</p>
+<h2>对 MIT 代码的修改</h2>
+<p>JOS Lab 最后更新于 2018 年。5 年来，GCC有了诸多更新，原有的 JOS 代码在新的 GCC 上</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/os-lab-5/index" target="_blank">https://elkeid-me.github.io/posts/os-lab-5/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2023-12-17T23:53:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[操作系统实验 4]]></title>
+        <id>https://elkeid-me.github.io/posts/os-lab-4/index</id>
+        <link href="https://elkeid-me.github.io/posts/os-lab-4/index"/>
+        <updated>2023-11-26T23:53:00.000Z</updated>
+        <content type="html"><![CDATA[<h2>Exercise 1 and 2</h2>
+<h3><code>mmio_map_region()</code></h3>
+<p>调用 <code>boot_map_region()</code> 即可。</p>
+<pre><code class="language-c">void *mmio_map_region(ph</code></pre>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/os-lab-4/index" target="_blank">https://elkeid-me.github.io/posts/os-lab-4/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2023-11-26T23:53:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[操作系统实验 3]]></title>
+        <id>https://elkeid-me.github.io/posts/os-lab-3/index</id>
+        <link href="https://elkeid-me.github.io/posts/os-lab-3/index"/>
+        <updated>2023-11-05T23:50:00.000Z</updated>
+        <content type="html"><![CDATA[<p>选择了 Challenge 2（JOS monitor 的断点命令） 和 Challenge 3（快速系统调用）。</p>
+<p>报告中，对于寄存器的名称混用了 Intel 和 AT&amp;T 的汇编格式，如 `EA</p>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/os-lab-3/index" target="_blank">https://elkeid-me.github.io/posts/os-lab-3/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2023-11-05T23:50:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[操作系统实验 2]]></title>
+        <id>https://elkeid-me.github.io/posts/os-lab-2/index</id>
+        <link href="https://elkeid-me.github.io/posts/os-lab-2/index"/>
+        <updated>2023-10-22T23:50:00.000Z</updated>
+        <content type="html"><![CDATA[<p>选择了 Challenge 1 和 2。</p>
+<p>报告中省略了实际代码的 <code>assert()</code>。</p>
+<h2>Exercise 1</h2>
+<p><code>boot_alloc()</code> 的代码如下：</p>
+<pre><code class="language-c">static voi</code></pre>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/os-lab-2/index" target="_blank">https://elkeid-me.github.io/posts/os-lab-2/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2023-10-22T23:50:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[操作系统实验 1]]></title>
+        <id>https://elkeid-me.github.io/posts/os-lab-1/index</id>
+        <link href="https://elkeid-me.github.io/posts/os-lab-1/index"/>
+        <updated>2023-10-08T23:50:00.000Z</updated>
+        <content type="html"><![CDATA[<p>选择了唯一的 Challenge。</p>
+<h2>Exercise 2</h2>
+<p>BIOS 在初始化 <code>%ss</code> 与 <code>%esp</code> 寄存器，并通过一系列 <code>in</code>/<code>out</code> 指令设置输入输出。</p>
+<h2>Exer</h2>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/os-lab-1/index" target="_blank">https://elkeid-me.github.io/posts/os-lab-1/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2023-10-08T23:50:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[操作系统实验 环境配置]]></title>
+        <id>https://elkeid-me.github.io/posts/setup-jos-lab-environment/index</id>
+        <link href="https://elkeid-me.github.io/posts/setup-jos-lab-environment/index"/>
+        <updated>2023-09-10T20:00:00.000Z</updated>
+        <content type="html"><![CDATA[<p>本文章描述了在 Ubuntu 22.04 上配置 JOS Lab 环境的过程。</p>
+<ol>
+<li>安装必要的工具软件与库：</li>
+</ol>
+<pre><code class="language-bash">sudo apt install build-essential </code></pre>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/setup-jos-lab-environment/index" target="_blank">https://elkeid-me.github.io/posts/setup-jos-lab-environment/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2023-09-10T20:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[LaTeX 安装指南，或不安装指南]]></title>
+        <id>https://elkeid-me.github.io/posts/latex-config/index</id>
+        <link href="https://elkeid-me.github.io/posts/latex-config/index"/>
+        <updated>2023-08-16T23:00:00.000Z</updated>
+        <content type="html"><![CDATA[<p>::: info</p>
+<blockquote>
+<p>计科人认为计算机技术的那个源头，它是什么？它是 Technique，对吧。所以这个词叫 TeX。我经常说 TeX 这个词有秘密。TeX，Technique 了吗？TeX 嘛。它</p>
+</blockquote>
+<br/><p>访问 <a href="https://elkeid-me.github.io/posts/latex-config/index" target="_blank">https://elkeid-me.github.io/posts/latex-config/index</a> 阅读全文。</p>]]></content>
+        <author>
+            <name>Elkeid</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2023-08-16T23:00:00.000Z</published>
+    </entry>
+</feed>
