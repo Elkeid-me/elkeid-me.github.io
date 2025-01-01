@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       valaxy:
-        specifier: 0.22.5
-        version: 0.22.5(@babel/parser@7.26.3)(@nuxt/kit@3.15.0(rollup@4.29.1))(@types/markdown-it@14.1.2)(@types/node@22.10.3)(@vue/compiler-dom@3.5.13)(axios@1.7.9)(critters@0.0.24)(eslint@9.17.0(jiti@2.4.2))(postcss@8.4.49)(rollup@4.29.1)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.2)(unhead@1.11.14)(yaml@2.7.0)
+        specifier: 0.22.6
+        version: 0.22.6(@babel/parser@7.26.3)(@nuxt/kit@3.15.0(rollup@4.29.1))(@types/markdown-it@14.1.2)(@types/node@22.10.3)(@vue/compiler-dom@3.5.13)(axios@1.7.9)(critters@0.0.24)(eslint@9.17.0(jiti@2.4.2))(postcss@8.4.49)(rollup@4.29.1)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.2)(unhead@1.11.14)(yaml@2.7.0)
       valaxy-theme-yun:
-        specifier: 0.22.5
-        version: 0.22.5(rollup@4.29.1)(vue@3.5.13(typescript@5.7.2))
+        specifier: 0.22.6
+        version: 0.22.6(rollup@4.29.1)(vue@3.5.13(typescript@5.7.2))
     devDependencies:
       typescript:
         specifier: 5.7.2
@@ -1207,11 +1207,11 @@ packages:
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0
 
-  '@valaxyjs/devtools@0.22.5':
-    resolution: {integrity: sha512-2c3520Eh2hwIXqw0+U+x4SVJzMVwDX5PGq6EMQ9jDKjDVPghclTgBGvd5AvIQVYwKNq0KVp001YeCDZpITjOSg==}
+  '@valaxyjs/devtools@0.22.6':
+    resolution: {integrity: sha512-Wt+HazBQMvg8r5xuIQUnNJaVs72wTV3zByTuvzRHFbOptam30ZMVI5yfYpvMZb2c5bk/lgOQeYZdOkC5ukVQ5A==}
 
-  '@valaxyjs/utils@0.22.5':
-    resolution: {integrity: sha512-+XU0bqcUPEf+6Fv8CJraK+aIRKQ5B0sLq3mZNJ8CFYNPpK/MpqcpbLZtB44vAxqg8/3m0DB93qmyjZ+iqR7y9g==}
+  '@valaxyjs/utils@0.22.6':
+    resolution: {integrity: sha512-YgU38pwJQGkFvpMawKakn+F7s2uRLsbLVltmpY6inEJrdJ8XHnSEhdYm8lKwEH0HOeqZdIZABWsJyY73k2BgHQ==}
 
   '@vitejs/plugin-vue@5.2.1':
     resolution: {integrity: sha512-cxh314tzaWwOLqVes2gnnCtvBDcM1UMdn+iFR+UjAn411dPT3tOmqrJjbMd7koZpMAmBM/GqeV4n9ge7JSiJJQ==}
@@ -3480,11 +3480,11 @@ packages:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
 
-  valaxy-theme-yun@0.22.5:
-    resolution: {integrity: sha512-Ck6srn38VfJWD2Z1KhsxCIvF243X5/FcbJAfNl8L7s11T1iLO9BD/WEW9AJiP2DElaTzEK9Z12lt4SzGT6vSCg==}
+  valaxy-theme-yun@0.22.6:
+    resolution: {integrity: sha512-DUqKkXB/l8ls/12EwLihZ5bGkwrkL8s1RZa0ip0FxU0hwELtSqtGG8yonTCLP9uLtk+AuBO+QgR9JXXcm7dMig==}
 
-  valaxy@0.22.5:
-    resolution: {integrity: sha512-WHdVXH/+bv/vqYqF8uwU5LAVdBzvTsDSxiYQrD6Jur5QMQ9s/4vZygP8wXEz5GX/uEN6tCIqpUnTr5vLrHZfiQ==}
+  valaxy@0.22.6:
+    resolution: {integrity: sha512-AuHsQypW6l3qrb/HbU8PNFf9Bs6/l8HG4VV0dORxnI1AB0C54S6V/vLNLa5RpnBvMcQRU3yjNuRPK+kuoHe7WQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
 
@@ -4997,7 +4997,7 @@ snapshots:
       - supports-color
       - vue
 
-  '@valaxyjs/devtools@0.22.5(debug@4.4.0)(rollup@4.29.1)(vite@6.0.6(@types/node@22.10.3)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))':
+  '@valaxyjs/devtools@0.22.6(debug@4.4.0)(rollup@4.29.1)(vite@6.0.6(@types/node@22.10.3)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))':
     dependencies:
       '@rollup/pluginutils': 5.1.4(rollup@4.29.1)
       axios: 1.7.9(debug@4.4.0)
@@ -5015,7 +5015,7 @@ snapshots:
       - supports-color
       - vite
 
-  '@valaxyjs/utils@0.22.5': {}
+  '@valaxyjs/utils@0.22.6': {}
 
   '@vitejs/plugin-vue@5.2.1(vite@6.0.6(@types/node@22.10.3)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))(vue@3.5.13(typescript@5.7.2))':
     dependencies:
@@ -7593,7 +7593,7 @@ snapshots:
 
   uuid@9.0.1: {}
 
-  valaxy-theme-yun@0.22.5(rollup@4.29.1)(vue@3.5.13(typescript@5.7.2)):
+  valaxy-theme-yun@0.22.6(rollup@4.29.1)(vue@3.5.13(typescript@5.7.2)):
     dependencies:
       '@ctrl/tinycolor': 4.1.0
       '@explosions/fireworks': 0.1.0
@@ -7610,7 +7610,7 @@ snapshots:
       - supports-color
       - vue
 
-  valaxy@0.22.5(@babel/parser@7.26.3)(@nuxt/kit@3.15.0(rollup@4.29.1))(@types/markdown-it@14.1.2)(@types/node@22.10.3)(@vue/compiler-dom@3.5.13)(axios@1.7.9)(critters@0.0.24)(eslint@9.17.0(jiti@2.4.2))(postcss@8.4.49)(rollup@4.29.1)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.2)(unhead@1.11.14)(yaml@2.7.0):
+  valaxy@0.22.6(@babel/parser@7.26.3)(@nuxt/kit@3.15.0(rollup@4.29.1))(@types/markdown-it@14.1.2)(@types/node@22.10.3)(@vue/compiler-dom@3.5.13)(axios@1.7.9)(critters@0.0.24)(eslint@9.17.0(jiti@2.4.2))(postcss@8.4.49)(rollup@4.29.1)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.2)(unhead@1.11.14)(yaml@2.7.0):
     dependencies:
       '@antfu/install-pkg': 0.5.0
       '@antfu/utils': 0.7.10
@@ -7621,8 +7621,8 @@ snapshots:
       '@unhead/addons': 1.11.14(rollup@4.29.1)
       '@unhead/schema-org': 1.11.14(@unhead/vue@1.11.14(vue@3.5.13(typescript@5.7.2)))(unhead@1.11.14)
       '@unhead/vue': 1.11.14(vue@3.5.13(typescript@5.7.2))
-      '@valaxyjs/devtools': 0.22.5(debug@4.4.0)(rollup@4.29.1)(vite@6.0.6(@types/node@22.10.3)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
-      '@valaxyjs/utils': 0.22.5
+      '@valaxyjs/devtools': 0.22.6(debug@4.4.0)(rollup@4.29.1)(vite@6.0.6(@types/node@22.10.3)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+      '@valaxyjs/utils': 0.22.6
       '@vitejs/plugin-vue': 5.2.1(vite@6.0.6(@types/node@22.10.3)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))(vue@3.5.13(typescript@5.7.2))
       '@vue/devtools-api': 7.6.8
       '@vueuse/core': 12.0.0-beta.1(typescript@5.7.2)
