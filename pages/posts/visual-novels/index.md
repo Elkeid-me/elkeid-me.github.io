@@ -37,7 +37,7 @@ excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 
 二女主（墨小菊、文芷）。
 
-## 三色绘恋S
+## 三色绘恋 S
 
 > 被 Steam 申鹤橄榄的 Gal。只能说罪有应得。
 >
@@ -61,6 +61,8 @@ excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 
 ## [青夏轨迹](https://store.steampowered.com/app/2185770/_/)
 
+> R18
+
 引擎：Unity。
 
 - 2024 年 7 月 18 日，向坂海希线；
@@ -78,6 +80,8 @@ excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 
 ## [千恋＊万花](https://store.steampowered.com/app/1144400/_/)
 
+> R18
+
 引擎：吉里吉里。
 
 - 2024 年 8 月 22 日，朝武芳乃线；
@@ -88,6 +92,8 @@ excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 
 ## [星光咖啡馆与死神之蝶](https://store.steampowered.com/app/1829980/_/)
 
+> R18
+
 引擎：吉里吉里。
 
 - 2024 年 10 月 13 日，单身线；
@@ -97,6 +103,10 @@ excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 - 2025 年 1 月 10 日，明月栞那线；
 
 ## Father Than the Blue Sky
+
+> R18
+>
+> 无官中和民间汉化。鉴于本作涉及专业知识，相比日文版，英文版会更好一些。
 
 引擎：Majiro
 
