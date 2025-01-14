@@ -2,8 +2,7 @@
 title: 操作系统 Lab 笔记——为什么 sys_exofork() 必须内联？
 date: 2024-05-03 21:00:00
 excerpt: MIT 6.828 JOS Lab
-categories:
-  - JOS Lab
+categories: JOS Lab
 tags:
   - JOS
   - C/C++

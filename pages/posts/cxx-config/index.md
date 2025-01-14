@@ -1,6 +1,7 @@
 ---
 title: C/C++ 环境配置
 date: 2024-09-04 19:27:00
+updated: 2025-01-14 23:42:00
 excerpt: Windows 平台 C/C++ 环境配置，基于 Visual Studio Code 和 MinGW-w64
 categories: 环境配置
 tags:
@@ -9,7 +10,6 @@ tags:
   - Clangd
   - MinGW
 ---
-
 
 ## 前言
 
@@ -129,7 +129,7 @@ Windows 默认隐藏文件扩展名，所以也可能是这样的：
 
 ![](./vsc_panel.webp)
 
-这时会自动打开 `settings.json`，此即 VS Code 的配置文件，使用带注释的 JSON 语法（JSON with Comments）。在阅读后文之前，我假定你对这种语法有初步的了解。
+这时会自动打开 `settings.json`，此即 VS Code 的配置文件，使用带注释的 JSON 语法（JSON with Comments）。在继续阅读之前，我假定你对这种文件格式有初步的了解。
 
 加入配置项：
 
@@ -342,9 +342,11 @@ CompileFlags:
 ```cmake
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 ```
+::: tip
+参考：
 
 - [CMAKE_EXPORT_COMPILE_COMMANDS](https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html)
-
+:::
 如果 `compile_commands.json` 被生成在项目根目录，或 `项目根目录/build`，clangd 可以自动识别。否则，你需要手工移动 `compile_commands.json` 到项目根目录。
 
 只有在生成 Makefile 或 Ninja 时，CMake 才会生成 `compile_commands.json`。
@@ -366,23 +368,24 @@ add_rules("plugin.compile_commands.autoupdate")
 
 来自动更新 `compile_commands.json`。
 
-见：
+::: tip
+参考：
 
 - [生成 compile_commands](https://xmake.io/#/zh-cn/plugin/builtin_plugins?id=%e7%94%9f%e6%88%90compile_commands)
 - [plugin.compile_commands.autoupdate](https://xmake.io/#/zh-cn/manual/custom_rule?id=plugincompile_commandsautoupdate)
-
+:::
 ##### GNU make
 
-GNU make 无法自动生成 `compile_commands.json`。但是有一个网站 [Generate Compilation Database from GNU make output online](https://texttoolkit.com/compilation-database-generator) 可以根据 make 的输出生成 `compile_commands.json`。具体来说，你需要：
+GNU make 无法自动生成 `compile_commands.json`。不过嘛，有一个网站 [Generate Compilation Database from GNU make output online](https://texttoolkit.com/compilation-database-generator) 可以根据 `make` 的输出生成 `compile_commands.json`。具体来说，你需要：
 
 1. 确保 make 输出的是英文。对于 Ubuntu，可能需要运行
-    ```console
-    LANG=en_US.utf-8
-    ```
+   ```console
+   LANG=en_US.UTF-8
+   ```
 2. 运行
-    ```console
-    make -nw
-    ```
-3. 将所有的输出粘贴到上述网站。点击 `Generate!` 即可获得 `compile_commands.json`。
+   ```console
+   make -nw
+   ```
+3. 将 2. 的输出粘贴到上述网站。点击 `Generate!` 即可获得 `compile_commands.json`。
 
-此外，clangd 官网推荐使用 [Bear](https://github.com/rizsotto/Bear) 为基于 make 或其他构建工具的项目生成 `compile_commands.json`。
+此外，clangd 官方推荐使用 [Bear](https://github.com/rizsotto/Bear) 为基于 make 或其他构建工具的项目生成 `compile_commands.json`。

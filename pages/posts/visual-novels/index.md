@@ -2,10 +2,12 @@
 layout: post
 title: 视觉小说记录
 date: 2025-01-11 00:40:01
+updated: 2025-01-14 23:42:00
 tags:
   - 视觉小说
   - GalGame
   - 柚子社
+  - Key
 category: 杂项
 excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 ---
@@ -17,8 +19,6 @@ excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 |类型|开发商/发行商|游戏引擎|评价|
 |:--:|:--:|:--:|:--:|
 |全年龄|橘子班|KiriKiri|推荐|
-
-引擎：吉里吉里。
 
 - 2020 年 5 月 14 日，“变淡的回忆”结局；
 - 2020 年 7 月 28 日，“小涵的温暖”结局；
@@ -96,7 +96,7 @@ excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 
 |类型|开发商/发行商|游戏引擎|评价|
 |:--:|:--:|:--:|:--:|
-|全年龄|Alright Peaches Studio|TyranoScript|--|
+|全年龄|Alright Peaches Studio|TyranoScript，基于 Electron|--|
 
 2024 年 8 月 18 日通关。
 
@@ -148,7 +148,7 @@ excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 
 |类型|开发商/发行商|游戏引擎|评价|
 |:--:|:--:|:--:|:--:|
-|全年龄|Key 社|Artemis Engine|--|
+|全年龄|Key 社|Artemis|--|
 
 ::: info
 本作并非描写男女之情，而是亲情。
