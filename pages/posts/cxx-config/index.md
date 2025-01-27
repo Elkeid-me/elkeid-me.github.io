@@ -289,10 +289,12 @@ TabWidth: 4
 BreakBeforeBraces: Allman
 AllowShortIfStatementsOnASingleLine: false
 IndentCaseLabels: false
-ColumnLimit: 80
+ColumnLimit: 800
 AccessModifierOffset: -4
 NamespaceIndentation: All
 FixNamespaceComments: false
+IndentPPDirectives: AfterHash
+PPIndentWidth: 1
 ```
 
 详细说明请见官方文档 [Clang-Format Style Options](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)。你可以自行调配符合你口味的代码风格。

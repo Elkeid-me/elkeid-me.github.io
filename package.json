@@ -14,10 +14,10 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "valaxy": "0.22.6",
-    "valaxy-theme-yun": "0.22.6"
+    "valaxy": "0.22.7",
+    "valaxy-theme-yun": "0.22.7"
   },
   "devDependencies": {
-    "typescript": "5.7.2"
+    "typescript": "5.7.3"
   }
 }
