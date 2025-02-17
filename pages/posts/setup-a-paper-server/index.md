@@ -45,7 +45,7 @@ Paper 官方推荐的 Java 运行时是 [Amazon Corretto](https://aws.amazon.com
 以上是基于 HotSpot 的 Java。你也可以尝试基于 OpenJ9 的 [IBM Semeru Runtime](https://developer.ibm.com/languages/java/semeru-runtimes/)。
 
 ::: warning
-相比 HotSpot，OpenJ9 声称自己启动更快、更省内存[^1]。Paper 与 OpenJ9 兼容。
+相比 HotSpot，OpenJ9 声称自己启动更快、更省内存[^1]。但使用 OpenJ9 时，Paper 有概率遇到错误。
 :::
 
 ## 下载 Paper
