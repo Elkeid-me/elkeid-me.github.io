@@ -32,6 +32,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/cxx-config/': RouteRecordInfo<'/posts/cxx-config/', '/posts/cxx-config', Record<never, never>, Record<never, never>>,
     '/posts/data-lab/': RouteRecordInfo<'/posts/data-lab/', '/posts/data-lab', Record<never, never>, Record<never, never>>,
     '/posts/do-not-recommend-edge-in-2024/': RouteRecordInfo<'/posts/do-not-recommend-edge-in-2024/', '/posts/do-not-recommend-edge-in-2024', Record<never, never>, Record<never, never>>,
+    '/posts/du-le-si/': RouteRecordInfo<'/posts/du-le-si/', '/posts/du-le-si', Record<never, never>, Record<never, never>>,
     '/posts/huawei-smartphone-optimization/': RouteRecordInfo<'/posts/huawei-smartphone-optimization/', '/posts/huawei-smartphone-optimization', Record<never, never>, Record<never, never>>,
     '/posts/latex-config/': RouteRecordInfo<'/posts/latex-config/', '/posts/latex-config', Record<never, never>, Record<never, never>>,
     '/posts/lumia-650-review/': RouteRecordInfo<'/posts/lumia-650-review/', '/posts/lumia-650-review', Record<never, never>, Record<never, never>>,
