@@ -29,6 +29,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
     '/posts/24-3-24/': RouteRecordInfo<'/posts/24-3-24/', '/posts/24-3-24', Record<never, never>, Record<never, never>>,
     '/posts/comments-on-texmacs-and-mogan-editor/': RouteRecordInfo<'/posts/comments-on-texmacs-and-mogan-editor/', '/posts/comments-on-texmacs-and-mogan-editor', Record<never, never>, Record<never, never>>,
+    '/posts/compile-llvm/': RouteRecordInfo<'/posts/compile-llvm/', '/posts/compile-llvm', Record<never, never>, Record<never, never>>,
     '/posts/cxx-config/': RouteRecordInfo<'/posts/cxx-config/', '/posts/cxx-config', Record<never, never>, Record<never, never>>,
     '/posts/data-lab/': RouteRecordInfo<'/posts/data-lab/', '/posts/data-lab', Record<never, never>, Record<never, never>>,
     '/posts/do-not-recommend-edge-in-2024/': RouteRecordInfo<'/posts/do-not-recommend-edge-in-2024/', '/posts/do-not-recommend-edge-in-2024', Record<never, never>, Record<never, never>>,

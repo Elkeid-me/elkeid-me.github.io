@@ -14,8 +14,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "valaxy": "~0.23.0",
-    "valaxy-theme-yun": "~0.23.0"
+    "valaxy": "~0.23.3",
+    "valaxy-theme-yun": "~0.23.3"
   },
   "devDependencies": {
     "typescript": "5.8.3"
@@ -25,6 +25,7 @@
       "esbuild"
     ],
     "onlyBuiltDependencies": [
+      "@parcel/watcher",
       "esbuild"
     ]
   }
