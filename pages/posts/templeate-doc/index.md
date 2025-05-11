@@ -1,7 +1,7 @@
 ---
 title: LaTeX 模板文档
 date: 2025-05-11 15:38:00
-excerpt: 运动力的原理：雷绍武教诲！
+excerpt: 只是使用文档。
 categories: 排版
 tags:
   - TeX
