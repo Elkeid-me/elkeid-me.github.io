@@ -50,6 +50,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/setup-jos-lab-environment/': RouteRecordInfo<'/posts/setup-jos-lab-environment/', '/posts/setup-jos-lab-environment', Record<never, never>, Record<never, never>>,
     '/posts/setup-static-blog/': RouteRecordInfo<'/posts/setup-static-blog/', '/posts/setup-static-blog', Record<never, never>, Record<never, never>>,
     '/posts/stainless-rocket/': RouteRecordInfo<'/posts/stainless-rocket/', '/posts/stainless-rocket', Record<never, never>, Record<never, never>>,
+    '/posts/templeate-doc/': RouteRecordInfo<'/posts/templeate-doc/', '/posts/templeate-doc', Record<never, never>, Record<never, never>>,
     '/posts/thunder/': RouteRecordInfo<'/posts/thunder/', '/posts/thunder', Record<never, never>, Record<never, never>>,
     '/posts/thunder-2/': RouteRecordInfo<'/posts/thunder-2/', '/posts/thunder-2', Record<never, never>, Record<never, never>>,
     '/posts/todo/': RouteRecordInfo<'/posts/todo/', '/posts/todo', Record<never, never>, Record<never, never>>,
