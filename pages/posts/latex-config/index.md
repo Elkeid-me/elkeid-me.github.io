@@ -10,6 +10,10 @@ tags:
   - VS Code
 ---
 
+::: warning
+作者已经滚去用 [TinyTeX](https://yihui.org/tinytex/) 了。
+:::
+
 ::: info
 > 计科人认为计算机技术的那个源头，它是什么？它是 Technique，对吧。所以这个词叫 TeX。我经常说 TeX 这个词有秘密。TeX，Technique 了吗？TeX 嘛。它真 Technique 吗？TeX。到底 Technique 没 Technique？TeX。我问 TeX，它真 Technique 了吗？TeX。你看看，Technique 没 Technique？TeX。它很厉害，它不是一个有形的。
 
@@ -91,23 +95,15 @@ MiKTeX 自带 TeXworks。TeXstudio 和 VS Code 是很多人的选择。Vim 与 E
 ```json
 {
     "latex-workshop.latex.autoBuild.run": "never",
-    "latex-workshop.message.error.show": true,
-    "latex-workshop.message.warning.show": true,
+    "latex-workshop.latex.autoBuild.cleanAndRetry.enabled": false,
     "latex-workshop.latex.tools": [
         {
-            "name": "xelatex",
-            "command": "xelatex",
+            "name": "lualatex",
+            "command": "lualatex",
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
-                "%DOCFILE%"
-            ]
-        },
-        {
-            "name": "bibtex",
-            "command": "bibtex",
-            "args": [
                 "%DOCFILE%"
             ]
         },
@@ -121,29 +117,20 @@ MiKTeX 自带 TeXworks。TeXstudio 和 VS Code 是很多人的选择。Vim 与 E
     ],
     "latex-workshop.latex.recipes": [
         {
-            "name": "XeLaTeX",
+            "name": "LuaLaTeX",
             "tools": [
-                "xelatex"
+                "lualatex"
             ],
         },
         {
-            "name": "xe->biber->xe->xe",
+            "name": "LuaLaTeX with Biber",
             "tools": [
-                "xelatex",
+                "lualatex",
                 "biber",
-                "xelatex",
-                "xelatex"
+                "lualatex",
+                "lualatex"
             ]
         },
-        {
-            "name": "xe->bib->xe->xe",
-            "tools": [
-                "xelatex",
-                "bibtex",
-                "xelatex",
-                "xelatex"
-            ]
-        }
     ]
 }
 ```
