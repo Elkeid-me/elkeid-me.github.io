@@ -129,4 +129,4 @@ lualatex thesis
    - 思源宋体
    - 思源黑体
 
-   此外，本模板调用了 Windows 系统中的楷体和中易仿宋。
+   此外，本模板调用了 Windows 系统中的华文楷体（STKaiti）和中易仿宋（FangSong）。
