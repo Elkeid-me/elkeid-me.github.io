@@ -28,7 +28,12 @@ tags:
 1. （未经测试）使用 MiKTeX 发行版，它会在缺失宏包时自动安装。
 2. （作者本人的方案）使用 TinyTeX 发行版，这是一个精简的 TeX Live，缺失宏包时需要手动安装。对于本模板，您可以使用以下命令安装所需的最少宏包：
    ```bash
-   tlmgr install ctex chinese-jfm fancyhdr enumitem caption tocloft footmisc perpage tabularray biblatex biblatex-gb7714-2015 xstring biber --repository https://mirrors.pku.edu.cn/ctan/systems/texlive/tlnet
+   tlmgr install ctex chinese-jfm fancyhdr enumitem caption tocloft footmisc bigfoot tabularray biblatex biblatex-gb7714-2015 xstring biber
+   ```
+
+   在安装之前，您可能想切换到 CTAN 北京大学镜像：
+   ```bash
+   tlmgr option repository https://mirrors.pku.edu.cn/ctan/systems/texlive/tlnet
    ```
 
 要求使用 LuaLaTeX 编译，因为我们使用的是 LuaLaTeX，并且懒得适配 XeLaTeX。
