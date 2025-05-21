@@ -71,6 +71,42 @@ lualatex thesis
 
 ## 使用
 
+（如果您正在使用 1.0.0-rc1 或更高版本的模板），选项 `centersec` 可以将一级标题由阿拉伯数字编号、左对齐，改为中文编号、居中对齐。
+
+::: code-group
+
+```latex [无 centersec]
+\documentclass{pkuthesis}
+
+效果：
+
+1. Section 1
+
+  Lorem ipsum dolor sit amet, consectetur adipiscing
+elit.Ut finibus lacus ut nunc porta euismod. Sed sit
+amet ante vel enim tempus hendrerit eget eget erat.
+Suspendisse tempor at purus vel tristique. Integer
+urna turpis, auctor eget metus vel, rhoncus vehicula.
+```
+
+```latex [有 centersec]
+\documentclass[centersec]{pkuthesis}
+
+效果：
+
+                 第一章 Section 1
+
+  Lorem ipsum dolor sit amet, consectetur adipiscing
+elit.Ut finibus lacus ut nunc porta euismod. Sed sit
+amet ante vel enim tempus hendrerit eget eget erat.
+Suspendisse tempor at purus vel tristique. Integer
+urna turpis, auctor eget metus vel, rhoncus vehicula.
+```
+
+:::
+
+---
+
 在导言区，你可以看见：
 
 ```latex
@@ -88,7 +124,9 @@ lualatex thesis
 \newcommand{\keywordsEn}{英文关键词}
 ```
 
-它们的语义是十分清晰的。我们知道用 `\newcommand` 而不是更现代化的接口定义这些东西非常池沼，但能用就行（x
+它们的语义是十分清晰的。
+
+（作者知道用 `\newcommand` 而不是更现代化的接口定义这些东西非常池沼，但能用就行（x）
 
 此外，你可以看到：
 
