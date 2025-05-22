@@ -21,7 +21,7 @@ tags:
 
 ## 环境要求
 
-本模板要求 Windows 系统，因为调用了 Windows 自带的中易仿宋和楷体。
+本模板要求 Windows 系统，因为调用了 Windows 自带的中易仿宋和华文楷体。
 
 推荐的 LaTeX 发行版为 TeX Live 2025，它应当附带所有必须的宏包。如果您认为 TeX Live 的体积太大、安装太慢，有以下方案可供选择：
 
@@ -71,7 +71,126 @@ lualatex thesis
 
 ## 使用
 
-（如果您正在使用 1.0.0-rc1 或更高版本的模板），选项 `centersec` 可以将一级标题由阿拉伯数字编号、左对齐，改为中文编号、居中对齐。
+### 1.0.0-rc3 版用户接口
+
+首先，使用 `\documentclass` 引入文档类。选项 `centersec` 可以将一级标题由阿拉伯数字编号、左对齐，改为中文编号、居中对齐。
+
+::: code-group
+
+```latex [无 centersec]
+\documentclass{pkuthesis}
+
+效果：
+
+1. Section 1
+
+  Lorem ipsum dolor sit amet, consectetur adipiscing
+elit.Ut finibus lacus ut nunc porta euismod. Sed sit
+amet ante vel enim tempus hendrerit eget eget erat.
+Suspendisse tempor at purus vel tristique. Integer
+urna turpis, auctor eget metus vel, rhoncus vehicula.
+```
+
+```latex [有 centersec]
+\documentclass[centersec]{pkuthesis}
+
+效果：
+
+                 第一章 Section 1
+
+  Lorem ipsum dolor sit amet, consectetur adipiscing
+elit.Ut finibus lacus ut nunc porta euismod. Sed sit
+amet ante vel enim tempus hendrerit eget eget erat.
+Suspendisse tempor at purus vel tristique. Integer
+urna turpis, auctor eget metus vel, rhoncus vehicula.
+```
+
+:::
+
+
+命令 `\titleCn` 和 `\titleEn` 用于设置中、英文标题。示例：
+
+```latex
+\titleCn{高超声速涡轮喷气发动机研究}
+\titleEn{Research on Hypersonic Turbojet}
+```
+
+模板对中、英文标题使用一号字，与教务模板保持一致。如果您认为字号太大，可以使用 `\titleCnFormat` 和 `\titleEnFormat` 命令修改。示例：
+
+```latex
+\titleCnFormat{\zihao{2}}
+\titleEnFormat{\zihao{3}}
+```
+
+即中文标题使用二号字，英文标题使用三号字。
+
+`\author` 和 `\studentID` 命令设置作者和学号。`\school` 和 `\major` 设置学院和专业。
+
+`\tutor` 设置论文导师相关的信息。它有三个必须的参数，即导师姓名、单位和职称。示例：
+
+```latex
+\tutor{长崎素世}{月之森女子学园}{贝斯手}
+```
+
+此外，它还有一个可选参数，用于调整《毕业论文导师评阅表》中导师姓名的排版。例如，如果您有两位导师：
+
+```latex
+\tutor[{长崎素世 \\ 椎名立希}]{长崎素世、椎名立希}{{月之森女子学园 \\ 花咲川女子学园}}{{贝斯手 \\ 鼓手}}
+```
+
+这样，封面中的导师姓名不换行，而《毕业论文导师评阅表》中的导师姓名将分两行展示。
+
+`\abstractCn`、`\keywordsCn`、`\abstractEn` 和 `\keywordsEn` 分别设置中文摘要、中文关键词、英文摘要和英文关键词。
+
+`\grade` 设置论文成绩。`\turtorComments` 填写导师评语，自动以楷体排版。
+
+`\appendix` 和 `\acknowledgments` 用于开始《附录》和《致谢》。不是在导言区使用，而是在正文使用。例：
+
+```latex{27,31}
+\documentclass{pkuthesis}
+
+\titleCn{中文标题}
+\titleEn{英文标题}
+\author{学生姓名（作者）}
+\studentID{学号}
+\school{学院名}
+\major{专业名}
+\tutor{导师姓名}{导师单位}{导师职称}
+\abstractCn{中文摘要}
+\keywordsCn{中文关键词}
+\abstractEn{英文摘要}
+\keywordsEn{英文关键词}
+
+\grade{良} % 论文成绩（等级制）
+\turtorComments{导师评语}
+
+\usepackage[style=gb7714-2015]{biblatex}
+\addbibresource{thesis.bib}
+
+\begin{document}
+\section{正文一级标题}
+\subsection{正文二级标题}
+\subsubsection{正文三级标题}
+\printbibliography % 参考文献
+
+\appendix
+\section{声明}
+% 附录
+
+\acknowledgments
+% 致谢
+\end{document}
+```
+
+我们提供了一个表格环境 `hqtblr`，实现了三线表。您可以查看 `example.tex` 中的示例。为什么叫 `hqtblr`？因为作者在对着论文哈气。
+
+本模板有对 `markdown` 的实验性支持，但我们不对其功能的完整性和正确性做任何保证。
+
+本模板在用户载入 `hyperref` 后会自动设置 PDF 元数据中的标题、作者和关键词。这是由 `\AddToHook{package/hyperref/after}` 块实现的。
+
+### 旧版用户接口
+
+（如果您正在使用 1.0.0-rc1 或 1.0.0-rc2），选项 `centersec` 可以将一级标题由阿拉伯数字编号、左对齐，改为中文编号、居中对齐。
 
 ::: code-group
 
