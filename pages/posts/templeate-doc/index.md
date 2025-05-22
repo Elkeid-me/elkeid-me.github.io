@@ -17,6 +17,7 @@ tags:
 - 尽可能模仿 2025 年的毕业论文模板；
 - 改了一些字体；
 - 提供最小的功能，换句话说 `amsmath` 等包需要用户自己 `\usepackage`；
+- 易于修改。作者不希望模板充斥着 Plain TeX 或 LaTeX2e 古神语；
 - 主要满足作者本人的需求。
 
 ## 环境要求
@@ -47,25 +48,31 @@ lualatex thesis
 lualatex thesis
 ```
 
-以上流程将生成完整的文档。但如果您不关注目录、交叉引用和参考文献，可以仅使用以下流程：
+以上流程将生成完整的文档。
+
+自 1.0.0-rc3 起，模板附带的 `thesis.tex` 包含 [llmk](https://github.com/wtsnjp/llmk) magic comments，可以直接使用 `llmk thesis` 编译文档。最新版的 TeX Live 应当附带 llmk，如果没有，那么以 `tlmgr install light-latex-make` 安装。
+
+如果您不关注目录、交叉引用和参考文献，可以仅使用以下流程：
 
 ```bash
 lualatex thesis
 ```
 
-我们期望在未来使用 `llmk` 等工具自动化构建流程。
-
 ## 安装
 
-从 [Release](https://github.com/Elkeid-me/thesis-template/releases) 下载最新版本。如果您是**全新安装**，那么请下载 `.7z` 压缩包。自 0.3.0 起，它包含：
+从 [Release](https://github.com/Elkeid-me/thesis-template/releases) 下载最新版本。可用的最新版本是 Pre-release 1.0.0-rc3。
+
+> 虽然是 Pre-release 但确实是可用的，只是因为作者的导师迟迟不回复，导致作者不敢提交论文，所以不敢发 1.0.0 正式版（悲）。
+
+如果您是**全新安装**，那么请下载 `.7z` 压缩包。自 0.3.0 起，它包含：
 
 - 字体（`./fonts` 文件夹）。请安装这些字体，具体而言：
-   - 对于 Windows 10，选择所有字体，右键，`为所有用户安装`
-   - 对于 Windows 11，选择所有字体，右键，`显示更多选项 > 为所有用户安装`
+   - 对于 Windows 10，选择所有字体，右键，`为所有用户安装`；
+   - 对于 Windows 11，选择所有字体，右键，`显示更多选项 > 为所有用户安装`。
 - 北京大学校徽（`PKU-Logo.pdf`）
 - 文档类本身（`pkuthesis.cls`）
-- 示例文档《高超声速涡轮喷气发动机研究》（`example.tex`、`example.pdf`）
-- 最小示例（`thesis.tex`），可以作为您论文的起点。
+- 示例文档《高超声速涡轮喷气发动机研究》（`example.tex`、`example.bib`、`example.pdf`）
+- 最小示例（`thesis.tex`、`thesis.bib`），可以作为您论文的起点。
 
 如果您要**升级模板**，请下载 `Source code (zip)`，获取其中的 `pkuthesis.cls`。此外，请仔细阅读更新日志。
 
@@ -73,7 +80,7 @@ lualatex thesis
 
 ### 1.0.0-rc3 版用户接口
 
-首先，使用 `\documentclass` 引入文档类。选项 `centersec` 可以将一级标题由阿拉伯数字编号、左对齐，改为中文编号、居中对齐。
+使用 `\documentclass` 引入文档类。开关 `centersec` 可以将一级标题由阿拉伯数字编号、左对齐，改为中文编号、居中对齐。
 
 ::: code-group
 
@@ -124,15 +131,15 @@ urna turpis, auctor eget metus vel, rhoncus vehicula.
 
 即中文标题使用二号字，英文标题使用三号字。
 
-`\author` 和 `\studentID` 命令设置作者和学号。`\school` 和 `\major` 设置学院和专业。
+命令 `\author` 和 `\studentID` 设置作者和学号。`\school` 和 `\major` 设置学院和专业。
 
-`\tutor` 设置论文导师相关的信息。它有三个必须的参数，即导师姓名、单位和职称。示例：
+命令 `\tutor` 设置论文导师相关的信息。它有三个必须的参数，即导师姓名、单位和职称。示例：
 
 ```latex
 \tutor{长崎素世}{月之森女子学园}{贝斯手}
 ```
 
-此外，它还有一个可选参数，用于调整《毕业论文导师评阅表》中导师姓名的排版。例如，如果您有两位导师：
+此外，`\tutor` 还有一个可选参数，用于调整《毕业论文导师评阅表》中导师姓名的排版。假设您有两位导师：
 
 ```latex
 \tutor[{长崎素世 \\ 椎名立希}]{长崎素世、椎名立希}{{月之森女子学园 \\ 花咲川女子学园}}{{贝斯手 \\ 鼓手}}
@@ -140,11 +147,13 @@ urna turpis, auctor eget metus vel, rhoncus vehicula.
 
 这样，封面中的导师姓名不换行，而《毕业论文导师评阅表》中的导师姓名将分两行展示。
 
-`\abstractCn`、`\keywordsCn`、`\abstractEn` 和 `\keywordsEn` 分别设置中文摘要、中文关键词、英文摘要和英文关键词。
+命令 `\abstractCn`、`\keywordsCn`、`\abstractEn` 和 `\keywordsEn` 分别设置中文摘要、中文关键词、英文摘要和英文关键词。
 
-`\grade` 设置论文成绩。`\turtorComments` 填写导师评语，自动以楷体排版。
+命令 `\grade` 设置论文成绩。
 
-`\appendix` 和 `\acknowledgments` 用于开始《附录》和《致谢》。不是在导言区使用，而是在正文使用。例：
+命令 `\turtorComments` 填写导师评语，自动以楷体排版。
+
+命令 `\appendix` 和 `\acknowledgments` 用于开始《附录》和《致谢》。**它们不是在导言区使用，而是在正文使用**。例：
 
 ```latex{27,31}
 \documentclass{pkuthesis}
@@ -182,49 +191,18 @@ urna turpis, auctor eget metus vel, rhoncus vehicula.
 \end{document}
 ```
 
-我们提供了一个表格环境 `hqtblr`，实现了三线表。您可以查看 `example.tex` 中的示例。为什么叫 `hqtblr`？因为作者在对着论文哈气。
+模板提供了一个表格环境 `hqtblr`，实现了三线表。您可以查看 `example.tex` 中的示例。
+
+> 为什么叫 `hqtblr`？因为作者在对着论文哈气。
 
 本模板有对 `markdown` 的实验性支持，但我们不对其功能的完整性和正确性做任何保证。
 
-本模板在用户载入 `hyperref` 后会自动设置 PDF 元数据中的标题、作者和关键词。这是由 `\AddToHook{package/hyperref/after}` 块实现的。
+本模板在用户载入 `hyperref` 后会自动设置 PDF 元数据中的标题、作者和关键词。这是由 `\AddToHook{package/hyperref/after}` 块实现的。如果这导致您的论文无法编译，可以删除。
 
 ### 旧版用户接口
 
-（如果您正在使用 1.0.0-rc1 或 1.0.0-rc2），选项 `centersec` 可以将一级标题由阿拉伯数字编号、左对齐，改为中文编号、居中对齐。
+1.0.0-rc1 或 1.0.0-rc2 也有开关 `centersec`。关于该开关请参考新版用户接口。
 
-::: code-group
-
-```latex [无 centersec]
-\documentclass{pkuthesis}
-
-效果：
-
-1. Section 1
-
-  Lorem ipsum dolor sit amet, consectetur adipiscing
-elit.Ut finibus lacus ut nunc porta euismod. Sed sit
-amet ante vel enim tempus hendrerit eget eget erat.
-Suspendisse tempor at purus vel tristique. Integer
-urna turpis, auctor eget metus vel, rhoncus vehicula.
-```
-
-```latex [有 centersec]
-\documentclass[centersec]{pkuthesis}
-
-效果：
-
-                 第一章 Section 1
-
-  Lorem ipsum dolor sit amet, consectetur adipiscing
-elit.Ut finibus lacus ut nunc porta euismod. Sed sit
-amet ante vel enim tempus hendrerit eget eget erat.
-Suspendisse tempor at purus vel tristique. Integer
-urna turpis, auctor eget metus vel, rhoncus vehicula.
-```
-
-:::
-
----
 
 在导言区，你可以看见：
 
@@ -280,11 +258,10 @@ urna turpis, auctor eget metus vel, rhoncus vehicula.
 ## 声明
 
 1. 本模板非北京大学官方制作。
-2. 本模板处于极早期开发阶段，功能可能不全。
-3. 本模板可能出现各种格式错误，由此造成的后果我们概不负责。
-4. 你可以以任何方式使用本模板的**代码部分**，包括二次修改/销售，但出现问题别来找我。
-5. 模板使用的北京大学标志与中文校名组合（`PKU-Logo.pdf`）来自[北京大学标识管理办公室](https://vim.pku.edu.cn/)。
-6. 本模板使用的开源字体遵循各自的开源许可，它们是：
+2. 本模板可能出现各种格式错误，由此造成的后果我们概不负责。
+3. 你可以以任何方式使用本模板的**代码部分**，包括二次修改/销售，但出现问题别来找我。
+4. 模板使用的北京大学标志与中文校名组合（`PKU-Logo.pdf`）来自[北京大学标识管理办公室](https://vim.pku.edu.cn/)。
+5. 本模板使用的开源字体遵循各自的开源许可，它们是：
    - Inter
    - JetBrains Mono
    - Nimbus Roman No. 9 L
