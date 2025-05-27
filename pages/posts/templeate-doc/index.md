@@ -1,5 +1,5 @@
 ---
-title: "`pkuthesis`：北京大学 2025 年本科生毕业论文 LaTeX 文档类"
+title: "`pkuthesis`：信科 2025 年本科生毕业论文 LaTeX 文档类"
 date: 2025-05-26 00:00:00
 excerpt: 只是使用文档。
 categories: 排版
@@ -10,7 +10,7 @@ tags:
 
 ## 特性
 
-- 尽可能模仿 2025 年的毕业论文 Word 模板；
+- 尽可能模仿 2025 年信科毕业论文 Word 模板；
 - 改了一些字体；
 - 提供最小的功能；
 - 易于修改，作者不希望文档类充斥着 Plain TeX 或 LaTeX2e 古神语；
@@ -20,7 +20,21 @@ tags:
 
 请使用 UTF-8 编码撰写文档。TeX Studio 用户请注意这一点。
 
-`pkuthesis` 支持 Overleaf，但可能编译超时。如果您要使用本地环境编译，请往下翻。
+`pkuthesis` 已在以下在线环境测试：
+
+- [Overleaf](https://www.overleaf.com/)
+  - Overleaf 免费账号至多上传 50 MB 的 `.zip` 文件。目前有两个办法：
+    1. 创建项目后，再上传 `fonts` 文件夹；
+    2. 使用[北大 LaTeX](https://latex.pku.edu.cn)。
+  - Overleaf 免费账号编译时间为 20 秒。仍然建议使用北大 LaTeX，或考虑以下两个在线平台：
+
+- [TeXPage](https://www.texpage.com/)
+  - 没有 50 MB 上传大小限制；
+  - 免费账号编译时间 1 分钟。
+- [Cloud LaTeX](https://cloudlatex.io/)
+  - 没有 50 MB 上传大小限制；
+  - 免费账号编译时间 2 分钟。
+  - 而且这玩意有 VS Code 扩展（
 
 ### 操作系统
 
@@ -228,7 +242,7 @@ dvipdfmx thesis
 
 ## 声明
 
-1. `pkuthesis` 非北京大学官方制作，是作者个人为 2025 年本科毕设准备的。
+1. `pkuthesis` 非北京大学官方制作，是作者个人为 2025 年信科本科毕设准备的。
 2. `pkuthesis` 使用的北京大学标志与中文校名组合（`PKU-Logo.pdf`）来自[北京大学标识管理办公室](https://vim.pku.edu.cn/)。
 3. `pkuthesis` 使用了以下开源字体：
    - Adobe 发布的思源黑体和思源宋体。
