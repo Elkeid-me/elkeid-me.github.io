@@ -316,4 +316,4 @@ dvipdfmx thesis
 - 0.0.0
   1. 初始版本。
 
-旧版文档，请见 [LaTeX 模板文档](/posts/templeate-doc-old)
+关于 1.0.0 版本之前的 `pkuthesis` 文档，请见 [LaTeX 模板文档](/posts/pkuthesis-doc-pre-1.0)
