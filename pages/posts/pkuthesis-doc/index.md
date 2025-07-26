@@ -163,7 +163,7 @@ urna turpis, auctor eget metus vel, rhoncus vehicula.
 
 命令 `\grade` 设置论文成绩。
 
-命令 `\turtorComments` 填写导师评语，自动以楷体排版。
+命令 `\mentorComments` 填写导师评语，自动以楷体排版。
 
 命令 `\appendix` 和 `\acknowledgments` 用于开始《附录》和《致谢》。**它们不是在导言区使用，而是在正文使用**。请参考 `example.tex` 或 `thesis.tex`。
 
@@ -257,6 +257,12 @@ dvipdfmx thesis
 
 ## 更新日志
 
+- 1.1.0
+  1. 升级思源黑体到 2.005；
+  2. 修改封面标题的间距；
+  3. 导师评价现以 `\mentorComments` 定义，而不是 `\turtorComments`。显然，这是作者在 1.0.0 版本中的疏漏；
+     原有的 `\turtorComments` 仍然保留。
+  4. 更改字体配置。
 - 1.0.0
   1. 整理了代码；
   2. 支持 Linux，支持 XeLaTeX，这意味着支持 Overleaf；
