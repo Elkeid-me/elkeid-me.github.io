@@ -315,10 +315,10 @@ boot_map_region(kern_pgdir, KERNBASE, (size_t)((1ull << 32) - KERNBASE), 0,
 
 4. 128 MB。这是硬件（qemu）限制的。
 抛开硬件限制，注意到以下的事实：
-    1. 所有的物理页的信息 `PageInfo` 存储于 `pages` 数组；
-    2. `pages` 通过 `boot_alloc()` 申请；
-    3. `boot_alloc()` 最多分配 `KERNBASE + PTSIZE - ROUNDUP((char *)end)` 的空间；
-    4. 上述空间中，有一个页用作第一级页表。
+   1. 所有的物理页的信息 `PageInfo` 存储于 `pages` 数组；
+   2. `pages` 通过 `boot_alloc()` 申请；
+   3. `boot_alloc()` 最多分配 `KERNBASE + PTSIZE - ROUNDUP((char *)end)` 的空间；
+   4. 上述空间中，有一个页用作第一级页表。
 
 因此，留给 `pages` 的空间至多为：
 
@@ -334,9 +334,9 @@ $$\frac{S}{\texttt{sizeof(PageInfo)}} \times \texttt{PGSIZE} < \text{2 GB}$$
 应当指出，多数情况下只有很少一部分二级页表存在于内存中。
 为了减小开销，可以使用大页。
 6. 如下：
-    - 通过如下的代码跳转到 `relocated()` 函数。而 `relocated()` 函数的链接地址高于 `KERNBASE`，从而使 `%eip` 高于 `KERNBASE`。
-    - 此时的页表将物理地址 0 ~ 4 MB 同时映射到虚拟地址 0 ~ 4 MB 和 `KERNBASE` ~ `KERNBASE` + 4 MB。低位的 `%eip` 会恒等映射到相应的物理地址。
-    - 因为在 `mem_init()` 之后，虚拟地址 0 ~ 4 MB 将不对应任何物理地址，因此内核必须转移到高的虚拟地址运行。
+   - 通过如下的代码跳转到 `relocated()` 函数。而 `relocated()` 函数的链接地址高于 `KERNBASE`，从而使 `%eip` 高于 `KERNBASE`。
+   - 此时的页表将物理地址 0 ~ 4 MB 同时映射到虚拟地址 0 ~ 4 MB 和 `KERNBASE` ~ `KERNBASE` + 4 MB。低位的 `%eip` 会恒等映射到相应的物理地址。
+   - 因为在 `mem_init()` 之后，虚拟地址 0 ~ 4 MB 将不对应任何物理地址，因此内核必须转移到高的虚拟地址运行。
 ```asm
 mov $relocated, %eax
 jmp *%eax

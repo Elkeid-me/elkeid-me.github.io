@@ -98,10 +98,10 @@ $$ x \leqslant y \Leftrightarrow x < y + 1, \qquad x, y \in \mathbb{Z} $$
     ```
     8 ops.
 2. 注意到 $\forall x \in \mathbb{Z}$，有 $x$ 与 $\lfloor \frac{x}{2} \rfloor$ 同号. 所以只要找到一种方法，计算出 $\lfloor \frac{x - (y + 1)}{2} \rfloor$ 即可.
-    注意到 $x + y = (x \oplus y) + 2(x \& y)$（半加器的原理），从而
-    $$ \frac{x + y}{2} = \frac{x \oplus y}{2} + (x \& y) $$
+    注意到 $x + y = (x \oplus y) + 2(x \mathrel{\&} y)$（半加器的原理），从而
+    $$ \frac{x + y}{2} = \frac{x \oplus y}{2} + (x \mathrel{\&} y) $$
     也即：
-    $$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \& y) = [(x \oplus y) >> 1] + (x \& y) $$
+    $$ \left\lfloor \frac{x + y}{2} \right\rfloor = \left\lfloor \frac{x \oplus y}{2} \right\rfloor + (x \mathrel{\&} y) = [(x \oplus y) >> 1] + (x \mathrel{\&} y) $$
     所以：
     ```c
     int isLessOrEqual(int x, int y)
