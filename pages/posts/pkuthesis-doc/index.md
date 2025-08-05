@@ -171,9 +171,9 @@ urna turpis, auctor eget metus vel, rhoncus vehicula.
 
 > 为什么叫 `hqtblr`？因为作者在对着论文哈气。
 
-`pkuthesis` 有对 `markdown` 的实验性支持，但我们不对其功能的完整性和正确性做任何保证。这是由 `\AddToHook{package/markdown/after}` 块实现的。
+`pkuthesis` 有对 `markdown` 的实验性支持，但我们不对其功能的完整性和正确性做任何保证。
 
-`pkuthesis` 在用户载入 `hyperref` 后会自动设置 PDF 元数据中的标题、作者和关键词。这是由 `\AddToHook{package/hyperref/after}` 块实现的。如果这导致您的论文无法编译，可以删除。
+`pkuthesis` 在用户载入 `hyperref` 后会自动设置 PDF 元数据中的标题、作者和关键词。如果这导致您的论文无法编译，可以删除。
 
 `pkuthesis` 假定用户使用 `biblatex` 包（且以 `biber` 为后端）生成参考文献表。我们不对使用 BibTeX 时功能的完整性和正确性做任何保证。
 
