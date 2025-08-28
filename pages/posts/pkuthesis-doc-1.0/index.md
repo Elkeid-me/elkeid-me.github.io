@@ -6,7 +6,11 @@ categories: 排版
 tags:
   - TeX
   - LaTeX
+  - pkuthesis
+hide: true
 ---
+
+本文为 1.x 版本文档。关于 1.0.0 版本之前的 `pkuthesis` 文档，请见 [LaTeX 模板文档](/posts/pkuthesis-doc-pre-1.0)。
 
 ## 特性
 
@@ -18,7 +22,7 @@ tags:
 
 ## 环境要求
 
-请使用 UTF-8 编码撰写文档。TeX Studio 用户请注意这一点。
+请使用 UTF-8 编码撰写文档，TeX Studio 用户请注意这一点。
 
 `pkuthesis` 已在以下在线环境测试：
 
@@ -62,7 +66,7 @@ tags:
 
 ### 目录结构
 
-从 [Release](https://github.com/Elkeid-me/thesis-template/releases) 下载最新版本。截至本文撰稿时，最新版本是 1.0.0。
+从 [Release](https://github.com/Elkeid-me/pkuthesis/releases) 下载最新版本。截至本文撰稿时，最新版本是 1.1.0。
 
 下载，并解压（或上传 `.zip` 至 Overleaf）后，应当包含如下文件（夹）：
 
@@ -238,7 +242,7 @@ dvipdfmx thesis
 
 ## 功能建议或报告错误
 
-首选在 [Issues · Elkeid-me/thesis-template](https://github.com/Elkeid-me/thesis-template/issues) 打开新的议题。如果您有作者的 QQ/微信，也可以直接联系作者。
+首选在 [Issues · Elkeid-me/pkuthesis](https://github.com/Elkeid-me/pkuthesis/issues) 打开新的议题。如果您有作者的 QQ/微信，也可以直接联系作者。
 
 ## 声明
 
@@ -261,6 +265,7 @@ dvipdfmx thesis
   1. 升级思源黑体到 2.005；
   2. 修改封面标题的间距；
   3. 导师评价现以 `\mentorComments` 定义，而不是 `\turtorComments`。显然，这是作者在 1.0.0 版本中的疏漏；
+
      原有的 `\turtorComments` 仍然保留。
   4. 更改字体配置。
 - 1.0.0
@@ -321,5 +326,3 @@ dvipdfmx thesis
   2. `\section` 的 `break` 改为 `\clearpage`。
 - 0.0.0
   1. 初始版本。
-
-关于 1.0.0 版本之前的 `pkuthesis` 文档，请见 [LaTeX 模板文档](/posts/pkuthesis-doc-pre-1.0)

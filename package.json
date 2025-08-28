@@ -18,12 +18,9 @@
     "valaxy-theme-yun": "~0.25.11"
   },
   "devDependencies": {
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   },
   "pnpm": {
-    "ignoredBuiltDependencies": [
-      "esbuild"
-    ],
     "onlyBuiltDependencies": [
       "@parcel/watcher",
       "esbuild"

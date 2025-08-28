@@ -45,6 +45,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/os-lab-4/': RouteRecordInfo<'/posts/os-lab-4/', '/posts/os-lab-4', Record<never, never>, Record<never, never>>,
     '/posts/os-lab-5/': RouteRecordInfo<'/posts/os-lab-5/', '/posts/os-lab-5', Record<never, never>, Record<never, never>>,
     '/posts/pkuthesis-doc/': RouteRecordInfo<'/posts/pkuthesis-doc/', '/posts/pkuthesis-doc', Record<never, never>, Record<never, never>>,
+    '/posts/pkuthesis-doc-1.0/': RouteRecordInfo<'/posts/pkuthesis-doc-1.0/', '/posts/pkuthesis-doc-1/0', Record<never, never>, Record<never, never>>,
     '/posts/pkuthesis-doc-pre-1.0/': RouteRecordInfo<'/posts/pkuthesis-doc-pre-1.0/', '/posts/pkuthesis-doc-pre-1/0', Record<never, never>, Record<never, never>>,
     '/posts/proxy-lab/': RouteRecordInfo<'/posts/proxy-lab/', '/posts/proxy-lab', Record<never, never>, Record<never, never>>,
     '/posts/risk/': RouteRecordInfo<'/posts/risk/', '/posts/risk', Record<never, never>, Record<never, never>>,

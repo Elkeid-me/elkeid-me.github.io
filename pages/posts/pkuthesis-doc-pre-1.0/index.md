@@ -6,6 +6,7 @@ categories: 排版
 tags:
   - TeX
   - LaTeX
+  - pkuthesis
 hide: true
 ---
 
@@ -61,7 +62,7 @@ lualatex thesis
 
 ## 安装
 
-从 [Release](https://github.com/Elkeid-me/thesis-template/releases) 下载最新版本。可用的最新版本是 Pre-release 1.0.0-rc4。
+从 [Release](https://github.com/Elkeid-me/pkuthesis/releases) 下载最新版本。可用的最新版本是 Pre-release 1.0.0-rc4。
 
 > Pre-release，但确实是可用的，只是因为作者的导师迟迟不回复，导致作者不敢提交论文，所以不敢发 1.0.0 正式版（悲）。
 
