@@ -64,4 +64,208 @@ declare module 'vue-router/auto-routes' {
     '/posts/why-sys-exofork-inlined/': RouteRecordInfo<'/posts/why-sys-exofork-inlined/', '/posts/why-sys-exofork-inlined', Record<never, never>, Record<never, never>>,
     '/tags/': RouteRecordInfo<'/tags/', '/tags', Record<never, never>, Record<never, never>>,
   }
+
+  /**
+   * Route file to route info map by unplugin-vue-router.
+   * Used by the volar plugin to automatically type useRoute()
+   *
+   * Each key is a file path relative to the project root with 2 properties:
+   * - routes: union of route names of the possible routes when in this page (passed to useRoute<...>())
+   * - views: names of nested views (can be passed to <RouterView name="...">)
+   *
+   * @internal
+   */
+  export interface _RouteFileInfoMap {
+    'node_modules/.pnpm/valaxy-theme-yun@0.26.6_vue@3.5.22_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/index.vue': {
+      routes: '/'
+      views: never
+    }
+    'node_modules/.pnpm/valaxy@0.26.6_@babel+parser_d3edb4b9bace978d33bd442ff95c9771/node_modules/valaxy/client/pages/[...path].vue': {
+      routes: '/[...path]'
+      views: never
+    }
+    'pages/404.md': {
+      routes: '/404'
+      views: never
+    }
+    'pages/about/index.md': {
+      routes: '/about/'
+      views: never
+    }
+    'pages/archives/index.md': {
+      routes: '/archives/'
+      views: never
+    }
+    'pages/categories/index.md': {
+      routes: '/categories/'
+      views: never
+    }
+    'pages/links/index.md': {
+      routes: '/links/'
+      views: never
+    }
+    'node_modules/.pnpm/valaxy-theme-yun@0.26.6_vue@3.5.22_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
+      routes: '/page/[page]'
+      views: never
+    }
+    'node_modules/.pnpm/valaxy-theme-yun@0.26.6_vue@3.5.22_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/posts/index.vue': {
+      routes: '/posts/'
+      views: never
+    }
+    'pages/posts/24-3-24/index.md': {
+      routes: '/posts/24-3-24/'
+      views: never
+    }
+    'pages/posts/clean-the-system/index.md': {
+      routes: '/posts/clean-the-system/'
+      views: never
+    }
+    'pages/posts/comments-on-texmacs-and-mogan-editor/index.md': {
+      routes: '/posts/comments-on-texmacs-and-mogan-editor/'
+      views: never
+    }
+    'pages/posts/compile-llvm/index.md': {
+      routes: '/posts/compile-llvm/'
+      views: never
+    }
+    'pages/posts/cxx-config/index.md': {
+      routes: '/posts/cxx-config/'
+      views: never
+    }
+    'pages/posts/data-lab/index.md': {
+      routes: '/posts/data-lab/'
+      views: never
+    }
+    'pages/posts/do-not-recommend-edge-in-2024/index.md': {
+      routes: '/posts/do-not-recommend-edge-in-2024/'
+      views: never
+    }
+    'pages/posts/du-le-si/index.md': {
+      routes: '/posts/du-le-si/'
+      views: never
+    }
+    'pages/posts/huawei-smartphone-optimization/index.md': {
+      routes: '/posts/huawei-smartphone-optimization/'
+      views: never
+    }
+    'pages/posts/latex-config/index.md': {
+      routes: '/posts/latex-config/'
+      views: never
+    }
+    'pages/posts/lumia-650-review/index.md': {
+      routes: '/posts/lumia-650-review/'
+      views: never
+    }
+    'pages/posts/malloc-lab/index.md': {
+      routes: '/posts/malloc-lab/'
+      views: never
+    }
+    'pages/posts/os-lab-1/index.md': {
+      routes: '/posts/os-lab-1/'
+      views: never
+    }
+    'pages/posts/os-lab-2/index.md': {
+      routes: '/posts/os-lab-2/'
+      views: never
+    }
+    'pages/posts/os-lab-3/index.md': {
+      routes: '/posts/os-lab-3/'
+      views: never
+    }
+    'pages/posts/os-lab-4/index.md': {
+      routes: '/posts/os-lab-4/'
+      views: never
+    }
+    'pages/posts/os-lab-5/index.md': {
+      routes: '/posts/os-lab-5/'
+      views: never
+    }
+    'pages/posts/pkuthesis-doc/index.md': {
+      routes: '/posts/pkuthesis-doc/'
+      views: never
+    }
+    'pages/posts/pkuthesis-doc-1.0/index.md': {
+      routes: '/posts/pkuthesis-doc-1.0/'
+      views: never
+    }
+    'pages/posts/pkuthesis-doc-pre-1.0/index.md': {
+      routes: '/posts/pkuthesis-doc-pre-1.0/'
+      views: never
+    }
+    'pages/posts/proxy-lab/index.md': {
+      routes: '/posts/proxy-lab/'
+      views: never
+    }
+    'pages/posts/risk/index.md': {
+      routes: '/posts/risk/'
+      views: never
+    }
+    'pages/posts/setup-a-forge-server/index.md': {
+      routes: '/posts/setup-a-forge-server/'
+      views: never
+    }
+    'pages/posts/setup-a-paper-server/index.md': {
+      routes: '/posts/setup-a-paper-server/'
+      views: never
+    }
+    'pages/posts/setup-jos-lab-environment/index.md': {
+      routes: '/posts/setup-jos-lab-environment/'
+      views: never
+    }
+    'pages/posts/setup-static-blog/index.md': {
+      routes: '/posts/setup-static-blog/'
+      views: never
+    }
+    'pages/posts/stainless-rocket/index.md': {
+      routes: '/posts/stainless-rocket/'
+      views: never
+    }
+    'pages/posts/thunder/index.md': {
+      routes: '/posts/thunder/'
+      views: never
+    }
+    'pages/posts/thunder-2/index.md': {
+      routes: '/posts/thunder-2/'
+      views: never
+    }
+    'pages/posts/todo/index.md': {
+      routes: '/posts/todo/'
+      views: never
+    }
+    'pages/posts/typesetting/index.md': {
+      routes: '/posts/typesetting/'
+      views: never
+    }
+    'pages/posts/visual-novels/index.md': {
+      routes: '/posts/visual-novels/'
+      views: never
+    }
+    'pages/posts/waydroid-on-wsl2/index.md': {
+      routes: '/posts/waydroid-on-wsl2/'
+      views: never
+    }
+    'pages/posts/why-mp-maun-indirect-call/index.md': {
+      routes: '/posts/why-mp-maun-indirect-call/'
+      views: never
+    }
+    'pages/posts/why-sys-exofork-inlined/index.md': {
+      routes: '/posts/why-sys-exofork-inlined/'
+      views: never
+    }
+    'pages/tags/index.md': {
+      routes: '/tags/'
+      views: never
+    }
+  }
+
+  /**
+   * Get a union of possible route names in a certain route component file.
+   * Used by the volar plugin to automatically type useRoute()
+   *
+   * @internal
+   */
+  export type _RouteNamesForFilePath<FilePath extends string> =
+    _RouteFileInfoMap extends Record<FilePath, infer Info>
+      ? Info['routes']
+      : keyof RouteNamedMap
 }
