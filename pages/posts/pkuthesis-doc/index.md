@@ -54,7 +54,9 @@ tags:
 1. （未经测试）使用 MiKTeX 发行版，它会在缺失宏包时自动安装。
 2. （作者本人的方案）使用 TinyTeX 发行版，这是一个精简的 TeX Live，缺失宏包时需要手动安装。您可以使用以下命令安装所需的最少宏包：
 
-TODO:
+```bash
+tlmgr install ctex chinese-jfm fancyhdr footmisc bigfoot caption enumitem tabularray tocloft biblatex biblatex-gb7714-2015 xstring biber
+```
 
 #### TeX 引擎
 
