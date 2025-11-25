@@ -23,4 +23,4 @@ random: true
 
 <YunLinks :links="frontmatter.links" :random="frontmatter.random" />
 
-点击左侧邮件申请友联（
+点击左侧邮件申请友链（
