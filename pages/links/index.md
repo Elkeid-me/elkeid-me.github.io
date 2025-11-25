@@ -13,6 +13,11 @@ links:
     avatar: https://avatars.githubusercontent.com/u/97667256?v=4
     name: DeckNock
     blog: DeckNock
+  - url: https://blog.nanjihuaji.top/
+    avatar: https://blog.nanjihuaji.top/wp-content/uploads/2025/11/cirno.jpg
+    name: 南极滑稽
+    blog: 南极滑稽
+    color: '#7486E7'
 random: true
 ---
 
