@@ -10,6 +10,11 @@ tags:
 
 ## 构建
 
+0. 安装依赖。必选的有：
+   - CMake
+   - Ninja
+
+   而为了加快链接，还可以安装 [mold](https://github.com/rui314/mold)。
 1. 建议先建一个恰当的文件夹，如 `~/LLVM`
 2. 建一个 `build` 文件夹
    ```bash
@@ -27,12 +32,11 @@ tags:
 4. 构建
    ```bash
    cd build
-   cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./install -DLLVM_TARGETS_TO_BUILD="RISCV" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_USE_LINKER=gold -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu" ../llvm-project/llvm
-   ninja -j <你期望的线程数>
+   # 注意链接器使用了 mold
+   cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./install -DLLVM_TARGETS_TO_BUILD="RISCV" -DLLVM_ENABLE_PROJECTS="clang" -DLLVM_USE_LINKER=mold -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu" ../llvm-project/llvm
+   ninja -j (sys cpu | length) # 这里是 Nushell 的内置命令
    ninja install
    ```
-
-   线程数的选取自己看着办罢。在 Intel 搞大小核之后 `nproc` 不太行得通。
 5. 删掉没必要的东西
    ```bash
    cd ..
