@@ -1,6 +1,6 @@
 ---
 title: "`pkuthesis` 2.0：信科 2025 年本科生毕业论文 LaTeX 文档类"
-date: 2025-08-25 00:00:00
+date: 2026-02-18 00:00:00
 excerpt: 只是使用文档。
 categories: 排版
 tags:
@@ -64,7 +64,7 @@ tlmgr install ctex chinese-jfm fancyhdr footmisc bigfoot caption enumitem tabula
 
 ## 使用 `pkuthesis`
 
-从 [Release](https://github.com/Elkeid-me/pkuthesis/releases) 下载最新版本。截至本文撰稿时，最新版本是 2.0.0。
+从 [Release](https://github.com/Elkeid-me/pkuthesis/releases) 下载最新版本。截至本文撰稿时，最新版本是 2.0.1。
 
 ```text
 │  ctex-fontset-pkuthesis.def
@@ -388,6 +388,8 @@ lualatex thesis
 
 ## 更新日志
 
+- 2.0.1
+  1. 将思源系列字体由 Language Specific 的 SC 变体改为 Region Specific Subset 的 CN 变体。有助于解决 LuaLaTeX 下的字符编码问题，并减小打包大小。
 - 2.0.0
   1. 放弃 upLaTeX 支持，在字体配置中增加 Slanted 风格（但是 Fake slanted）；
   2. `pdfkeywords` 现在跟随用户设定的分隔符；
