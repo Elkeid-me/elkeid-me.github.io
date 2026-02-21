@@ -69,26 +69,29 @@ tags:
 
    ```bash
    mkdir build
+   cd build
    ../configure --target-list=riscv64-linux-user
    make -j $(nproc)
    ```
 
 6. 简易的测试
+
    编译一个程序测试。注意使用静态链接：
 
    ```ocaml
    (* hello.ml *)
    print_endline "Hello, World!"
    ```
+   按以下命令编译：
 
    ```bash
-   ./cross/rv64/bin/ocamlopt -ccopt -static -o hello hello.ml
+   <path to ocamlopt> -ccopt -static -o hello hello.ml
    ```
 
    使用 QEMU 运行：
 
    ```bash
-   qemu-riscv64 hello
+   <path to qemu-riscv64> hello
    # 输出：
    # Hello, World!
    ```

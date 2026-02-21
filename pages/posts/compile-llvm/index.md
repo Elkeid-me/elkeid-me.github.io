@@ -6,22 +6,23 @@ categories: 环境配置
 tags:
   - C/C++
   - LLVM
+  - RISC-V
 ---
 
 ## 构建
 
-0. 安装依赖。必选的有：
+1. 安装依赖。必选的有：
    - CMake
    - Ninja
 
    而为了加快链接，还可以安装 [mold](https://github.com/rui314/mold)。
-1. 建议先建一个恰当的文件夹，如 `~/LLVM`
-2. 建一个 `build` 文件夹
+2. 建议先建一个恰当的文件夹，如 `~/LLVM`
+3. 建一个 `build` 文件夹
    ```bash
    cd LLVM
    mkdir build
    ```
-3. 克隆 LLVM 19.1.7 源代码：
+4. 克隆 LLVM 19.1.7 源代码：
    ```bash
    git clone https://github.com/llvm/llvm-project --depth 1 --branch llvmorg-19.1.7
    ```
@@ -29,15 +30,16 @@ tags:
    ```bash
    git clone https://gitee.com/mirrors/llvm-project.git --depth 1 --branch llvmorg-19.1.7
    ```
-4. 构建
+5. 构建
    ```bash
    cd build
    # 注意链接器使用了 mold
    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./install -DLLVM_TARGETS_TO_BUILD="RISCV" -DLLVM_ENABLE_PROJECTS="clang" -DLLVM_USE_LINKER=mold -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu" ../llvm-project/llvm
-   ninja -j (sys cpu | length) # 这里是 Nushell 的内置命令
+   # `sys` 是 Nushell 的内置命令。不使用 Nushell 可以换成 `ninja -j $(nproc)`
+   ninja -j (sys cpu | length)
    ninja install
    ```
-5. 删掉没必要的东西
+6. 删掉没必要的东西
    ```bash
    cd ..
    mv build tmp
