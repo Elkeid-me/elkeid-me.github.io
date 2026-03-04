@@ -1,7 +1,7 @@
 ---
-title: 编译 LLVM
+title: 编译LLVM
 date: 2025-05-04 23:32:00
-excerpt: 毕设笔记：Linux 环境编译 LLVM 19
+excerpt: 毕设笔记：Linux环境编译LLVM 19
 categories: 环境配置
 tags:
   - C/C++
@@ -15,18 +15,18 @@ tags:
    - CMake
    - Ninja
 
-   而为了加快链接，还可以安装 [mold](https://github.com/rui314/mold)。
-2. 建议先建一个恰当的文件夹，如 `~/LLVM`
-3. 建一个 `build` 文件夹
+   而为了加快链接，还可以安装[mold](https://github.com/rui314/mold)。
+2. 建议先建一个恰当的文件夹，如`~/LLVM`
+3. 建一个`build`文件夹
    ```bash
    cd LLVM
    mkdir build
    ```
-4. 克隆 LLVM 19.1.7 源代码：
+4. 克隆LLVM 19.1.7源代码：
    ```bash
    git clone https://github.com/llvm/llvm-project --depth 1 --branch llvmorg-19.1.7
    ```
-   当然，众所周知，为了阻止我国的科技发展，美国指使 GitHub 对我们进行了无耻的网络封锁，可以考虑使用 Gitee 镜像：
+   当然，众所周知，为了阻止我国的科技发展，美国指使GitHub对我们进行了无耻的网络封锁，可以考虑使用Gitee镜像：
    ```bash
    git clone https://gitee.com/mirrors/llvm-project.git --depth 1 --branch llvmorg-19.1.7
    ```
@@ -50,7 +50,7 @@ tags:
 
 ## 环境变量配置
 
-嗯，我用的是 Nushell。在 `$nu.config-path` 加入：
+嗯，我用的是Nushell。在`$nu.config-path`加入：
 
 ```nu
 $env.LLVM_SYS_191_PREFIX = $'($env.HOME)/LLVM/build/'

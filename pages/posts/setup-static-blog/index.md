@@ -2,7 +2,7 @@
 title: 搭建静态博客
 date: 2022-12-24 19:32:00
 updated: 2024-11-24 00:15:00
-excerpt: Hexo + GitHub Pages 搭建个人博客教程。
+excerpt: Hexo + GitHub Pages搭建个人博客教程。
 tags:
   - Hexo
   - GitHub
@@ -11,25 +11,25 @@ categories: 杂项
 
 ## 前言
 
-静态博客是静态网站~~废话~~，是将作者的博文编译到 HTML、JS、CSS 静态文件。用户通过浏览器访问托管服务器，直接获得已编译的静态资源。
+静态博客是静态网站~~废话~~，是将作者的博文编译到HTML、JS、CSS静态文件。用户通过浏览器访问托管服务器，直接获得已编译的静态资源。
 
 相比于带有后端的博客，静态博客最大的优点是可以做到免费[^1]。
 
 你需要这些东西：
 
-- 一个托管平台。如 [GitHub Pages](https://pages.github.com/)、[Gitee Pages](https://gitee.com/help/articles/4136)。当然，大佬可以选择自己租服务器。
+- 一个托管平台。如[GitHub Pages](https://pages.github.com/)。当然，大佬可以选择自己租服务器。
 
-- 一个静态博客框架，用来把你的博文编译到 HTML、JS、CSS。如 Hexo、Hugo 或 Jekyll。大佬也可以手搓 HTML。
+- 一个静态博客框架，用来把你的博文编译到HTML、JS、CSS。如Hexo、Hugo或Jekyll。大佬也可以手搓HTML。
 
-- 学习 Markdown。目前所有的静态博客框架都支持 Markdown 语法，并做了不同程度的扩展。当然，这些框架也支持其他的标记语言。
+- 学习Markdown。目前所有的静态博客框架都支持Markdown语法，并做了不同程度的扩展。当然，这些框架也支持其他的标记语言。
 
-本教程使用 GitHub Pages 作为托管平台，这意味着你还需要学会 [Git](https://git-scm.com/)。使用 Hexo 作为静态博客框架。
+本教程使用GitHub Pages作为托管平台，这意味着你还需要学会[Git](https://git-scm.com/)。使用Hexo作为静态博客框架。
 
 无论什么时候，请记住一句话：RTFM（Read The ~~Fucking~~ Fantastic Manual）。
 
 ## 安装Hexo
 
-Hexo 需要 [Node.js](https://nodejs.org/en/)。请首先安装 Node.js。
+Hexo需要[Node.js](https://nodejs.org/en/)。请首先安装Node.js。
 
 打开命令行窗口，输入：
 
@@ -37,7 +37,7 @@ Hexo 需要 [Node.js](https://nodejs.org/en/)。请首先安装 Node.js。
 npm install -g hexo-cli
 ```
 
-即安装 Hexo 的命令行接口。
+即安装Hexo的命令行接口。
 
 ## 博客初始化
 
@@ -49,7 +49,7 @@ hexo init
 
 完成之后，文件夹内将多出`_config.yml`等文件。
 
-这里有个坑：`hexo init` 在默认情况下，是将 GitHub 上的 [hexo-starter](https://github.com/hexojs/hexo-starter) 仓库克隆到本地[^1]。然而，由于 GitHub 对塞里斯进行了无耻的网络封锁，如果无法连接到 GitHub，Hexo 会转而 Copying data instead。你会看到类似的终端输出：
+这里有个坑：`hexo init`在默认情况下，是将GitHub上的[hexo-starter](https://github.com/hexojs/hexo-starter)仓库克隆到本地[^1]。然而，由于GitHub对塞里斯进行了无耻的网络封锁，如果无法连接到GitHub，Hexo会转而Copying data instead。你会看到类似的终端输出：
 
 ```bash
 INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git
@@ -57,11 +57,11 @@ fatal: unable to access 'https://github.com/hexojs/hexo-starter.git/': OpenSSL S
 WARN  git clone failed. Copying data instead
 ```
 
-但是，从 hexo-starter 仓库克隆，和 “Copying data”，两者得到的文件是不一样的。请尽可能保证得到的是前者。如果你得到了后者，可以手动将 hexo-starter 仓库的 package.json 文件复制到本地。
+但是，从hexo-starter仓库克隆，和 “Copying data”，两者得到的文件是不一样的。请尽可能保证得到的是前者。如果你得到了后者，可以手动将hexo-starter仓库的package.json文件复制到本地。
 
 ## 配置
 
-这里主要讲述 `_config.yml` 中的重要配置项。完整配置项参考 [Configuration | Hexo](https://hexo.io/docs/configuration.html)。
+这里主要讲述`_config.yml`中的重要配置项。完整配置项参考[Configuration | Hexo](https://hexo.io/docs/configuration.html)。
 
 | 参数        | 描述                                              |
 | ----------- | ------------------------------------------------- |
@@ -82,7 +82,7 @@ WARN  git clone failed. Copying data instead
 hexo new post <文章名>
 ```
 
-稍等片刻，即可在 `source/_post` 文件夹下看见 `<文章名>.md` 文件。可以用 VS Code 或 Typora 等软件以 Markdown 语法编辑。
+稍等片刻，即可在`source/_post`文件夹下看见`<文章名>.md`文件。可以用VS Code或Typora等软件以Markdown语法编辑。
 
 ## 预览
 
@@ -92,11 +92,11 @@ hexo new post <文章名>
 hexo s
 ```
 
-这时就可以访问 [http://localhost:4000/](http://localhost:4000/) 以预览博客。
+这时就可以访问[http://localhost:4000/](http://localhost:4000/)以预览博客。
 
-## 发布到 GitHub Pages
+## 发布到GitHub Pages
 
-假定你有一个 GitHub 账户，并且掌握基本的 Git 用法。
+假定你有一个GitHub账户，并且掌握基本的Git用法。
 
 - “One-command deployment”发布法[^2]
 
@@ -106,7 +106,7 @@ hexo s
   npm install hexo-deployer-git --save
   ```
 
-  在 `_config.yml` 的 `deploy` 项加入配置：
+  在`_config.yml`的`deploy`项加入配置：
 
   ```yaml
   deploy:
@@ -125,7 +125,7 @@ hexo s
   ```
 - 普通发布法：
 
-  在 `.github` 文件夹中新建 `workflows/pages.yml`，填入以下内容，这里假设你使用 Node.js 20。
+  在`.github`文件夹中新建`workflows/pages.yml`，填入以下内容，这里假设你使用Node.js 20。
 
   ```yaml
   name: Pages
@@ -174,14 +174,14 @@ hexo s
           uses: actions/deploy-pages@v4
   ```
 
-  push 至 GitHub 上相应仓库。在相应仓库选择 Setting->Pages->Source，切换成 Github Actions 即可。
+  push至GitHub上相应仓库。在相应仓库选择Setting->Pages->Source，切换成Github Actions即可。
 
 ## 其他配置
 
-可以配置主题、插件等。Hexo 文档及相关主题、插件文档有详细描述。
+可以配置主题、插件等。Hexo文档及相关主题、插件文档有详细描述。
 
-GitHub Pages 的连接速度是大问题。必要时可以使用 WebP、HEIC、AVIF 等现代图片格式。
+GitHub Pages的连接速度是大问题。必要时可以使用WebP、HEIC、AVIF等现代图片格式。
 
-[^1]: Oracle Cloud 可以白嫖 ARM 服务器。
+[^1]: Oracle Cloud可以白嫖ARM服务器。
 [^2]: [Commands | Hexo](https://hexo.io/docs/commands.html)
 [^3]: [GitHub Pages | Hexo](https://hexo.io/docs/github-pages#One-command-deployment)

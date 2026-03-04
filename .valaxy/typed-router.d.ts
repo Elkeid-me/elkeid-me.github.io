@@ -282,6 +282,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/text-autospace': RouteRecordInfo<
+      '/posts/text-autospace',
+      '/posts/text-autospace',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/thunder/': RouteRecordInfo<
       '/posts/thunder/',
       '/posts/thunder',
@@ -364,7 +371,7 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'node_modules/.pnpm/valaxy@0.26.13_@babel+parse_d4855280fd7189c735304a00e6e183c1/node_modules/valaxy/client/pages/[...path].vue': {
+    'node_modules/.pnpm/valaxy@0.26.13_@babel+parse_38ab84b7918bad6e1e4d3c3435688de7/node_modules/valaxy/client/pages/[...path].vue': {
       routes:
         | '/[...path]'
       views:
@@ -577,6 +584,12 @@ declare module 'vue-router/auto-routes' {
     'pages/posts/stainless-rocket/index.md': {
       routes:
         | '/posts/stainless-rocket/'
+      views:
+        | never
+    }
+    'pages/posts/text-autospace.md': {
+      routes:
+        | '/posts/text-autospace'
       views:
         | never
     }

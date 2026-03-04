@@ -1,7 +1,7 @@
 ---
 title: 操作系统实验 环境配置
 date: 2023-09-10 20:00:00
-excerpt: MIT 6.828 JOS Lab 环境配置
+excerpt: MIT 6.828 JOS Lab环境配置
 categories: JOS Lab
 tags:
   - JOS
@@ -10,7 +10,7 @@ tags:
   - 操作系统
 ---
 
-本文章描述了在 Ubuntu 22.04 上配置 JOS Lab 环境的过程。
+本文章描述了在Ubuntu 22.04上配置JOS Lab环境的过程。
 
 1. 安装必要的工具软件与库：
 
@@ -18,13 +18,13 @@ tags:
 sudo apt install build-essential gdb gcc-multilib libgmp-dev libmpfr-dev libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev
 ```
 
-2. 获取 MIT 修改的 `qemu`：
+2. 获取MIT修改的`qemu`：
 
 ```bash
 git clone https://github.com/mit-pdos/6.828-qemu.git qemu
 ```
 
-3. 把所有的 `#include <sys/types.h>` 改为 `#include <sys/sysmacros.h>`
+3. 把所有的`#include <sys/types.h>`改为`#include <sys/sysmacros.h>`
 
 4. 创建文件夹：
 

@@ -1,5 +1,5 @@
 ---
-title: 操作系统实验 4
+title: 操作系统实验4
 date: 2023-11-26 23:53:00
 excerpt: MIT 6.828 JOS Lab 4
 categories: JOS Lab
@@ -11,7 +11,7 @@ tags:
 ---
 ## Exercise 1 and 2
 ### `mmio_map_region()`
-调用 `boot_map_region()` 即可。
+调用`boot_map_region()`即可。
 ```c
 void *mmio_map_region(physaddr_t pa, size_t size)
 {
@@ -33,7 +33,7 @@ void *mmio_map_region(physaddr_t pa, size_t size)
 }
 ```
 ### `page_init`
-在 `page_init()` 的最后，对 `MPENTRY_PADDR` 做出特判，将其排除在链表外。
+在`page_init()`的最后，对`MPENTRY_PADDR`做出特判，将其排除在链表外。
 
 ```c
 void page_init(void)
@@ -75,12 +75,12 @@ void page_init(void)
 ```
 
 ### Question 1
-1. 宏 `MPBOOTPHYS` 用于计算对象在**运行期**的实际地址。
-2. `mpentry.S` 中的代码，其链接时确定的地址不在 `MPENTRY_ADDR`，但实际运行时却要加载到 `MPENTRY_ADDR` 后再执行.并且，这段代码不是位置无关代码，因此需要宏 `MPBOOTPHYS` 在编译期计算出对象的绝对地址。
-  `boot.S` 中的代码，其链接时确定的地址和实际加载运行的地址是一样的，因此不需要这个宏。
+1. 宏`MPBOOTPHYS`用于计算对象在**运行期**的实际地址。
+2. `mpentry.S`中的代码，其链接时确定的地址不在`MPENTRY_ADDR`，但实际运行时却要加载到`MPENTRY_ADDR`后再执行.并且，这段代码不是位置无关代码，因此需要宏`MPBOOTPHYS`在编译期计算出对象的绝对地址。
+  `boot.S`中的代码，其链接时确定的地址和实际加载运行的地址是一样的，因此不需要这个宏。
 ## Exercise 3 and 4
 ### `mem_init_mp()`
-简单地使用 `boot_map_region()` 分配。
+简单地使用`boot_map_region()`分配。
 ```c
 static void mem_init_mp(void)
 {
@@ -93,7 +93,7 @@ static void mem_init_mp(void)
 }
 ```
 ### `trap_init_percpu()`
-初始化当前 CPU 的 TS 以及相应的 TSS 项，最终加载对应的 TSS 选择子和 IDT。
+初始化当前CPU的TS以及相应的TSS项，最终加载对应的TSS选择子和IDT。
 ```c
 void trap_init_percpu(void)
 {
@@ -119,7 +119,7 @@ void trap_init_percpu(void)
 ```
 ## Exercise 5
 ### 代码
-1. 在 `kern/init.c` 的 `i386_init()` 中获取锁：
+1. 在`kern/init.c`的`i386_init()`中获取锁：
 ```c
 // Lab 4 multitasking initialization functions
 pic_init();
@@ -131,7 +131,7 @@ lock_kernel();
 // Starting non-boot CPUs
 boot_aps();
 ```
-2. 在 `kern/init.c` 的 `mp_main()` 中获取锁：
+2. 在`kern/init.c`的`mp_main()`中获取锁：
 ```c
 xchg(&thiscpu->cpu_status, CPU_STARTED); // tell boot_aps() we're up
 
@@ -143,7 +143,7 @@ xchg(&thiscpu->cpu_status, CPU_STARTED); // tell boot_aps() we're up
 lock_kernel();
 sched_yield();
 ```
-3. 在 `kern/trap.c` 的 `trap()` 中获取锁：
+3. 在`kern/trap.c`的`trap()`中获取锁：
 ```c
 if ((tf->tf_cs & 3) == 3)
 {
@@ -155,16 +155,16 @@ if ((tf->tf_cs & 3) == 3)
     // ......
 }
 ```
-4. 在 `kern/env.c` 的 `env_run()` 中释放锁：
+4. 在`kern/env.c`的`env_run()`中释放锁：
 ```c
 unlock_kernel();
 env_pop_tf(&e->env_tf);
 ```
 ### Question 2
-在陷入内核后，才会尝试获取内核锁。这意味着在尝试获取内核锁之前，内核栈上已经保存了上下文。如果多个 CPU 共享内核栈，由于每个 CPU 的 `%esp` 是独立的，在多个 CPU 同时陷入内核时，后陷入内核的 CPU 可能会覆盖之前保存的信息。
+在陷入内核后，才会尝试获取内核锁。这意味着在尝试获取内核锁之前，内核栈上已经保存了上下文。如果多个CPU共享内核栈，由于每个CPU的`%esp`是独立的，在多个CPU同时陷入内核时，后陷入内核的CPU可能会覆盖之前保存的信息。
 ## Exercise 6
 ### `sched_yield()`
-简单地线性搜索 `envs`。
+简单地线性搜索`envs`。
 ```c
 void sched_yield(void)
 {
@@ -206,9 +206,9 @@ void sched_yield(void)
 ```
 
 ### `kern/syscall.c/syscall()`
-为 `switch` 增加一个 `case`。代码省略。
+为`switch`增加一个`case`。代码省略。
 
-此外，对 Lab 3 做出小修改。在 Lab 3 的 `trap_dispatch()` 中，对于系统调用是这样处理的：
+此外，对Lab 3做出小修改。在Lab 3的`trap_dispatch()`中，对于系统调用是这样处理的：
 
 ```c
 case T_SYSCALL:
@@ -218,16 +218,16 @@ case T_SYSCALL:
     env_run(curenv);
 ```
 
-这样做在 Lab 3 是合法的，但在 Lab 4，由于有了 `sys_yield()`，就不太好了。因此，`env_run(curev)` 改为 `return`
+这样做在Lab 3是合法的，但在Lab 4，由于有了`sys_yield()`，就不太好了。因此，`env_run(curev)`改为`return`
 ### Question 3
 
 因为所有进程的地址空间，在内核部分都是一样的。
 
 ### Question 4
 
-因为进程没有自己的独立内核栈，因此上下文必须保存在 `struct Env` 中，以便之后恢复上下文。
+因为进程没有自己的独立内核栈，因此上下文必须保存在`struct Env`中，以便之后恢复上下文。
 
-保存上下文是在 `trap()` 函数内实现的：
+保存上下文是在`trap()`函数内实现的：
 
 ```c
 // Copy trap frame (which is currently on the stack)
@@ -240,7 +240,7 @@ tf = &curenv->env_tf;
 
 ## Exercise 7
 ### `sys_exofork()`
-按要求设置新的 `struct Env` 即可。
+按要求设置新的`struct Env`即可。
 ```c
 static envid_t sys_exofork(void)
 {
@@ -260,7 +260,7 @@ static envid_t sys_exofork(void)
 }
 ```
 ### `sys_env_set_status()`
-按要求实现。注意检查 `status`，同时 `envid2env()` 的最后一个参数传入 `1`。
+按要求实现。注意检查`status`，同时`envid2env()`的最后一个参数传入`1`。
 ```c
 static int sys_env_set_status(envid_t envid, int status)
 {
@@ -276,7 +276,7 @@ static int sys_env_set_status(envid_t envid, int status)
     return 0;
 }
 ```
-### `sys_page_alloc() 等函数`
+### `sys_page_alloc()等函数`
 首先定义两个辅助函数：
 ```c
 // 检查 va 是否小于 UTOP，且页对齐.
@@ -293,7 +293,7 @@ static int check_perm(int perm)
            (perm & (~PTE_SYSCALL)) == 0;
 }
 ```
-然后就可以写 `sys_page_alloc()` 等函数，并在 `syscall()` 中加入相应的 `case`。注意 `sys_page_alloc()` 在页插入不成功时，需要解分配刚刚分配的页。
+然后就可以写`sys_page_alloc()`等函数，并在`syscall()`中加入相应的`case`。注意`sys_page_alloc()`在页插入不成功时，需要解分配刚刚分配的页。
 ```c
 static int sys_page_alloc(envid_t envid, void *va, int perm)
 {
@@ -367,7 +367,7 @@ static int sys_page_unmap(envid_t envid, void *va)
 }
 ```
 ## Exercise 8
-按要求实现。注意 `envid2env()` 的最后一个参数传入 1。并在 `syscall()` 中加入相应的 `case`。
+按要求实现。注意`envid2env()`的最后一个参数传入1。并在`syscall()`中加入相应的`case`。
 ```c
 static int sys_env_set_pgfault_upcall(envid_t envid, void *func)
 {
@@ -394,7 +394,7 @@ static void page_fault_handler_err(struct Trapframe *tf, uint32_t fault_va)
 }
 ```
 
-给出 `page_fault_handler()` 的代码，然后解释。
+给出`page_fault_handler()`的代码，然后解释。
 ```c
 void page_fault_handler(struct Trapframe *tf)
 {
@@ -438,9 +438,9 @@ void page_fault_handler(struct Trapframe *tf)
 }
 ```
 
-这里，14 ~ 17 行检查是否设置 `env_pgfault_upcall()`，以及是否有访问权限。注意我对 `env_init()` 做了修改，使得 `struct Env` 初始化时，字段 `env_pgfault_upcall` 为 `NULL`。
+这里，14 ~ 17行检查是否设置`env_pgfault_upcall()`，以及是否有访问权限。注意我对`env_init()`做了修改，使得`struct Env`初始化时，字段`env_pgfault_upcall`为`NULL`。
 
-22 ~ 26 行设置并检查新的栈指针。这里有个小插曲：一开始，在这里我写的是：
+22 ~ 26行设置并检查新的栈指针。这里有个小插曲：一开始，在这里我写的是：
 
 ```c
 user_mem_assert(curenv, (void *)(UXSTACKTOP - PGSIZE), PGSIZE,
@@ -454,11 +454,11 @@ if (new_esp < UXSTACKTOP - PGSIZE)
     page_fault_handler_err(tf, fault_va);
 ```
 
-即在一开始就检查是否对 `UXSTACKTOP - PGSIZE` 处的页是否有访问权限。但这导致我一直无法通过 faultnostack 测试点。仔细阅读评分脚本，可知 faultnostack 测试点应当输出：
+即在一开始就检查是否对`UXSTACKTOP - PGSIZE`处的页是否有访问权限。但这导致我一直无法通过faultnostack测试点。仔细阅读评分脚本，可知faultnostack测试点应当输出：
 ```text
 user_mem_check assertion failure for va eebfff..
 ```
-但由于我一开始就检查 `UXSTACKTOP - PGSIZE`，这会输出：
+但由于我一开始就检查`UXSTACKTOP - PGSIZE`，这会输出：
 ```text
 user_mem_check assertion failure for va eebff0..
 ```
@@ -473,10 +473,10 @@ user_mem_check assertion failure for va eebff0..
 user_mem_assert(curenv, (void *)(new_esp), sizeof(struct UTrapframe),
                 PTE_U | PTE_W);
 ```
-并恰好可以通过 faultnostack 测试点.
+并恰好可以通过faultnostack测试点.
 ## Exercise 10 and 11
 ### `_pgfault_upcall()`
-先将返回地址保存到要返回的栈，然后恢复通用寄存器，切换栈指针，最后 `ret`。
+先将返回地址保存到要返回的栈，然后恢复通用寄存器，切换栈指针，最后`ret`。
 ```asm
 .text
 .globl _pgfault_upcall
@@ -513,7 +513,7 @@ _pgfault_upcall:
     ret
 ```
 ### `set_pgfault_handler()`
-在 `_pgfault_handler` 为 `NULL` 时，分配用户异常栈空间，并设置 upcall 函数即可。
+在`_pgfault_handler`为`NULL`时，分配用户异常栈空间，并设置upcall函数即可。
 ```c
 void set_pgfault_handler(void (*handler)(struct UTrapframe *utf))
 {
@@ -538,9 +538,9 @@ void set_pgfault_handler(void (*handler)(struct UTrapframe *utf))
 ```
 ## Exercise 12
 ### `fork()`
-首先，设置恰当的缺页处理函数，`exofork()` 一个新的进程，使用 `duppage()` 复制 `UTOP` 以下的映射（注意千万不要复制用户异常栈）。
+首先，设置恰当的缺页处理函数，`exofork()`一个新的进程，使用`duppage()`复制`UTOP`以下的映射（注意千万不要复制用户异常栈）。
 
-然后，在父进程中，为子进程分配新的异常栈，设置 upcall，最终将子进程设为 `ENV_RUNNABLE`。
+然后，在父进程中，为子进程分配新的异常栈，设置upcall，最终将子进程设为`ENV_RUNNABLE`。
 ```c
 envid_t fork(void)
 {
@@ -587,7 +587,7 @@ envid_t fork(void)
 }
 ```
 ### `duppage()`
-按要求复制页面映射。需要注意 11 和 14 两行代码的顺序，不能颠倒。
+按要求复制页面映射。需要注意11和14两行代码的顺序，不能颠倒。
 ```c
 static int duppage(envid_t envid, unsigned pn)
 {
@@ -617,7 +617,7 @@ static int duppage(envid_t envid, unsigned pn)
 }
 ```
 ### `pgfault()`
-按要求实现，注意对页的检查。第 11 行必须先检查 `uvpd[PDX(addr)] & PTE_P`。
+按要求实现，注意对页的检查。第11行必须先检查`uvpd[PDX(addr)] & PTE_P`。
 ```c
 static void pgfault(struct UTrapframe *utf)
 {
@@ -650,7 +650,7 @@ static void pgfault(struct UTrapframe *utf)
 }
 ```
 ## Exercise 13 and 14
-分别在 `trapentry.S` 和 `trap.c` 中加入：
+分别在`trapentry.S`和`trap.c`中加入：
 ```c
 TRAPHANDLER_NOEC(irq_timer_h, IRQ_OFFSET + IRQ_TIMER)
 TRAPHANDLER_NOEC(irq_kbd_h, IRQ_OFFSET + IRQ_KBD)
@@ -668,14 +668,14 @@ DefAndSetGate(idt[IRQ_OFFSET + IRQ_IDE], 0, GD_KT, irq_ide_h, 3);
 DefAndSetGate(idt[IRQ_OFFSET + IRQ_ERROR], 0, GD_KT, irq_error_h, 3);
 ```
 
-在 `env_alloc()` 中加入：
+在`env_alloc()`中加入：
 ```c
 // Enable interrupts while in user mode.
 // LAB 4: Your code here.
 e->env_tf.tf_eflags |= FL_IF;
 ```
 
-并在 `trap_dispatch()` 中的 `switch` 加入一个 `case`：
+并在`trap_dispatch()`中的`switch`加入一个`case`：
 ```c
 case IRQ_OFFSET + IRQ_TIMER:
     lapic_eoi();
@@ -684,7 +684,7 @@ case IRQ_OFFSET + IRQ_TIMER:
 ```
 
 ## Exercise 15
-### `sys_ipc_try_send()` 与 `sys_ipc_recv()`
+### `sys_ipc_try_send()`与`sys_ipc_recv()`
 需要注意其中的各种检查。
 
 ```c
@@ -743,9 +743,9 @@ static int sys_ipc_recv(void *dstva)
 }
 ```
 
-### `ipc_send()` 与 `ipc_send()`
+### `ipc_send()`与`ipc_send()`
 
-在这两个函数中，如果 `pg` 为 `NULL`，则会向对应的系统调用传入 `UTOP`。
+在这两个函数中，如果`pg`为`NULL`，则会向对应的系统调用传入`UTOP`。
 
 ```c
 void ipc_send(envid_t to_env, uint32_t val, void *pg, int perm)
@@ -787,16 +787,16 @@ int32_t ipc_recv(envid_t *from_env_store, void *pg, int *perm_store)
 }
 ```
 ## Challenge 3
-Intel 手册 *Intel® 64 and IA-32 Architectures Software Developer's Manual Volume 2A* 对 `FXSAVE` 指令指出：
+Intel手册*Intel® 64 and IA-32 Architectures Software Developer's Manual Volume 2A*对`FXSAVE`指令指出：
 
 > *Saves the current state of the x87 FPU, MMX technology, XMM, and MXCSR registers to a 512-byte memory location specified in the destination operand.*
 > *The destination operand contains the first byte of the memory image, and it must be aligned on a 16-byte boundary.*
 
-对 `FXRSTOR` 指令指出：
+对`FXRSTOR`指令指出：
 
 > *Reloads the x87 FPU, MMX technology, XMM, and MXCSR registers from the 512-byte memory image specified in the source operand. This data should have been written to memory previously using the FXSAVE instruction, and in the same format as required by the operating modes.*
 
-即 `FXSAVE` 和 `FXRSTOR` 需要 512 字节大小，且 16 字节对齐的内存空间来保存和恢复浮点状态。我选择在 `struct Env` 中留出 512 字节空间（且 16 字节对齐），用来保存浮点状态。即，原来的 `struct Env` 是这样的：
+即`FXSAVE`和`FXRSTOR`需要512字节大小，且16字节对齐的内存空间来保存和恢复浮点状态。我选择在`struct Env`中留出512字节空间（且16字节对齐），用来保存浮点状态。即，原来的`struct Env`是这样的：
 
 ```c
 struct Env
@@ -818,9 +818,9 @@ struct Env
 } __attribute__((aligned(16)));
 ```
 
-那么，在上下文切换的时候，怎样保存/恢复浮点状态呢？注意到 JOS 内核并不会使用浮点寄存器。
+那么，在上下文切换的时候，怎样保存/恢复浮点状态呢？注意到JOS内核并不会使用浮点寄存器。
 
-在 `trap()` 中加入：
+在`trap()`中加入：
 ```c
 if ((tf->tf_cs & 3) == 3)
 {
@@ -837,7 +837,7 @@ if ((tf->tf_cs & 3) == 3)
 }
 ```
 
-在 `env_run()` 中加入：
+在`env_run()`中加入：
 ```c
 void env_run(struct Env *e)
 {
@@ -851,7 +851,7 @@ void env_run(struct Env *e)
 }
 ```
 
-以上即 Challenge 3 的全部代码。下面修改 `user_yield` 程序进行验证。
+以上即Challenge 3的全部代码。下面修改`user_yield`程序进行验证。
 
 ```c
 #include <inc/lib.h>
@@ -876,11 +876,11 @@ void umain(int argc, char **argv)
 }
 ```
 
-在修改的 `user_yield` 中，7、8 两行将 `thisenv->env_id` 放入 MMX 指令集定义的 `%mm0` 寄存器，第 14 行在每次 yield 返回后，将 `%mm0` 寄存器的值移入 `tmp2`。
+在修改的`user_yield`中，7、8两行将`thisenv->env_id`放入MMX指令集定义的`%mm0`寄存器，第14行在每次yield返回后，将`%mm0`寄存器的值移入`tmp2`。
 
-第 15、16 行打印相关信息，包括打印 `tmp2`。而第 17 行故意破坏 `tmp2`。
+第15、16行打印相关信息，包括打印`tmp2`。而第17行故意破坏`tmp2`。
 
-运行 `make qemu-nox`，结果如下：
+运行`make qemu-nox`，结果如下：
 ```text
 SMP: CPU 0 found 1 CPU(s)
 enabled interrupts: 1 2
@@ -917,9 +917,9 @@ All done in environment 00001002.
 No runnable environments in the system!
 ```
 
-可以看到 `env_id` 与 `tmp2` 的对应关系。
+可以看到`env_id`与`tmp2`的对应关系。
 
-而如果**删去** `FXSAVE` 与 `FXRSTOR` 指令对应的代码，将会看见如下的输出，`env_id` 与 `tmp2` 之间毫无关系。
+而如果**删去**`FXSAVE`与`FXRSTOR`指令对应的代码，将会看见如下的输出，`env_id`与`tmp2`之间毫无关系。
 
 ```text
 SMP: CPU 0 found 1 CPU(s)
@@ -956,4 +956,4 @@ All done in environment 00001002.
 [00001002] free env 00001002
 No runnable environments in the system!
 ```
-可见 `%mm0` 确实是由 `FXSAVE` 与 `FXRSTOR` 保存和恢复的，即我对 Challenge 3 的解答是正确的。
+可见`%mm0`确实是由`FXSAVE`与`FXRSTOR`保存和恢复的，即我对Challenge 3的解答是正确的。

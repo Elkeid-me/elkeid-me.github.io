@@ -1,5 +1,5 @@
 ---
-title: 操作系统实验 3
+title: 操作系统实验3
 date: 2023-11-05 23:50:00
 excerpt: MIT 6.828 JOS Lab 3
 categories: JOS Lab
@@ -10,9 +10,9 @@ tags:
   - 操作系统
 ---
 
-选择了 Challenge 2（JOS monitor 的断点命令） 和 Challenge 3（快速系统调用）。
+选择了Challenge 2（JOS monitor的断点命令）和Challenge 3（快速系统调用）。
 
-报告中，对于寄存器的名称混用了 Intel 和 AT&T 的汇编格式，如 `EAX` 和 `%eax`。
+报告中，对于寄存器的名称混用了Intel和AT&T的汇编格式，如`EAX`和`%eax`。
 
 ## Exercise 1
 ### `mem_init()`
@@ -50,12 +50,12 @@ void env_init(void)
     env_init_percpu();
 }
 ```
-注意第 4 行 `i` 的类型必须为 `int`，如果要设置为 `size_t`，需要改为：
+注意第4行`i`的类型必须为`int`，如果要设置为`size_t`，需要改为：
 ```c
 for (size_t i = NENV - 1; i-- > 0;)
 ```
 ### `env_setup_vm()`
-复制 `UTOP` 以上的内核页表:
+复制`UTOP`以上的内核页表:
 ```c
 static int env_setup_vm(struct Env *e)
 {
@@ -81,9 +81,9 @@ static int env_setup_vm(struct Env *e)
 ```
 ### `load_icode()`
 需要注意三点：
-1. 为了内存复制的方便，加载 ELF 时可以使用用户态页表。
-2. 对 `p_memsz` 为 0 的情况特判。
-3. 修改 `e->env_tf.tf_eip` 为入口函数的地址。
+1. 为了内存复制的方便，加载ELF时可以使用用户态页表。
+2. 对`p_memsz`为0的情况特判。
+3. 修改`e->env_tf.tf_eip`为入口函数的地址。
 
 ```c
 static void load_icode(struct Env *e, uint8_t *binary)
@@ -126,7 +126,7 @@ static void load_icode(struct Env *e, uint8_t *binary)
 }
 ```
 ### `region_alloc()`
-这个函数中，要注意两个 `assert`。这可以保证申请的内存空间在 `[0, UTOP)` 之内。
+这个函数中，要注意两个`assert`。这可以保证申请的内存空间在`[0, UTOP)`之内。
 ```c
 static void region_alloc(struct Env *e, void *va, size_t len)
 {
@@ -149,7 +149,7 @@ static void region_alloc(struct Env *e, void *va, size_t len)
 }
 ```
 ### `env_create()`
-简单地分配一个新的 `struct Env`，然后设置相关字段即可。
+简单地分配一个新的`struct Env`，然后设置相关字段即可。
 ```c
 void env_create(uint8_t *binary, enum EnvType type)
 {
@@ -164,7 +164,7 @@ void env_create(uint8_t *binary, enum EnvType type)
 }
 ```
 ### `env_run()`
-按要求设置 `struct Env` 的字段即可。考虑到未来的 Lab 会涉及其他 `env_status`，对 `env_status` 的判断使用 `switch` 而不是 `if`。
+按要求设置`struct Env`的字段即可。考虑到未来的Lab会涉及其他`env_status`，对`env_status`的判断使用`switch`而不是`if`。
 ```c
 void env_run(struct Env *e)
 {
@@ -214,7 +214,7 @@ TRAPHANDLER_NOEC(Machine_Check_h, T_MCHK)
 TRAPHANDLER_NOEC(SIMD_Floating_Point_Exception_h, T_SIMDERR)
 ```
 
-以及 `_alltraps:`，补充 `struct Trapframe` 的信息，修改 `DS` 与 `ES`，压栈 `ESP` 为 `trap()` 传参并最终调用 `trap()`。
+以及`_alltraps:`，补充`struct Trapframe`的信息，修改`DS`与`ES`，压栈`ESP`为`trap()`传参并最终调用`trap()`。
 ```asm
 _alltraps:
     pushw   $0
@@ -235,7 +235,7 @@ _alltraps:
     call    trap
 ```
 ### `trap_init()`
-构建 IDT：
+构建IDT：
 ```c
 #define DefAndSetGate(gate, istrap, sel, func, dpl) \
 void func();                                        \
@@ -269,18 +269,18 @@ DefAndSetGate(idt[T_SIMDERR], 0, GD_KT, SIMD_Floating_Point_Exception_h, 0);
 
 为简单起见，所有的门描述符全部定义为中断门。
 
-需要注意，`#BP` 中断门的 `DPL` 应当设置为 3。`#OF` 和 `#BR` 也是如此。
+需要注意，`#BP`中断门的`DPL`应当设置为3。`#OF`和`#BR`也是如此。
 
 ### Question 1
 有两点。
-1. 有的中断/异常会压栈错误码，而其他的中断/异常不会；为每个中断/异常提供独立的处理程序，在不压栈错误码时压入 0，可以为 `trap()` 提供一致的 `struct Trapframe` 结构。
+1. 有的中断/异常会压栈错误码，而其他的中断/异常不会；为每个中断/异常提供独立的处理程序，在不压栈错误码时压入0，可以为`trap()`提供一致的`struct Trapframe`结构。
 
-2. 为每个中断/异常提供独立的处理程序，可以压入对应的 `trapno`，以便 `trap_dispatch()` 识别不同的中断/异常。
+2. 为每个中断/异常提供独立的处理程序，可以压入对应的`trapno`，以便`trap_dispatch()`识别不同的中断/异常。
 
 ### Question 2
-`#PF` 中断门的 `dpl` 应当设置为 0。
+`#PF`中断门的`dpl`应当设置为0。
 
-Intel 手册 *Intel® 64 and IA-32 Architectures Software Developer's ManualVolume 2A* 之 3-520 页对 `INT` 指令指出：
+Intel手册*Intel® 64 and IA-32 Architectures Software Developer's ManualVolume 2A*之3-520页对`INT`指令指出：
 ```text
 PROTECTED-MODE:
     (* 省略伪代码 *)
@@ -295,20 +295,20 @@ PROTECTED-MODE:
     (* 省略伪代码 *)
 END;
 ```
-Intel 手册 *Intel® 64 and IA-32 Architectures Software Developer's Manual Volume 3A* 之 6-41 页对 `#GP` 指出：
+Intel手册*Intel® 64 and IA-32 Architectures Software Developer's Manual Volume 3A*之6-41页对`#GP`指出：
 > *The following conditions cause general-protection exceptions to be generated:*
 > ... ...
 > - *Executing the `INT` n instruction when the `CPL` is greater than the `DPL` of the referenced interrupt, trap, or task gate.*
 >
 > ... ...
 
-user/softint 中试图以 `int $14` 触发 `#PF`，但由于 `#PF` 中断门的 `DPL` 小于当前 `CS` 寄存器中的 `CPL`，最终触发 `#GP`。
+user/softint中试图以`int $14`触发`#PF`，但由于`#PF`中断门的`DPL`小于当前`CS`寄存器中的`CPL`，最终触发`#GP`。
 
-如果内核允许用户程序以 `int $14` 触发 `#PF`，那么内核将无法区分哪些是真的缺页，哪些是用户程序触发的 `#PF`。
+如果内核允许用户程序以`int $14`触发`#PF`，那么内核将无法区分哪些是真的缺页，哪些是用户程序触发的`#PF`。
 
 ## Exercise 5 and 6
 ### `trap_dispatch()`
-增加一个 `switch`，识别 `tf_trapno`：
+增加一个`switch`，识别`tf_trapno`：
 ```c
 switch (tf->tf_trapno)
 {
@@ -321,12 +321,12 @@ case T_BRKPT:
 }
 ```
 ### Question 3
-如 Question 2 所言，需要将 `#BP` 中断门的 `DPL` 设为 3，否则用户程序以 `int3` 指令将触发 `#GP`。
+如Question 2所言，需要将`#BP`中断门的`DPL`设为3，否则用户程序以`int3`指令将触发`#GP`。
 ### Question 4
 意义在于阻止用户程序随意触发中断/异常，但又留有接口，使用户程序受控地使用内核功能。
 ## Exercise 7
-### kern/trapentry.S 和 `trap_init()`
-在相应的源文件中加上这两行，构建处理程序和 IDT 条目。
+### kern/trapentry.S和`trap_init()`
+在相应的源文件中加上这两行，构建处理程序和IDT条目。
 ```asm
 TRAPHANDLER_NOEC(System_Call_h, T_SYSCALL)
 ```
@@ -336,7 +336,7 @@ DefAndSetGate(idt[T_SYSCALL], 0, GD_KT, System_Call_h, 3);
 ```
 
 ### `trap_dispatch()`
-增加一个 `case`，用于处理系统调用：
+增加一个`case`，用于处理系统调用：
 
 ```c
 case T_SYSCALL:
@@ -347,7 +347,7 @@ case T_SYSCALL:
 ```
 
 ### kern/syscall.c: `syscall()`
-增加一个 `switch`，用于识别 `syscallno`。对于未知的系统调用，返回 `-E_INVAL`。
+增加一个`switch`，用于识别`syscallno`。对于未知的系统调用，返回`-E_INVAL`。
 ```c
 int32_t syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3,
                 uint32_t a4, uint32_t a5)
@@ -378,14 +378,14 @@ thisenv = &envs[ENVX(sys_getenvid())];
 
 ## Exercise 9
 ### `page_fault_handler()`
-检查 `CPL`，即 `CS` 寄存器的低 2 位是否为 0：
+检查`CPL`，即`CS`寄存器的低2位是否为0：
 ```c
 if ((tf->tf_cs & 3) == 0)
     panic("Kernel panic with page fault\n");
 ```
 
 ### `user_mem_check()`
-可以逐页检查。最重要的是将 `user_mem_check_addr` 设定为恰当的值。考虑到分页机制，第一个出现错误的地址要么是某个页的起始，要么是 `va`。
+可以逐页检查。最重要的是将`user_mem_check_addr`设定为恰当的值。考虑到分页机制，第一个出现错误的地址要么是某个页的起始，要么是`va`。
 ```c
 int user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 {
@@ -433,7 +433,7 @@ int user_mem_check(struct Env *env, const void *va, size_t len, int perm)
     return 0;
 }
 ```
-`user_mem_check()` 也可以使用简单的逐字节检查的方式：
+`user_mem_check()`也可以使用简单的逐字节检查的方式：
 ```c
 int user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 {
@@ -464,7 +464,7 @@ int user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 ```
 
 ### kern/syscall.c
-当前的系统调用只有 `sys_cputs()` 涉及到访问内存，因此在其中加入：
+当前的系统调用只有`sys_cputs()`涉及到访问内存，因此在其中加入：
 ```c
 user_mem_assert(curenv, s, len, PTE_U);
 ```
@@ -486,13 +486,13 @@ if (user_mem_check(curenv, stabstr,
 ```
 ## Challenge 2
 
-Intel 手册 *Intel® 64 and IA-32 Architectures Software Developer's Manual Volume 3A* 之第 2-9 页和 2-10 页指出：
+Intel手册*Intel® 64 and IA-32 Architectures Software Developer's Manual Volume 3A*之第2-9页和2-10页指出：
 
 > ***`TF` Trap (bit 8)*** --- *Set to enable single-step mode for debugging; clear to disable single-step mode. In single-step mode, the processor generates a debug exception after each instruction. This allows the execution state of a program to be inspected after each instruction. If an application program sets the `TF` flag using a `POPF`, `POPFD`, or `IRET` instruction, a debug exception is generated after the instruction that follows the `POPF`, `POPFD`, or `IRET`.*
 
 可以借此实现断点。
 
-为 JOS monitor 添加两个新命令：`si` 和 `c`，以及对应的函数 `mon_si()` 和 `mon_c()`。两个函数都检查当前是否为用户程序，且当前是否为 `#BP` 或 `DB`，然后简单地设置 `TF`。
+为JOS monitor添加两个新命令：`si`和`c`，以及对应的函数`mon_si()`和`mon_c()`。两个函数都检查当前是否为用户程序，且当前是否为`#BP`或`DB`，然后简单地设置`TF`。
 
 ```c
 int mon_si(int argc, char **argv, struct Trapframe *tf)
@@ -526,7 +526,7 @@ int mon_c(int argc, char **argv, struct Trapframe *tf)
     return 0;
 }
 ```
-然后修改 `trap_dispatch()`，增加 `case T_DEBUG:`
+然后修改`trap_dispatch()`，增加`case T_DEBUG:`
 ```c
 switch (tf->tf_trapno)
 {
@@ -538,9 +538,9 @@ case T_BRKPT:
 }
 ```
 ## Challenge 3
-在执行 `SYSENTER` 指令时，`EIP` 和 `ESP` 会被设为相应 MSR 寄存器的值。特别地，CS 和 SS 描述符会被设为固定的值，即假定使用平坦寻址。
+在执行`SYSENTER`指令时，`EIP`和`ESP`会被设为相应MSR寄存器的值。特别地，CS和SS描述符会被设为固定的值，即假定使用平坦寻址。
 
-所以，这几个 MSR 寄存器需要初始化。在 `trap_init()` 中使用 `wrmsr` 指令：
+所以，这几个MSR寄存器需要初始化。在`trap_init()`中使用`wrmsr`指令：
 ```c
 #define IA32_SYSENTER_CS 0x174
 #define IA32_SYSENTER_ESP 0x175
@@ -554,13 +554,13 @@ case T_BRKPT:
                              "a"(fast_system_call));
 ```
 
-`fast_system_call()` 用于处理快速系统调用，它直接调用 kern/syscall.c: `syscall()`。在这之前，先来看 lib/syscall.c。
+`fast_system_call()`用于处理快速系统调用，它直接调用kern/syscall.c: `syscall()`。在这之前，先来看lib/syscall.c。
 
-在系统调用时会切换栈，所以用户态只能使用寄存器向内核态传参。8 个通用寄存器中，`ESP` 被 `SYSENTER` 破坏，1 个寄存器存储系统调用号，2 个寄存器存储用户态的 `EIP` 和 `ESP`，以备 `SYSEXIT` 从内核态返回用户态，其余 4 个传参。
+在系统调用时会切换栈，所以用户态只能使用寄存器向内核态传参。8个通用寄存器中，`ESP`被`SYSENTER`破坏，1个寄存器存储系统调用号，2个寄存器存储用户态的`EIP`和`ESP`，以备`SYSEXIT`从内核态返回用户态，其余4个传参。
 
-以 `EBP` 和 `ESI` 存储用户态的 `EIP` 和 `ESP`，因为在 IA-32 默认的 cdecl 调用约定中，被调用函数不会破坏 `EBP` 和 `ESI`。
+以`EBP`和`ESI`存储用户态的`EIP`和`ESP`，因为在IA-32默认的cdecl调用约定中，被调用函数不会破坏`EBP`和`ESI`。
 
-在 lib/syscall.c: `syscall()` 中添加一个 `switch`：
+在lib/syscall.c: `syscall()`中添加一个`switch`：
 ```c
 switch (num)
 {
@@ -581,9 +581,9 @@ default:
 }
 ```
 
-`default:` 标签保留原有的系统调用方法，因为它可以传递更多参数；而目前的 `SYS_cputs` 等系统调用，参数少于 5 个，可以使用 `SYSENTER` 快速系统调用。
+`default:`标签保留原有的系统调用方法，因为它可以传递更多参数；而目前的`SYS_cputs`等系统调用，参数少于5个，可以使用`SYSENTER`快速系统调用。
 
-这个 `switch` 不会带来性能问题：`num` 是编译期常数，而 lib/syscall.c: `syscall()` 又是内联的，编译器可以直接优化为：
+这个`switch`不会带来性能问题：`num`是编译期常数，而lib/syscall.c: `syscall()`又是内联的，编译器可以直接优化为：
 ```c
 asm volatile("pushl %%ebp\n"
              "movl %%esp, %%ebp\n"
@@ -596,11 +596,11 @@ asm volatile("pushl %%ebp\n"
              : "%esi", "cc", "memory");
 ```
 
-简单来说，这段内联汇编将 `num` 存储于 `EAX`，`a1` 等 4 个参数也存储于相应的寄存器；`pushl %ebp` 和 `popl %ebp` 用于保存和恢复 `EBP`；`movl %esp, %ebp` 将用户态的 `ESP` 存储于 `EBP` 中；`leal 114514f, %esi` 将 `popl %ebp`，即 `sysenter` 后第一条指令的地址存储于 `ESI`。
+简单来说，这段内联汇编将`num`存储于`EAX`，`a1`等4个参数也存储于相应的寄存器；`pushl %ebp`和`popl %ebp`用于保存和恢复`EBP`；`movl %esp, %ebp`将用户态的`ESP`存储于`EBP`中；`leal 114514f, %esi`将`popl %ebp`，即`sysenter`后第一条指令的地址存储于`ESI`。
 
-这里，`popl %ebp` 前有标签 `114514`；而 `leal 114514f, %esi` 中的 `114514f` 表示在代码“forward”方向上的第一个名字叫 `114514` 的标签。这是 lib/syscall.c: `syscall()` **可以成为内联函数的关键**。
+这里，`popl %ebp`前有标签`114514`；而`leal 114514f, %esi`中的`114514f`表示在代码“forward”方向上的第一个名字叫`114514`的标签。这是lib/syscall.c: `syscall()`**可以成为内联函数的关键**。
 
-`sysenter` 进行快速系统调用，根据之前 MSR 寄存器中保存的信息，控制流会跳转到 `fast_system_call()`：
+`sysenter`进行快速系统调用，根据之前MSR寄存器中保存的信息，控制流会跳转到`fast_system_call()`：
 ```asm
 .global fast_system_call
 .type fast_system_call, @function
@@ -620,6 +620,6 @@ fast_system_call:
     sysexit
 ```
 
-5 ~ 12 行传参并调用 kern/syscall.c: `syscall()`，14 和 15 行为 `sysexit` 提供相关信息。
+5 ~ 12行传参并调用kern/syscall.c: `syscall()`，14和15行为`sysexit`提供相关信息。
 
-`sysenter` 和 `sysexit` 的正确执行依赖于 GDT 的一些假定，而 JOS 的 GDT 满足这些假定。
+`sysenter`和`sysexit`的正确执行依赖于GDT的一些假定，而JOS的GDT满足这些假定。

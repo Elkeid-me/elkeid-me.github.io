@@ -19,32 +19,32 @@ math: true
 ### bitConditional
 
 - 签名：`int bitConditional(int x, int y, int z)`
-- 描述：按位计算 `x ? y : z`
+- 描述：按位计算`x ? y : z`
 - 分数：1
 - 允许的运算符：`&`，`|`，`^`，`~`
 - Max Ops: 8
 
 简单的位运算秒了：`(y & x) | (z & ~x)`. 4 ops.
 
-还能不能再卷一卷 ops？注意到：
+还能不能再卷一卷ops？注意到：
 
 ```wl
 In[1]: Simplify[LogicalExpand[(x && (y~Xor~z))~Xor~z]]
 Out[1]: (x && y) || (! x && z)
 ```
 
-所以直接用 `(x & (y ^ z)) ^ z` 就好了. 3 ops.
+所以直接用`(x & (y ^ z)) ^ z`就好了. 3 ops.
 
 ### countTrailingZero
 
 - 签名：`int countTrailingZero(int x)`
-- 描述：计算 `x` 的尾随零，即 `tzcnt`. 例如 `tzcnt(0x1) = 0`，`tzcnt(4) = 2`，`tzcnt(0) = 32`
+- 描述：计算`x`的尾随零，即`tzcnt`. 例如`tzcnt(0x1) = 0`，`tzcnt(4) = 2`，`tzcnt(0) = 32`
 - 分数：4
 - 允许的运算符：`!`，`~`，`&`，`^`，`|`，`+`，`<<`，`>>`
 - Max Ops：40
-- 补充说明：这个函数中可以使用较大的整型字面量，如 `0xffff0000`
+- 补充说明：这个函数中可以使用较大的整型字面量，如`0xffff0000`
 
-纯粹的黑魔法，我在 Data Lab 的得意之作，19 ops 的极致解答：
+纯粹的黑魔法，我在Data Lab的得意之作，19 ops的极致解答：
 ```c
 int countTrailingZero(int x)
 {
@@ -62,7 +62,7 @@ int countTrailingZero(int x)
 ### isLessOrEqual
 
 - 签名：`int isLessOrEqual(int x, int y)`
-- 描述：判断是否有 `x <= y`
+- 描述：判断是否有`x <= y`
 - 分数：3
 - 允许的运算符：`!`，`~`，`&`，`^`，`|`，`+`，`<<`，`>>`
 - Max Ops：24
@@ -71,7 +71,7 @@ int countTrailingZero(int x)
 
 $$ x \leqslant y \Leftrightarrow x < y + 1, \qquad x, y \in \mathbb{Z} $$
 
-从数学的角度，只需要计算 $x - (y + 1)$，判断其符号即可（以下 0 被视为正号）. 恰好，在计算机中，$-(y + 1) = \bar{y}$.
+从数学的角度，只需要计算 $x - (y + 1)$，判断其符号即可（以下0被视为正号）. 恰好，在计算机中，$-(y + 1) = \bar{y}$.
 
 但是在计算机中，$x + \bar{y}$ 有溢出问题，例如 $x = -1, y = 2^{31} - 1$，$x + \bar{y} = 2^{31} - 1 > 0$.
 
@@ -87,7 +87,7 @@ $$ x \leqslant y \Leftrightarrow x < y + 1, \qquad x, y \in \mathbb{Z} $$
     }
     ```
     9 ops.
-    注意到上式中 `(not_same_sign & x) | (~not_same_sign & dis);` 正是 `bitConditional(not_same_sign, x, dis)`，又可以化为：
+    注意到上式中`(not_same_sign & x) | (~not_same_sign & dis);`正是`bitConditional(not_same_sign, x, dis)`，又可以化为：
     ```c
     int isLessOrEqual(int x, int y)
     {

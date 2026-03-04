@@ -1,5 +1,5 @@
 ---
-title: 操作系统 Lab 笔记——为什么 mpentry_start 到 mp_main 是间接调用？
+title: 操作系统Lab笔记——为什么mpentry_start到mp_main是间接调用？
 date: 2024-05-03 21:00:00
 excerpt: MIT 6.828 JOS Lab
 categories: JOS Lab
@@ -10,7 +10,7 @@ tags:
   - 操作系统
 ---
 
-本文内容分析于 2023 年 12 月 18 日。今整理成文。
+本文内容分析于2023年12月18日。今整理成文。
 
 先看源代码：`kern/mpentry.S:76`：
 
@@ -22,9 +22,9 @@ call    *%eax
 
 灵魂提问：why the indirect call?
 
-直接调用的 `call` 指令，使用 `%eip` 相对寻址。而 `call` 指令的偏移量，是在链接时确定的。但 `mpentry.S` 链接地址和运行地址不一样（复制到 0x7000 再执行），这使得链接时确定的偏移量在运行时是错误的。因此，只能使用间接调用，将 `mp_main` 的绝对地址加载到 `%eax` 中，然后 `call *%eax`。
+直接调用的`call`指令，使用`%eip`相对寻址。而`call`指令的偏移量，是在链接时确定的。但`mpentry.S`链接地址和运行地址不一样（复制到0x7000再执行），这使得链接时确定的偏移量在运行时是错误的。因此，只能使用间接调用，将`mp_main`的绝对地址加载到`%eax`中，然后`call *%eax`。
 
-知道了原理，就可以改动链接脚本，使 `mpentry_start` 到 `mp_main` 通过 `call` 指令直接调用。
+知道了原理，就可以改动链接脚本，使`mpentry_start`到`mp_main`通过`call`指令直接调用。
 
 上面两句汇编改成：
 
@@ -35,7 +35,7 @@ call    *%eax // [!code --]
 call    true_mp_main // [!code ++]
 ```
 
-链接脚本 `kern/kernel.ld`：
+链接脚本`kern/kernel.ld`：
 
 ```txt
 .text : AT(0x100000) {

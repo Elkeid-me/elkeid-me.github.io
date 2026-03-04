@@ -40,7 +40,7 @@ fn fun() -> Type {
 let i = risk!(fun(), Type::I32(i) => i);
 ```
 
-也许 [`if let`](https://doc.rust-lang.org/book/ch06-03-if-let.html) 也是一个解决方案。
+也许[`if let`](https://doc.rust-lang.org/book/ch06-03-if-let.html)也是一个解决方案。
 
 ```rust
 enum Type {
@@ -57,6 +57,6 @@ fn fun() -> Type {
 if let Type::I32(i) = func() { i } else { unreachable!() }
 ```
 
-实际上跟 `risk!()` 宏一样。不过既然能玩梗[^1]为什么不玩呢？
+实际上跟`risk!()`宏一样。不过既然能玩梗[^1]为什么不玩呢？
 
 [^1]: 每个人承担自己的风险！

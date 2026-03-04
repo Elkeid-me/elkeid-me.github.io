@@ -11,7 +11,7 @@ top: 100
 
 - [ ] C++：左值引用
 - [ ] C++：右值引用、引用折叠、转发引用、移动语义
-- [ ] C++：从零实现 `tuple`
+- [ ] C++：从零实现`tuple`
 - [ ] C++：协程
 - [ ] C++ P2300：`std::execution`
 
@@ -23,8 +23,8 @@ top: 100
 - [ ] CSAPP Arch Lab
 - [ ] CSAPP Cache Lab
 - [ ] CSAPP Shell Lab
-- [x] CSAPP Malloc Lab：[Malloc Lab 全过程纪实](/posts/malloc-lab)
-- [x] CSAPP Proxy Lab：[Proxy Lab 的并发设计](/posts/proxy-lab)
+- [x] CSAPP Malloc Lab：[Malloc Lab全过程纪实](/posts/malloc-lab)
+- [x] CSAPP Proxy Lab：[Proxy Lab的并发设计](/posts/proxy-lab)
 
 ***
 
@@ -32,6 +32,6 @@ top: 100
 
 ***
 
-- [ ] Lumia 650 评测
-- [ ] nova 7 Pro 5G 评测
-- [ ] Xiaomi 15 评测
+- [ ] Lumia 650评测
+- [ ] nova 7 Pro 5G评测
+- [ ] Xiaomi 15评测
