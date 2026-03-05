@@ -1,6 +1,6 @@
 ---
 title: 本站启用text-autospace
-excerpt: Windows平台MiKTeX环境配置
+excerpt: 如题
 categories: 杂项
 tags:
   - Chromium
