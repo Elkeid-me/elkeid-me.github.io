@@ -17,7 +17,7 @@ top: 100
 
 ***
 
-- [ ] CSAPP Data Lab：[Data Lab](/posts/data-lab) （施工中）
+- [ ] CSAPP Data Lab：[Data Lab](/posts/data-lab)（施工中）
 - [ ] CSAPP Bomb Lab
 - [ ] CSAPP Attack Lab
 - [ ] CSAPP Arch Lab

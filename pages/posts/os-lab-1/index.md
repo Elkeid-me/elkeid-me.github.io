@@ -83,27 +83,27 @@ case 'o':
 
 1. 参数`fmt`指向格式化字符串`"x %d, y %x, z %d\n"`；`ap`指向变参结构体。
 2.
-```text
-cprintf()
-    vcprintf()
-        cons_putc('x')
-        cons_putc(' ')
-        va_arg(), ap 由指向 x 变为指向 y
-        cons_putc('1')
-        cons_putc(',')
-        cons_putc(' ')
-        cons_putc('y')
-        cons_putc(' ')
-        va_arg(), ap 由指向 y 变为指向 z
-        cons_putc('3')
-        cons_putc(',')
-        cons_putc(' ')
-        cons_putc('z')
-        cons_putc(' ')
-        va_arg(), ap 由指向 z 变为指向我们不知道的东西
-        cons_putc('4')
-        cons_putc('\n')
-```
+   ```text
+   cprintf()
+       vcprintf()
+           cons_putc('x')
+           cons_putc(' ')
+           va_arg(), ap 由指向 x 变为指向 y
+           cons_putc('1')
+           cons_putc(',')
+           cons_putc(' ')
+           cons_putc('y')
+           cons_putc(' ')
+           va_arg(), ap 由指向 y 变为指向 z
+           cons_putc('3')
+           cons_putc(',')
+           cons_putc(' ')
+           cons_putc('z')
+           cons_putc(' ')
+           va_arg(), ap 由指向 z 变为指向我们不知道的东西
+           cons_putc('4')
+           cons_putc('\n')
+   ```
 
 ### Question 4
 

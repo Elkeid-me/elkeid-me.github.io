@@ -1,8 +1,8 @@
 ---
-title: C/C++ 环境配置
+title: C/C++环境配置
 date: 2024-09-04 19:27:00
 updated: 2025-01-14 23:42:00
-excerpt: Windows平台C/C++ 环境配置，基于Visual Studio Code和MinGW-w64
+excerpt: Windows平台C/C++环境配置，基于Visual Studio Code和MinGW-w64
 categories: 环境配置
 tags:
   - C/C++
@@ -120,8 +120,8 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 #### 插件安装
 
 - [Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-zh-hans)：为VS Code提供中文界面
-- [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)：为VS Code提供C/C++ 的调试，自动补全、静态分析与代码格式化。但是我们**只使用调试功能**。
-- [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)：clangd插件通过语言服务器协议与clangd交互，为VS Code提供C/C++ 的自动补全、静态分析与代码格式化。
+- [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)：为VS Code提供C/C++的调试，自动补全、静态分析与代码格式化。但是我们**只使用调试功能**。
+- [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)：clangd插件通过语言服务器协议与clangd交互，为VS Code提供C/C++的自动补全、静态分析与代码格式化。
 
 #### VS Code配置
 
@@ -139,7 +139,7 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 }
 ```
 
-关闭C/C++ 插件的自动补全（因为我们要用clangd）。
+关闭C/C++插件的自动补全（因为我们要用clangd）。
 
 #### 工作区
 
@@ -154,13 +154,13 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 
 #### 工作区配置
 
-为了正确地对单个C/C++ 源文件编译与调试，需要两个配置文件。
+为了正确地对单个C/C++源文件编译与调试，需要两个配置文件。
 
 在工作区中新建`.vscode`文件夹，然后在其中新建`launch.json`和`tasks.json`。
 
 ##### `tasks.json`
 
-`tasks.json`是构建说明，指导C/C++ 插件怎样启动编译器。这里给出的是我自己使用的配置：
+`tasks.json`是构建说明，指导C/C++插件怎样启动编译器。这里给出的是我自己使用的配置：
 
 ```json
 {
@@ -205,7 +205,7 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 
 ##### `launch.json`
 
-`launch.json`是调试说明，指导C/C++ 插件怎样启动调试器。这里给出的是我自己使用的配置：
+`launch.json`是调试说明，指导C/C++插件怎样启动调试器。这里给出的是我自己使用的配置：
 
 ```json
 {
@@ -243,7 +243,7 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 
 #### clang-format配置
 
-clangd集成有clang-format，这是C/C++ 等语言的格式化工具。例如：
+clangd集成有clang-format，这是C/C++等语言的格式化工具。例如：
 
 ::: code-group
 
