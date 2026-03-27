@@ -14,16 +14,17 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "valaxy": "~0.26.13",
-    "valaxy-theme-yun": "~0.26.13"
+    "valaxy": "~0.28.1",
+    "valaxy-theme-yun": "~0.28.1"
   },
   "devDependencies": {
-    "typescript": "5.9.2"
+    "typescript": "6.0.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
-      "esbuild"
+      "esbuild",
+      "vue-demi"
     ]
   }
 }
