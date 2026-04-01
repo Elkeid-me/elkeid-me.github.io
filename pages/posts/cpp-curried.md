@@ -11,19 +11,19 @@ tags:
 
 > 柯里化，是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下的参数而且返回结果的新函数的技术。——维基百科
 
-让我们来看一个例子好了。
+来看一个例子好了。
 
 ```F#
 let add (x: int) (y: int) : int = x + y
 ```
 
-然后我们惊奇地发现，`add`竟然可以只用一个参数调用：
+我们惊奇地发现，`add`竟然可以只用一个参数调用：
 
 ```F#
 let addFive = add 5
 ```
 
-那么`addFive`作用于一个整数会得到什么呢？事实上，`addFive x`相当于`add 5 x`
+那么`addFive`事什么呢？事实上，`addFive x`相当于`add 5 x`。它是一个整型到整型的函数。
 
 ```F#
 printfn "%d" (addFive 10) // 15
@@ -71,13 +71,17 @@ std::cout << add_five(10); // 15
 
 ## 在C++中，柯里化任意可调用对象！
 
-作为实际情况的简化，我们只考虑值传参；毕竟在函数式的世界里讨论左值引用右值引用还是太复杂了。特别是，如果将被柯里化的函数中出现了移动语义，譬如：
+作为实际情况的简化，我们只考虑值传参；毕竟在函数式的世界里讨论左值引用右值引用还是太复杂了。特别是，如果被柯里化的函数中出现了移动语义，譬如：
 
 ```C++
-void test_move(std::vector<int> &src, std::vector<int> &dest) { dest = std::move(src); }
+void test_move(std::vector<int> &src,
+               std::vector<int> &dest)
+{
+    dest = std::move(src);
+}
 ```
 
-那么柯里化的`test_move`怎么办？只能用一次吗？所以我们还是只讨论值传参好了（摊手）。
+那么柯里化的`test_move`怎么办？难道它只能用一次吗？所以还是只讨论值传参好了（摊手）。
 
 ---
 
@@ -95,11 +99,13 @@ auto curried(F func);
 - `typename function_inference<T>::ret_type`：当`T`是一个可调用类型时，`ret_type`给出它的返回值。
 - `typename function_inference<T>::arg_types`：当`T`是一个可调用类型时，`arg_types`为一个`std::tuple<U...>`，其中`U...`是参数类型列表。
 
-首先，`function_inference`针对函数、函数指针、函数的引用特化（这里只展示针对函数的特化）
+首先，令`function_inference`针对函数、函数指针、函数的引用特化（这里只展示针对函数的特化）
 
 ```C++
-template <typename R, typename... Args, bool _nothing_throw>
-struct function_inference<R(Args...) noexcept(_nothing_throw)>
+template <typename R, typename... Args,
+          bool _nothing_throw>
+struct function_inference<R(Args...)
+                          noexcept(_nothing_throw)>
 {
     using ret_type = R;
     using arg_types = std::tuple<Args...>;
@@ -111,8 +117,10 @@ struct function_inference<R(Args...) noexcept(_nothing_throw)>
 然后考虑重载了`operator()`的类（Lambda本质上也只是重载了`operator()`的匿名类）。这里就不能只匹配“类”的类型，而应该匹配其`operator()`的函数指针的类型。为简单起见，以下展示的代码没有考虑`const`重载：
 
 ```C++
-template <typename C, typename R, typename... Args, bool _nothing_throw>
-struct instance_method_inference<R (C::*)(Args...) noexcept(_nothing_throw)>
+template <typename C, typename R,
+          typename... Args, bool _nothing_throw>
+struct instance_method_inference<R (C::*)(Args...)
+                                 noexcept(_nothing_throw)>
 {
     using ret_type = R;
     using arg_types = std::tuple<Args...>;
@@ -135,21 +143,27 @@ struct function_inference
 int add(int a, int b) { return a + b; }
 
 // int
-using add_ret = typename function_inference<decltype(add)>::ret_type;
+using add_ret = typename
+    function_inference<decltype(add)>::ret_type;
 // std::tuple<int, int>
-using add_args = typename function_inference<decltype(add)>::arg_types;
+using add_args = typename
+    function_inference<decltype(add)>::arg_types;
 
 // bool
-using int_greater_ret = typename function_inference<std::greater<int>>::ret_type;
+using int_greater_ret = typename
+    function_inference<std::greater<int>>::ret_type;
 // std::tuple<const int &, const int &>
-using int_greater_args = typename function_inference<std::greater<int>>::arg_types;
+using int_greater_args = typename
+    function_inference<std::greater<int>>::arg_types;
 
 auto lambda = [](int a, int b) { return a + b; };
 
 // int
-using lambda_ret = typename function_inference<decltype(lambda)>::ret_type;
+using lambda_ret = typename
+    function_inference<decltype(lambda)>::ret_type;
 // std::tuple<int, int>
-using lambda_args = typename function_inference<decltype(lambda)>::arg_types;
+using lambda_args = typename
+    function_inference<decltype(lambda)>::arg_types;
 ```
 
 ~~哇真是太好玩了（x~~
@@ -162,8 +176,10 @@ using lambda_args = typename function_inference<decltype(lambda)>::arg_types;
 template <typename F>
 auto curried(F func)
 {
-    using R = typename function_inference<F>::ret_type;
-    using Args = typename function_inference<F>::arg_types;
+    using R =
+        typename function_inference<F>::ret_type;
+    using Args =
+        typename function_inference<F>::arg_types;
     return curried_impl<F, R, Args>::impl(func);
 }
 ```
@@ -184,18 +200,24 @@ struct curried_impl<F, R, std::tuple<First>>
 };
 ```
 
-而对于 $n$ 个参数的函数`func`，我们逐个参数柯里化：外层Lambda表达式接受第一个个参数；内部的Lambda表达式接受后 $n - 1$ 个参数，并捕获外层Lambda表达式的参数，返回`func`作用于这 $n$ 个参数的结果。
+而对于 $n$ 个参数的函数`func`，我们逐个参数柯里化：外层Lambda表达式接受第一个参数；内部的Lambda表达式接受后 $n - 1$ 个参数，并捕获外层Lambda表达式的参数，返回`func`作用于这 $n$ 个参数的结果。
 
 最重要的是，**内层Lambda表达式也被`curried`**。
 
 ```C++
-template <typename F, typename R, typename First, typename... Rest>
-struct curried_impl<F, R, std::tuple<First, Rest...>>
+template <typename F, typename R, typename First,
+          typename... Rest>
+struct curried_impl<F, R,
+                    std::tuple<First, Rest...>>
 {
     static auto impl(F func)
     {
         return [=](First arg_1)
-        { return curried([=](Rest... rest) { return func(arg_1, rest...); }); };
+        {
+            return curried(
+                [=](Rest... rest)
+                { return func(arg_1, rest...); });
+        };
     }
 };
 ```
