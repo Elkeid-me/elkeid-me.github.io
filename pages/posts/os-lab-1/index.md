@@ -72,7 +72,7 @@ case 'o':
 
 1. `kern/console.c`中的`cputchar()`函数实质上是`cons_putc()`的套壳。后者在控制台中输出一个字符。
 2. `kern/printf.c`中有`putch()`函数，实质上是`cputchar()`的套壳。
-3. putch()`的函数指针作为`vprintfmt()`的第一个参数。后者又被`vcprintf()`调用。
+3. `putch()`的函数指针作为`vprintfmt()`的第一个参数。后者又被`vcprintf()`调用。
 4. `vcprintf()`又被`cprintf()`调用。
 
 ### Question 2
