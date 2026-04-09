@@ -112,7 +112,7 @@ struct function_inference<R(Args...)
 };
 ```
 
-> 根据[Deconstructing function pointers in a C++ template, the noexcept complication](https://devblogs.microsoft.com/oldnewthing/20200714-00/?p=103981)，这里`noexcept(_nothing_throw)`只有GCC和Clang支持。
+> 在老版本的编译器中，`noexcept(_nothing_throw)`对`_nothing_throw`的推导可能不受支持。你需要同时对`R(Args...)`和`R(Args...) noexcept`特化。
 
 然后考虑重载了`operator()`的类（Lambda本质上也只是重载了`operator()`的匿名类）。这里就不能只匹配“类”的类型，而应该匹配其`operator()`的函数指针的类型。为简单起见，以下展示的代码没有考虑`const`重载：
 
@@ -132,9 +132,7 @@ struct instance_method_inference<R (C::*)(Args...)
 ```C++
 template <typename T>
 struct function_inference
-    : instance_method_inference<decltype(&T::operator())>
-{
-};
+    : instance_method_inference<decltype(&T::operator())> {};
 ```
 
 试一下效果：
@@ -276,9 +274,7 @@ namespace detail
 
 template <typename T>
 struct function_inference
-    : detail::instance_method_inference<decltype(&T::operator())>
-{
-};
+    : detail::instance_method_inference<decltype(&T::operator())> {};
 
 template <typename R, typename... Args, bool _nothing_throw>
 struct function_inference<R (*)(Args...) noexcept(_nothing_throw)>
