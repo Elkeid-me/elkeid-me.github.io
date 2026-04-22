@@ -99,6 +99,8 @@ auto curried(F func);
 - `typename function_inference<T>::ret_type`：当`T`是一个可调用类型时，`ret_type`给出它的返回值。
 - `typename function_inference<T>::arg_types`：当`T`是一个可调用类型时，`arg_types`为一个`std::tuple<U...>`，其中`U...`是参数类型列表。
 
+> C++ 20起，以上的`typename`关键字不是必要的。
+
 首先，令`function_inference`针对函数、函数指针、函数的引用特化（这里只展示针对函数的特化）
 
 ```C++
@@ -114,7 +116,7 @@ struct function_inference<R(Args...)
 
 > 在老版本的编译器中，`noexcept(_nothing_throw)`对`_nothing_throw`的推导可能不受支持。你需要同时对`R(Args...)`和`R(Args...) noexcept`特化。
 
-然后考虑重载了`operator()`的类（Lambda本质上也只是重载了`operator()`的匿名类）。这里就不能只匹配“类”的类型，而应该匹配其`operator()`的函数指针的类型。为简单起见，以下展示的代码没有考虑`const`重载：
+然后考虑重载了`operator()`的类（Lambda本质上也只是重载了`operator()`的匿名类）。这里就不能只匹配“类”的类型，而应该匹配其`operator()`的函数指针的类型。为简单起见，以下展示的代码没有考虑`const`、`volatile`和`const volatile`重载：
 
 ```C++
 template <typename C, typename R,
@@ -266,6 +268,22 @@ namespace detail
     template <typename C, typename R, typename... Args, bool _nothing_throw>
     struct instance_method_inference<R (C::*)(Args...)
                                          const noexcept(_nothing_throw)>
+    {
+        using ret_type = R;
+        using arg_types = std::tuple<Args...>;
+    };
+
+    template <typename C, typename R, typename... Args, bool _nothing_throw>
+    struct instance_method_inference<R (C::*)(Args...) volatile noexcept(
+        _nothing_throw)>
+    {
+        using ret_type = R;
+        using arg_types = std::tuple<Args...>;
+    };
+
+    template <typename C, typename R, typename... Args, bool _nothing_throw>
+    struct instance_method_inference<R (C::*)(Args...) const volatile noexcept(
+        _nothing_throw)>
     {
         using ret_type = R;
         using arg_types = std::tuple<Args...>;
