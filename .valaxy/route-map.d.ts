@@ -14,11 +14,15 @@ import type {
   ParamValueZeroOrMore,
   ParamValueZeroOrOne,
 } from 'vue-router'
+import type {
+  _ExtractParamParserType,
+} from 'vue-router/experimental'
 
 declare module 'vue-router' {
   interface TypesConfig {
     ParamParsers:
       | never
+    RouteNamedMap: import('vue-router/auto-routes').RouteNamedMap
   }
 }
 
@@ -118,9 +122,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/posts/cpp-curried': RouteRecordInfo<
-      '/posts/cpp-curried',
-      '/posts/cpp-curried',
+    '/posts/config-chipyard/': RouteRecordInfo<
+      '/posts/config-chipyard/',
+      '/posts/config-chipyard',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -128,6 +132,13 @@ declare module 'vue-router/auto-routes' {
     '/posts/cxx-config/': RouteRecordInfo<
       '/posts/cxx-config/',
       '/posts/cxx-config',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/posts/cxx-curried': RouteRecordInfo<
+      '/posts/cxx-curried',
+      '/posts/cxx-curried',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -362,13 +373,13 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'node_modules/.pnpm/valaxy-theme-yun@0.28.1_mag_ee88cb6358ff2ad755e81a5eae5820f3/node_modules/valaxy-theme-yun/pages/index.vue': {
+    'node_modules/.pnpm/valaxy-theme-yun@0.28.11_ma_ae14f9cf30ae35891959fe32100f129f/node_modules/valaxy-theme-yun/pages/index.vue': {
       routes:
         | '/'
       views:
         | never
     }
-    'node_modules/.pnpm/valaxy@0.28.1_@babel+parser_7c6f5c94a88ee66bb845c9f1d48329ef/node_modules/valaxy/client/pages/[...path].vue': {
+    'node_modules/.pnpm/valaxy@0.28.11_@babel+parse_5bf99bffa22b9ace01ed32b3023aa1b2/node_modules/valaxy/client/pages/[...path].vue': {
       routes:
         | '/[...path]'
       views:
@@ -404,13 +415,13 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'node_modules/.pnpm/valaxy-theme-yun@0.28.1_mag_ee88cb6358ff2ad755e81a5eae5820f3/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
+    'node_modules/.pnpm/valaxy-theme-yun@0.28.11_ma_ae14f9cf30ae35891959fe32100f129f/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
       routes:
         | '/page/[page]'
       views:
         | never
     }
-    'node_modules/.pnpm/valaxy-theme-yun@0.28.1_mag_ee88cb6358ff2ad755e81a5eae5820f3/node_modules/valaxy-theme-yun/pages/posts/index.vue': {
+    'node_modules/.pnpm/valaxy-theme-yun@0.28.11_ma_ae14f9cf30ae35891959fe32100f129f/node_modules/valaxy-theme-yun/pages/posts/index.vue': {
       routes:
         | '/posts/'
       views:
@@ -440,15 +451,21 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'pages/posts/cpp-curried.md': {
+    'pages/posts/config-chipyard/index.md': {
       routes:
-        | '/posts/cpp-curried'
+        | '/posts/config-chipyard/'
       views:
         | never
     }
     'pages/posts/cxx-config/index.md': {
       routes:
         | '/posts/cxx-config/'
+      views:
+        | never
+    }
+    'pages/posts/cxx-curried.md': {
+      routes:
+        | '/posts/cxx-curried'
       views:
         | never
     }
