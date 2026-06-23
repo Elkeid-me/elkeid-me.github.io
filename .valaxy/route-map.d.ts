@@ -101,6 +101,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/argument-on-dynamic-typing/': RouteRecordInfo<
+      '/posts/argument-on-dynamic-typing/',
+      '/posts/argument-on-dynamic-typing',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/clean-the-system/': RouteRecordInfo<
       '/posts/clean-the-system/',
       '/posts/clean-the-system',
@@ -430,6 +437,12 @@ declare module 'vue-router/auto-routes' {
     'pages/posts/24-3-24/index.md': {
       routes:
         | '/posts/24-3-24/'
+      views:
+        | never
+    }
+    'pages/posts/argument-on-dynamic-typing/index.md': {
+      routes:
+        | '/posts/argument-on-dynamic-typing/'
       views:
         | never
     }
