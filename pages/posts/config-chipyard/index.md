@@ -65,11 +65,18 @@ make install -j (sys cpu | length)
 
 # QEMU
 cd ($WORK_DIR)/qemu
-(./configure --prefix=($INSTALL_DIR)
-    --extra-ldflags="-fuse-ld=mold"
-    --target-list=riscv64-linux-user
-    --disable-docs --enable-plugins
-    --enable-lto)
+if $use_mold {
+    (./configure --prefix=($INSTALL_DIR)
+        --extra-ldflags="-fuse-ld=mold"
+        --target-list=riscv64-linux-user
+        --disable-docs --enable-plugins
+        --enable-lto)
+} else {
+    (./configure --prefix=($INSTALL_DIR)
+        --target-list=riscv64-linux-user
+        --disable-docs --enable-plugins
+        --enable-lto)
+}
 cd build
 ninja
 ninja install
@@ -176,7 +183,7 @@ ninja
 ninja install
 
 
-cd ($WORK_DIR)
+cd $WORK_DIR
 (rm -rf riscv-gnu-toolchain qemu verilator riscv-isa-sim riscv-pk
     riscv-tests libgloss-htif circt)
 
