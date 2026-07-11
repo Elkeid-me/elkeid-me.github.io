@@ -75,7 +75,7 @@ git clone git@github.com:riscv-software-src/riscv-isa-sim.git --depth 1
 git clone git@github.com:riscv-software-src/riscv-pk.git --depth 1
 git clone git@github.com:riscv-software-src/riscv-tests.git --depth 1
 git clone git@github.com:ucb-bar/libgloss-htif.git --depth 1
-git clone git@github.com:llvm/circt.git --branch firtool-1.153.0 --depth 1
+git clone git@github.com:llvm/circt.git --branch firtool-1.153.1 --depth 1
 ```
 
 开始编译！首先，编译RISC-V交叉编译工具链：
@@ -295,7 +295,7 @@ chmod +x cs
 
 最后来到了Chipyard。
 
-```
+```nu
 cd ~
 git clone git@github.com:ucb-bar/chipyard.git --branch 1.13.0
 cd chipyard
