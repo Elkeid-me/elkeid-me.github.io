@@ -337,7 +337,7 @@ load-env {RISCV: $INSTALL_DIR}
 
 ```nu
 cd sims/verilator
-make CONFIG=MediumBoomV3Config -j $cpu_cores
+make CONFIG=MediumBoomV3Config
 ```
 
 ## 编辑器配置
@@ -373,3 +373,73 @@ Metals是一个Scala语言服务器；在VS Code中可以通过[Scala (Metals)](
 >
 > ![](./imgs/inlay-hints.webp)
 
+## 编译与仿真加速
+
+从 Chisel 到最终的模拟器二进制文件，经历了这样的过程：
+
+$$
+\begin{aligned}
+    \text{Chisel} &\xrightarrow{\text{Scala编译与运行}} \text{FIRRTL} \xrightarrow{\text{CIRCTL}} \text{Verilog} \\
+                  &\xrightarrow{\text{Verilator}} \text{C++} \xrightarrow{\text{C/C++编译}} \text{模拟器二进制文件}
+\end{aligned}
+$$
+
+以上的过程全部由一个Makefile驱动。其中，Scala编译、CIRCTL和Verilator较难加速。我们能下手的，只有C/C++编译，以及最终模拟器的多线程执行。
+
+### 使用ccache编译缓存
+
+ccache是一个用于加速C/C++代码编译的缓存工具。我们来看Gemini对它的介绍：
+
+> 当你使用常规编译器（如GCC或Clang）编译一个`.c`或`.cpp`文件时，编译器会进行词法分析、解析、优化并生成目标文件（`.o`）。如果项目很大，这个过程会非常耗时。
+>
+> ccache作为一个“代理层”坐在你的编译器前面。它的核心逻辑非常简单粗暴（但高效）：
+>
+> 1. 检测变化：当你编译一个文件时，ccache会快速计算该文件的哈希值（包含源文件内容、编译选项、包含的头文件等）。
+> 2. 缓存命中：如果哈希值与之前编译过的完全一致，ccache会直接把之前生成好的`.o`文件复制过来，根本不调用真实的编译器。
+> 3. 缓存未命中：如果文件改动了，ccache会调用真正的编译器去编译，并把新生成的`.o`文件存入缓存，供下次使用。
+>
+> 带来的改变：第一次编译（Clean Build）由于要写入缓存，时间没有任何缩短（甚至多消耗算力用于哈希计算）；但从第二次编译开始，速度会提升几倍到几十倍，几乎是瞬间完成。
+
+修改一个Scala文件，尽管Scala层是增量编译的，但Verilator层是全量编译的，导致后面的C/C++也是全量编译——尽管大部分代码都没变。毫无疑问使用ccache能大幅提升编译速度。
+
+根据Verilator文档可知，要使用ccache编译缓存，需设置`OBJCACHE`环境变量。
+
+::: warning
+
+为什么不用更现代化的sccache？因为sccache对于`-include`一个预编译头文件没有很好支持；而这是BOOM编译过程中需要的。
+
+详见此链接：[Does not support PCH compilation using `-include`](https://github.com/mozilla/sccache/issues/615)
+
+:::
+
+### 使用并行编译
+
+Verilator调用C/C++编译器时，默认是单线程编译。根据Verilator文档可知，欲使用并行编译，需设置环境变量`VM_PARALLEL_BUILDS`为`1`。
+
+### 使用mold链接器
+
+mold是一个现代的、并行的高速链接器，可以有效加速C/C++二进制的链接（例如，在前面的环境配置中，使用mold链接gem5有奇效）。
+
+阅读Verilator官方文档可知，要更改链接器，需设置`LINK`环境变量。
+
+你以为需要设置`LINK`为`mold`参数？戳啦！你需要设置`LINK`为`g++ -fuse-ld=mold`。
+
+因为这玩意的默认定义是：
+
+```makefile
+LINK = g++
+```
+
+### 总结
+
+（还是用Nushell语法）：
+
+```nu
+with-env {
+    OBJCACHE: ccache,
+    VM_PARALLEL_BUILDS: 1
+    LINK: "g++ -fuse-ld=mold"
+} {
+    make CONFIG=MediumBoomV3Config -j (sys cpu | length)
+}
+```

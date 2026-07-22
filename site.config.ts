@@ -1,7 +1,7 @@
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
-  url: 'https://elkeid-me.github.io',
+  url: 'https://elkeid-me.github.io/',
   lang: 'zh-CN',
   title: 'Elkeid\'s Site',
   subtitle: '',
