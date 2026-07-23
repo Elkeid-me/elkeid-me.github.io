@@ -17,13 +17,13 @@ tags:
 let add (x: int) (y: int) : int = x + y
 ```
 
-我们惊奇地发现，`add`竟然可以只用一个参数调用：
+我们惊奇地发现，`add` 竟然可以只用一个参数调用：
 
 ```F#
 let addFive = add 5
 ```
 
-那么`addFive`事什么呢？事实上，`addFive x`相当于`add 5 x`。它是一个整型到整型的函数。
+那么 `addFive` 事什么呢？事实上，`addFive x` 相当于 `add 5 x`。它是一个整型到整型的函数。
 
 ```F#
 printfn "%d" (addFive 10) // 15
@@ -38,16 +38,16 @@ auto add(int x)
 }
 ```
 
-这个C++的`add`也表现得类似F#的`add`
+这个C++的 `add` 也表现得类似F#的 `add`
 
 ```C++
 auto add_five{add(5)};
 std::cout << add_five(10); // 15
 ```
 
-事实上，上述F#`add`函数的类型是`int -> int -> int`，即表示`add`**接受一个`int`为参数**，**返回一个`int -> int`函数**。
+事实上，上述F# `add` 函数的类型是 `int -> int -> int`，即表示 `add` **接受一个 `int` 为参数**，**返回一个 `int -> int` 函数**。
 
-> 在这里，符号`->`是右结合的，`int -> int -> int`等价于`int -> (int -> int)`。
+> 在这里，符号 `->` 是右结合的，`int -> int -> int` 等价于 `int -> (int -> int)`。
 
 可以看到，在F#中，函数是自动柯里化的。
 
@@ -63,11 +63,11 @@ std::cout << add_five(10); // 15
 > printfn "%d" (add (5, 10))
 > ```
 >
-> 但事实上这个`add`的类型是`int * int -> int`，即`add`**接受一个`int * int`为参数**，**返回一个`int`**。
+> 但事实上这个 `add` 的类型是 `int * int -> int`，即 `add` **接受一个 `int * int` 为参数**，**返回一个 `int`**。
 >
 > ~~所以所有的函数都只有一个参数（确信）。~~
 
-但C++的函数（或者Lambda表达式，又或者`std::greater<T>`这种可调用对象）并不是自动柯里化的。有没有可能创造一个函数`curried`，它接受**任意的一个可调用对象**，返回这个可调用对象的柯里化版本呢？
+但C++的函数（或者Lambda表达式，又或者 `std::greater<T>` 这种可调用对象）并不是自动柯里化的。有没有可能创造一个函数 `curried`，它接受**任意的一个可调用对象**，返回这个可调用对象的柯里化版本呢？
 
 ## 在C++中，柯里化任意可调用对象！
 
@@ -81,27 +81,27 @@ void test_move(std::vector<int> &src,
 }
 ```
 
-那么柯里化的`test_move`怎么办？难道它只能用一次吗？所以还是只讨论值传参好了（摊手）。
+那么柯里化的 `test_move` 怎么办？难道它只能用一次吗？所以还是只讨论值传参好了（摊手）。
 
 ---
 
-`curried`函数长什么样呢？
+`curried` 函数长什么样呢？
 
 ```C++
 template <typename F>
 auto curried(F func);
 ```
 
-这没有任何信息。想要获取`func`的返回值类型？没有。参数类型列表？没有。
+这没有任何信息。想要获取 `func` 的返回值类型？没有。参数类型列表？没有。
 
-☝️🤓但是我们C++的模板元编程神奇得很啊！设计一个类模板`struct function_inference<T>`，它有两个成员：
+☝️🤓但是我们C++的模板元编程神奇得很啊！设计一个类模板 `struct function_inference<T>`，它有两个成员：
 
-- `typename function_inference<T>::ret_type`：当`T`是一个可调用类型时，`ret_type`给出它的返回值。
-- `typename function_inference<T>::arg_types`：当`T`是一个可调用类型时，`arg_types`为一个`std::tuple<U...>`，其中`U...`是参数类型列表。
+- `typename function_inference<T>::ret_type`：当 `T` 是一个可调用类型时，`ret_type` 给出它的返回值。
+- `typename function_inference<T>::arg_types`：当 `T` 是一个可调用类型时，`arg_types` 为一个 `std::tuple<U...>`，其中 `U...` 是参数类型列表。
 
-> C++ 20起，以上的`typename`关键字不是必要的。
+> C++ 20起，以上的 `typename` 关键字不是必要的。
 
-首先，令`function_inference`针对函数、函数指针、函数的引用特化（这里只展示针对函数的特化）
+首先，令 `function_inference` 针对函数、函数指针、函数的引用特化（这里只展示针对函数的特化）
 
 ```C++
 template <typename R, typename... Args,
@@ -114,9 +114,9 @@ struct function_inference<R(Args...)
 };
 ```
 
-> 在老版本的编译器中，`noexcept(_nothing_throw)`对`_nothing_throw`的推导可能不受支持。你需要同时对`R(Args...)`和`R(Args...) noexcept`特化。
+> 在老版本的编译器中，`noexcept(_nothing_throw)` 对 `_nothing_throw` 的推导可能不受支持。你需要同时对 `R(Args...)` 和 `R(Args...) noexcept` 特化。
 
-然后考虑重载了`operator()`的类（Lambda本质上也只是重载了`operator()`的匿名类）。这里就不能只匹配“类”的类型，而应该匹配其`operator()`的函数指针的类型。为简单起见，以下展示的代码没有考虑`const`、`volatile`和`const volatile`重载：
+然后考虑重载了 `operator()` 的类（Lambda本质上也只是重载了 `operator()` 的匿名类）。这里就不能只匹配“类”的类型，而应该匹配其 `operator()` 的函数指针的类型。为简单起见，以下展示的代码没有考虑 `const`、`volatile` 和 `const volatile` 重载：
 
 ```C++
 template <typename C, typename R,
@@ -129,7 +129,7 @@ struct instance_method_inference<R (C::*)(Args...)
 };
 ```
 
-最后，把没有特化的`function_inference`从上述`instance_method_inference`继承：
+最后，把没有特化的 `function_inference` 从上述 `instance_method_inference` 继承：
 
 ```C++
 template <typename T>
@@ -168,9 +168,9 @@ using lambda_args = typename
 
 ~~哇真是太好玩了（x~~
 
-现在，`curried`函数内可以获得可调用类型`F`的返回值类型和参数类型列表，然后我们考虑用一个接受更多信息的函数`impl`来实现。
+现在，`curried` 函数内可以获得可调用类型 `F` 的返回值类型和参数类型列表，然后我们考虑用一个接受更多信息的函数 `impl` 来实现。
 
-> 因为普通的函数模板无法偏特化，这里`impl`是偏特化的模板类`curried_impl`的静态方法。
+> 因为普通的函数模板无法偏特化，这里 `impl` 是偏特化的模板类 `curried_impl` 的静态方法。
 
 ```C++
 template <typename F>
@@ -200,9 +200,9 @@ struct curried_impl<F, R, std::tuple<First>>
 };
 ```
 
-而对于 $n$ 个参数的函数`func`，我们逐个参数柯里化：外层Lambda表达式接受第一个参数；内部的Lambda表达式接受后 $n - 1$ 个参数，并捕获外层Lambda表达式的参数，返回`func`作用于这 $n$ 个参数的结果。
+而对于 $n$ 个参数的函数 `func`，我们逐个参数柯里化：外层Lambda表达式接受第一个参数；内部的Lambda表达式接受后 $n - 1$ 个参数，并捕获外层Lambda表达式的参数，返回 `func` 作用于这 $n$ 个参数的结果。
 
-最重要的是，**内层Lambda表达式也被`curried`**。
+最重要的是，**内层Lambda表达式也被 `curried`**。
 
 ```C++
 template <typename F, typename R, typename First,
@@ -222,7 +222,7 @@ struct curried_impl<F, R,
 };
 ```
 
-> 我在这里并不想考虑`std::forward<T>`之类的东西……所以捕获列表就直接`[=]`摆烂好了。
+> 我在这里并不想考虑 `std::forward<T>` 之类的东西……所以捕获列表就直接 `[=]` 摆烂好了。
 
 所以最后？
 

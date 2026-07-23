@@ -12,11 +12,11 @@ math: true
 ---
 选择了Challenge 1和2。
 
-报告中省略了实际代码的`assert()`。
+报告中省略了实际代码的 `assert()`。
 
 ## Exercise 1
 
-`boot_alloc()`的代码如下：
+`boot_alloc()` 的代码如下：
 
 ```c
 static void *boot_alloc(uint32_t n)
@@ -47,9 +47,9 @@ static void *boot_alloc(uint32_t n)
 }
 ```
 
-其中，第10行用于判断是否有足够的内存空间。由于`entrypgdir.c`中的页表仅映射了`PTSIZE`字节（即4 MB），因此，这里认为可用的空间最高只到`KERNBASE` + 4 MB。
+其中，第10行用于判断是否有足够的内存空间。由于 `entrypgdir.c` 中的页表仅映射了 `PTSIZE` 字节（即4 MB），因此，这里认为可用的空间最高只到 `KERNBASE` + 4 MB。
 
-对于`mem_init()`，暂且先补充两行：
+对于 `mem_init()`，暂且先补充两行：
 
 ```c
 // Your code goes here:
@@ -57,7 +57,7 @@ pages = (struct PageInfo *)boot_alloc(sizeof(struct PageInfo) * npages);
 memset(pages, 0, sizeof(struct PageInfo) * npages);
 ```
 
-`page_init()`的代码如下：
+`page_init()` 的代码如下：
 
 ```c
 void page_init(void)
@@ -87,11 +87,11 @@ void page_init(void)
 }
 ```
 
-在执行完`page_init()`之后，`page_free_list`指向最后一个物理页的`PageInfo`，似乎`page_alloc()`会最先分配这一页，然而没有任何虚拟地址被映射到它——可能映射到它的虚拟地址是`KERNBASE + 32767 * PGSIZE = 0xf7fff000`和`32767 * PGSIZE = 0x7fff000`，但当前的页表仅映射了4 MB字节，虚拟地址最高到`0xf0400000`和`0x400000`。
+在执行完 `page_init()` 之后，`page_free_list` 指向最后一个物理页的 `PageInfo`，似乎 `page_alloc()` 会最先分配这一页，然而没有任何虚拟地址被映射到它——可能映射到它的虚拟地址是 `KERNBASE + 32767 * PGSIZE = 0xf7fff000` 和 `32767 * PGSIZE = 0x7fff000`，但当前的页表仅映射了4 MB字节，虚拟地址最高到 `0xf0400000` 和 `0x400000`。
 
-但这不会发生，因为紧接着`check_page_free_list(1)`会重排链表，将`PDX`为0的页放在链表头。
+但这不会发生，因为紧接着 `check_page_free_list(1)` 会重排链表，将 `PDX` 为0的页放在链表头。
 
-`page_alloc()`的代码如下：
+`page_alloc()` 的代码如下：
 
 ```c
 struct PageInfo *page_alloc(int alloc_flags)
@@ -115,7 +115,7 @@ struct PageInfo *page_alloc(int alloc_flags)
 }
 ```
 
-`page_free()`的代码如下：
+`page_free()` 的代码如下：
 
 ```c
 void page_free(struct PageInfo *pp)
@@ -132,13 +132,13 @@ void page_free(struct PageInfo *pp)
 
 ### Question 1
 
-`x`的类型是`uintptr_t`。
+`x` 的类型是 `uintptr_t`。
 
-注意到题目中给出的是C代码，而JOS在调用C代码（`i386_init()`）之前，已经在`entry.S`的汇编代码中加载了页表，并启用分页。因此`char *value`一定是虚拟地址；接下来又将`value`赋值给`x`，那么`x`是虚拟地址。
+注意到题目中给出的是C代码，而JOS在调用C代码（`i386_init()`）之前，已经在 `entry.S` 的汇编代码中加载了页表，并启用分页。因此 `char *value` 一定是虚拟地址；接下来又将 `value` 赋值给 `x`，那么 `x` 是虚拟地址。
 
 ## Exercise 4
 
-`pgdir_walk()`的代码如下：
+`pgdir_walk()` 的代码如下：
 
 ```c
 pte_t *pgdir_walk(pde_t *pgdir, const void *va, int create)
@@ -170,9 +170,9 @@ pte_t *pgdir_walk(pde_t *pgdir, const void *va, int create)
 }
 ```
 
-需要注意第9和第25行：`PTX(va)`需要乘`sizeof(pte_t)`。
+需要注意第9和第25行：`PTX(va)` 需要乘 `sizeof(pte_t)`。
 
-`boot_map_region()`的代码如下：
+`boot_map_region()` 的代码如下：
 
 ```c
 static void boot_map_region(pde_t *pgdir, uintptr_t va, size_t size,
@@ -190,7 +190,7 @@ static void boot_map_region(pde_t *pgdir, uintptr_t va, size_t size,
 
 需要注意第10行，在改变页表后需要使对应的TLB项失效。
 
-`page_insert()`的代码如下：
+`page_insert()` 的代码如下：
 
 ```c
 int page_insert(pde_t *pgdir, struct PageInfo *pp, void *va, int perm)
@@ -208,9 +208,9 @@ int page_insert(pde_t *pgdir, struct PageInfo *pp, void *va, int perm)
 }
 ```
 
-这个函数需要注意代码顺序。`pp->pp_ref++`不能晚于`page_remove(pgdir, va)`，否则出现特例（“same `pp` is re-inserted at the same virtual address in the same `pgdir`”）时很难处理。但又不能早于`if (va_pte_va == NULL)`，只有在`va_pte_va != NULL`时才能断定这次插入是成功的，然后才可以增加对应页的引用计数——开香槟不能太早。
+这个函数需要注意代码顺序。`pp->pp_ref++` 不能晚于 `page_remove(pgdir, va)`，否则出现特例（“same `pp` is re-inserted at the same virtual address in the same `pgdir`”）时很难处理。但又不能早于 `if (va_pte_va == NULL)`，只有在 `va_pte_va != NULL` 时才能断定这次插入是成功的，然后才可以增加对应页的引用计数——开香槟不能太早。
 
-`page_lookup()`的代码如下：
+`page_lookup()` 的代码如下：
 
 ```c
 struct PageInfo *page_lookup(pde_t *pgdir, void *va, pte_t **pte_store)
@@ -230,7 +230,7 @@ struct PageInfo *page_lookup(pde_t *pgdir, void *va, pte_t **pte_store)
 }
 ```
 
-`page_remove()`的代码如下：
+`page_remove()` 的代码如下：
 
 ```c
 void page_remove(pde_t *pgdir, void *va)
@@ -249,9 +249,9 @@ void page_remove(pde_t *pgdir, void *va)
 
 ## Exercise 5
 
-最终，补全`mem_init()`
+最终，补全 `mem_init()`
 
-对于`pages`自身的映射将在后续映射`KERNBASE`时进行。
+对于 `pages` 自身的映射将在后续映射 `KERNBASE` 时进行。
 
 ```c
 //////////////////////////////////////////////////////////////////////
@@ -309,18 +309,18 @@ boot_map_region(kern_pgdir, KERNBASE, (size_t)((1ull << 32) - KERNBASE), 0,
 | ...   | ...                                   | ...   |
 | 0     | 0x00000000                            | none  |
 
-[^1]: 只有[`PADDR(bootstacktop)` - `KSTKSIZE`, `PADDR(bootstacktop)`)的页表项有效。
+[^1]: 只有 [`PADDR(bootstacktop)` - `KSTKSIZE`, `PADDR(bootstacktop)`) 的页表项有效。
 
-3. 页表可以设置权限位，如果没有设置`PTE_U`则用户无权访问。
+3. 页表可以设置权限位，如果没有设置 `PTE_U` 则用户无权访问。
 
 4. 128 MB。这是硬件（qemu）限制的。
 抛开硬件限制，注意到以下的事实：
-   1. 所有的物理页的信息`PageInfo`存储于`pages`数组；
-   2. `pages`通过`boot_alloc()`申请；
-   3. `boot_alloc()`最多分配`KERNBASE + PTSIZE - ROUNDUP((char *)end)`的空间；
+   1. 所有的物理页的信息 `PageInfo` 存储于 `pages` 数组；
+   2. `pages` 通过 `boot_alloc()` 申请；
+   3. `boot_alloc()` 最多分配 `KERNBASE + PTSIZE - ROUNDUP((char *)end)` 的空间；
    4. 上述空间中，有一个页用作第一级页表。
 
-因此，留给`pages`的空间至多为：
+因此，留给 `pages` 的空间至多为：
 
 $$S = \texttt{KERNBASE} + \texttt{PTSIZE} - \texttt{ROUNDUP((char *)end)} - \texttt{PGSIZE}$$
 
@@ -328,15 +328,15 @@ $$S = \texttt{KERNBASE} + \texttt{PTSIZE} - \texttt{ROUNDUP((char *)end)} - \tex
 
 $$\frac{S}{\texttt{sizeof(PageInfo)}} \times \texttt{PGSIZE} < \text{2 GB}$$
 
-应当指出，如果把内存空间 $S$ 全部分配给`pages`，在`mem_init()`中将无法正常创建二级页表。
+应当指出，如果把内存空间 $S$ 全部分配给 `pages`，在 `mem_init()` 中将无法正常创建二级页表。
 
-5. 开销至多为1个一级页表、1023个二级页表（考虑到页表自映射）、$\frac{S}{\texttt{sizeof(PageInfo)}}$ 项`PageInfo`，以及指针（`page_free_list`、`pages`、`kern_pgdir`），总计要小于8196.012 kB。
+5. 开销至多为1个一级页表、1023个二级页表（考虑到页表自映射）、$\frac{S}{\texttt{sizeof(PageInfo)}}$ 项 `PageInfo`，以及指针（`page_free_list`、`pages`、`kern_pgdir`），总计要小于8196.012 kB。
 应当指出，多数情况下只有很少一部分二级页表存在于内存中。
 为了减小开销，可以使用大页。
 6. 如下：
-   - 通过如下的代码跳转到`relocated()`函数。而`relocated()`函数的链接地址高于`KERNBASE`，从而使`%eip`高于`KERNBASE`。
-   - 此时的页表将物理地址0 ~ 4 MB同时映射到虚拟地址0 ~ 4 MB和`KERNBASE` ~ `KERNBASE` + 4 MB。低位的`%eip`会恒等映射到相应的物理地址。
-   - 因为在`mem_init()`之后，虚拟地址0 ~ 4 MB将不对应任何物理地址，因此内核必须转移到高的虚拟地址运行。
+   - 通过如下的代码跳转到 `relocated()` 函数。而 `relocated()` 函数的链接地址高于 `KERNBASE`，从而使 `%eip` 高于 `KERNBASE`。
+   - 此时的页表将物理地址0 ~ 4 MB同时映射到虚拟地址0 ~ 4 MB和 `KERNBASE` ~ `KERNBASE` + 4 MB。低位的 `%eip` 会恒等映射到相应的物理地址。
+   - 因为在 `mem_init()` 之后，虚拟地址0 ~ 4 MB将不对应任何物理地址，因此内核必须转移到高的虚拟地址运行。
 ```asm
 mov $relocated, %eax
 jmp *%eax
@@ -366,7 +366,7 @@ Intel IA-32手册第3A卷的*3.7.3 Mixing 4-KByte and 4-MByte Pages*指出：
 static int is_large_page_enabled;
 ```
 
-然后新增函数`boot_map_region_large_page()`，这是`boot_map_region()`的大页版本：
+然后新增函数 `boot_map_region_large_page()`，这是 `boot_map_region()` 的大页版本：
 
 ```c
 static void boot_map_region_large_page(pde_t *pgdir, uintptr_t va, size_t size,
@@ -388,7 +388,7 @@ static void boot_map_region_large_page(pde_t *pgdir, uintptr_t va, size_t size,
 }
 ```
 
-最终，可以修改`mem_init()`如下：
+最终，可以修改 `mem_init()` 如下：
 
 ```c
 uint32_t edx = 0;
@@ -412,14 +412,14 @@ else
 }
 ```
 
-还需要对`check_va2pa()`进行修改，以支持大页：
+还需要对 `check_va2pa()` 进行修改，以支持大页：
 
 ```c
 if (is_large_page_enabled && (*pgdir & PTE_PS))
     return PTE_ADDR(*pgdir) + (va & (0x3ff << PTXSHIFT));
 ```
 
-为了后续调试方便，对`pgdir_walk()`进行修改，在发现是大页时直接panic。
+为了后续调试方便，对 `pgdir_walk()` 进行修改，在发现是大页时直接panic。
 
 ```c
 if ((pde & PTE_P) && (pde & PTE_PS))
@@ -428,9 +428,9 @@ if ((pde & PTE_P) && (pde & PTE_PS))
 
 ## Challenge 2
 
-增加两个命令：`showmap`和`setperm`。两者的实现详见代码。
+增加两个命令：`showmap` 和 `setperm`。两者的实现详见代码。
 
-`showmap`的示例输出：
+`showmap` 的示例输出：
 
 ```text
 K> showmap 0xeffff000 0xf0000000
@@ -440,7 +440,7 @@ K> showmap 0xeffff000 0xf0000000
 0xf0000000 -> 0x00000000, Permission: RW|-- It's a large page
 ```
 
-`setperm`的示例输出：
+`setperm` 的示例输出：
 
 ```text
 K> setperm 0xf0000000 U

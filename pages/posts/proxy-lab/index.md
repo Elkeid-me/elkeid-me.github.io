@@ -45,9 +45,9 @@ Part B要求在Part A的基础上加入缓存机制，且空间不够时使用LR
 
 显然，这是读者—写者问题。我原本想直接把缓存用文件来实现（这样并发控制就能直接甩锅给文件系统了），但后来觉得不行。
 
-我又懒得拿两个锁和一个数字记录读者数目，所以，直接用`std::shared_mutex`摆烂！
+我又懒得拿两个锁和一个数字记录读者数目，所以，直接用 `std::shared_mutex` 摆烂！
 
-好，下一个问题。缓存里面存什么？显然key是URL，value是指向缓存对象的指针、时间戳以及对象的大小。那缓存就直接设计为一个`std::unordered_map<std::string, cache_block>`全局变量。`cache_block`的大致结构如下：
+好，下一个问题。缓存里面存什么？显然key是URL，value是指向缓存对象的指针、时间戳以及对象的大小。那缓存就直接设计为一个 `std::unordered_map<std::string, cache_block>` 全局变量。`cache_block` 的大致结构如下：
 
 ```cpp
 struct cache_block
@@ -62,46 +62,46 @@ struct cache_block
 
 - 第一种方案：
   - 读者锁定
-  - 用给定的URL调用缓存的`std::unordered_map::find()`
+  - 用给定的URL调用缓存的 `std::unordered_map::find()`
   - 若查找不到，则读者解锁并返回
   - 若查找到，直接将对应的缓存对象写入tcp套接字，并更新时间戳
   - 读者解锁，返回
 - 第二种方案：
   - 读者锁定
-  - 用给定的URL调用缓存的`std::unordered_map::find()`
-  - 若查找不到，则读者解锁并返回`{nullptr, 0}`
-  - 若查找到，则返回`{ptr, size}`并更新时间戳
+  - 用给定的URL调用缓存的 `std::unordered_map::find()`
+  - 若查找不到，则读者解锁并返回 `{nullptr, 0}`
+  - 若查找到，则返回 `{ptr, size}` 并更新时间戳
   - 读者解锁，返回
 
 第一种方案在数据安全上是没有问题的。但问题在于，临界区真的要这么大吗？（整个网络通信的部分都放在临界区里了。。。）
 
 第二种方案有非常小的临界区，但问题在于，如果发生下面的情况：
 
-- 线程A在缓存中查找到对象o，返回`{ptr, size}`。此时读锁定已经解除。
+- 线程A在缓存中查找到对象o，返回 `{ptr, size}`。此时读锁定已经解除。
 - 由于奇怪的操作系统调度，线程A被挂起；
 - 线程B、C、D……向缓存写入数据，写的对象太多以至于空间不够了，对象o被从缓存驱逐。
-- 线程A又被调度，此时`ptr`已经是悬垂指针了。
+- 线程A又被调度，此时 `ptr` 已经是悬垂指针了。
 
 所以我们希望：只要仍存在对o的引用，那就不要释放o；如果不存在对o的引用，那就一定要释放o。
 
-这不就是垃圾回收吗？但是C++ 又有什么垃圾回收呢？答案是`std::shared_ptr`，引用计数GC。
+这不就是垃圾回收吗？但是C++ 又有什么垃圾回收呢？答案是 `std::shared_ptr`，引用计数GC。
 
-令`cache_block`中的`ptr`为`std::shared_ptr<char[]>`类型，再来看看上面的情况：
+令 `cache_block` 中的 `ptr` 为 `std::shared_ptr<char[]>` 类型，再来看看上面的情况：
 
 - 首先，对象o由缓存持有，引用计数为1；
-- 线程A在缓存中查找到对象o，返回`{ptr, size}`。此时读锁定已经解除。o由缓存和线程A共同持有，引用计数为2。
+- 线程A在缓存中查找到对象o，返回 `{ptr, size}`。此时读锁定已经解除。o由缓存和线程A共同持有，引用计数为2。
 - 由于奇怪的操作系统调度，线程A被挂起；
 - 线程B、C、D……向缓存写入数据，写的对象太多以至于空间不够了，对象o被从缓存驱逐。缓存不再持有o，o的引用计数为1，此时o还没有被释放。
 - 线程A又被调度，将o写入tcp套接字。
-- 线程A销毁，`ptr`被析构，此时o不被任何人持有，内存被释放。
+- 线程A销毁，`ptr` 被析构，此时o不被任何人持有，内存被释放。
 
-那多个线程同时查找o不会把引用计数搞乱吗？答案是还真不会，因为`std::shared_ptr`的引用计数是原子变量。
+那多个线程同时查找o不会把引用计数搞乱吗？答案是还真不会，因为 `std::shared_ptr` 的引用计数是原子变量。
 
-> Cppreference：多个线程能在`shared_ptr`的不同实例上调用所有成员函数（包含复制构造函数与复制赋值）而不附加同步，即使这些实例是同一对象的副本且共享所有权也是如此。
+> Cppreference：多个线程能在 `shared_ptr` 的不同实例上调用所有成员函数（包含复制构造函数与复制赋值）而不附加同步，即使这些实例是同一对象的副本且共享所有权也是如此。
 
 多个进程同时查找o，会同时更新时间戳，造成数据竞争。但我认为这无伤大雅。
 
-`cache_block`的结构就这么愉快的决定了：
+`cache_block` 的结构就这么愉快的决定了：
 
 ```cpp
 struct cache_block
@@ -129,7 +129,7 @@ cache::find_cache(const std::string &uri)
 }
 ```
 
-其中，`map`是`std::unordered_map<std::string, cache_block>`，`mtx`是`std::shared_mutex`，`clock`是`std::atomic_size_t`（要考虑多线程同时查缓存的情况）。
+其中，`map` 是 `std::unordered_map<std::string, cache_block>`，`mtx` 是 `std::shared_mutex`，`clock` 是 `std::atomic_size_t`（要考虑多线程同时查缓存的情况）。
 
 ## Part C
 
@@ -137,7 +137,7 @@ Part C要求处理HTTPS流量。HTTPS是加密的，不可能被缓存，所以P
 
 ## 其他：文件描述符的优雅释放？
 
-你是否觉得代码里到处都是`close()`很不雅观？你是否害怕`return`之后忘记释放文件描述符？只需要使用RAII就能解决这个问题！
+你是否觉得代码里到处都是 `close()` 很不雅观？你是否害怕 `return` 之后忘记释放文件描述符？只需要使用RAII就能解决这个问题！
 
 ```cpp
 class fd_wrapper

@@ -18,7 +18,7 @@ tags:
    sudo apt install gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linux-gnu
    ```
 
-   注意，这里安装的工具均以`riscv64-linux-gnu-`开头。自行编译的工具可能以`riscv64-unknown-linux-gnu-`开头
+   注意，这里安装的工具均以 `riscv64-linux-gnu-` 开头。自行编译的工具可能以 `riscv64-unknown-linux-gnu-` 开头
 
 2. 安装OCaml工具链。具体来讲：
 
@@ -35,7 +35,7 @@ tags:
    git clone https://github.com/ocaml/ocaml.git --depth 1 --branch 5.4.0
    ```
 
-4. 编译。如果你的RISC-V工具链以`riscv64-unknown-linux-gnu-`开头，请将以下命令中的`target`换为`riscv64-unknown-linux-gnu`。
+4. 编译。如果你的RISC-V工具链以 `riscv64-unknown-linux-gnu-` 开头，请将以下命令中的 `target` 换为 `riscv64-unknown-linux-gnu`。
 
    ```bash
    ./configure --prefix=$PWD/cross/rv64 --target=riscv64-linux-gnu --disable-ocamldoc --disable-ocamltest    --disable-debug-runtime
@@ -98,23 +98,23 @@ tags:
 
 ## 指令扩展概述
 
-OCaml目前仅支持64位机器，并使用63位整数（最低位用于区分立即数和指针）。
+OCaml目前仅支持64位机器，并使用63位整数（最低位用于区分数和指针）。
 
-因此，对于`a + b`这样的表达式，OCaml Native编译器会生成如下的CMM IR（OCaml的最低层机器无关IR）：
+因此，对于 `a + b` 这样的表达式，OCaml Native编译器会生成如下的CMM IR（OCaml的最低层机器无关IR）：
 
 ```lisp
 (+ (+ a b) -1)
 ```
 
-因此，考虑添加`oadd`指令，语义如下：
+因此，考虑添加 `oadd` 指令，语义如下：
 
 ```asm
 oadd rd, rs1, rs2 # rd = rs1 + rs2 - 1
 ```
 
-这是一条R型指令。为简单起见，`opcode`选择`0x1f`，`funct7`和`funct3`都为0。
+这是一条R型指令。为简单起见，`opcode` 选择 `0x1f`，`funct7` 和 `funct3` 都为0。
 
-类似地，我们添加了`osub`和`omul`指令。
+类似地，我们添加了 `osub` 和 `omul` 指令。
 
 ## 修改OCaml编译器
 
@@ -130,9 +130,9 @@ oadd rd, rs1, rs2 # rd = rs1 + rs2 - 1
      | RiscvOMul                // [!code ++]
    ```
 
-2. 添加打印指令的代码。因为我懒得修改GNU Assembler以支持新指令，我决定指令直接以`.word <指令编码>`的形式打印。
+2. 添加打印指令的代码。因为我懒得修改GNU Assembler以支持新指令，我决定指令直接以 `.word <指令编码>` 的形式打印。
 
-   此为获得`<指令编码>`的核心代码：
+   此为获得 `<指令编码>` 的核心代码：
 
    ```ocaml
    (* asmcomp/riscv/emit.mlp *)
@@ -143,7 +143,7 @@ oadd rd, rs1, rs2 # rd = rs1 + rs2 - 1
      (opcode) lor (rd lsl 7) lor (funct3 lsl 12) lor (rs1 lsl 15) lor (rs2 lsl 20) lor (funct7 lsl 25)
    ```
 
-   添加获取`opcode`、`funct3`和`funct7`的代码：
+   添加获取 `opcode`、`funct3` 和 `funct7` 的代码：
 
    ```ocaml
    (* asmcomp/riscv/emit.mlp *)
@@ -166,7 +166,7 @@ oadd rd, rs1, rs2 # rd = rs1 + rs2 - 1
      | _ -> Misc.fatal_error "Emit.rv_ocaml_inst_funct7"
    ```
 
-   添加获取寄存器编号的代码。因为OCaml内部的寄存器编号并不是按照RISC-V顺序的（例如0在OCaml中对应`a0/x10`，但在RISC-V中对应`zero/x0`），需要先获取对应的寄存器名，再转换成对应的RISC-V寄存器编号。
+   添加获取寄存器编号的代码。因为OCaml内部的寄存器编号并不是按照RISC-V顺序的（例如0在OCaml中对应 `a0/x10`，但在RISC-V中对应 `zero/x0`），需要先获取对应的寄存器名，再转换成对应的RISC-V寄存器编号。
 
    ```ocaml
    (* asmcomp/riscv/emit.mlp *)
@@ -208,7 +208,7 @@ oadd rd, rs1, rs2 # rd = rs1 + rs2 - 1
       (* ... ... *)
    ```
 
-   最后，补齐`.mli`文件及某些模式匹配的`case`。
+   最后，补齐 `.mli` 文件及某些模式匹配的 `case`。
 
 3. 添加指令选择的代码。只需简单地匹配CMM：
 
@@ -229,7 +229,7 @@ oadd rd, rs1, rs2 # rd = rs1 + rs2 - 1
      (* ... ... *)
    ```
 
-   这里`arg_check`是一个简单的检查函数：
+   这里 `arg_check` 是一个简单的检查函数：
 
    ```ocaml
    (* asmcomp/riscv/selection.ml *)

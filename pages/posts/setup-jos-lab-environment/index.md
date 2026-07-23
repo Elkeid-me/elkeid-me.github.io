@@ -18,13 +18,13 @@ tags:
 sudo apt install build-essential gdb gcc-multilib libgmp-dev libmpfr-dev libfdt-dev libsdl1.2-dev libmpc-dev binutils python2.7 libtool-bin libglib2.0-dev libz-dev libpixman-1-dev
 ```
 
-2. 获取MIT修改的`qemu`：
+2. 获取MIT修改的 `qemu`：
 
 ```bash
 git clone https://github.com/mit-pdos/6.828-qemu.git qemu
 ```
 
-3. 把所有的`#include <sys/types.h>`改为`#include <sys/sysmacros.h>`
+3. 把所有的 `#include <sys/types.h>` 改为 `#include <sys/sysmacros.h>`
 
 4. 创建文件夹：
 

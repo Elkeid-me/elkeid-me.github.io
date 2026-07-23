@@ -16,8 +16,8 @@ tags:
    - Ninja
 
    而为了加快链接，还可以安装[mold](https://github.com/rui314/mold)。
-2. 建议先建一个恰当的文件夹，如`~/LLVM`
-3. 建一个`build`文件夹
+2. 建议先建一个恰当的文件夹，如 `~/LLVM`
+3. 建一个 `build` 文件夹
    ```bash
    cd LLVM
    mkdir build
@@ -50,7 +50,7 @@ tags:
 
 ## 环境变量配置
 
-嗯，我用的是Nushell。在`$nu.config-path`加入：
+嗯，我用的是Nushell。在 `$nu.config-path` 加入：
 
 ```nu
 $env.LLVM_SYS_191_PREFIX = $'($env.HOME)/LLVM/build/'

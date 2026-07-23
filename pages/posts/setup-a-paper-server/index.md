@@ -18,7 +18,7 @@ tags:
 众所周知，即便是MC原版服务器，也有很多不同的服务端。那为什么选择Paper呢？
 
 1. 官方端不支持Bukkit API。
-2. Spigot不提供预编译的`.jar`文件。
+2. Spigot不提供预编译的 `.jar` 文件。
 3. Paper有更好的性能，WorldEdit等插件以Paper为首选服务端。
 
 当然，你也可以尝试[Purpur](https://purpurmc.org/)，这是Paper的一个Fork。
@@ -54,15 +54,15 @@ Paper官方推荐的Java运行时是[Amazon Corretto](https://aws.amazon.com/cor
 
 旧版本：[Build explorer | PaperMC](https://papermc.io/downloads/all)。
 
-你将会下载到一个`.jar`文件。截至本文发稿，最新的构建是`paper-1.21.1-119.jar`。
+你将会下载到一个 `.jar` 文件。截至本文发稿，最新的构建是 `paper-1.21.1-119.jar`。
 
 ## 架设服务器
 
-将下载的`.jar`文件移动到一个空文件夹，在同一个文件夹下新建`start.bat`文件。此时文件夹里应该是这样：
+将下载的 `.jar` 文件移动到一个空文件夹，在同一个文件夹下新建 `start.bat` 文件。此时文件夹里应该是这样：
 
 ![](./folder-1.webp)
 
-右键编辑`start.bat`，写入以下内容：
+右键编辑 `start.bat`，写入以下内容：
 
 ```bat
 @ECHO OFF
@@ -70,7 +70,7 @@ java -Xms2G -Xmx2G -jar "<paper服务端的文件名>" --nogui
 pause
 ```
 
-**如果你没有把Java运行时添加到PATH**，那么第二行的`java`应替换为Java运行时的完整路径，例如：
+**如果你没有把Java运行时添加到PATH**，那么第二行的 `java` 应替换为Java运行时的完整路径，例如：
 
 ```bat
 @ECHO OFF
@@ -79,17 +79,18 @@ pause
 ```
 ::: info
 路径带空格的话，要加引号。
-`-Xms2G -Xmx2G`意味着将服务器的内存限制在2 GB。你也可以使用`-Xms4G -Xmx4G`、`-Xms3500M -Xmx3500M`等参数。
+
+`-Xms2G -Xmx2G` 意味着将服务器的内存限制在2 GB。你也可以使用 `-Xms4G -Xmx4G`、`-Xms3500M -Xmx3500M` 等参数。
 :::
 
-而后运行`start.bat`。以下的输出是我使用Paper 1.21.1和Adoptium Temurin 21.0.4得到的。你得到的输出应当与我大同小异：
+而后运行 `start.bat`。以下的输出是我使用Paper 1.21.1和Adoptium Temurin 21.0.4得到的。你得到的输出应当与我大同小异：
 
 ![](./output.webp)
 
 此时文件夹里应当是这样的：
 
 ::: tip
-下载失败？在`-jar`前加两个妙妙参数：
+下载失败？在 `-jar` 前加两个妙妙参数：
 ```bash
 -DsocksProxyHost=localhost -DsocksProxyPort=<Clash Socks5端口号>
 ```
@@ -97,13 +98,13 @@ pause
 
 ![](./folder-2.webp)
 
-打开`eula.txt`，将最后一行的`eula=false`改为`eula=true`
+打开 `eula.txt`，将最后一行的 `eula=false` 改为 `eula=true`
 
 ::: warning
 这意味着你同意[Minecraft最终用户许可协议（EULA）](https://www.minecraft.net/zh-hans/eula)。
 :::
 
-接下来，你可以修改`server.properties`的内容，各项配置的含义可以阅读[server.properties | Minecraft Wiki](https://minecraft.fandom.com/zh/wiki/Server.properties)。我认为较重要的配置项如下：
+接下来，你可以修改 `server.properties` 的内容，各项配置的含义可以阅读[server.properties | Minecraft Wiki](https://minecraft.fandom.com/zh/wiki/Server.properties)。我认为较重要的配置项如下：
 
 |配置项|含义|默认值|
 |-----|----|----|
@@ -112,13 +113,13 @@ pause
 |`max-players`         | 服务器容纳的最多玩家数 | 20 |
 |`online-mode`         | 是否启用正版验证      | `true` |
 
-最后，再一次运行`start.bat`即可。以下的输出是我使用Paper 1.21.1和Adoptium Temurin 21.0.4得到的。你得到的输出应当与我大同小异：
+最后，再一次运行 `start.bat` 即可。以下的输出是我使用Paper 1.21.1和Adoptium Temurin 21.0.4得到的。你得到的输出应当与我大同小异：
 
 ![](./succ.webp)
 
 现在，在MC中添加服务器，地址输入127.0.0.1即可。
 
-当需要关闭服务器时，在控制台输入`stop`并回车即可。
+当需要关闭服务器时，在控制台输入 `stop` 并回车即可。
 
 ![](./stop.webp)
 

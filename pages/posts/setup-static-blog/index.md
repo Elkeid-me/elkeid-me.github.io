@@ -47,9 +47,9 @@ npm install -g hexo-cli
 hexo init
 ```
 
-完成之后，文件夹内将多出`_config.yml`等文件。
+完成之后，文件夹内将多出 `_config.yml` 等文件。
 
-这里有个坑：`hexo init`在默认情况下，是将GitHub上的[hexo-starter](https://github.com/hexojs/hexo-starter)仓库克隆到本地[^1]。然而，由于GitHub对塞里斯进行了无耻的网络封锁，如果无法连接到GitHub，Hexo会转而Copying data instead。你会看到类似的终端输出：
+这里有个坑：`hexo init` 在默认情况下，是将GitHub上的[hexo-starter](https://github.com/hexojs/hexo-starter)仓库克隆到本地[^1]。然而，由于GitHub对塞里斯进行了无耻的网络封锁，如果无法连接到GitHub，Hexo会转而Copying data instead。你会看到类似的终端输出：
 
 ```bash
 INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git
@@ -61,7 +61,7 @@ WARN  git clone failed. Copying data instead
 
 ## 配置
 
-这里主要讲述`_config.yml`中的重要配置项。完整配置项参考[Configuration | Hexo](https://hexo.io/docs/configuration.html)。
+这里主要讲述 `_config.yml` 中的重要配置项。完整配置项参考[Configuration | Hexo](https://hexo.io/docs/configuration.html)。
 
 | 参数        | 描述                                              |
 | ----------- | ------------------------------------------------- |
@@ -70,9 +70,9 @@ WARN  git clone failed. Copying data instead
 | description | 网站描述                                          |
 | keywords    | 网站的关键词                                      |
 | author      | 您的名字                                          |
-| language    | 网站语言。对于简体中文用户设置为`zh-CN`           |
-| timezone    | 网站时区。对于中国大陆地区可以使用`Asia/Shanghai` |
-| url         | 网址，设为`https://<你的GitHub用户名>.github.io`  |
+| language    | 网站语言。对于简体中文用户设置为 `zh-CN`           |
+| timezone    | 网站时区。对于中国大陆地区可以使用 `Asia/Shanghai` |
+| url         | 网址，设为 `https://<你的GitHub用户名>.github.io`  |
 
 ## 写作
 
@@ -82,7 +82,7 @@ WARN  git clone failed. Copying data instead
 hexo new post <文章名>
 ```
 
-稍等片刻，即可在`source/_post`文件夹下看见`<文章名>.md`文件。可以用VS Code或Typora等软件以Markdown语法编辑。
+稍等片刻，即可在 `source/_post` 文件夹下看见 `<文章名>.md` 文件。可以用VS Code或Typora等软件以Markdown语法编辑。
 
 ## 预览
 
@@ -106,7 +106,7 @@ hexo s
   npm install hexo-deployer-git --save
   ```
 
-  在`_config.yml`的`deploy`项加入配置：
+  在 `_config.yml` 的 `deploy` 项加入配置：
 
   ```yaml
   deploy:
@@ -125,7 +125,7 @@ hexo s
   ```
 - 普通发布法：
 
-  在`.github`文件夹中新建`workflows/pages.yml`，填入以下内容，这里假设你使用Node.js 20。
+  在 `.github` 文件夹中新建 `workflows/pages.yml`，填入以下内容，这里假设你使用Node.js 20。
 
   ```yaml
   name: Pages

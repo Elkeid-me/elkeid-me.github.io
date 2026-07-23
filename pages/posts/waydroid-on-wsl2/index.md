@@ -35,7 +35,7 @@ sudo apt install bc bison build-essential cpio flex libelf-dev libncurses-dev li
 git clone https://github.com/microsoft/WSL2-Linux-Kernel.git --depth=1 --branch=linux-msft-wsl-5.15.y
 ```
 ::: warning
-这里克隆的是`linux-msft-wsl-5.15.y`分支。对于其他分支，本文不保证有效。
+这里克隆的是 `linux-msft-wsl-5.15.y` 分支。对于其他分支，本文不保证有效。
 :::
 
 ::: warning
@@ -47,7 +47,7 @@ cd WSL2-Linux-Kernel
 cp Microsoft/config-wsl .config
 make menuconfig
 ```
-Save & Exit。打开`.config`
+Save & Exit。打开 `.config`
 ```makefile
 # CONFIG_PSI is not set // [!code --]
 CONFIG_PSI=y // [!code ++]
@@ -68,19 +68,19 @@ make -j $(nproc)
 ```
 ## 启用自定义内核
 
-此时，编译好的内核在`arch/x86/boot/bzImage`。把它复制到Windows下。
+此时，编译好的内核在 `arch/x86/boot/bzImage`。把它复制到Windows下。
 
 关闭WSL:
 ```bash
 wsl --shutdown
 ```
-在`.wslconfig`：
+在 `.wslconfig`：
 ```ini
 [wsl2] // [!code ++]
 kernel=<path to custom kernel> # 路径中的反斜杠要再加反斜杠转义，例如 C:\\Users\\username\\kernel // [!code ++]
 ```
 ::: tip
-什么是`.wslconfig`？请参考[WSL中的高级配置设置](https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config#wslconfig)
+什么是 `.wslconfig`？请参考[WSL中的高级配置设置](https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config#wslconfig)
 :::
 
 ## 安装Waydroid
@@ -102,7 +102,7 @@ wsl --shutdown
 
 ## 启动Waydroid
 
-在`/var/lib/waydroid/waydroid_base.prop`：
+在 `/var/lib/waydroid/waydroid_base.prop`：
 
 ```txt
 ro.hardware.gralloc=gbm      // [!code --]
@@ -127,7 +127,7 @@ weston
 ```bash
 waydroid session start
 ```
-等到`Andorid with user 0 is ready`.
+等到 `Andorid with user 0 is ready`.
 
 另一个输入：
 ```bash
@@ -138,5 +138,5 @@ waydroid show-full-ui
 ![](./waydroid.webp)
 
 ::: tip
-其实不经过`waydroid session start`，直接`waydroid show-full-ui`也可以。
+其实不经过 `waydroid session start`，直接 `waydroid show-full-ui` 也可以。
 :::

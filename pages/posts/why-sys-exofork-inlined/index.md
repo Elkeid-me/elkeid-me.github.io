@@ -12,13 +12,13 @@ tags:
 
 本文内容写于2023年12月18日，为JOS Lab的分析笔记。今正式公开。
 
-如果`sys_exofork()`不内联，在`ret`指令前，`%esp`为`0xeebfdf34`，`%ebp`为`0xeebfdf70`（实际上是`fork()`的`%ebp`，因为`sys_exofork()`没有`push %ebp`和`mov %esp, %ebp`）。
+如果 `sys_exofork()` 不内联，在 `ret` 指令前，`%esp` 为 `0xeebfdf34`，`%ebp` 为 `0xeebfdf70`（实际上是 `fork()` 的 `%ebp`，因为 `sys_exofork()` 没有 `push %ebp` 和 `mov %esp, %ebp`）。
 
-新建的子环境会卡在`ret`之前，等待`iret`从系统调用返回。而父环境继续`fork()`。在调用`sys_page_map()`进行COW映射之前，`%esp`会降至`%0xeebfdf28`，即父环境会覆盖子环境的返回地址（因为此时两者公用栈）。仔细来说，是在调用`sys_page_map()`之前`push %edi`传入参数时。这个参数是`dstva`。
+新建的子环境会卡在 `ret` 之前，等待 `iret` 从系统调用返回。而父环境继续 `fork()`。在调用 `sys_page_map()` 进行COW映射之前，`%esp` 会降至 `%0xeebfdf28`，即父环境会覆盖子环境的返回地址（因为此时两者公用栈）。仔细来说，是在调用 `sys_page_map()` 之前 `push %edi` 传入参数时。这个参数是 `dstva`。
 
-而如果`sys_exo_fork()`是内联的，就不会有以上问题。`fork()`调用的叶函数不会修改`fork()`的返回地址，而`fork()`完成后，已经完成了栈的COW映射，父环境的其他过程不会修改子环境`fork()`的返回地址。
+而如果 `sys_exo_fork()` 是内联的，就不会有以上问题。`fork()` 调用的叶函数不会修改 `fork()` 的返回地址，而 `fork()` 完成后，已经完成了栈的COW映射，父环境的其他过程不会修改子环境 `fork()` 的返回地址。
 
-事实上，只考虑测试样例的话，我已经设计出了非内联版本的`sys_exofork()`。原理很简单：把返回地址搬到一个不会被修改的地方。
+事实上，只考虑测试样例的话，我已经设计出了非内联版本的 `sys_exofork()`。原理很简单：把返回地址搬到一个不会被修改的地方。
 
 ```c
 static envid_t __attribute__((noinline))

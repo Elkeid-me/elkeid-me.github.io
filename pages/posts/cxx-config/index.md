@@ -37,25 +37,25 @@ tags:
 
 ### MinGW-w64
 
-前往`mingw-builds-binaries`的[GitHub Release页面](https://github.com/niXman/mingw-builds-binaries/releases)，选择文件名中包含`x86_64`、`posix`、`seh`和`ucrt`的版本。截至本文发布，应该下载`x86_64-14.2.0-release-posix-seh-ucrt-rt_v12-rev0.7z`。
+前往 `mingw-builds-binaries` 的[GitHub Release页面](https://github.com/niXman/mingw-builds-binaries/releases)，选择文件名中包含 `x86_64`、`posix`、`seh` 和 `ucrt` 的版本。截至本文发布，应该下载 `x86_64-14.2.0-release-posix-seh-ucrt-rt_v12-rev0.7z`。
 
 ::: info
-根据[mingw-w64 threads: posix vs win32](https://stackoverflow.com/questions/17242516/mingw-w64-threads-posix-vs-win32)，`posix`版本将使用posix API并允许使用`std::thread`，`win32`将使用win32 API，并禁用`std::thread`部分标准。
+根据[mingw-w64 threads: posix vs win32](https://stackoverflow.com/questions/17242516/mingw-w64-threads-posix-vs-win32)，`posix` 版本将使用posix API并允许使用 `std::thread`，`win32` 将使用win32 API，并禁用 `std::thread` 部分标准。
 
-对于初学者而言，`std::thread`似乎是无关紧要的。
+对于初学者而言，`std::thread` 似乎是无关紧要的。
 
-除了`mingw-builds-binaries`，也可以考虑[谷雨构建的MinGW-w64](https://github.com/guyutongxue/mingw-release/releases)，他只提供`x86_64`、`win32`、`seh`和`ucrt`。截至本文发布，应该下载`gytx_x86_64-14.2.0-win32-seh-ucrt.7z`
+除了 `mingw-builds-binaries`，也可以考虑[谷雨构建的MinGW-w64](https://github.com/guyutongxue/mingw-release/releases)，他只提供 `x86_64`、`win32`、`seh` 和 `ucrt`。截至本文发布，应该下载 `gytx_x86_64-14.2.0-win32-seh-ucrt.7z`。
 :::
 
 ::: tip
-这两个地址提供的文件均为`7z`格式。这是一种压缩包，如果你不知道用什么解压，请使用[7-Zip](https://www.7-zip.org)。
+这两个地址提供的文件均为 `7z` 格式。这是一种压缩包，如果你不知道用什么解压，请使用[7-Zip](https://www.7-zip.org)。
 
 最新版本的Windows 11已经内置7z解压功能。
 :::
 
 此后，将文件解压缩到一个**合适**的地方，不推荐解压到桌面或“下载”文件夹。要求路径中**不包含中文与空格**。
 
-打开解压缩得到的文件夹，在其中找到`bin`子文件夹。文件夹内应该是这样的：
+打开解压缩得到的文件夹，在其中找到 `bin` 子文件夹。文件夹内应该是这样的：
 
 ![](./mingw-w64.webp)
 
@@ -73,12 +73,12 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 
 打开之后，按如下步骤操作：
 
-1. 点击`环境变量`；
-2. 在`<你的用户名> 的用户变量`下点击`Path`；
-3. 点击`编辑`；
-4. 点击`新建`；
+1. 点击 `环境变量`；
+2. 在 `<你的用户名> 的用户变量` 下点击 `Path`；
+3. 点击 `编辑`；
+4. 点击 `新建`；
 5. 粘贴刚刚复制的路径；
-6. 7. 8. 三个`确定`。
+6. 7. 8. 三个 `确定`。
 
 ![](./env-config.webp)
 
@@ -91,11 +91,11 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 ![](./conhost.webp)
 :::
 
-输入`gcc --version`并回车，如果环境变量配置**正确**，应当看到类似下面的输出：
+输入 `gcc --version` 并回车，如果环境变量配置**正确**，应当看到类似下面的输出：
 
 ![](./gcc-v.webp)
 
-而如果出现`'gcc' 不是内部或外部命令，也不是可运行的程序或批处理文件。`，则说明环境变量配置有问题，应当采取的措施包括但不限于：
+而如果出现 `'gcc' 不是内部或外部命令，也不是可运行的程序或批处理文件。`，则说明环境变量配置有问题，应当采取的措施包括但不限于：
 
 1. 重启Windows终端或Windows控制台主机。
 2. 重启电脑。
@@ -103,11 +103,11 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 
 ### clangd
 
-前往clangd的[GitHub Release页面](https://github.com/clangd/clangd/releases)，忽略掉“Pre-release”，选择“Latest”的windows版本。截至本文发布，应该下载`clangd-windows-18.1.3.zip`。
+前往clangd的[GitHub Release页面](https://github.com/clangd/clangd/releases)，忽略掉“Pre-release”，选择“Latest”的windows版本。截至本文发布，应该下载 `clangd-windows-18.1.3.zip`。
 
-这仍然是一个压缩包。与MinGW-w64类似，需要在解压缩后，将其中的`bin`文件夹添加到环境变量。
+这仍然是一个压缩包。与MinGW-w64类似，需要在解压缩后，将其中的 `bin` 文件夹添加到环境变量。
 
-输入`clangd --version`并回车，如果环境变量配置**正确**，你应当看到类似下面的输出：
+输入 `clangd --version` 并回车，如果环境变量配置**正确**，你应当看到类似下面的输出：
 
 ![](./clangd-v.webp)
 
@@ -129,7 +129,7 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 
 ![](./vsc_panel.webp)
 
-这时会自动打开`settings.json`，此即VS Code的配置文件，使用带注释的JSON语法（JSON with Comments）。在继续阅读之前，我假定你对这种文件格式有初步的了解。
+这时会自动打开 `settings.json`，此即VS Code的配置文件，使用带注释的JSON语法（JSON with Comments）。在继续阅读之前，我假定你对这种文件格式有初步的了解。
 
 加入配置项：
 
@@ -156,11 +156,11 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 
 为了正确地对单个C/C++源文件编译与调试，需要两个配置文件。
 
-在工作区中新建`.vscode`文件夹，然后在其中新建`launch.json`和`tasks.json`。
+在工作区中新建 `.vscode` 文件夹，然后在其中新建 `launch.json` 和 `tasks.json`。
 
 ##### `tasks.json`
 
-`tasks.json`是构建说明，指导C/C++插件怎样启动编译器。这里给出的是我自己使用的配置：
+`tasks.json` 是构建说明，指导C/C++插件怎样启动编译器。这里给出的是我自己使用的配置：
 
 ```json
 {
@@ -205,7 +205,7 @@ Windows默认隐藏文件扩展名，所以也可能是这样的：
 
 ##### `launch.json`
 
-`launch.json`是调试说明，指导C/C++插件怎样启动调试器。这里给出的是我自己使用的配置：
+`launch.json` 是调试说明，指导C/C++插件怎样启动调试器。这里给出的是我自己使用的配置：
 
 ```json
 {
@@ -275,7 +275,7 @@ cache::find_cache(const std::string &uri)
 ```
 :::
 
-为了使用clang-format，你需要在工作区根目录下有名为`.clang-format`的配置文件：
+为了使用clang-format，你需要在工作区根目录下有名为 `.clang-format` 的配置文件：
 
 ![](./clang-format.webp)
 
@@ -301,11 +301,11 @@ PPIndentWidth: 1
 
 #### clangd
 
-终于到了最复杂的部分——clangd本体的配置。对于初学者（单文件编译），请看[`.clangd`](#clangd-2)；如果你正在使用某种构建工具，请看[`compile_commands.json`](#compile-commands-json)。
+终于到了最复杂的部分——clangd本体的配置。对于初学者（单文件编译），请看 [`.clangd`](#clangd-2)；如果你正在使用某种构建工具，请看 [`compile_commands.json`](#compile-commands-json)。
 
 ##### `.clangd`
 
-`.clangd`记录了你在编译文件时使用的编译器、编译参数等。`.clangd`在工作区根目录下——换句话说，它应该跟`.clang-format`在一起。
+`.clangd` 记录了你在编译文件时使用的编译器、编译参数等。`.clangd` 在工作区根目录下——换句话说，它应该跟 `.clang-format` 在一起。
 
 这个文件使用YAML语法。这里给出我使用的配置文件：
 
@@ -319,27 +319,27 @@ CompileFlags:
 
 ##### `compile_commands.json`
 
-`compile_commands.json`是一个JSON文件，指定项目中每个源代码编译的方式。典型的`compile_commands.json`如下：
+`compile_commands.json` 是一个JSON文件，指定项目中每个源代码编译的方式。典型的 `compile_commands.json` 如下：
 
 ![](./compile-commands.webp)
 
-`compile_commands.json`可以人工编写，但更推荐的方式是用工具自动生成。请选择你的构建工具：
+`compile_commands.json` 可以人工编写，但更推荐的方式是用工具自动生成。请选择你的构建工具：
 
 - [CMake](#cmake)
 - [Xmake](#xmake)
 - [GNU make](#gnu-make)
 
 ::: tip
-如果你不明白什么是构建工具，那么很显然，你应该使用[`.clangd`](#clangd-2)。
+如果你不明白什么是构建工具，那么很显然，你应该使用 [`.clangd`](#clangd-2)。
 
 详细信息见[Project setup](https://clangd.llvm.org/installation#project-setup)。
 :::
 
 ##### CMake
 
-在运行CMake时加入参数`-DCMAKE_EXPORT_COMPILE_COMMANDS=1`。
+在运行CMake时加入参数 `-DCMAKE_EXPORT_COMPILE_COMMANDS=1`。
 
-也可以在`CMakeLists.txt`中加入：
+也可以在 `CMakeLists.txt` 中加入：
 
 ```cmake
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -349,26 +349,26 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 - [CMAKE_EXPORT_COMPILE_COMMANDS](https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html)
 :::
-如果`compile_commands.json`被生成在项目根目录，或`项目根目录/build`，clangd可以自动识别。否则，你需要手工移动`compile_commands.json`到项目根目录。
+如果 `compile_commands.json` 被生成在项目根目录，或 `项目根目录/build`，clangd可以自动识别。否则，你需要手工移动 `compile_commands.json` 到项目根目录。
 
-只有在生成Makefile或Ninja时，CMake才会生成`compile_commands.json`。
+只有在生成Makefile或Ninja时，CMake才会生成 `compile_commands.json`。
 
 ##### Xmake
 
 [Xmake](https://xmake.io/#/zh-cn/)是一个基于Lua的轻量级跨平台构建工具。
 
-要使用Xmake生成`compile_commands.json`，可以直接运行：
+要使用Xmake生成 `compile_commands.json`，可以直接运行：
 
 ```console
 xmake project -k compile_commands
 ```
-也可以在`xmake.lua`中加入：
+也可以在 `xmake.lua` 中加入：
 
 ```lua
 add_rules("plugin.compile_commands.autoupdate")
 ```
 
-来自动更新`compile_commands.json`。
+来自动更新 `compile_commands.json`。
 
 ::: tip
 参考：
@@ -378,7 +378,7 @@ add_rules("plugin.compile_commands.autoupdate")
 :::
 ##### GNU make
 
-GNU make无法自动生成`compile_commands.json`。不过嘛，有一个网站[Generate Compilation Database from GNU make output online](https://texttoolkit.com/compilation-database-generator)可以根据`make`的输出生成`compile_commands.json`。具体来说，你需要：
+GNU make无法自动生成 `compile_commands.json`。不过嘛，有一个网站[Generate Compilation Database from GNU make output online](https://texttoolkit.com/compilation-database-generator)可以根据 `make` 的输出生成 `compile_commands.json`。具体来说，你需要：
 
 1. 确保make输出的是英文。对于Ubuntu，可能需要运行
    ```console
@@ -388,6 +388,6 @@ GNU make无法自动生成`compile_commands.json`。不过嘛，有一个网站[
    ```console
    make -nw
    ```
-3. 将2.的输出粘贴到上述网站。点击`Generate!`即可获得`compile_commands.json`。
+3. 将2.的输出粘贴到上述网站。点击 `Generate!` 即可获得 `compile_commands.json`。
 
-此外，clangd官方推荐使用[Bear](https://github.com/rizsotto/Bear)为基于make或其他构建工具的项目生成`compile_commands.json`。
+此外，clangd官方推荐使用[Bear](https://github.com/rizsotto/Bear)为基于make或其他构建工具的项目生成 `compile_commands.json`。
