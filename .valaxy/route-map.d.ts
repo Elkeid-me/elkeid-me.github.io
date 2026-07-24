@@ -20,9 +20,9 @@ import type {
 
 declare module 'vue-router' {
   interface TypesConfig {
-    ParamParsers:
-      | never
+    _ParamParsers: {}
     RouteNamedMap: import('vue-router/auto-routes').RouteNamedMap
+    _RouteFileInfoMap: import('vue-router/auto-routes')._RouteFileInfoMap
   }
 }
 
@@ -380,22 +380,28 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-beta_719275b6ab95e2acc81aeb8eeaa57904/node_modules/valaxy-theme-yun/pages/index.vue': {
+    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-beta_3ed0f6abd5bd919f9fe65a1220012a08/node_modules/valaxy-theme-yun/pages/index.vue': {
       routes:
         | '/'
       views:
         | never
+      pathParamNames:
+        | never
     }
-    'node_modules/.pnpm/valaxy@1.0.0-beta.2_@babel+_7c5e8a74e2c7dc273167240ccd561e29/node_modules/valaxy/client/pages/[...path].vue': {
+    'node_modules/.pnpm/valaxy@1.0.0-beta.2_@babel+_03d4da48f8066d93221e6d727ecc3c54/node_modules/valaxy/client/pages/[...path].vue': {
       routes:
         | '/[...path]'
       views:
         | never
+      pathParamNames:
+        | 'path'
     }
     'pages/404.md': {
       routes:
         | '/404'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/about/index.md': {
@@ -403,11 +409,15 @@ declare module 'vue-router/auto-routes' {
         | '/about/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/archives/index.md': {
       routes:
         | '/archives/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/categories/index.md': {
@@ -415,23 +425,31 @@ declare module 'vue-router/auto-routes' {
         | '/categories/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/links/index.md': {
       routes:
         | '/links/'
       views:
         | never
+      pathParamNames:
+        | never
     }
-    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-beta_719275b6ab95e2acc81aeb8eeaa57904/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
+    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-beta_3ed0f6abd5bd919f9fe65a1220012a08/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
       routes:
         | '/page/[page]'
       views:
         | never
+      pathParamNames:
+        | 'page'
     }
-    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-beta_719275b6ab95e2acc81aeb8eeaa57904/node_modules/valaxy-theme-yun/pages/posts/index.vue': {
+    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-beta_3ed0f6abd5bd919f9fe65a1220012a08/node_modules/valaxy-theme-yun/pages/posts/index.vue': {
       routes:
         | '/posts/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/24-3-24/index.md': {
@@ -439,11 +457,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/24-3-24/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/argument-on-dynamic-typing/index.md': {
       routes:
         | '/posts/argument-on-dynamic-typing/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/clean-the-system/index.md': {
@@ -451,11 +473,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/clean-the-system/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/comments-on-texmacs-and-mogan-editor/index.md': {
       routes:
         | '/posts/comments-on-texmacs-and-mogan-editor/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/compile-llvm/index.md': {
@@ -463,11 +489,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/compile-llvm/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/config-chipyard/index.md': {
       routes:
         | '/posts/config-chipyard/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/cxx-config/index.md': {
@@ -475,11 +505,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/cxx-config/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/cxx-curried.md': {
       routes:
         | '/posts/cxx-curried'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/data-lab/index.md': {
@@ -487,11 +521,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/data-lab/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/do-not-recommend-edge-in-2024/index.md': {
       routes:
         | '/posts/do-not-recommend-edge-in-2024/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/du-le-si/index.md': {
@@ -499,11 +537,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/du-le-si/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/huawei-smartphone-optimization/index.md': {
       routes:
         | '/posts/huawei-smartphone-optimization/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/latex-config/index.md': {
@@ -511,11 +553,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/latex-config/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/lumia-650-review/index.md': {
       routes:
         | '/posts/lumia-650-review/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/malloc-lab/index.md': {
@@ -523,11 +569,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/malloc-lab/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/ocaml-riscv/index.md': {
       routes:
         | '/posts/ocaml-riscv/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/os-lab-1/index.md': {
@@ -535,11 +585,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/os-lab-1/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/os-lab-2/index.md': {
       routes:
         | '/posts/os-lab-2/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/os-lab-3/index.md': {
@@ -547,11 +601,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/os-lab-3/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/os-lab-4/index.md': {
       routes:
         | '/posts/os-lab-4/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/os-lab-5/index.md': {
@@ -559,11 +617,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/os-lab-5/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/pkuthesis-doc/index.md': {
       routes:
         | '/posts/pkuthesis-doc/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/pkuthesis-doc-1.0/index.md': {
@@ -571,11 +633,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/pkuthesis-doc-1.0/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/pkuthesis-doc-pre-1.0/index.md': {
       routes:
         | '/posts/pkuthesis-doc-pre-1.0/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/proxy-lab/index.md': {
@@ -583,11 +649,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/proxy-lab/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/risk/index.md': {
       routes:
         | '/posts/risk/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/setup-a-forge-server/index.md': {
@@ -595,11 +665,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/setup-a-forge-server/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/setup-a-paper-server/index.md': {
       routes:
         | '/posts/setup-a-paper-server/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/setup-jos-lab-environment/index.md': {
@@ -607,11 +681,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/setup-jos-lab-environment/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/setup-static-blog/index.md': {
       routes:
         | '/posts/setup-static-blog/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/text-autospace.md': {
@@ -619,11 +697,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/text-autospace'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/thunder/index.md': {
       routes:
         | '/posts/thunder/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/thunder-2/index.md': {
@@ -631,11 +713,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/thunder-2/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/todo/index.md': {
       routes:
         | '/posts/todo/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/visual-novels/index.md': {
@@ -643,11 +729,15 @@ declare module 'vue-router/auto-routes' {
         | '/posts/visual-novels/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/waydroid-on-wsl2/index.md': {
       routes:
         | '/posts/waydroid-on-wsl2/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'pages/posts/why-mp-main-indirect-call/index.md': {
@@ -655,17 +745,23 @@ declare module 'vue-router/auto-routes' {
         | '/posts/why-mp-main-indirect-call/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/posts/why-sys-exofork-inlined/index.md': {
       routes:
         | '/posts/why-sys-exofork-inlined/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'pages/tags/index.md': {
       routes:
         | '/tags/'
       views:
+        | never
+      pathParamNames:
         | never
     }
   }

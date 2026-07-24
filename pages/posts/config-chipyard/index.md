@@ -133,6 +133,14 @@ let gem5_build_args = [
 scons ...$gem5_build_args
 ```
 
+::: info
+如果使用Arch Linux，可以跳过Verilator的编译，转而直接使用 `pacman` 安装：
+
+```nu
+sudo pacman -S verilator
+```
+:::
+
 Verilator：
 
 ```nu
@@ -385,6 +393,8 @@ $$
 $$
 
 以上的过程全部由一个Makefile驱动。其中，Scala编译、CIRCTL和Verilator较难加速。我们能下手的，只有C/C++编译，以及最终模拟器的多线程执行。
+
+> 多线程反倒会拖慢BOOM的仿真，原因未知。
 
 ### 使用ccache编译缓存
 
