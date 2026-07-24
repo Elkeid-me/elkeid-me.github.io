@@ -38,7 +38,7 @@ auto add(int x)
 }
 ```
 
-这个C++的 `add` 也表现得类似F#的 `add`
+这个C++的 `add` 也表现得类似F#的 `add`：
 
 ```C++
 auto add_five{add(5)};

@@ -179,7 +179,7 @@ make install
 
 RISC-V Proxy Kernel：
 
-```
+```nu
 cd ($WORK_DIR)/riscv-pk
 mkdir build
 cd build
@@ -287,7 +287,7 @@ central.to=https://mirrors.huaweicloud.com/repository/maven/
 [repositories]
   local
   huaweicloud-ivy: https://mirrors.huaweicloud.com/repository/ivy/, [organization]/[module]/(scala[scalaVersion]/)(sbt[sbtVersion]/)[revision]/[type]s/artifact.[ext],allowInsecureProtocol
-  huaweicloud-maven: https://mirrors.huaweicloud.com/repository/maven/, allowInsecureProtocol
+  huaweicloud-maven: https://mirrors.huaweicloud.com/repository/maven/,allowInsecureProtocol
 ```
 
 然后安装Scala。

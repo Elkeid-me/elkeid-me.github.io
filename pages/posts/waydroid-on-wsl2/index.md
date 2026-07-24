@@ -127,7 +127,7 @@ weston
 ```bash
 waydroid session start
 ```
-等到 `Andorid with user 0 is ready`.
+等到 `Andorid with user 0 is ready`。
 
 另一个输入：
 ```bash
