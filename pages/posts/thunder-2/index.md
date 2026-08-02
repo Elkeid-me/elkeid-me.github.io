@@ -2,7 +2,7 @@
 title: 创新咏雷一首
 date: 2025-03-23 19:00:00
 excerpt: 雷绍武，我称颂你的名！
-categories: 杂项
+categories: 杂谈
 tags:
   - 雷氏力学
   - 咏雷

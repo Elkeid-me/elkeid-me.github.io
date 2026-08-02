@@ -6,7 +6,7 @@ excerpt: Hexo + GitHub Pages搭建个人博客教程。
 tags:
   - Hexo
   - GitHub
-categories: 杂项
+categories: 杂谈
 ---
 
 ## 前言

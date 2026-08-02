@@ -2,7 +2,7 @@
 title: Waydroid on WSL2
 date: 2024-10-08 15:36:27
 excerpt: 如题
-categories: 杂项
+categories: 杂谈
 tags:
   - WSL
   - WSLg

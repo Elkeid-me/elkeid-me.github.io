@@ -2,7 +2,7 @@
 title: 针对OCaml的RISC-V指令扩展
 date: 2026-02-21 17:00:00
 excerpt: 构建OCaml交叉编译器，添加自定义指令，实现自动优化并在QEMU中检测正确性。
-categories: 杂项
+categories: 杂谈
 tags:
   - OCaml
   - RISC-V

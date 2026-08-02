@@ -2,7 +2,7 @@
 title: C++ Curried
 date: 2026-03-27 21:49:45
 excerpt: 在C++中，柯里化任意可调用对象！
-categories: 杂项
+categories: 杂谈
 tags:
   - C++
 ---

@@ -3,7 +3,7 @@ title: 创新咏雷一首
 date: 2024-06-25 23:02:22
 updated: 2024-11-24 00:15:00
 excerpt: 运动力的原理：雷绍武教诲！
-categories: 杂项
+categories: 杂谈
 tags:
   - 雷氏力学
   - 咏雷

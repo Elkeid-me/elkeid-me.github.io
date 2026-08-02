@@ -206,6 +206,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/on-university-opening/': RouteRecordInfo<
+      '/posts/on-university-opening/',
+      '/posts/on-university-opening',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/os-lab-1/': RouteRecordInfo<
       '/posts/os-lab-1/',
       '/posts/os-lab-1',
@@ -575,6 +582,14 @@ declare module 'vue-router/auto-routes' {
     'pages/posts/ocaml-riscv/index.md': {
       routes:
         | '/posts/ocaml-riscv/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'pages/posts/on-university-opening/index.md': {
+      routes:
+        | '/posts/on-university-opening/'
       views:
         | never
       pathParamNames:

@@ -2,7 +2,7 @@
 title: 阿里郎手机调优指南
 date: 2024-10-22 15:07:23
 excerpt: 阿里郎好呀阿里郎美，阿里郎给我增智慧🤣
-categories: 杂项
+categories: 杂谈
 tags:
   - 阿里郎
   - 恩情

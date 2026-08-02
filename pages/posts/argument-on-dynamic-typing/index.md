@@ -2,7 +2,7 @@
 title: 当我们反对动态类型时，我们在反对什么？
 date: 2026-06-23 23:37:00
 excerpt: 动态类型 + 面向对象才是灾难。
-categories: 杂项
+categories: 杂谈
 tags:
   - Python
   - Elixir

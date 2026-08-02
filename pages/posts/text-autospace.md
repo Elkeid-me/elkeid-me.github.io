@@ -1,7 +1,7 @@
 ---
 title: 本站启用text-autospace
 excerpt: 如题
-categories: 杂项
+categories: 杂谈
 tags:
   - Chromium
   - Safari

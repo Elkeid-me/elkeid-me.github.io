@@ -8,7 +8,7 @@ tags:
   - GalGame
   - 柚子社
   - Key
-category: 杂项
+categories: 杂谈
 excerpt: 记录到目前为止我玩过的视觉小说/GalGame。
 top: 90
 ---
