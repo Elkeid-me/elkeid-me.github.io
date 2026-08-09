@@ -5,6 +5,7 @@ categories: 杂谈
 tags:
   - 大学开放
 excerpt: 呃呃
+hide: true
 ---
 
 ::: info
