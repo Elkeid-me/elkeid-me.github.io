@@ -387,12 +387,12 @@ Metals是一个Scala语言服务器；在VS Code中可以通过[Scala (Metals)](
 
 $$
 \begin{aligned}
-    \text{Chisel} &\xrightarrow{\text{Scala编译与运行}} \text{FIRRTL} \xrightarrow{\text{CIRCTL}} \text{Verilog} \\
+    \text{Chisel} &\xrightarrow{\text{Scala编译与运行}} \text{FIRRTL} \xrightarrow{\text{CIRCT}} \text{Verilog} \\
                   &\xrightarrow{\text{Verilator}} \text{C++} \xrightarrow{\text{C/C++编译}} \text{模拟器二进制文件}
 \end{aligned}
 $$
 
-以上的过程全部由一个Makefile驱动。其中，Scala编译、CIRCTL和Verilator较难加速。我们能下手的，只有C/C++编译，以及最终模拟器的多线程执行。
+以上的过程全部由一个Makefile驱动。其中，Scala编译、CIRCT和Verilator较难加速。我们能下手的，只有C/C++编译，以及最终模拟器的多线程执行。
 
 > 多线程反倒会拖慢BOOM的仿真，原因未知。
 
