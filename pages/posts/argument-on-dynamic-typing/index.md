@@ -60,7 +60,7 @@ def process(%{type: :user} = user), do: handle_user(user)
 def process(%{type: :admin} = admin), do: handle_admin(admin)
 ```
 
-如果传入的数据不符合任何模式，程序会清晰地失败。不会像在 `Python` 里那样，在一个 `if` 分支里走几十行突然因为 `.some_method()` 不存在而崩溃。
+如果传入的数据不符合任何模式，程序会清晰地失败。不会像在 `Python` 里那样，在一个 `if` 分支里走几十行，之后突然因为 `.some_method()` 不存在而崩溃。
 
 Elixir的管道操作符 `|>` 进一步强化了这种数据–行为分离：
 
