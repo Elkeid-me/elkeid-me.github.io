@@ -101,7 +101,7 @@ auto curried(F func);
 
 > C++ 20起，以上的 `typename` 关键字不是必要的。
 
-首先，令 `function_inference` 针对函数、函数指针、函数的引用特化（这里只展示针对函数的特化）
+首先，令 `function_inference` 针对函数、函数指针、函数的引用进行特化（这里只展示针对函数的特化）
 
 ```C++
 template <typename R, typename... Args,
