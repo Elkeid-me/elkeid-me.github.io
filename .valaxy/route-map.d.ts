@@ -101,6 +101,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/acceleration-and-stagnation/': RouteRecordInfo<
+      '/posts/acceleration-and-stagnation/',
+      '/posts/acceleration-and-stagnation',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/argument-on-dynamic-typing/': RouteRecordInfo<
       '/posts/argument-on-dynamic-typing/',
       '/posts/argument-on-dynamic-typing',
@@ -387,7 +394,7 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-rc.9_633f8146a949f4bfbfa3988a3b852a28/node_modules/valaxy-theme-yun/pages/index.vue': {
+    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-rc.1_ca1fd343e616938a58351b47b33b3923/node_modules/valaxy-theme-yun/pages/index.vue': {
       routes:
         | '/'
       views:
@@ -395,7 +402,7 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'node_modules/.pnpm/valaxy@1.0.0-rc.9_@babel+pa_96f5907867c2404e215ec22ceb9756cd/node_modules/valaxy/client/pages/[...path].vue': {
+    'node_modules/.pnpm/valaxy@1.0.0-rc.11_@babel+p_ff43a245c95724c8e8d9cee0749d5a65/node_modules/valaxy/client/pages/[...path].vue': {
       routes:
         | '/[...path]'
       views:
@@ -443,7 +450,7 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-rc.9_633f8146a949f4bfbfa3988a3b852a28/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
+    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-rc.1_ca1fd343e616938a58351b47b33b3923/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
       routes:
         | '/page/[page]'
       views:
@@ -451,7 +458,7 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | 'page'
     }
-    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-rc.9_633f8146a949f4bfbfa3988a3b852a28/node_modules/valaxy-theme-yun/pages/posts/index.vue': {
+    'node_modules/.pnpm/valaxy-theme-yun@1.0.0-rc.1_ca1fd343e616938a58351b47b33b3923/node_modules/valaxy-theme-yun/pages/posts/index.vue': {
       routes:
         | '/posts/'
       views:
@@ -462,6 +469,14 @@ declare module 'vue-router/auto-routes' {
     'pages/posts/24-3-24/index.md': {
       routes:
         | '/posts/24-3-24/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'pages/posts/acceleration-and-stagnation/index.md': {
+      routes:
+        | '/posts/acceleration-and-stagnation/'
       views:
         | never
       pathParamNames:
