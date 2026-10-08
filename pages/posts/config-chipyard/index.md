@@ -14,6 +14,12 @@ tags:
 
 ## 安装依赖项
 
+::: info
+
+这里，我们安装了[mold链接器](https://github.com/rui314/mold)。mold是一个现代的、并行的高速链接器，可以有效加速C/C++二进制的链接（例如，使用mold链接gem5有奇效）。
+
+:::
+
 ::: code-group
 
 ```nu [Ubuntu]
@@ -65,6 +71,10 @@ let cpu_cores = sys cpu | length
 ```
 
 ## 克隆代码
+
+::: warning
+注意QEMU、Verilator和CIRCT的版本号。你需要自行替换成新版本。
+:::
 
 ```nu
 git clone git@github.com:riscv-collab/riscv-gnu-toolchain.git --depth 1
@@ -133,6 +143,8 @@ let gem5_build_args = [
 scons ...$gem5_build_args
 ```
 
+Verilator：
+
 ::: info
 如果使用Arch Linux，可以跳过Verilator的编译，转而直接使用 `pacman` 安装：
 
@@ -140,8 +152,6 @@ scons ...$gem5_build_args
 sudo pacman -S verilator
 ```
 :::
-
-Verilator：
 
 ```nu
 cd ($WORK_DIR)/verilator
