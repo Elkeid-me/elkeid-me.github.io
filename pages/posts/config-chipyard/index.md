@@ -18,6 +18,8 @@ tags:
 
 这里，我们安装了[mold链接器](https://github.com/rui314/mold)。mold是一个现代的、并行的高速链接器，可以有效加速C/C++二进制的链接（例如，使用mold链接gem5有奇效）。
 
+mold最新的3.x版本使用Rust，这意味着其内存安全性相比GNU ld、LLVM lld等竞品更强。
+
 :::
 
 ::: code-group
@@ -422,7 +424,7 @@ ccache是一个用于加速C/C++代码编译的缓存工具。我们来看Gemini
 
 修改一个Scala文件，尽管Scala层是增量编译的，但Verilator层是全量编译的，导致后面的C/C++也是全量编译——尽管大部分代码都没变。毫无疑问使用ccache能大幅提升编译速度。
 
-根据Verilator文档可知，要使用ccache编译缓存，需设置 `OBJCACHE` 环境变量。
+根据Verilator文档可知，要使用ccache编译缓存，需设置 `OBJCACHE` 环境变量为 `ccache`。
 
 ::: warning
 
