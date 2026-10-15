@@ -398,7 +398,7 @@ Metals是一个Scala语言服务器；在VS Code中可以通过[Scala (Metals)](
 
 ## 编译与仿真加速
 
-从 Chisel 到最终的模拟器二进制文件，经历了这样的过程：
+从Chisel到最终的模拟器二进制文件，经历了这样的过程：
 
 $$
 \begin{aligned}
@@ -488,7 +488,6 @@ with-env {
 相比优化前：
 
 - 全量编译7 min 1 s $\to$ 3 min 52 s
-- 增量编译4 min 52 s $\to$ 1 min 42 s
 - “Hello”程序仿真 45 s $\to$ 15 s
 
 当然，如果你的电脑上没有Nushell，这里也提供使用Bash的命令：
