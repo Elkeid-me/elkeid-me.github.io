@@ -1,6 +1,7 @@
 ---
 title: Chipyard环境配置
 date: 2026-06-20 21:47:00
+updated: 2026-10-15 14:36:00
 excerpt: Ubuntu 26.04 LTS 或 Arch Linux Chipyard环境配置
 categories: 环境配置
 tags:
@@ -308,7 +309,9 @@ central.to=https://mirrors.huaweicloud.com/repository/maven/
 curl -o cs.gz -L https://github.com/coursier/coursier/releases/latest/download/cs-x86_64-pc-linux.gz
 gzip -d cs.gz
 chmod +x cs
-./cs install scala:2.13.12 scalac:2.13.12 sbt:1.8.2
+./cs setup
+rm cs
+cs install scala:2.13.12 scalac:2.13.12 sbt:1.8.2
 ```
 
 ## Chipyard
@@ -368,12 +371,12 @@ IntelliJ IDEA提供了较完善的Scala支持（通过Scala插件）。可以使
 
 Metals是一个Scala语言服务器；在VS Code中可以通过[Scala (Metals)](https://marketplace.visualstudio.com/items?itemName=scalameta.metals)扩展使用。
 
-推荐使用Metals v2测试版。至本文截稿，最新版本是 `2.0.0-M16`。
+推荐使用Metals v2测试版。至本文截稿，最新版本是 `2.0.0-RC1`。
 
 为使用Metals v2测试版，请在尚未安装Metals扩展的情况下，打开Chipyard文件夹，在工作区配置文件 `.vscode/settings.json` 写入以下官方推荐的配置项：
 
 ```jsonc
-"metals.serverVersion": "2.0.0-M16",  // Metals 版本
+"metals.serverVersion": "2.0.0-RC1",  // Metals 版本
 "metals.serverProperties": [
   "-Xmx4g" // 官方推荐的一个参数，虽然我不知道有什么用
 ]
@@ -406,8 +409,6 @@ $$
 
 以上的过程全部由一个Makefile驱动。其中，Scala编译、CIRCT和Verilator较难加速。我们能下手的，只有C/C++编译，以及最终模拟器的多线程执行。
 
-> 多线程反倒会拖慢BOOM的仿真，原因未知。
-
 ### 使用ccache编译缓存
 
 ccache是一个用于加速C/C++代码编译的缓存工具。我们来看Gemini对它的介绍：
@@ -422,7 +423,7 @@ ccache是一个用于加速C/C++代码编译的缓存工具。我们来看Gemini
 >
 > 带来的改变：第一次编译（Clean Build）由于要写入缓存，时间没有任何缩短（甚至多消耗算力用于哈希计算）；但从第二次编译开始，速度会提升几倍到几十倍，几乎是瞬间完成。
 
-修改一个Scala文件，尽管Scala层是增量编译的，但Verilator层是全量编译的，导致后面的C/C++也是全量编译——尽管大部分代码都没变。毫无疑问使用ccache能大幅提升编译速度。
+修改一个Scala文件，尽管Scala层是增量编译的，但Verilator层是全量编译的，导致后面的C/C++也是全量编译——尽管大部分代码都没变。毫无疑问，使用ccache能大幅提升编译速度。
 
 根据Verilator文档可知，要使用ccache编译缓存，需设置 `OBJCACHE` 环境变量为 `ccache`。
 
@@ -452,16 +453,48 @@ mold是一个现代的、并行的高速链接器，可以有效加速C/C++二�
 LINK = g++
 ```
 
+### 使用多线程仿真
+
+对于以下简单的“hello”程序，使用4线程仿真相比单线程，时间可以降低到1/3。当然，具体使用多少线程，还要实测决定。
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Hello\n"); // 注意 `\n` 以刷新缓冲区
+    return 0;
+}
+```
+
+阅读文档可知，为使用多线程仿真，需要设定环境变量 `VERILATOR_THREADS` 为所需的线程数。
+
 ### 总结
 
 （还是用Nushell语法）：
 
 ```nu
 with-env {
+    SBT: sbt,
     OBJCACHE: ccache,
-    VM_PARALLEL_BUILDS: 1
+    VM_PARALLEL_BUILDS: 1,
+    VERILATOR_THREADS: 4,
     LINK: "g++ -fuse-ld=mold"
 } {
     make CONFIG=MediumBoomV3Config -j (sys cpu | length)
 }
+```
+
+相比优化前：
+
+- 全量编译7 min 1 s $\to$ 3 min 52 s
+- 增量编译4 min 52 s $\to$ 1 min 42 s
+- “Hello”程序仿真 45 s $\to$ 15 s
+
+当然，如果你的电脑上没有Nushell，这里也提供使用Bash的命令：
+
+```bash
+make CONFIG=MediumBoomV3Config -j "$(nproc)" SBT=sbt \
+     OBJCACHE=ccache VM_PARALLEL_BUILDS=1 \
+     VERILATOR_THREADS=4 LINK="g++ -fuse-ld=mold"
 ```
