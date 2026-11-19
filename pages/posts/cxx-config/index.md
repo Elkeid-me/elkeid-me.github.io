@@ -1,7 +1,7 @@
 ---
 title: C/C++环境配置
 date: 2024-09-04 19:27:00
-updated: 2025-01-14 23:42:00
+updated: 2026-11-19 22:45:00
 excerpt: Windows平台C/C++环境配置，基于Visual Studio Code和MinGW-w64
 categories: 环境配置
 tags:
@@ -23,7 +23,13 @@ tags:
 :::
 2. 编译器：将源代码翻译为可执行的二进制文件。本文使用GCC。广义上GCC是C、C++、Objective-C、Fortran、Ada、Go和D等多种语言的编译器（GNU Compiler Collection），狭义上GCC仅指C语言编译器（GNU C Compiler）。而本文所指的GCC介于两者之间：即C语言编译器和C++ 编译器。
 3. 调试器：单步执行、打断点等功能，调试程序。本文使用GDB。
-4. 语言服务器：通过语言服务器协议与编辑器交互，提供自动补全、静态分析与代码格式化等功能。本文使用[clangd](https://clangd.llvm.org/)。
+4. 语言服务器：通过语言服务器协议与编辑器交互，提供自动补全、静态分析与代码格式化等功能。本文使用~~clangd~~。
+
+   ::: warning
+   2026年11月更新：鉴于clangd很可能已长达两年疏于维护，现在我更建议[clice](https://docs.clice.io/zh/clice/guide/what-is-clice)。它在稳定性上已经达到了可用状态，且功能全面强于clangd。
+
+   本文中，clangd的配置仍然保留；clice作为补充放在最后。
+   :::
 
 ## 安装
 
@@ -301,7 +307,7 @@ PPIndentWidth: 1
 
 #### clangd
 
-终于到了最复杂的部分——clangd本体的配置。对于初学者（单文件编译），请看 [`.clangd`](#clangd-2)；如果你正在使用某种构建工具，请看 [`compile_commands.json`](#compile-commands-json)。
+终于到了最复杂的部分——clangd本体的配置。对于初学者（单文件编译），请看 [`.clangd`](#clangd-2)；如果你正在使用某种构建工具，请看 [编译数据库](#编译数据库)。
 
 ##### `.clangd`
 
@@ -312,18 +318,18 @@ PPIndentWidth: 1
 ```yaml
 CompileFlags:
   Compiler: g++
-  Add: [-std=c++20, -m64, -Wall, -Wextra, --target=x86_64-w64-windows-gnu]
+  Add: [-std=c++23, -O3, -m64, -Wall, -Wextra, --target=x86_64-w64-windows-gnu]
 ```
 
 详细说明请见官方文档[Configuration](https://clangd.llvm.org/config)。
 
-##### `compile_commands.json`
+##### 编译数据库
 
-`compile_commands.json` 是一个JSON文件，指定项目中每个源代码编译的方式。典型的 `compile_commands.json` 如下：
+编译数据库（`compile_commands.json`）是一个JSON文件，指定项目中每个源代码编译的方式。典型的编译数据库如下：
 
 ![](./compile-commands.webp)
 
-`compile_commands.json` 可以人工编写，但更推荐的方式是用工具自动生成。请选择你的构建工具：
+编译数据库可以人工编写，但更推荐的方式是用工具自动生成。请选择你的构建工具：
 
 - [CMake](#cmake)
 - [Xmake](#xmake)
@@ -357,7 +363,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 [Xmake](https://xmake.io/#/zh-cn/)是一个基于Lua的轻量级跨平台构建工具。
 
-要使用Xmake生成 `compile_commands.json`，可以直接运行：
+要使用Xmake生成编译数据库`，可以直接运行：
 
 ```console
 xmake project -k compile_commands
@@ -368,7 +374,7 @@ xmake project -k compile_commands
 add_rules("plugin.compile_commands.autoupdate")
 ```
 
-来自动更新 `compile_commands.json`。
+来自动更新编译数据库`。
 
 ::: tip
 参考：
@@ -378,7 +384,7 @@ add_rules("plugin.compile_commands.autoupdate")
 :::
 ##### GNU make
 
-GNU make无法自动生成 `compile_commands.json`。不过嘛，有一个网站[Generate Compilation Database from GNU make output online](https://texttoolkit.com/compilation-database-generator)可以根据 `make` 的输出生成 `compile_commands.json`。具体来说，你需要：
+GNU make无法自动生成编译数据库。不过嘛，有一个网站[Generate Compilation Database from GNU make output online](https://texttoolkit.com/compilation-database-generator)可以根据 `make` 的输出生成编译数据库。具体来说，你需要：
 
 1. 确保make输出的是英文。对于Ubuntu，可能需要运行
    ```console
@@ -388,6 +394,20 @@ GNU make无法自动生成 `compile_commands.json`。不过嘛，有一个网站
    ```console
    make -nw
    ```
-3. 将2.的输出粘贴到上述网站。点击 `Generate!` 即可获得 `compile_commands.json`。
+3. 将2.的输出粘贴到上述网站。点击 `Generate!` 即可获得编译数据库。
 
-此外，clangd官方推荐使用[Bear](https://github.com/rizsotto/Bear)为基于make或其他构建工具的项目生成 `compile_commands.json`。
+此外，clangd官方推荐使用[Bear](https://github.com/rizsotto/Bear)为基于make或其他构建工具的项目生成编译数据库。
+
+## clice
+
+clice的安装较clangd简单。只需安装clice VS Code插件[clice vscode](https://marketplace.visualstudio.com/items?itemName=clice-io.clice)。
+
+在大型项目上，clice同样支持上文提到的编译数据库。而对于练习时的单文件，clice也有类似 `.clangd` 的机制：`clice.toml` 配置文件。
+
+例如：
+
+```toml
+[[rules]]
+patterns = ["**/*.cxx", "**/*.cpp", "**/*.cc"]
+default_command = "clang++ -std=c++23 -O3 -m64 -Wall -Wextra -Wpedantic"
+```
