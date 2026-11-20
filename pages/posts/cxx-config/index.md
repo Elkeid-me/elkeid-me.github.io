@@ -18,13 +18,12 @@ tags:
 本文描述的环境配置包含：
 
 1. 编辑器：用来编写和查看纯文本文件的软件，例如Windows自带的记事本。本文使用[Visual Studio Code](https://code.visualstudio.com/)（简称VS Code）。
-::: tip
-注意：写字板、Word不属于纯文本编辑器，而应属于富文本编辑器，不在我们的讨论范围内。
-:::
-2. 编译器：将源代码翻译为可执行的二进制文件。本文使用GCC。广义上GCC是C、C++、Objective-C、Fortran、Ada、Go和D等多种语言的编译器（GNU Compiler Collection），狭义上GCC仅指C语言编译器（GNU C Compiler）。而本文所指的GCC介于两者之间：即C语言编译器和C++ 编译器。
+   ::: tip
+   注意：写字板、Word不属于纯文本编辑器，而应属于富文本编辑器，不在我们的讨论范围内。
+   :::
+2. 编译器：将源代码翻译为可执行的二进制文件。本文使用GCC。广义上GCC是C、C++、Objective-C、Fortran、Ada、Go和D等多种语言的编译器（GNU Compiler Collection），狭义上GCC仅指C语言编译器（GNU C Compiler）。而本文所指的GCC介于两者之间：即C语言编译器和C++编译器。
 3. 调试器：单步执行、打断点等功能，调试程序。本文使用GDB。
 4. 语言服务器：通过语言服务器协议与编辑器交互，提供自动补全、静态分析与代码格式化等功能。本文使用~~clangd~~。
-
    ::: warning
    2026年11月更新：鉴于clangd很可能已长达两年疏于维护，现在我更建议[clice](https://docs.clice.io/zh/clice/guide/what-is-clice)。它在稳定性上已经达到了可用状态，且功能全面强于clangd。
 
@@ -409,5 +408,5 @@ clice的安装较clangd简单。只需安装clice VS Code插件[clice vscode](ht
 ```toml
 [[rules]]
 patterns = ["**/*.cxx", "**/*.cpp", "**/*.cc"]
-default_command = "clang++ -std=c++23 -O3 -m64 -Wall -Wextra -Wpedantic"
+default_command = "g++ -std=c++23 -O3 -m64 -Wall -Wextra -Wpedantic"
 ```
