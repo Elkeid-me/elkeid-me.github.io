@@ -406,7 +406,16 @@ clice的安装较clangd简单。只需安装clice VS Code插件[clice vscode](ht
 例如：
 
 ```toml
+#:schema https://docs.clice.io/clice-config.schema.json
+
 [[rules]]
 patterns = ["**/*.cxx", "**/*.cpp", "**/*.cc"]
-default_command = "g++ -std=c++23 -O3 -m64 -Wall -Wextra -Wpedantic"
+default_command = [
+  "g++",
+  "-std=c++23",
+  "-O3",
+  "-m64",
+  "-Wall",
+  "-Wextra",
+]
 ```

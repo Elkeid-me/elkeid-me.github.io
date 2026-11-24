@@ -4,11 +4,11 @@ title: 关于
 
 ## 概况
 
-研一小登。
+研二中登。
 
 轻音乐爱好者，GalGame玩家。
 
-航空航天爱好者，[《SimplePlanes》](https://store.steampowered.com/app/397340/SimplePlanes/)十年玩家、全成就，[《Juno: New Origins》](https://store.steampowered.com/app/870200/Juno_New_Origins/)300小时+，成就94/99。
+航空航天爱好者，[《SimplePlanes》](https://store.steampowered.com/app/397340/SimplePlanes/)十年玩家、全成就，[《Juno: New Origins》](https://store.steampowered.com/app/870200/Juno_New_Origins/)300小时+，成就96/99。
 
 入门级《Minecraft》玩家，城市建设存档500小时。
 
@@ -16,7 +16,7 @@ title: 关于
 
 ***
 
-主力语言为C/C++、Rust、Elixir，少数情况下使用Wolfram Language、Python。LaTeX爱好者。
+主力语言为C/C++、Rust、Elixir和F#，少数情况下使用Wolfram Language、Python。LaTeX爱好者。
 
 ## Find me at...
 
